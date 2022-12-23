@@ -9,10 +9,23 @@ import MultiProvider from './components/MultiProvider';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import BreadcrumbBar from './components/BreadcrumbBar';
 import Button from './components/Button';
+import Grid from '@mui/material/Grid';
+import Input from './components/Input';
 
 const App = () => {
   const [open, setOpen] = useState(true);
-  const [collapsed, setCollapsed] = useState(false);
+  const [expanded, setExpanded] = useState(true);
+
+  const sideBarControl = () => {
+    setOpen(!open);
+    setExpanded(!expanded);
+  }
+
+  const sideBarMouseHover = (status: boolean) => {
+    if (!open) {
+      setExpanded(status);
+    }
+  }
 
   return (
     <div className="App">
@@ -32,40 +45,39 @@ const App = () => {
             contrastText: '#000',
           },
         }}>
-        <Header sideBarControl={() => setOpen(!open)} />
+        <Header
+          sideBarControl={sideBarControl}
+          sideBarExpanded={open}
+          navigation={<Button color='secondary'>test</Button>}
+          actions={<Button color='secondary'>test</Button>}
+        />
         <SideBar
-          open={open}
+          expanded={expanded}
           logo={logo}
           icon={icon}
           version='v1.0.1'
           versionDate='De: 25/03/2022 as 1:50'
           navigate={() => console.log('NAVIGATE TEST')}
-          onMouseHover={setOpen}
+          onMouseHover={sideBarMouseHover}
         >
-          <SideBarItem
-            label='without icon'
-            selected={true}
-            action={() => console.log('WITHOU ICON CLICKED')}
-            collapsed={collapsed}
-          />
           <SideBarItem
             label='with icon'
             icon={<InboxIcon />}
             selected={false}
             action={() => console.log('WITH ICON CLICKED')}
-            collapsed={collapsed}
+            expanded={expanded}
           />
           <SideBarItem
             label='parent closed'
             icon={<InboxIcon />}
             selected={false}
-            collapsed={collapsed}
+            expanded={expanded}
           >
             <SideBarItem
               label='without icon'
               selected={true}
               action={() => console.log('WITHOU ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -73,7 +85,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
           </SideBarItem>
@@ -82,13 +94,13 @@ const App = () => {
             icon={<InboxIcon />}
             selected={true}
             initialState={true}
-            collapsed={collapsed}
+            expanded={expanded}
           >
             <SideBarItem
               label='without icon'
               selected={true}
               action={() => console.log('WITHOU ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -96,7 +108,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -104,7 +116,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -112,7 +124,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -120,7 +132,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -128,7 +140,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -136,7 +148,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -144,7 +156,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -152,7 +164,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -160,7 +172,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -168,7 +180,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -176,7 +188,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -184,7 +196,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -192,7 +204,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
             <SideBarItem
@@ -200,7 +212,7 @@ const App = () => {
               icon={<InboxIcon />}
               selected={false}
               action={() => console.log('WITH ICON CLICKED')}
-              collapsed={collapsed}
+              expanded={expanded}
               secondary={true}
             />
           </SideBarItem>
@@ -222,6 +234,33 @@ const App = () => {
           <Button>
             test
           </Button>
+          <Grid container>
+            <Input
+              id='email'
+              label='Email'
+              type='email'
+              name='email'
+              autoFocus
+              required
+            />
+            <Input
+              id='email'
+              label='Email'
+              type='email'
+              name='email'
+              autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
+            />
+            <Input
+              id='subTotal'
+              label='Sub Total'
+              name='subTotal'
+              model='currency'
+              value='0,00'
+            />
+          </Grid>
         </div>
       </MultiProvider>
     </div>

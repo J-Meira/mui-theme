@@ -11,7 +11,7 @@ import {
 interface SideBarProps {
   logo: string,
   icon: string,
-  open: boolean,
+  expanded: boolean,
   version: string,
   versionDate: string,
   navigate: (params: any) => any,
@@ -19,7 +19,16 @@ interface SideBarProps {
   children?: React.ReactNode,
 };
 
-const SideBar = ({ logo, icon, open, version, versionDate, onMouseHover, navigate, children }: SideBarProps) => {
+const SideBar = ({
+  logo,
+  icon,
+  expanded,
+  version,
+  versionDate,
+  onMouseHover,
+  navigate,
+  children,
+}: SideBarProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -36,14 +45,14 @@ const SideBar = ({ logo, icon, open, version, versionDate, onMouseHover, navigat
     <Drawer
       variant='permanent'
       anchor='left'
-      open={open}
-      className={open ? 'side-bar' : 'side-bar-collapsed'}
+      open={expanded}
+      className={expanded ? 'side-bar' : 'side-bar side-bar-collapsed'}
       onMouseEnter={() => onMouseHover(true)}
-      onMouseLeave={() => onMouseHover(true)}
+      onMouseLeave={() => onMouseHover(false)}
     >
       <div className='side-bar-header'>
         <img
-          src={open ? logo : icon}
+          src={expanded ? logo : icon}
           alt='Logo'
           className='logo'
           onClick={navigate}

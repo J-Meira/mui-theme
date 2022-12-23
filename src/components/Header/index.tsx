@@ -3,16 +3,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 interface HeaderProps {
   sideBarControl: () => any,
+  sideBarExpanded: boolean,
   navigation?: React.ReactNode,
   actions?: React.ReactNode,
 };
 
-const Header = ({ sideBarControl, navigation, actions }: HeaderProps) => (
+const Header = ({ sideBarControl, sideBarExpanded, navigation, actions }: HeaderProps) => (
   <AppBar
     position='fixed'
     className='app-bar'>
-    <Toolbar className='tool-bar'>
-      <div className='navigation-bar' style={{paddingLeft:'15rem'}}>
+    <Toolbar className={sideBarExpanded ? 'tool-bar' : 'tool-bar tool-bar-expanded'}>
+      <div className='navigation-bar'>
         <IconButton
           edge='start'
           color='inherit'

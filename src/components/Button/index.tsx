@@ -6,6 +6,7 @@ interface ButtonPropsExt extends ButtonProps  {
   model?: string,
   colors: ColorsButtonProps
 };
+
 const defaultProps: ButtonPropsExt={
   colors: {
     text: '#000',

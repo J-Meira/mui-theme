@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import {
   List,
@@ -18,7 +18,7 @@ interface SideBarItemProps {
   action?: (params: any) => any,
   initialState?: boolean,
   secondary?: boolean,
-  collapsed?: boolean,
+  expanded?: boolean,
   children?: React.ReactNode,
 };
 
@@ -29,10 +29,14 @@ const SideBarItem = ({
   action,
   initialState,
   secondary,
-  collapsed,
+  expanded,
   children,
 }: SideBarItemProps) => {
   const [open, setOpen] = useState(initialState);
+
+  useEffect(() => {
+    if(!expanded && open) setOpen(false);
+  }, [expanded, open]);
 
   return children ? (
     <Fragment>
@@ -43,12 +47,10 @@ const SideBarItem = ({
               {icon}
             </ListItemIcon>
           )}
-          {!collapsed && (
-            <Fragment>
-              <ListItemText primary={label} />
-              {open ? <ExpandLess /> : <ExpandMore />}
-            </Fragment>
+          {expanded && (
+            <ListItemText primary={label} />
           )}
+          {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
       </ListItem>
       <Collapse in={open} timeout='auto' unmountOnExit>
@@ -59,7 +61,7 @@ const SideBarItem = ({
     </Fragment>
   ) : (
     <ListItem
-    disablePadding
+      disablePadding
       onClick={action}
       className={secondary ? selected ? 'secondary-selected' : 'secondary' : ''}
     >
@@ -69,7 +71,7 @@ const SideBarItem = ({
             {icon}
           </ListItemIcon>
         )}
-        {!collapsed && (
+        {expanded && (
           <ListItemText primary={label} />
         )}
       </ListItemButton>

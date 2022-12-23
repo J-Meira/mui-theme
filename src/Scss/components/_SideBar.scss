@@ -33,7 +33,6 @@
   }
 
   .side-bar-header {
-    // flex: 0 1 auto;
     background-color: $white;
     padding-right: 5px;
     width: 60vw;
@@ -41,6 +40,7 @@
     position: fixed;
     z-index: 1111;
     text-align: center;
+    transition-delay: 30ms;
 
     .logo {
       height: 40px;
@@ -50,6 +50,7 @@
   }
 
   .side-bar-body {
+    transition-delay: 30ms;
     padding-top: 80px;
     width: 60vw;
     max-width: 280px;
@@ -88,11 +89,18 @@
     width: 60vw;
     max-width: 280px;
     background-color: $side-bar-bg;
+    transition-delay: 30ms;
 
     padding: 1rem 5px 1rem 0;
 
     small{
       margin-left: 1rem;
     }
+  }
+}
+.side-bar-collapsed{
+  .side-bar-header, .side-bar-body, .side-bar-footer {
+    width: 20vw;
+    max-width: 80px;
   }
 }
