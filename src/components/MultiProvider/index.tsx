@@ -1,5 +1,7 @@
 import { ThemeProvider, createTheme as muiCreateTheme } from '@mui/material/styles';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 interface PaletteProps {
@@ -36,7 +38,8 @@ const generate = (palette: any) => muiCreateTheme({
 
 const MultiProvider = ({ children, palette }: MultiProviderProps) => (
   <ThemeProvider theme={generate(palette)}>
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       {children}
     </LocalizationProvider>
   </ThemeProvider>

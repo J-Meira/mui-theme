@@ -4,6 +4,9 @@ import { TextFieldProps } from '@mui/material/TextField';
 import { OutlinedInputProps } from '@mui/material/OutlinedInput';
 import Basic from './Basic';
 import Currency from './Currency';
+import Icon from './Icon';
+import Search, { AutoCompleteFieldProps } from './Search';
+import DateTime from './DateTime';
 
 export const defaultInputProps: GridProps = {
   xs: 12,
@@ -12,13 +15,13 @@ export const defaultInputProps: GridProps = {
   lg: 8,
 }
 
-interface InputProps{
-  model?: string
+interface InputProps {
+  model?: string,
 }
 
-type InputPropsExt = InputProps & OutlinedInputProps & GridProps & TextFieldProps;
+type InputPropsExt<T> = InputProps & OutlinedInputProps & GridProps & TextFieldProps & AutoCompleteFieldProps<T>;
 
-const Input = ({ model, ...params}: InputPropsExt) => {
+const Input = <T extends {}>({ model, ...params }: InputPropsExt<T>) => {
   switch (model) {
     // case 'select':
     //   return (
@@ -28,10 +31,10 @@ const Input = ({ model, ...params}: InputPropsExt) => {
     //   return (
     //     <Password {...params} />
     //   );
-    // case 'icon':
-    //   return (
-    //     <Icon {...params} />
-    //   );
+    case 'icon':
+      return (
+        <Icon {...params} />
+      );
     case 'currency':
       return (
         <Currency {...params} />
@@ -40,10 +43,10 @@ const Input = ({ model, ...params}: InputPropsExt) => {
     //   return (
     //     <DateTime {...params} />
     //   );
-    // case 'search':
-    //   return (
-    //     <Search {...params} />
-    //   );
+    case 'search':
+      return (
+        <Search {...params} />
+      );
     default:
       return (
         <Basic {...params} />

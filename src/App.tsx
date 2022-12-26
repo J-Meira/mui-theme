@@ -11,6 +11,18 @@ import BreadcrumbBar from './components/BreadcrumbBar';
 import Button from './components/Button';
 import Grid from '@mui/material/Grid';
 import Input from './components/Input';
+import Search from './components/Input/Search';
+import DateTime from './components/Input/DateTime';
+
+const topFilms = [
+  { title: "The Shawshank Redemption", year: 1994 },
+  { title: "The Godfather", year: 1972 },
+  { title: "The Godfather: Part II", year: 1974 },
+  { title: "The Dark Knight", year: 2008 },
+  { title: "12 Angry Men", year: 1957 },
+  { title: "Schindler's List", year: 1993 },
+  { title: "Pulp Fiction", year: 1994 }
+];
 
 const App = () => {
   const [open, setOpen] = useState(true);
@@ -218,7 +230,7 @@ const App = () => {
           </SideBarItem>
         </SideBar>
 
-        <div style={{ padding: '15rem' }}>
+        <div style={{ padding: '20rem' }}>
           <BreadcrumbBar list={[
             {
               label: 'home',
@@ -240,7 +252,7 @@ const App = () => {
               label='Email'
               type='email'
               name='email'
-              autoFocus
+              //autoFocus
               required
             />
             <Input
@@ -248,7 +260,7 @@ const App = () => {
               label='Email'
               type='email'
               name='email'
-              autoFocus
+              //autoFocus
               required
               error={true}
               helperText={'feedBacks.email || feedBacks.form'}
@@ -259,6 +271,24 @@ const App = () => {
               name='subTotal'
               model='currency'
               value='0,00'
+              //autoFocus
+            />
+            <Input<{ title: string; year: number }>
+              id='Pesquisa'
+              label='Pesquisa'
+              name='subTotal'
+              model='search'
+              options={topFilms}
+              selectValue='title'
+              autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
+
+            />
+
+            <DateTime<Dayjs, Dayjs>
+
             />
           </Grid>
         </div>
