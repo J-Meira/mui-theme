@@ -12,14 +12,15 @@ export const isString = (item: any): item is string => {
 export type AutoCompleteFieldProps<T> = {
   selectValue?: keyof T;
   options?: T[];
+  creatable?: boolean
 };
 
 type SearchProps<T> = AutoCompleteFieldProps<T> & GridProps & TextFieldProps;
 
 const Search = <T extends {}>(
-  { selectValue, options, id, label,
-    helperText, onBlur, value, error, required, autoFocus, disabled, xs, sm, md, lg
-   }: SearchProps<T>,
+  { selectValue, options, id, label, creatable, helperText, onBlur, variant,
+    value, error, required, autoFocus, disabled, xs, sm, md, lg
+  }: SearchProps<T>,
 ): React.ReactElement => {
 
   const [inputValue, setInputValue] = useState('');
@@ -27,8 +28,10 @@ const Search = <T extends {}>(
   return (
     <Grid item xs={xs} sm={sm} md={md} lg={lg}>
       <Autocomplete
-        freeSolo
-        options={options||[]}
+        freeSolo={creatable}
+        handleHomeEndKeys={creatable}
+        selectOnFocus
+        options={options || []}
         fullWidth
         size='small'
         id={id}
@@ -48,7 +51,7 @@ const Search = <T extends {}>(
             required={required}
             autoFocus={autoFocus}
             margin='normal'
-            variant='outlined'
+            variant={variant}
             onBlur={onBlur}
             error={error}
             helperText={error ? helperText : undefined}

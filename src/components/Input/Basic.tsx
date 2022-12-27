@@ -3,10 +3,10 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
 
 type BasicProps = GridProps & TextFieldProps;
 
-const Basic = ({ helperText, xs, sm, md, lg, error, ...params }: BasicProps) => (
+const Basic = ({ helperText, xs, sm, md, lg, error, variant, ...params }: BasicProps) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
     <TextField
-      variant='outlined'
+      variant={variant}
       margin='normal'
       fullWidth
       size='small'

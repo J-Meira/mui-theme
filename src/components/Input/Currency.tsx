@@ -11,10 +11,19 @@ import { TextFieldProps } from '@mui/material/TextField';
 
 type CurrencyProps = OutlinedInputProps & GridProps & TextFieldProps;
 
-const Currency = ({ label, helperText, error, required, name, xs, sm, md, lg, ...params }: CurrencyProps) => (
+const Currency = ({
+  label, helperText, error, required, name, variant,
+  xs, sm, md, lg, ...params
+}: CurrencyProps) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
-    <FormControl variant='outlined' margin='normal' fullWidth error={error} required={required}
-      size='small' >
+    <FormControl
+      variant={variant}
+      margin='normal'
+      fullWidth
+      error={error}
+      required={required}
+      size='small'
+    >
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <OutlinedInput
         type='text'

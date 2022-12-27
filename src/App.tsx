@@ -11,8 +11,6 @@ import BreadcrumbBar from './components/BreadcrumbBar';
 import Button from './components/Button';
 import Grid from '@mui/material/Grid';
 import Input from './components/Input';
-import Search from './components/Input/Search';
-import DateTime from './components/Input/DateTime';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -256,10 +254,10 @@ const App = () => {
               required
             />
             <Input
-              id='email'
+              id='email2'
               label='Email'
-              type='email'
-              name='email'
+              type='email2'
+              name='email2'
               //autoFocus
               required
               error={true}
@@ -271,7 +269,51 @@ const App = () => {
               name='subTotal'
               model='currency'
               value='0,00'
-              //autoFocus
+            //autoFocus
+            />
+            <Input
+              id='action'
+              label='fazer'
+              name='action'
+              model='icon'
+              action={() => console.log('test')}
+              icon={<InboxIcon/>}
+            //autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
+
+            />
+            <Input
+              id='action'
+              label='fazer'
+              name='action'
+              model='icon'
+              start={true}
+              action={() => console.log('test')}
+              icon={<InboxIcon/>}
+            />
+            <Input
+              id='password'
+              label='pass'
+              name='password'
+              model='password'
+              autoFocus
+              //required
+              //error={true}
+              //helperText={'feedBacks.email || feedBacks.form'}
+
+            />
+            <Input
+              id='select'
+              label='select'
+              name='select'
+              model='select'
+              list={[{value:0, label:'qwqw'}]}
+              //required
+              //error={true}
+              //helperText={'feedBacks.email || feedBacks.form'}
+
             />
             <Input<{ title: string; year: number }>
               id='Pesquisa'
@@ -280,16 +322,16 @@ const App = () => {
               model='search'
               options={topFilms}
               selectValue='title'
-              autoFocus
+              creatable={true}
+              //autoFocus
               required
               error={true}
               helperText={'feedBacks.email || feedBacks.form'}
 
             />
 
-            <DateTime<Dayjs, Dayjs>
 
-            />
+
           </Grid>
         </div>
       </MultiProvider>

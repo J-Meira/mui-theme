@@ -1,24 +1,26 @@
 import * as React from 'react';
-import { Dayjs } from 'dayjs';
-import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
-import { TextField } from '@mui/material';
+// import { Dayjs } from 'dayjs';
+// import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
+// import { TextField } from '@mui/material';
 import Grid, { GridProps } from '@mui/material/Grid';
 import { TextFieldProps } from '@mui/material/TextField';
-import { DateTimePickerProps } from '@mui/x-date-pickers';
+// import { DateTimePickerProps } from '@mui/x-date-pickers';
 
-export interface DateTimeMyProps {
-  time?: boolean
-}
+// export interface DateTimeMyProps extends Partial<DatePickerProps> {
+//   time?: boolean
+// }
 
-type DateTimeProps<TInputDate, TDate = TInputDate> = GridProps & TextFieldProps & DateTimeMyProps & DateTimePickerProps<TInputDate, TDate>;
+type DateTimeProps = GridProps & TextFieldProps;// & DateTimeMyProps;
 
-const DateTime = <TInputDate, TDate = TInputDate>({ helperText, error, time, value, onChange, disabled, xs, sm, md, lg, ...params }: DateTimeProps<TInputDate, TDate>) => (
+const DateTime = ({ helperText, error,
+  //time,
+  value, onChange, disabled, xs, sm, md, lg, ...params }: DateTimeProps) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
-    <DatePicker
+    {/* <DatePicker
       inputFormat={time ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy'}
-      //autoOk={true}
-      //variant='dialog'
-      //showTodayButton={true}
+      autoOk={true}
+      variant='dialog'
+      showTodayButton={true}
       value={value}
       mask={time ? '__/__/____ __:__' : '__/__/____'}
       onChange={onChange}
@@ -35,7 +37,7 @@ const DateTime = <TInputDate, TDate = TInputDate>({ helperText, error, time, val
           {...params}
         />
       }
-    />
+    /> */}
   </Grid>
 );
 
