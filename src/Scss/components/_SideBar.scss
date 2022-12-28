@@ -56,11 +56,11 @@
     max-width: 280px;
 
     .MuiListItemIcon-root {
-      color: $primary;
+      //color: $primary;
     }
 
     .secondary {
-      background-color: rgba(0, 0, 0, 0.15);
+      background-color: rgba(255, 255, 255, 0.15);
 
       .MuiListItemButton-root {
         padding-left: 2rem;
@@ -71,10 +71,14 @@
       }
     }
     .secondary-selected {
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(255, 255, 255, 0.3);
 
       .MuiListItemButton-root {
         padding-left: 2rem;
+      }
+
+      .Mui-selected{
+        background-color: transparent;
       }
 
       &:hover {

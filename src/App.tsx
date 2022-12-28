@@ -11,6 +11,8 @@ import BreadcrumbBar from './components/BreadcrumbBar';
 import Button from './components/Button';
 import Grid from '@mui/material/Grid';
 import Input from './components/Input';
+import DialogBox, { DialogProps } from './components/DialogBox';
+import DialogPopUp from './components/DialogPopUp';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -25,6 +27,14 @@ const topFilms = [
 const App = () => {
   const [open, setOpen] = useState(true);
   const [expanded, setExpanded] = useState(true);
+  const [dialog, setDialog] = useState<DialogProps>({
+    open: true,
+    cancel: true,
+    title: 'dialog test',
+    message: 'hellow word',
+    successLabel: 'Ok---'
+  });
+  const [openPopUp, setOpenPopUp] = useState(false);
 
   const sideBarControl = () => {
     setOpen(!open);
@@ -35,6 +45,17 @@ const App = () => {
     if (!open) {
       setExpanded(status);
     }
+  }
+
+  const closeDialog = (status: boolean) => {
+    setDialog({
+      open: false,
+      cancel: true,
+      title: '',
+      message: '',
+      successLabel: 'Ok'
+    });
+    setOpenPopUp(status);
   }
 
   return (
@@ -80,7 +101,7 @@ const App = () => {
           <SideBarItem
             label='parent closed'
             icon={<InboxIcon />}
-            selected={false}
+            selected={true}
             expanded={expanded}
           >
             <SideBarItem
@@ -277,8 +298,8 @@ const App = () => {
               name='action'
               model='icon'
               action={() => console.log('test')}
-              icon={<InboxIcon/>}
-            //autoFocus
+              icon={<InboxIcon />}
+              //autoFocus
               required
               error={true}
               helperText={'feedBacks.email || feedBacks.form'}
@@ -291,7 +312,7 @@ const App = () => {
               model='icon'
               start={true}
               action={() => console.log('test')}
-              icon={<InboxIcon/>}
+              icon={<InboxIcon />}
             />
             <Input
               id='password'
@@ -299,9 +320,9 @@ const App = () => {
               name='password'
               model='password'
               autoFocus
-              //required
-              //error={true}
-              //helperText={'feedBacks.email || feedBacks.form'}
+            //required
+            //error={true}
+            //helperText={'feedBacks.email || feedBacks.form'}
 
             />
             <Input
@@ -309,10 +330,10 @@ const App = () => {
               label='select'
               name='select'
               model='select'
-              list={[{value:0, label:'qwqw'}]}
-              //required
-              //error={true}
-              //helperText={'feedBacks.email || feedBacks.form'}
+              list={[{ value: 0, label: 'qwqw' }]}
+            //required
+            //error={true}
+            //helperText={'feedBacks.email || feedBacks.form'}
 
             />
             <Input<{ title: string; year: number }>
@@ -332,7 +353,24 @@ const App = () => {
 
 
 
+
           </Grid>
+          <DialogBox
+            dialog={dialog}
+            close={closeDialog}
+          />
+          <DialogPopUp
+          open={openPopUp}
+          cancel={true}
+          name='test'
+          title='pop up test'
+          successLabel='Ok---'
+          cancelLabel='Cancelar----'
+          toggle={()=> setOpenPopUp(false)}
+          action={()=> console.log('test')}
+          >
+            <span>test pop up here</span>
+          </DialogPopUp>
         </div>
       </MultiProvider>
     </div>
