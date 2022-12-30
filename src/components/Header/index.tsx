@@ -12,7 +12,7 @@ const Header = ({ sideBarControl, sideBarExpanded, navigation, actions }: Header
   <AppBar
     position='fixed'
     className='app-bar'>
-    <Toolbar className={sideBarExpanded ? 'tool-bar' : 'tool-bar tool-bar-expanded'}>
+    <Toolbar className={`tool-bar ${!sideBarExpanded ? 'tool-bar-expanded' : ''}`}>
       <div className='navigation-bar'>
         <IconButton
           edge='start'

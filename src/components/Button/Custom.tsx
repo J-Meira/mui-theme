@@ -19,6 +19,14 @@ interface CustomProps extends ButtonProps {
   colors: ColorsButtonProps,
 };
 
+const defaultProps: CustomProps = {
+  colors: {
+    text: '#000',
+    background: '#9c9fa8',
+    backgroundHover: '#6e7179',
+  }
+}
+
 const Custom = ({ children, colors, ...params }: CustomProps) => (
   <CustomButton
     variant='contained'
@@ -29,4 +37,7 @@ const Custom = ({ children, colors, ...params }: CustomProps) => (
     {children}
   </CustomButton>
 )
+
+Custom.defaultProps = defaultProps;
+
 export default Custom;

@@ -15,7 +15,7 @@ interface SideBarItemProps {
   label: string,
   icon?: React.ReactNode,
   selected: boolean,
-  action?: (params: any) => any,
+  action?: (params?: any) => any,
   initialState?: boolean,
   secondary?: boolean,
   expanded?: boolean,
@@ -35,7 +35,7 @@ const SideBarItem = ({
   const [open, setOpen] = useState(initialState);
 
   useEffect(() => {
-    if(!expanded && open) setOpen(false);
+    if (!expanded && open) setOpen(false);
   }, [expanded, open]);
 
   return children ? (
@@ -63,7 +63,13 @@ const SideBarItem = ({
     <ListItem
       disablePadding
       onClick={action}
-      className={secondary ? selected ? 'secondary-selected' : 'secondary' : ''}
+      className={
+        secondary ?
+          selected ?
+            'secondary-selected' :
+            'secondary' :
+          ''
+      }
     >
       <ListItemButton selected={selected}>
         {icon && (

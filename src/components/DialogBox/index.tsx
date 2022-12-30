@@ -50,11 +50,11 @@ const DialogBox = ({ dialog, close }: DialogBoxProps) => (
     </DialogContent>
     <DialogActions>
       {dialog.cancel && (
-        <Button onClick={() => close(false)} color='primary'>
+        <Button onClick={() => close(false)} color='error'>
           Cancelar
         </Button>
       )}
-      <Button onClick={() => close(true)} color='primary' autoFocus>
+      <Button onClick={() => close(true)} color='success' autoFocus>
         {dialog.successLabel}
       </Button>
     </DialogActions>

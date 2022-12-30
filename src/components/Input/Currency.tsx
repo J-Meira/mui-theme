@@ -35,7 +35,9 @@ const Currency = ({
         {...params}
       />
       {(helperText && error) && (
-        <FormHelperText>{helperText}</FormHelperText>
+        <FormHelperText>
+          {helperText}
+        </FormHelperText>
       )}
     </FormControl>
   </Grid>

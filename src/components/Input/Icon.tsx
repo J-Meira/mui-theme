@@ -52,14 +52,20 @@ const Icon = ({
     >
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <OutlinedInput
-        startAdornment={start && <Adornment icon={icon} action={action} start={start} />}
-        endAdornment={!start && <Adornment icon={icon} action={action} start={start} />}
+        startAdornment={start && (
+          <Adornment icon={icon} action={action} start={start} />
+        )}
+        endAdornment={!start && (
+          <Adornment icon={icon} action={action} start={start} />
+        )}
         label={label}
         name={name}
         {...params}
       />
       {(helperText && error) && (
-        <FormHelperText>{helperText}</FormHelperText>
+        <FormHelperText>
+          {helperText}
+        </FormHelperText>
       )}
     </FormControl>
   </Grid>

@@ -14,7 +14,7 @@ interface SideBarProps {
   expanded: boolean,
   version: string,
   versionDate: string,
-  navigate: (params: any) => any,
+  homeNavigate: (destiny: any) => any,
   onMouseHover: (state: boolean) => any,
   children?: React.ReactNode,
 };
@@ -26,7 +26,7 @@ const SideBar = ({
   version,
   versionDate,
   onMouseHover,
-  navigate,
+  homeNavigate,
   children,
 }: SideBarProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
@@ -46,7 +46,7 @@ const SideBar = ({
       variant='permanent'
       anchor='left'
       open={expanded}
-      className={expanded ? 'side-bar' : 'side-bar side-bar-collapsed'}
+      className={`side-bar ${!expanded ? 'side-bar-collapsed' : ''}`}
       onMouseEnter={() => onMouseHover(true)}
       onMouseLeave={() => onMouseHover(false)}
     >
@@ -55,7 +55,7 @@ const SideBar = ({
           src={expanded ? logo : icon}
           alt='Logo'
           className='logo'
-          onClick={navigate}
+          onClick={homeNavigate}
         />
       </div>
       <div className='side-bar-body'>
@@ -91,7 +91,7 @@ const SideBar = ({
             onClose={handlePopoverClose}
             disableRestoreFocus
           >
-            <Typography sx={{ p: 1 }}>{versionDate}</Typography>
+            <Typography>{versionDate}</Typography>
           </Popover>
         </div>
       )}

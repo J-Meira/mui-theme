@@ -28,8 +28,7 @@ type InputPropsExt<T> =
   TextFieldProps &
   AutoCompleteFieldProps<T> &
   IconProps &
-  SelectProps
-  ;
+  SelectProps;
 
 const Input = <T extends {}>({ model, ...params }: InputPropsExt<T>) => {
   switch (model) {

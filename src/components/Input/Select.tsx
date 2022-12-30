@@ -8,7 +8,7 @@ export interface SelectOptionsProps {
 
 export interface SelectProps {
   list?: SelectOptionsProps[],
-  defaultValue?: boolean
+  defaultValue?: string
 }
 
 type SelectPropsExt = SelectProps & GridProps & TextFieldProps;
@@ -30,11 +30,16 @@ const Select = ({
       {...params}
     >
       {defaultValue && (
-        <option value={-1} >{defaultValue}</option>
+        <option value={-1}>{defaultValue}</option>
       )}
       {list &&
         list.map((op) => (
-          <option key={`${op.value}-${op.label}`} value={op.value}>{op.label}</option>
+          <option
+            key={`${op.value}-${op.label}`}
+            value={op.value}
+          >
+            {op.label}
+          </option>
         ))}
     </TextField>
   </Grid>

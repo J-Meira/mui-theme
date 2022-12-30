@@ -2,27 +2,16 @@ import Basic from "./Basic";
 import { ButtonProps } from '@mui/material/Button';
 import Custom, { ColorsButtonProps } from "./Custom";
 
-interface ButtonPropsExt extends ButtonProps  {
+interface ButtonPropsExt extends ButtonProps {
   model?: string,
-  colors: ColorsButtonProps
+  colors?: ColorsButtonProps
 };
 
-const defaultProps: ButtonPropsExt={
-  colors: {
-    text: '#000',
-    background: '#9c9fa8',
-    backgroundHover: '#6e7179',
-  }
-}
-
-const Button = ({ model, children, colors, ...params }:ButtonPropsExt) => {
+const Button = ({ model, children, colors, ...params }: ButtonPropsExt) => {
   switch (model) {
     case 'custom':
       return (
-        <Custom
-          colors={colors}
-          {...params}
-        >
+        <Custom {...params}>
           {children}
         </Custom>
       );
@@ -34,7 +23,5 @@ const Button = ({ model, children, colors, ...params }:ButtonPropsExt) => {
       );
   }
 }
-
-Button.defaultProps = defaultProps;
 
 export default Button;

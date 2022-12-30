@@ -55,7 +55,9 @@ const Password = ({
           {...params}
         />
         {(helperText && error) && (
-          <FormHelperText>{helperText}</FormHelperText>
+          <FormHelperText>
+            {helperText}
+          </FormHelperText>
         )}
       </FormControl>
     </Grid>

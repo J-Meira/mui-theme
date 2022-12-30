@@ -18,7 +18,7 @@
 
     /* Track */
     &::-webkit-scrollbar-track {
-      background: RGBA(48, 48, 48, 0);
+      background: $gray-midle;
     }
 
     /* Handle */
@@ -106,5 +106,15 @@
   .side-bar-header, .side-bar-body, .side-bar-footer {
     width: 20vw;
     max-width: 80px;
+  }
+  .side-bar-body{
+    .MuiListItemButton-root{
+      padding: 0.5rem!important;
+    }
+  }
+}
+#version-date-popover{
+  p{
+    padding: 0.5rem 0.75rem;
   }
 }
