@@ -311,19 +311,23 @@ const App = () => {
         </SideBarItem>
       </SideBar>
         <MainContainer
-        sideBarExpanded={open}>
-        <BreadcrumbBar list={[
-          {
-            label: 'home',
-            link: '/'
-          },
-          {
-            label: 'home',
-          },
-          {
-            label: 'home',
-          }
-        ]} />
+        sideBarExpanded={open}
+        subHeader={
+          <BreadcrumbBar list={[
+            {
+              label: 'home',
+              link: '/'
+            },
+            {
+              label: 'home',
+            },
+            {
+              label: 'home',
+            }
+          ]} />
+        }
+        >
+
         <Button>
           test
         </Button>
