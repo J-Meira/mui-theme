@@ -15,6 +15,7 @@ import DialogBox, { DialogProps } from './components/DialogBox';
 import PopUp from './components/PopUp';
 import ListMenu, { ListMenuItemProps, ListMenuProps } from './components/ListMenu';
 import MainContainer from './components/MainContainer';
+import BrockCard from './components/Card';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -148,6 +149,7 @@ const App = () => {
         icon={icon}
         version='v1.0.1'
         versionDate='De: 25/03/2022 as 1:50'
+        sideBarControl={sideBarControl}
         homeNavigate={() => console.log('NAVIGATE TEST')}
         onMouseHover={sideBarMouseHover}
       >
@@ -325,7 +327,7 @@ const App = () => {
         <Button>
           test
         </Button>
-        <Grid container>
+        <Grid container spacing={2}>
           <Input
             id='email'
             label='Email'
@@ -418,8 +420,81 @@ const App = () => {
             helperText={'feedBacks.email || feedBacks.form'}
 
           />
+          <BrockCard
+            title='Card Test'
+          >
+          <Input<{ title: string; year: number }>
+            id='Pesquisa'
+            label='Pesquisa'
+            name='subTotal'
+            model='search'
+            options={topFilms}
+            selectValue='title'
+            creatable={true}
+            //autoFocus
+            required
+            error={true}
+            helperText={'feedBacks.email || feedBacks.form'}
 
+          />
+          <Input<{ title: string; year: number }>
+            id='Pesquisa'
+            label='Pesquisa'
+            name='subTotal'
+            model='search'
+            options={topFilms}
+            selectValue='title'
+            creatable={true}
+            //autoFocus
+            required
+            error={true}
+            helperText={'feedBacks.email || feedBacks.form'}
 
+          />
+
+</BrockCard>
+<BrockCard
+            title='Card Test2'
+            md={6}
+          >
+          <Input<{ title: string; year: number }>
+          md={12}
+          lg={12}
+            id='Pesquisa'
+            label='Pesquisa'
+            name='subTotal'
+            model='search'
+            options={topFilms}
+            selectValue='title'
+            creatable={true}
+            //autoFocus
+            required
+            error={true}
+            helperText={'feedBacks.email || feedBacks.form'}
+
+          />
+          </BrockCard>
+<BrockCard
+            title='Card Test3'
+            md={6}
+          >
+          <Input<{ title: string; year: number }>
+          md={12}
+          lg={12}
+            id='Pesquisa'
+            label='Pesquisa'
+            name='subTotal'
+            model='search'
+            options={topFilms}
+            selectValue='title'
+            creatable={true}
+            //autoFocus
+            required
+            error={true}
+            helperText={'feedBacks.email || feedBacks.form'}
+
+          />
+          </BrockCard>
 
 
         </Grid>

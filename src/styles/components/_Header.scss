@@ -1,0 +1,30 @@
+.app-bar {
+  .tool-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    padding-left: calc(min(280px, 60vw) + 2rem);
+
+    .navigation-bar,
+    .actions-bar {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+    }
+  }
+
+  .tool-bar-expanded {
+    padding-left: calc(min(60px, 20vw) + 2rem);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .app-bar {
+    .tool-bar,
+    .tool-bar-expanded {
+      padding-left: 16px;
+    }
+  }
+}

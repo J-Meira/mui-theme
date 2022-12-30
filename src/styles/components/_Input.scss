@@ -1,0 +1,30 @@
+.MuiFormLabel-root,
+.MuiInputBase-root,
+.MuiFormHelperText-root,
+.MuiButton-root {
+  font-family: $font-general !important;
+}
+
+.MuiFormLabel-root.Mui.focused {
+  color: #dedede !important;
+}
+
+.MuiFormControl-marginNormal {
+  margin-top: 4px !important;
+}
+
+.Mui-error {
+  select {
+    color: #f44336;
+  }
+  .MuiSelect-icon {
+    // color: rgba(0, 0, 0, 0.54);
+    color: #f44336;
+  }
+  .MuiIconButton-root {
+    color: #f44336;
+  }
+  .MuiInputBase-input {
+    color: #f44336;
+  }
+}
