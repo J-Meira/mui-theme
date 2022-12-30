@@ -31,19 +31,20 @@
 
   .side-bar-header {
     background-color: $white;
-    padding: 0.5rem 5px 0.5rem 0;
+    padding-right: 5px;
     width: 60vw;
     max-width: 280px;
     position: fixed;
     z-index: 1111;
     text-align: center;
     transition-delay: 30ms;
-    max-height: 64px;
-    min-height: 64px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .logo {
-      height: calc(64px - 2rem);
-      //width: 50%;
+      height: calc(64px - 1.2rem);
       cursor: pointer;
     }
   }
@@ -53,10 +54,6 @@
     padding-top: 80px;
     width: 60vw;
     max-width: 280px;
-
-    .MuiListItemIcon-root {
-      //color: $primary;
-    }
 
     .secondary {
       background-color: rgba(255, 255, 255, 0.15);
@@ -126,6 +123,7 @@
     padding: 0.5rem 0.75rem;
   }
 }
+
 .click-listener{
   width: 100%;
   height: 100%;
@@ -133,4 +131,17 @@
   top: 0;
   left: 0;
   z-index: 1199;
+}
+
+@media screen and (max-width: 600px) {
+  .side-bar {
+    .side-bar-header {
+      height: 56px;
+
+    .logo {
+      height: calc(56px - 1.2rem);
+      cursor: pointer;
+    }
+    }
+  }
 }

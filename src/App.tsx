@@ -15,7 +15,7 @@ import DialogBox, { DialogProps } from './components/DialogBox';
 import PopUp from './components/PopUp';
 import ListMenu, { ListMenuItemProps, ListMenuProps } from './components/ListMenu';
 import MainContainer from './components/MainContainer';
-import BrockCard from './components/Card';
+import BrockCard from './components/BrockCard';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
