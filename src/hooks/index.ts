@@ -22,3 +22,4 @@ export function useWindowDimensions() {
 
   return windowDimensions;
 }
+const test = () =>(null);
