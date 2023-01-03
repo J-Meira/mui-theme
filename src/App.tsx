@@ -115,11 +115,11 @@ const App = () => {
       <Header
         sideBarControl={sideBarControl}
         sideBarExpanded={open}
-        navigation={<Button onClick={(e)=>controlMenu([
+        navigation={<Button onClick={(e) => controlMenu([
           {
             label: 'test',
             //destiny: 'test',
-            action: ()=> console.log(test)
+            action: () => console.log(test)
           },
           {
             label: 'test',
@@ -129,19 +129,19 @@ const App = () => {
           {
             label: 'test',
           },
-        ],e)} color='secondary'>test</Button>}
-        actions={<Button onClick={(e)=>controlMenu([
+        ], e)} color='secondary'>test</Button>}
+        actions={<Button onClick={(e) => controlMenu([
           {
             label: 'test',
             //destiny: 'test',
-            action: ()=> console.log(test)
+            action: () => console.log(test)
           },
           {
             label: 'test',
             destiny: 'test',
             //action: ()=> console.log(test)
           },
-        ],e)} color='secondary'>test</Button>}
+        ], e)} color='secondary'>test</Button>}
       />
       <SideBar
         expanded={expanded}
@@ -310,7 +310,7 @@ const App = () => {
           />
         </SideBarItem>
       </SideBar>
-        <MainContainer
+      <MainContainer
         sideBarExpanded={open}
         subHeader={
           <BreadcrumbBar list={[
@@ -326,7 +326,7 @@ const App = () => {
             }
           ]} />
         }
-        >
+      >
 
         <Button>
           test
@@ -427,78 +427,79 @@ const App = () => {
           <BrockCard
             title='Card Test'
           >
-          <Input<{ title: string; year: number }>
-            id='Pesquisa'
-            label='Pesquisa'
-            name='subTotal'
-            model='search'
-            options={topFilms}
-            selectValue='title'
-            creatable={true}
-            //autoFocus
-            required
-            error={true}
-            helperText={'feedBacks.email || feedBacks.form'}
+            <Input<{ title: string; year: number }>
+              id='Pesquisa'
+              label='Pesquisa'
+              name='subTotal'
+              model='search'
+              options={topFilms}
+              selectValue='title'
+              creatable={true}
+              //autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
 
-          />
-          <Input<{ title: string; year: number }>
-            id='Pesquisa'
-            label='Pesquisa'
-            name='subTotal'
-            model='search'
-            options={topFilms}
-            selectValue='title'
-            creatable={true}
-            //autoFocus
-            required
-            error={true}
-            helperText={'feedBacks.email || feedBacks.form'}
+            />
+            <Input<{ title: string; year: number }>
+              id='Pesquisa'
+              label='Pesquisa'
+              name='subTotal'
+              model='search'
+              options={topFilms}
+              selectValue='title'
+              creatable={true}
+              //autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
 
-          />
+            />
 
-</BrockCard>
-<BrockCard
+          </BrockCard>
+          <BrockCard
             title='Card Test2'
             md={6}
           >
-          <Input<{ title: string; year: number }>
-          md={12}
-          lg={12}
-            id='Pesquisa'
-            label='Pesquisa'
-            name='subTotal'
-            model='search'
-            options={topFilms}
-            selectValue='title'
-            creatable={true}
-            //autoFocus
-            required
-            error={true}
-            helperText={'feedBacks.email || feedBacks.form'}
+            <Input<{ title: string; year: number }>
+              md={12}
+              lg={12}
+              id='Pesquisa'
+              label='Pesquisa'
+              name='subTotal'
+              model='search'
+              options={topFilms}
+              selectValue='title'
+              creatable={true}
+              //autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
 
-          />
+            />
           </BrockCard>
-<BrockCard
+          <BrockCard
             title='Card Test3'
             md={6}
           >
-          <Input<{ title: string; year: number }>
-          md={12}
-          lg={12}
-            id='Pesquisa'
-            label='Pesquisa'
-            name='subTotal'
-            model='search'
-            options={topFilms}
-            selectValue='title'
-            creatable={true}
-            //autoFocus
-            required
-            error={true}
-            helperText={'feedBacks.email || feedBacks.form'}
+            <Input<{ title: string; year: number }>
+              md={12}
+              lg={12}
+              id='Pesquisa'
+              label='Pesquisa'
+              name='subTotal'
+              model='search'
+              options={topFilms}
+              selectValue='title'
+              creatable={true}
+              //autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
 
-          />
+            />
           </BrockCard>
+
 
 
         </Grid>
@@ -522,7 +523,7 @@ const App = () => {
           menu={menu}
           toggle={closeMenu}
           navigate={(destiny) => console.log(destiny)}
-          />
+        />
       </MainContainer>
     </MultiProvider>
   );

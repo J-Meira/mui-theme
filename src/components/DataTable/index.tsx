@@ -1,53 +1,70 @@
-import * as React from 'react';
+import { ButtonProps } from "@mui/material";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-  Typography,
-  Checkbox,
-  IconButton,
-  Tooltip
-} from '@mui/material';
-import { DataTableHeaderProps } from './Header';
+export type Order = 'asc' | 'desc';
 
-type DataTableProps = {
-  title: string,
-  // rows,
-  // editAction,
-  // viewAction,
-  // deleteAction,
-  // deleteSelection,
-  // checkAction,
-  // selectAction,
-  // printAction,
-  // noSelect,
-  // allRows,
-  // defaultOrderBy,
-  // editCondition,
-  // disabled,
-  // initialSelected = []
-} & DataTableHeaderProps;
-
-const DataTable = ({
-  columns,
-  title,
-}:DataTableProps) => {
-  return (
-    <TableContainer>
-      <Table
-        aria-labelledby={`table-${title}`}
-        size='small'
-      >
-
-      </Table>
-    </TableContainer>
-  );
+export interface DataTableActionsProps {
+  addAction: (params: any) => void,
+  addLabel: string,
+  search: string,
+  setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  searchLabel: string,
+  filters?: React.ReactNode,
+  filtersLabel?: string,
+  activeValue?: boolean,
+  setActiveValue?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  activeLabel?: string,
 }
 
-export default DataTable;
+export interface DataTableColumnsProps {
+  key: string,
+  disablePadding?: boolean,
+  label?: string,
+  limit?: number,
+  isSortable?: boolean,
+  align?: "center" | "inherit" | "justify" | "left" | "right",
+}
+
+export interface DataTableHeaderProps {
+  columns: DataTableColumnsProps[],
+  actions?: boolean,
+  isSelectable?: boolean,
+  numSelected: number;
+  onRequestSort: (key: string) => void;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  order: Order;
+  orderBy: string;
+  rowCount: number;
+}
+
+export interface DataTableBodyProps {
+  title: string,
+  rows?: any[],
+  columns: DataTableColumnsProps[],
+  selectRow: (row: any) => void,
+  isSelected: (row: any) => boolean,
+  isSelectable?: boolean,
+  isSelectableAnywhere?: boolean,
+}
+
+export interface PageButtonProps{
+  onClick: (page: any) => void,
+  children: React.ReactNode,
+  active?: boolean,
+  disabled?: boolean
+}
+
+export interface DataTablePaginationProps {
+  pages: number[],
+  currentPage: number,
+  setPage: (page: number) => void,
+  lastPage: number,
+}
+
+export interface DataTableFooterProps{
+  currentPage: number,
+  currentSize: number,
+  lastPage: number,
+  rowsPerPage: number,
+  setRowsPerPage: (value:number) => void,
+  totalOfRows: number,
+}
