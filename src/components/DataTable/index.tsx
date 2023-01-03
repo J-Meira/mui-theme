@@ -26,7 +26,6 @@ export interface DataTableColumnsProps {
 
 export interface DataTableHeaderProps {
   columns: DataTableColumnsProps[],
-  actions?: boolean,
   isSelectable?: boolean,
   numSelected: number;
   onRequestSort: (key: string) => void;
@@ -38,7 +37,7 @@ export interface DataTableHeaderProps {
 
 export interface DataTableBodyProps {
   title: string,
-  rows?: any[],
+  rows: any[],
   columns: DataTableColumnsProps[],
   selectRow: (row: any) => void,
   isSelected: (row: any) => boolean,
