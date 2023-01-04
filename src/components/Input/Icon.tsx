@@ -12,16 +12,6 @@ import {
 import Grid, { GridProps } from '@mui/material/Grid';
 import { TextFieldProps } from '@mui/material/TextField';
 
-export interface IconProps {
-  icon?: React.ReactNode,
-  action?: (params: any) => any,
-  start?: boolean;
-}
-
-const defaultProps: IconProps = {
-  start: false
-}
-
 const Adornment = ({ icon, action, start }: IconProps) => (
   <InputAdornment position={start ? 'start' : 'end'}>
     <IconButton
@@ -35,7 +25,19 @@ const Adornment = ({ icon, action, start }: IconProps) => (
   </InputAdornment>
 );
 
+export interface IconProps {
+  icon?: React.ReactNode,
+  action?: (params: any) => any,
+  start?: boolean;
+}
+
 type IconPropsEx = OutlinedInputProps & GridProps & TextFieldProps & IconProps;
+
+const defaultProps: IconPropsEx = {
+  start: false
+}
+
+//ToDo fix label start position on start icon type
 
 const Icon = ({
   label, helperText, error, required, name, action,

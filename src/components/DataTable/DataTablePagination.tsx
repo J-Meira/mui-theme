@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { Button } from '@mui/material';
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
@@ -9,6 +8,7 @@ import {
 } from '@mui/icons-material';
 
 import { DataTablePaginationProps, PageButtonProps } from ".";
+import Button from '../Button';
 
 const PageButton = ({
   onClick,
@@ -20,6 +20,7 @@ const PageButton = ({
     <Button
       variant={active ? undefined : 'outlined'}
       disabled={disabled}
+      fullWidth={false}
       color='primary'
       onClick={onClick}
     >

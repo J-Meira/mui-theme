@@ -2,7 +2,7 @@ import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/m
 import * as React from 'react';
 import { DataTableHeaderProps } from '.';
 
-const DataTableHeader = ({
+export const DataTableHeader = ({
   columns,
   isSelectable,
   numSelected,

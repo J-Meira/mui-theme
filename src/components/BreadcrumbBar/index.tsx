@@ -6,7 +6,7 @@ interface BreadcrumbsList{
 }
 
 interface BreadcrumbBarProps {
-  list: Array<BreadcrumbsList>
+  list: BreadcrumbsList[],
 }
 
 const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (

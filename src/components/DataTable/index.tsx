@@ -1,18 +1,23 @@
-import { ButtonProps } from "@mui/material";
-
 export type Order = 'asc' | 'desc';
 
-export interface DataTableActionsProps {
-  addAction: (params: any) => void,
+export interface DataTableActionsProps<FT> {
+  addAction?: (params: any) => void,
   addLabel: string,
   search: string,
   setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void,
   searchLabel: string,
-  filters?: React.ReactNode,
+  filters?: (
+    filtersValues?: FT,
+    setFilters?: (value: any) => void
+  ) => React.ReactNode,
+  filtersValues?: FT,
+  setFilters?: (values: FT) => void,
   filtersLabel?: string,
+  showActive?: boolean,
   activeValue?: boolean,
-  setActiveValue?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  setActiveValue?: (value: boolean) => void,
   activeLabel?: string,
+  clearAction?: () => void,
 }
 
 export interface DataTableColumnsProps {
@@ -45,7 +50,7 @@ export interface DataTableBodyProps {
   isSelectableAnywhere?: boolean,
 }
 
-export interface PageButtonProps{
+export interface PageButtonProps {
   onClick: (page: any) => void,
   children: React.ReactNode,
   active?: boolean,
@@ -59,11 +64,18 @@ export interface DataTablePaginationProps {
   lastPage: number,
 }
 
-export interface DataTableFooterProps{
+export interface DataTableFooterProps {
   currentPage: number,
   currentSize: number,
   lastPage: number,
   rowsPerPage: number,
-  setRowsPerPage: (value:number) => void,
+  setRowsPerPage: (value: number) => void,
   totalOfRows: number,
 }
+
+export * from './DataTableActions';
+export * from './DataTableBody';
+export * from './DataTableFooter';
+export * from './DataTableGrid';
+export * from './DataTableHeader';
+export * from './DataTablePagination';

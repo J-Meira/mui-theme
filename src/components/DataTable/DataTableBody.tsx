@@ -2,7 +2,7 @@ import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import React, { useState } from 'react';
 import { DataTableBodyProps, DataTableColumnsProps } from '.';
 
-const DataTableBody =
+export const DataTableBody =
   ({
     title,
     columns,

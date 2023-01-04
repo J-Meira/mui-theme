@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { DataTableFooterProps } from ".";
 import Input from '../Input';
 
-const DataTableFooter = ({
+export const DataTableFooter = ({
   currentPage,
   currentSize,
   lastPage,

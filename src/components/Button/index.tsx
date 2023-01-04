@@ -4,8 +4,13 @@ import Custom, { ColorsButtonProps } from "./Custom";
 
 interface ButtonPropsExt extends ButtonProps {
   model?: string,
-  colors?: ColorsButtonProps
+  colors?: ColorsButtonProps,
 };
+
+const defaultProps: ButtonPropsExt = {
+  fullWidth: true,
+  variant:'contained',
+}
 
 const Button = ({ model, children, colors, ...params }: ButtonPropsExt) => {
   switch (model) {
@@ -23,5 +28,7 @@ const Button = ({ model, children, colors, ...params }: ButtonPropsExt) => {
       );
   }
 }
+
+Button.defaultProps = defaultProps;
 
 export default Button;

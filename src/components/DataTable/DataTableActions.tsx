@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Collapse, Grid } from '@mui/material';
 import React, { useState } from 'react';
 import Button from '../Button';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -6,9 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Input from '../Input';
 import { DataTableActionsProps } from '.';
 
-
-
-const DataTableActions = ({
+export const DataTableActions = <FT extends {}>({
   addAction,
   addLabel,
   search,
@@ -16,36 +14,48 @@ const DataTableActions = ({
   searchLabel,
   filters,
   filtersLabel,
+  filtersValues,
+  setFilters,
+  showActive,
   activeValue,
   setActiveValue,
   activeLabel,
-}: DataTableActionsProps) => {
-  const [open, setOpen] = useState(false);
+  clearAction,
+}: DataTableActionsProps<FT>) => {
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
   return (
     <Grid container className='data-table-actions'>
       <Grid item md={8}>
-        <Grid container spacing={2}>
-          <Grid item md={3}>
-            <Button color='primary' onClick={addAction}>
+        <Grid container spacing={3}>
+          <div className='buttons'>
+            <Button
+              color='primary'
+              fullWidth={false}
+              onClick={addAction}
+            >
               {addLabel}
             </Button>
-          </Grid>
           {(filters && filtersLabel) && (
-            <Grid item md={3}>
-              <Button color='primary' variant='outlined' onClick={addAction}>
+              <Button
+                color='primary'
+                fullWidth={false}
+                variant='outlined'
+                onClick={() => setFiltersOpen(!filtersOpen)}
+              >
                 <FilterListIcon />
                 {filtersLabel}
               </Button>
-            </Grid>
           )}
+          </div>
           <Input
             model='icon'
             label={searchLabel}
             icon={<SearchIcon />}
             onChange={setSearch}
             value={search}
-            start={true}
-            md={6} lg={6}
+            //start={true}
+            md={4} lg={4}
           />
 
         </Grid>
@@ -53,6 +63,17 @@ const DataTableActions = ({
       <Grid item md={4}>
         {/* export area */}
       </Grid>
+      {filters && (
+        <Grid item md={12}>
+          <Collapse in={filtersOpen} timeout='auto' unmountOnExit>
+
+            <Grid container spacing={2}>
+              {filters(filtersValues, setFilters)}
+            </Grid>
+
+          </Collapse>
+        </Grid>
+      )}
     </Grid>
   );
 }

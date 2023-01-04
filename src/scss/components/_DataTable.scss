@@ -1,0 +1,18 @@
+.data-table {
+  .data-table-actions {
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding-left: 24px;
+      padding-bottom: 0.5rem;
+
+      button {
+        line-height: 2;
+        & + button {
+          margin-left: 24px;
+        }
+      }
+    }
+  }
+}

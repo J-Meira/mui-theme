@@ -29,8 +29,6 @@ const defaultProps: CustomProps = {
 
 const Custom = ({ children, colors, ...params }: CustomProps) => (
   <CustomButton
-    variant='contained'
-    fullWidth
     colors={colors}
     {...params}
   >

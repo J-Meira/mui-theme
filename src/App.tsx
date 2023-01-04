@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Header from './components/Header';
 import SideBar from './components/SideBar';
 
@@ -16,6 +16,7 @@ import PopUp from './components/PopUp';
 import ListMenu, { ListMenuItemProps, ListMenuProps } from './components/ListMenu';
 import MainContainer from './components/MainContainer';
 import BrockCard from './components/BrockCard';
+import DataTableExample from './DataTableExample';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -328,6 +329,43 @@ const App = () => {
         }
       >
 
+        <DataTableExample<{ id: number| null; name: string }>
+          title='clients'
+          defaultOrderBy='id'
+          actions={true}
+          filters={(values, setValues) => (
+            <Fragment>
+              < Input
+                id='id'
+                label='Id'
+                name='id'
+                md={4} lg={4}
+                value={values && values.id}
+                onChange={setValues ? (e: React.ChangeEvent<HTMLInputElement>) => setValues({
+                  ...values,
+                  id: e.currentTarget.value.replace(/\D/g, '')
+                }) : undefined}
+              />
+              < Input
+                id='name'
+                label='Nome'
+                name='name'
+                md={8} lg={8}
+                value={values && values.name}
+                onChange={setValues ? (e: React.ChangeEvent<HTMLInputElement>) => setValues({
+                  ...values,
+                  name: e.currentTarget.value
+                }) : undefined}
+              />
+
+            </Fragment>
+
+          )}
+          initialFilters={
+            { id: null, name: '' }
+          }
+        />
+
         <Button>
           test
         </Button>
@@ -359,6 +397,21 @@ const App = () => {
           //autoFocus
           />
           <Input
+            id='action222'
+            label='fazer222'
+            name='action222'
+            model='icon'
+            action={() => console.log('test')}
+            icon={<InboxIcon />}
+            start={true}
+            //autoFocus
+            required
+            error={true}
+            value={''}
+            helperText={'feedBacks.email || feedBacks.form'}
+
+          />
+          <Input
             id='action'
             label='fazer'
             name='action'
@@ -368,6 +421,7 @@ const App = () => {
             //autoFocus
             required
             error={true}
+            value={''}
             helperText={'feedBacks.email || feedBacks.form'}
 
           />
@@ -499,8 +553,6 @@ const App = () => {
 
             />
           </BrockCard>
-
-
 
         </Grid>
         <DialogBox
