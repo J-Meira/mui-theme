@@ -1,6 +1,9 @@
 .data-table {
   .data-table-actions {
+    margin-bottom: 1rem;
+
     .buttons {
+      flex: 0 1 auto;
       display: flex;
       justify-content: flex-end;
       align-items: flex-end;
@@ -13,6 +16,18 @@
           margin-left: 24px;
         }
       }
+    }
+
+    .export {
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding-bottom: 0.5rem;
+    }
+
+    .filters{
+      padding-top: 0.5rem;
     }
   }
 }

@@ -9,13 +9,14 @@ import {
   DataTableActions,
   DataTableGrid,
   DataTableHeader,
+  DataTableFiltersProps,
 } from './components/DataTable';
 
 interface DataTableProps<FT> {
   title: string,
   actions?: boolean,
   addAction?: DataTableActionsProps<FT>['addAction'],
-  filters?: DataTableActionsProps<FT>['filters'],
+  filters?: DataTableFiltersProps<FT>['render'],
   initialFilters?: FT,
 
 
@@ -52,6 +53,14 @@ const DataTableExample = <FT extends {}>({
     setFiltersValues(initialFilters);
   }
 
+  const applyAction = () => {
+    alert('applied');
+  }
+
+  const exportAction = () => {
+    alert('exported');
+  }
+
   return (
     <DataTableGrid>
       {actions && (
@@ -61,14 +70,12 @@ const DataTableExample = <FT extends {}>({
           search={search}
           setSearch={(e) => setSearch(e.target.value)}
           searchLabel='Pesquisar'
-          filters={filters}
-          filtersLabel='Filtros'
-          filtersValues={filtersValues}
-          setFilters={setFiltersValues}
+          //filters={filters}
           showActive={true}
           activeValue={active}
           setActiveValue={setActive}
-          clearAction={clearFilters}
+          activeLabel='Listar inativos'
+          exportAction={exportAction}
         />
       )}
       <TableContainer>

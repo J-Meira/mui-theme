@@ -1,23 +1,31 @@
 export type Order = 'asc' | 'desc';
 
+export interface DataTableFiltersProps<FT>{
+  render: (
+    filtersValues: FT,
+    setFilters: (value: any) => void
+  ) => React.ReactNode,
+  values: FT,
+  setValues: (values: FT) => void,
+  label: string,
+  applyAction: () => void,
+  applyLabel: string,
+  clearAction: () => void,
+  clearLabel: string,
+}
+
 export interface DataTableActionsProps<FT> {
   addAction?: (params: any) => void,
   addLabel: string,
   search: string,
   setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void,
   searchLabel: string,
-  filters?: (
-    filtersValues?: FT,
-    setFilters?: (value: any) => void
-  ) => React.ReactNode,
-  filtersValues?: FT,
-  setFilters?: (values: FT) => void,
-  filtersLabel?: string,
-  showActive?: boolean,
-  activeValue?: boolean,
-  setActiveValue?: (value: boolean) => void,
-  activeLabel?: string,
-  clearAction?: () => void,
+  filters?: DataTableFiltersProps<FT>,
+  showActive: boolean,
+  activeValue: boolean,
+  activeLabel: string,
+  setActiveValue: (value: boolean) => void,
+  exportAction: () => void,
 }
 
 export interface DataTableColumnsProps {

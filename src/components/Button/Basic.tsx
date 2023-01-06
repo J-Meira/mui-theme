@@ -1,9 +1,7 @@
 import Button, { ButtonProps } from '@mui/material/Button';
 
 const Basic = ({ children, ...params }: ButtonProps) => (
-  <Button
-    {...params}
-  >
+  <Button {...params}>
     {children}
   </Button>
 );

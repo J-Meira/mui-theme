@@ -1,18 +1,20 @@
+
+import { ButtonProps as MuiButtonProps  } from '@mui/material/Button';
+
 import Basic from "./Basic";
-import { ButtonProps } from '@mui/material/Button';
 import Custom, { ColorsButtonProps } from "./Custom";
 
-interface ButtonPropsExt extends ButtonProps {
-  model?: string,
+interface ButtonProps extends MuiButtonProps {
+  model?: 'custom' | 'icon',
   colors?: ColorsButtonProps,
 };
 
-const defaultProps: ButtonPropsExt = {
+const defaultProps: ButtonProps = {
   fullWidth: true,
   variant:'contained',
 }
 
-const Button = ({ model, children, colors, ...params }: ButtonPropsExt) => {
+const Button = ({ model, children, colors, ...params }: ButtonProps) => {
   switch (model) {
     case 'custom':
       return (

@@ -1,7 +1,8 @@
-import { Collapse, Grid } from '@mui/material';
+import { Collapse, Fab, Grid, } from '@mui/material';
 import React, { useState } from 'react';
 import Button from '../Button';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import SearchIcon from '@mui/icons-material/Search';
 import Input from '../Input';
 import { DataTableActionsProps } from '.';
@@ -13,20 +14,22 @@ export const DataTableActions = <FT extends {}>({
   setSearch,
   searchLabel,
   filters,
-  filtersLabel,
-  filtersValues,
-  setFilters,
   showActive,
   activeValue,
-  setActiveValue,
   activeLabel,
-  clearAction,
+  setActiveValue,
+  exportAction,
 }: DataTableActionsProps<FT>) => {
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
+
+  const onClear = () =>{
+    if(filters) filters.clearAction();
+    setFiltersOpen(false);
+  }
 
   return (
     <Grid container className='data-table-actions'>
-      <Grid item md={8}>
+      <Grid item md={12}>
         <Grid container spacing={3}>
           <div className='buttons'>
             <Button
@@ -36,17 +39,17 @@ export const DataTableActions = <FT extends {}>({
             >
               {addLabel}
             </Button>
-          {(filters && filtersLabel) && (
+            {filters && (
               <Button
-                color='primary'
+                color='secondary'
                 fullWidth={false}
-                variant='outlined'
+                variant={!filtersOpen ? 'outlined' : undefined}
                 onClick={() => setFiltersOpen(!filtersOpen)}
               >
                 <FilterListIcon />
-                {filtersLabel}
+                {filters.label}
               </Button>
-          )}
+            )}
           </div>
           <Input
             model='icon'
@@ -54,23 +57,33 @@ export const DataTableActions = <FT extends {}>({
             icon={<SearchIcon />}
             onChange={setSearch}
             value={search}
-            //start={true}
             md={4} lg={4}
           />
-
+          {exportAction && (
+            <div className='export'>
+              <Fab
+                onClick={exportAction}
+                size='small'
+              >
+                <PictureAsPdfIcon />
+              </Fab>
+            </div>
+          )}
         </Grid>
       </Grid>
-      <Grid item md={4}>
-        {/* export area */}
-      </Grid>
       {filters && (
-        <Grid item md={12}>
+        <Grid item md={12} className='filters'>
           <Collapse in={filtersOpen} timeout='auto' unmountOnExit>
-
             <Grid container spacing={2}>
-              {filters(filtersValues, setFilters)}
-            </Grid>
+              {filters.render(filters.values, filters.setValues)}
+              <Grid item md={12}>
+                <Button
+                  onClick={onClear}
+                  >
 
+                  </Button>
+              </Grid>
+            </Grid>
           </Collapse>
         </Grid>
       )}

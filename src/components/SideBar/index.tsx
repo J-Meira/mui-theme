@@ -51,7 +51,7 @@ const SideBar = ({
   useEffect(() => {
     let type: DrawerProps['variant'] = 'permanent';
     let className = 'side-bar';
-    if (width < 600) {
+    if (width < 840) {
       type = 'persistent';
     }
     else {
@@ -74,8 +74,6 @@ const SideBar = ({
         anchor='left'
         open={expanded}
         className={className}
-        //onEscapeKeyDown={()=>console.log('clicked')}
-        onClose={() => console.log('clicked')}
         onMouseEnter={() => onMouseHover(true)}
         onMouseLeave={() => onMouseHover(false)}
       >
