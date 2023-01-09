@@ -8,6 +8,7 @@ import Icon, { IconProps } from './Icon';
 import Search, { AutoCompleteFieldProps } from './Search';
 import Password from './Password';
 import Select, { SelectProps } from './Select';
+import CheckBoxGrided, { CheckBoxGridedProps } from './CheckBoxGrided';
 
 export const defaultInputProps: GridProps & TextFieldProps = {
   xs: 12,
@@ -28,7 +29,8 @@ type InputPropsExt<T> =
   TextFieldProps &
   AutoCompleteFieldProps<T> &
   IconProps &
-  SelectProps;
+  SelectProps &
+  CheckBoxGridedProps;
 
 const Input = <T extends {}>({ model, ...params }: InputPropsExt<T>) => {
   switch (model) {
@@ -55,6 +57,10 @@ const Input = <T extends {}>({ model, ...params }: InputPropsExt<T>) => {
     case 'search':
       return (
         <Search {...params} />
+      );
+    case 'checkBoxG':
+      return (
+        <CheckBoxGrided {...params} />
       );
     default:
       return (

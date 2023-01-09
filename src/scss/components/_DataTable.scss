@@ -28,6 +28,46 @@
 
     .filters{
       padding-top: 0.5rem;
+
+      .filters-actions{
+        display: flex;
+        justify-content: flex-end;
+        .MuiButton-contained+.MuiButton-contained{
+          margin-left: 24px;
+        }
+      }
+    }
+  }
+
+  .data-table-selected{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+  }
+
+  .data-table-pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+
+    .MuiButton-root{
+      // font-size: 0.6rem!important;
+      min-width: 40px;
+      min-height: 32px;
+      padding: 3px 4px!important;
+
+      +.MuiButton-root{
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  .data-table-footer{
+    align-items: center;
+    span+ .MuiGrid-root{
+      margin: 0 1rem;
     }
   }
 }

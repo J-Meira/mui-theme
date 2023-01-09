@@ -6,24 +6,33 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import SearchIcon from '@mui/icons-material/Search';
 import Input from '../Input';
 import { DataTableActionsProps } from '.';
+import { useWindowDimensions } from '../../hooks';
 
 export const DataTableActions = <FT extends {}>({
-  addAction,
+  onAdd,
   addLabel,
   search,
   setSearch,
   searchLabel,
   filters,
+  filtersValues,
+  setFiltersValues,
+  filtersLabel,
+  onApplyFilters,
+  applyFiltersLabel,
+  onClearFilters,
+  clearFiltersLabel,
   showActive,
   activeValue,
   activeLabel,
   setActiveValue,
-  exportAction,
+  onExport,
 }: DataTableActionsProps<FT>) => {
+  const { width } = useWindowDimensions();
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
 
-  const onClear = () =>{
-    if(filters) filters.clearAction();
+  const clearFilters = () => {
+    if (onClearFilters) onClearFilters();
     setFiltersOpen(false);
   }
 
@@ -35,19 +44,18 @@ export const DataTableActions = <FT extends {}>({
             <Button
               color='primary'
               fullWidth={false}
-              onClick={addAction}
+              onClick={onAdd}
             >
               {addLabel}
             </Button>
             {filters && (
               <Button
-                color='secondary'
                 fullWidth={false}
                 variant={!filtersOpen ? 'outlined' : undefined}
                 onClick={() => setFiltersOpen(!filtersOpen)}
               >
                 <FilterListIcon />
-                {filters.label}
+                {width> 400? filtersLabel : ''}
               </Button>
             )}
           </div>
@@ -57,12 +65,22 @@ export const DataTableActions = <FT extends {}>({
             icon={<SearchIcon />}
             onChange={setSearch}
             value={search}
-            md={4} lg={4}
+            md={4} lg={3}
           />
-          {exportAction && (
+          {showActive && (
+            <Input
+              model='checkBoxG'
+              label={activeLabel}
+              checked={activeValue}
+              md={4} lg={4} sm={10} xs={10}
+              onChange={() => setActiveValue(!activeValue)}
+            />
+          )}
+
+          {onExport && (
             <div className='export'>
               <Fab
-                onClick={exportAction}
+                onClick={onExport}
                 size='small'
               >
                 <PictureAsPdfIcon />
@@ -71,17 +89,25 @@ export const DataTableActions = <FT extends {}>({
           )}
         </Grid>
       </Grid>
-      {filters && (
+      {(filters && filtersValues && setFiltersValues) && (
         <Grid item md={12} className='filters'>
           <Collapse in={filtersOpen} timeout='auto' unmountOnExit>
             <Grid container spacing={2}>
-              {filters.render(filters.values, filters.setValues)}
-              <Grid item md={12}>
+              {filters(filtersValues, setFiltersValues)}
+              <Grid item md={12} className='filters-actions'>
                 <Button
-                  onClick={onClear}
-                  >
-
-                  </Button>
+                  onClick={clearFilters}
+                  fullWidth={false}
+                  color='warning'
+                >
+                  {clearFiltersLabel}
+                </Button>
+                <Button
+                  onClick={onApplyFilters}
+                  fullWidth={false}
+                >
+                  {applyFiltersLabel}
+                </Button>
               </Grid>
             </Grid>
           </Collapse>

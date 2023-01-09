@@ -7,7 +7,7 @@ import {
   KeyboardDoubleArrowRight,
 } from '@mui/icons-material';
 
-import { DataTablePaginationProps, PageButtonProps } from ".";
+import { DataTablePaginationProps, PageButtonProps } from '.';
 import Button from '../Button';
 
 const PageButton = ({
@@ -23,13 +23,14 @@ const PageButton = ({
       fullWidth={false}
       color='primary'
       onClick={onClick}
+      size='small'
     >
       {children}
     </Button>
   );
 }
 
-const DataTablePagination = ({
+export const DataTablePagination = ({
   pages,
   currentPage,
   setPage,
@@ -41,7 +42,7 @@ const DataTablePagination = ({
   );
 
   return (
-    <div className='pagination-container'>
+    <div className='data-table-pagination'>
       <PageButton
         onClick={() => setPage(1)}
         disabled={currentPage === 1}
@@ -54,29 +55,23 @@ const DataTablePagination = ({
       >
         <KeyboardArrowLeft />
       </PageButton>
-      <PageButton
-        onClick={() => setPage(1)}
-        disabled={currentPage === 1}
-      >
-        <KeyboardArrowRight />
-      </PageButton>
       {options && options.map((item) => (
         <PageButton
           key={`page_item_${item}`}
           onClick={() => setPage(item)}
           active={item === currentPage}
         >
-          <KeyboardArrowRight />
+          {item}
         </PageButton>
       ))}
       <PageButton
         onClick={() => setPage(currentPage + 1)}
         disabled={currentPage === lastPage}
       >
-        <KeyboardDoubleArrowRight />
+        <KeyboardArrowRight />
       </PageButton>
       <PageButton
-        onClick={() => setPage(1)}
+        onClick={() => setPage(lastPage)}
         disabled={currentPage === lastPage}
       >
         <KeyboardDoubleArrowRight />

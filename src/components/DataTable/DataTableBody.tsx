@@ -1,5 +1,5 @@
 import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import { DataTableBodyProps, DataTableColumnsProps } from '.';
 
 export const DataTableBody =
@@ -7,7 +7,7 @@ export const DataTableBody =
     title,
     columns,
     rows,
-    selectRow,
+    onSelectRow,
     isSelected,
     isSelectable,
     isSelectableAnywhere,
@@ -19,8 +19,8 @@ export const DataTableBody =
         return (
           <TableRow
             hover
-            onClick={isSelectableAnywhere ? () => selectRow(row) : undefined}
-            role="checkbox"
+            onClick={isSelectableAnywhere ? () => onSelectRow(row) : undefined}
+            role='checkbox'
             aria-checked={isItemSelected}
             tabIndex={-1}
             key={labelId}
@@ -30,7 +30,7 @@ export const DataTableBody =
               <TableCell padding='checkbox'>
                 <Checkbox
                   checked={isItemSelected}
-                  onChange={() => selectRow(row)}
+                  onChange={() => onSelectRow(row)}
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </TableCell>
@@ -48,6 +48,17 @@ export const DataTableBody =
                       row[key].slice(0, col.limit) + '...' :
                       row[key]
                     }
+                  </TableCell>
+                )
+              }
+              else if (col.render) {
+                return (
+                  <TableCell
+                    key={index + key}
+                    align={col.align}
+                    padding={col.disablePadding ? 'none' : 'normal'}
+                  >
+                    {col.render(row)}
                   </TableCell>
                 )
               }

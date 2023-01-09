@@ -1,31 +1,28 @@
 export type Order = 'asc' | 'desc';
 
-export interface DataTableFiltersProps<FT>{
-  render: (
-    filtersValues: FT,
-    setFilters: (value: any) => void
-  ) => React.ReactNode,
-  values: FT,
-  setValues: (values: FT) => void,
-  label: string,
-  applyAction: () => void,
-  applyLabel: string,
-  clearAction: () => void,
-  clearLabel: string,
-}
-
 export interface DataTableActionsProps<FT> {
-  addAction?: (params: any) => void,
+  onAdd?: (params: any) => void,
   addLabel: string,
   search: string,
   setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void,
   searchLabel: string,
-  filters?: DataTableFiltersProps<FT>,
+  filters?: (
+    filtersValues: FT,
+    setFilters: (value: any) => void
+  ) => React.ReactNode,
+  filtersValues?: FT,
+  setFiltersValues?: (values: FT) => void,
+  filtersLabel?: string,
+  onApplyFilters?: () => void,
+  applyFiltersLabel?: string,
+  onClearFilters?: () => void,
+  clearFiltersLabel?: string,
+
   showActive: boolean,
   activeValue: boolean,
   activeLabel: string,
   setActiveValue: (value: boolean) => void,
-  exportAction: () => void,
+  onExport: () => void,
 }
 
 export interface DataTableColumnsProps {
@@ -34,28 +31,36 @@ export interface DataTableColumnsProps {
   label?: string,
   limit?: number,
   isSortable?: boolean,
-  align?: "center" | "inherit" | "justify" | "left" | "right",
+  align?: 'center' | 'inherit' | 'justify' | 'left' | 'right',
+  render?: (row: any) => React.ReactNode
 }
 
 export interface DataTableHeaderProps {
   columns: DataTableColumnsProps[],
   isSelectable?: boolean,
-  numSelected: number;
-  onRequestSort: (key: string) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
+  numSelected: number,
+  onRequestSort: (key: string) => void,
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  order: Order,
+  orderBy: string,
+  rowCount: number,
 }
 
 export interface DataTableBodyProps {
   title: string,
   rows: any[],
   columns: DataTableColumnsProps[],
-  selectRow: (row: any) => void,
+  onSelectRow: (row: any) => void,
   isSelected: (row: any) => boolean,
   isSelectable?: boolean,
   isSelectableAnywhere?: boolean,
+}
+
+export interface DataTableSelectedProps{
+  rowCont: number,
+  rowContLabel: string,
+  onDelete: () => void,
+  deleteLabel: string,
 }
 
 export interface PageButtonProps {

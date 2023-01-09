@@ -17,6 +17,7 @@ import ListMenu, { ListMenuItemProps, ListMenuProps } from './components/ListMen
 import MainContainer from './components/MainContainer';
 import BrockCard from './components/BrockCard';
 import DataTableExample from './DataTableExample';
+import { Edit } from '@mui/icons-material';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -329,10 +330,12 @@ const App = () => {
         }
       >
 
-        <DataTableExample<{ id: number| null; name: string }>
+        <DataTableExample<{ id: number | null; name: string }>
           title='clients'
           defaultOrderBy='id'
+          isSelectable={true}
           actions={true}
+          rowCont={15}
           filters={(values, setValues) => (
             <Fragment>
               < Input
@@ -364,6 +367,50 @@ const App = () => {
           initialFilters={
             { id: null, name: '' }
           }
+          columns={[
+            {
+              key: 'id',
+              label: '#',
+              isSortable: true,
+              disablePadding: true,
+            },
+            {
+              key: 'name',
+              label: 'Name',
+              isSortable: true,
+            },
+            {
+              key: 'age',
+              label: 'Age',
+              isSortable: true,
+            },
+            {
+              key: 'actions',
+              label: 'Ações',
+              align: 'center',
+              disablePadding: true,
+              render: (row) => (
+                <Button model='icon' aria-label='Editar' onClick={() => console.log(row)}>
+                  <Edit />
+                </Button>
+              )
+            }
+          ]}
+          rows={[
+            {
+              id: 1,
+              name: 'test'
+            },
+            {
+              id: 2,
+              name: 'test 2',
+              age: 32
+            },
+            {
+              id: 3,
+              name: 'test 3'
+            },
+          ]}
         />
 
         <Button>
@@ -375,8 +422,19 @@ const App = () => {
             label='Email'
             type='email'
             name='email'
-            //autoFocus
+            autoFocus
             required
+          />
+          <Input
+            id='password'
+            label='pass'
+            name='password'
+            model='password'
+            autoFocus
+          //required
+          //error={true}
+          //helperText={'feedBacks.email || feedBacks.form'}
+
           />
           <Input
             id='email2'
@@ -434,17 +492,7 @@ const App = () => {
             action={() => console.log('test')}
             icon={<InboxIcon />}
           />
-          <Input
-            id='password'
-            label='pass'
-            name='password'
-            model='password'
-            autoFocus
-          //required
-          //error={true}
-          //helperText={'feedBacks.email || feedBacks.form'}
 
-          />
           <Input
             id='select'
             label='select'

@@ -26,7 +26,7 @@ const Select = ({
       error={error}
       helperText={error ? helperText : undefined}
       select
-      //SelectProps={{ native: true }}
+      SelectProps={{ native: true }}
       {...params}
     >
       {defaultValue && (

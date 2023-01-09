@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 
-import { DataTableFooterProps } from ".";
+import { DataTableFooterProps } from '.';
 import Input from '../Input';
 
 export const DataTableFooter = ({
@@ -16,6 +16,8 @@ export const DataTableFooter = ({
 
   const handle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
+    console.log(value);
+
     setRowsPerPage(value);
   }
 
@@ -33,13 +35,12 @@ export const DataTableFooter = ({
 
   return (
     <Grid container className='data-table-footer'>
-      <Grid item md={3}>
         <span>Registros por página:</span>
-      </Grid>
       <Input
         model='select'
         value={rowsPerPage}
         onChange={handle}
+        lg={1}md={1} sm={1} xs={3}
         list={[
           { value: 5, label: '5' },
           { value: 10, label: '10' },
@@ -53,9 +54,8 @@ export const DataTableFooter = ({
           { value: 50, label: '50' },
         ]}
       />
-      <Grid item md={3}>
         <span>{`Exibindo ${rows} ${rows > 1 ? 'registros' : 'registro'} de ${totalOfRows}`}</span>
-      </Grid>
+
     </Grid>
   );
 }
