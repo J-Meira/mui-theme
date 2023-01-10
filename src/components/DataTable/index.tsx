@@ -17,12 +17,11 @@ export interface DataTableActionsProps<FT> {
   applyFiltersLabel?: string,
   onClearFilters?: () => void,
   clearFiltersLabel?: string,
-
   showActive: boolean,
   activeValue: boolean,
   activeLabel: string,
   setActiveValue: (value: boolean) => void,
-  onExport: () => void,
+  onExport?: () => void,
 }
 
 export interface DataTableColumnsProps {
@@ -57,8 +56,8 @@ export interface DataTableBodyProps {
 }
 
 export interface DataTableSelectedProps{
-  rowCont: number,
-  rowContLabel: string,
+  totalOfRows: number,
+  totalOfRowsLabel: string,
   onDelete: () => void,
   deleteLabel: string,
 }

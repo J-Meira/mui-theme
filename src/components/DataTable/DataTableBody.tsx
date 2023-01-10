@@ -21,6 +21,7 @@ export const DataTableBody =
             hover
             onClick={isSelectableAnywhere ? () => onSelectRow(row) : undefined}
             role='checkbox'
+            className='selectable-row'
             aria-checked={isItemSelected}
             tabIndex={-1}
             key={labelId}

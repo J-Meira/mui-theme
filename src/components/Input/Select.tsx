@@ -1,3 +1,4 @@
+import { MenuItem } from '@mui/material';
 import Grid, { GridProps } from '@mui/material/Grid';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
@@ -26,20 +27,20 @@ const Select = ({
       error={error}
       helperText={error ? helperText : undefined}
       select
-      SelectProps={{ native: true }}
+      //SelectProps={{ native: true }}
       {...params}
     >
       {defaultValue && (
-        <option value={-1}>{defaultValue}</option>
+        <MenuItem value={-1}>{defaultValue}</MenuItem>
       )}
       {list &&
         list.map((op) => (
-          <option
+          <MenuItem
             key={`${op.value}-${op.label}`}
             value={op.value}
           >
             {op.label}
-          </option>
+          </MenuItem>
         ))}
     </TextField>
   </Grid>

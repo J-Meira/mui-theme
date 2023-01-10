@@ -1,4 +1,4 @@
-import {  Table, TableContainer } from '@mui/material';
+import { Table, TableContainer } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {
   DataTableActionsProps,
@@ -17,23 +17,29 @@ import { useDebounce } from './hooks';
 interface DataTableProps<FT> {
   title: string,
   actions?: boolean,
-  isNotPaginable?: boolean,
+  isNotPaginated?: boolean,
   onAdd?: DataTableActionsProps<FT>['onAdd'],
   filters?: DataTableActionsProps<FT>['filters'],
   initialFilters?: FT,
   columns: DataTableColumnsProps[],
   isSelectable?: boolean,
   rows: any[],
-  rowCont: number,
-
-
+  totalOfRows: number,
   defaultOrderBy: string,
+  onGetRows: (params: any) => void,
+  onDeleteRows?: (params: any) => void,
+  onExport?: (params: any) => void,
+}
+
+const initialParams = {
+  page: 1,
+  rowsPerPage: 10,
 }
 
 const DataTableExample = <FT extends {}>({
   title,
   actions,
-  isNotPaginable,
+  isNotPaginated,
   onAdd,
   filters,
   initialFilters,
@@ -41,46 +47,61 @@ const DataTableExample = <FT extends {}>({
   isSelectable,
   rows,
   defaultOrderBy,
-  rowCont,
-
-
+  totalOfRows,
+  onGetRows,
+  onDeleteRows,
+  onExport,
 }: DataTableProps<FT>) => {
-  const { debounce } = useDebounce();
+  const { debounce } = useDebounce(500, false);
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<string>(defaultOrderBy);
   const [search, setSearch] = useState<string>('');
   const [active, setActive] = useState<boolean>(false);
   const [filtersValues, setFiltersValues] = useState<FT | undefined>(initialFilters);
-  const [selected, setSelected] = useState<any[]>([]);
-  const [pages, setPages] = useState([1]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [selected, setSelected] = useState<number[]>([]);
+  const [pages, setPages] = useState<number[]>([1]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [params, setParams] = useState<any>({
+    ...initialParams,
+    orderBy: `${defaultOrderBy} asc`,
+  });
 
   const clearFilters = () => {
-    setSearch('');
-    setActive(false);
     setFiltersValues(initialFilters);
+    onGetRows({
+      search: search,
+      ...params,
+      ...initialFilters,
+      onlyActives: !active,
+    });
   }
 
   const onApplyFilters = () => {
-    alert('applied');
-  }
-
-  const onExport = () => {
-    alert('exported');
+    onGetRows({
+      search: search,
+      ...params,
+      ...filtersValues,
+      onlyActives: !active,
+    });
   }
 
   const onRequestSort = (key: string) => {
     const isAsc = orderBy === key && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const newOrder = isAsc ? 'desc' : 'asc';
+    setOrder(newOrder);
     setOrderBy(key);
+    setParams({
+      ...params,
+      orderBy: `${key} ${newOrder}`,
+    })
   }
 
   const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelecteds: any[];
+    let newSelected: any[];
     if (event.target.checked) {
-      newSelecteds = rows.map((n) => n.id);
-      setSelected(newSelecteds);
+      newSelected = rows.map((n) => n.id);
+      setSelected(newSelected);
       return;
     }
     setSelected([]);
@@ -102,19 +123,19 @@ const DataTableExample = <FT extends {}>({
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
-    console.log(row);
   }
 
   const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
 
   const onDelete = () => {
-    console.log(selected);
+    if(selected.length >0 && onDeleteRows){
+      onDeleteRows(selected);
+    }
   }
 
   const arrangePages = () => {
-    const totalPages = Math.ceil(rowCont / rowsPerPage);
+    const totalPages = Math.ceil(totalOfRows / rowsPerPage);
     let pagesTemp = [];
     for (let i = 0; i < totalPages; i++) {
       pagesTemp.push(i + 1);
@@ -122,19 +143,50 @@ const DataTableExample = <FT extends {}>({
     setPages(pagesTemp);
   }
 
+  const onHandlePage = (page:number) =>{
+    setCurrentPage(page);
+    setParams({
+      ...params,
+      page: page
+    })
+  }
+
+  const onHandleRows = (rows:number) =>{
+    setRowsPerPage(rows);
+    setParams({
+      ...params,
+      rowsPerPage: rows
+    })
+  }
+
+  const onHandleActive = (value:boolean) =>{
+    setActive(value);
+    onGetRows({
+      search: search,
+      ...params,
+      ...filtersValues,
+      onlyActives: !value,
+    });
+  }
+
   useEffect(() => {
     arrangePages();
 
     // eslint-disable-next-line
-  }, [rowCont]);
+  }, [totalOfRows, rowsPerPage]);
 
   useEffect(() => {
     debounce(() => {
-      console.log(search);
+      onGetRows({
+        search: search,
+        ...params,
+        ...filtersValues,
+        onlyActives: !active,
+      });
     });
 
-// eslint-disable-next-line
-  }, [search]);
+    // eslint-disable-next-line
+  }, [search, params]);
 
   return (
     <DataTableGrid>
@@ -155,16 +207,20 @@ const DataTableExample = <FT extends {}>({
           clearFiltersLabel={'Limpar'}
           showActive={true}
           activeValue={active}
-          setActiveValue={setActive}
+          setActiveValue={onHandleActive}
           activeLabel='Listar inativos'
-          onExport={onExport}
+          onExport={onExport ? () => onExport({
+            search: search,
+            orderBy: `${orderBy} ${order}`,
+            ...filtersValues
+          }): undefined}
         />
       )}
-      {(!isNotPaginable && pages.length > 1) && (
+      {(!isNotPaginated && pages.length > 1) && (
         <DataTablePagination
           pages={pages}
           currentPage={currentPage}
-          setPage={setCurrentPage}
+          setPage={onHandlePage}
           lastPage={pages.length}
         />
       )}
@@ -195,30 +251,30 @@ const DataTableExample = <FT extends {}>({
           />
         </Table>
       </TableContainer>
-      {(isSelectable && selected.length > 0) && (
+      {(isSelectable && selected.length > 0 && onDelete) && (
         <DataTableSelected
-          rowCont={selected.length}
-          rowContLabel='Registros Selecionados'
+          totalOfRows={selected.length}
+          totalOfRowsLabel='Registros Selecionados'
           onDelete={onDelete}
           deleteLabel='Excluir'
         />
       )}
-      {(!isNotPaginable && pages.length > 1) && (
+      {(!isNotPaginated && pages.length > 1) && (
         <DataTablePagination
           pages={pages}
           currentPage={currentPage}
-          setPage={setCurrentPage}
+          setPage={onHandlePage}
           lastPage={pages.length}
         />
       )}
-      {!isNotPaginable&&(
+      {!isNotPaginated && (
         <DataTableFooter
           currentPage={currentPage}
           currentSize={rows.length}
           lastPage={pages.length}
           rowsPerPage={rowsPerPage}
-          setRowsPerPage={setRowsPerPage}
-          totalOfRows={rowCont}
+          setRowsPerPage={onHandleRows}
+          totalOfRows={totalOfRows}
         />
       )}
     </DataTableGrid>

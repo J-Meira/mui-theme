@@ -4,14 +4,14 @@ import { DataTableSelectedProps } from '.';
 import Button from '../Button';
 
 const DataTableSelected = ({
-  rowCont,
-  rowContLabel,
+  totalOfRows,
+  totalOfRowsLabel,
   deleteLabel,
   onDelete,
 }:DataTableSelectedProps) => {
   return (
     <div className='data-table-selected'>
-      {`${rowCont} ${rowContLabel}`}
+      {`${totalOfRows} ${totalOfRowsLabel}`}
       <Button
         size='small'
         onClick={onDelete}

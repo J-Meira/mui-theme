@@ -41,7 +41,7 @@ const App = () => {
   const [open, setOpen] = useState(true);
   const [expanded, setExpanded] = useState(true);
   const [dialog, setDialog] = useState<DialogProps>({
-    open: true,
+    open: false,
     cancel: true,
     title: 'dialog test',
     message: msg,
@@ -330,12 +330,12 @@ const App = () => {
         }
       >
 
-        <DataTableExample<{ id: number | null; name: string }>
+        <DataTableExample<{ id: string ; name: string }>
           title='clients'
           defaultOrderBy='id'
           isSelectable={true}
           actions={true}
-          rowCont={15}
+          totalOfRows={15}
           filters={(values, setValues) => (
             <Fragment>
               < Input
@@ -365,7 +365,7 @@ const App = () => {
 
           )}
           initialFilters={
-            { id: null, name: '' }
+            { id: '', name: '' }
           }
           columns={[
             {
@@ -411,6 +411,9 @@ const App = () => {
               name: 'test 3'
             },
           ]}
+          onGetRows={(params)=> console.log(params)}
+          onDeleteRows={(params)=> console.log(params)}
+          onExport={(params)=> console.log(params)}
         />
 
         <Button>
@@ -484,7 +487,7 @@ const App = () => {
 
           />
           <Input
-            id='action'
+            id='action22dddd'
             label='fazer'
             name='action'
             model='icon'
@@ -494,10 +497,11 @@ const App = () => {
           />
 
           <Input
-            id='select'
-            label='select'
+            id='select222'
+            label='select222'
             name='select'
             model='select'
+            value={0}
             //list={[]}
             list={[
               { value: 0, label: 'aaa' },
@@ -530,7 +534,7 @@ const App = () => {
             title='Card Test'
           >
             <Input<{ title: string; year: number }>
-              id='Pesquisa'
+              id='Pesquisa222'
               label='Pesquisa'
               name='subTotal'
               model='search'
@@ -544,7 +548,7 @@ const App = () => {
 
             />
             <Input<{ title: string; year: number }>
-              id='Pesquisa'
+              id='Pesquisa3333'
               label='Pesquisa'
               name='subTotal'
               model='search'
@@ -566,7 +570,7 @@ const App = () => {
             <Input<{ title: string; year: number }>
               md={12}
               lg={12}
-              id='Pesquisa'
+              id='Pesquisa44444'
               label='Pesquisa'
               name='subTotal'
               model='search'
@@ -587,7 +591,7 @@ const App = () => {
             <Input<{ title: string; year: number }>
               md={12}
               lg={12}
-              id='Pesquisa'
+              id='Pesquisa55555'
               label='Pesquisa'
               name='subTotal'
               model='search'
