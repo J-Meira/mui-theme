@@ -446,7 +446,6 @@ const App = () => {
             label='dataTest'
           /> */}
             <Input
-              id='email'
               label='Email'
               type='email'
               name='email'
@@ -454,7 +453,6 @@ const App = () => {
               required
             />
             <Input
-              id='password'
               label='pass'
               name='password'
               model='password'
@@ -465,11 +463,9 @@ const App = () => {
 
             />
             <Input
-              id='email2'
-              label='Email'
-              type='email2'
+              label='Email 2'
+              type='email'
               name='email2'
-              //autoFocus
               required
               error={true}
               helperText={'feedBacks.email || feedBacks.form'}

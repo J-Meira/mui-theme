@@ -20,8 +20,9 @@ export const defaultInputProps: GridProps & TextFieldProps = {
   variant: 'outlined',
 }
 
-interface InputProps {
-  model?: string
+export interface InputProps {
+  model?: string,
+  name: string,
 }
 
 type InputPropsExt<T> =
