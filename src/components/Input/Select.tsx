@@ -1,6 +1,10 @@
-import { MenuItem } from '@mui/material';
-import Grid, { GridProps } from '@mui/material/Grid';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import {
+  MenuItem,
+  Grid,
+  GridProps,
+  TextField,
+  TextFieldProps,
+} from '@mui/material';
 
 export interface SelectOptionsProps {
   value: number,
@@ -14,9 +18,17 @@ export interface SelectProps {
 
 type SelectPropsExt = SelectProps & GridProps & TextFieldProps;
 
-const Select = ({
-  list, defaultValue, helperText,
-  xs, sm, md, lg, error, variant, ...params
+export const Select = ({
+  list,
+  defaultValue,
+  helperText,
+  xs,
+  sm,
+  md,
+  lg,
+  error,
+  variant,
+  ...params
 }: SelectPropsExt) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
     <TextField
@@ -45,6 +57,3 @@ const Select = ({
     </TextField>
   </Grid>
 );
-
-
-export default Select;

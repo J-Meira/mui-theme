@@ -1,6 +1,7 @@
-import React from 'react';
-
-import { Menu, MenuItem } from '@mui/material';
+import {
+  Menu,
+  MenuItem,
+} from '@mui/material';
 
 export interface ListMenuItemProps {
   label: string,
@@ -20,7 +21,11 @@ interface ListMenuPropExt {
   navigate: (destiny?: string) => any
 }
 
-const ListMenu = ({ menu, toggle, navigate }: ListMenuPropExt) => {
+export const ListMenu = ({
+  menu,
+  toggle,
+  navigate,
+}: ListMenuPropExt) => {
 
   const menuClick = (item: ListMenuItemProps) => {
     toggle();
@@ -48,5 +53,3 @@ const ListMenu = ({ menu, toggle, navigate }: ListMenuPropExt) => {
     </Menu>
   );
 }
-
-export default ListMenu;

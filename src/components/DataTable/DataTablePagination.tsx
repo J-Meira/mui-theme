@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
@@ -7,8 +5,11 @@ import {
   KeyboardDoubleArrowRight,
 } from '@mui/icons-material';
 
-import { DataTablePaginationProps, PageButtonProps } from '.';
-import Button from '../Button';
+import {
+  DataTablePaginationProps,
+  PageButtonProps,
+} from '.';
+import { Button } from '..';
 
 const PageButton = ({
   onClick,
@@ -79,5 +80,3 @@ export const DataTablePagination = ({
     </div>
   );
 }
-
-export default DataTablePagination;

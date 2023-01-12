@@ -1,6 +1,6 @@
 import { ThemeProvider, createTheme as muiCreateTheme } from '@mui/material/styles';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 interface PaletteProps {
@@ -24,7 +24,7 @@ interface MultiProviderProps {
   children: React.ReactNode,
 };
 
-const generate = (palette: any) => muiCreateTheme({
+const createTheme = (palette: any) => muiCreateTheme({
   palette: palette,
   components: {
     MuiAppBar: {
@@ -35,13 +35,14 @@ const generate = (palette: any) => muiCreateTheme({
   },
 });
 
-const MultiProvider = ({ children, palette }: MultiProviderProps) => (
-  <ThemeProvider theme={generate(palette)}>
-    {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+export const MultiProvider = ({
+  children,
+  palette,
+}: MultiProviderProps) => (
+  <ThemeProvider theme={createTheme(palette)}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
       {children}
     </LocalizationProvider>
   </ThemeProvider>
 );
-
-export default MultiProvider;

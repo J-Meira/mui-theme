@@ -1,23 +1,32 @@
-import React, { Fragment, useState } from 'react';
-import Header from './components/Header';
-import SideBar from './components/SideBar';
+import { Fragment, useState } from 'react';
 
 import logo from './logo.svg';
 import icon from './logo-unica.svg';
-import SideBarItem from './components/SideBarItem';
-import MultiProvider from './components/MultiProvider';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import BreadcrumbBar from './components/BreadcrumbBar';
-import Button from './components/Button';
+
+import {
+  MoveToInbox  as InboxIcon,
+  Edit as EditIcon,
+} from '@mui/icons-material';
 import Grid from '@mui/material/Grid';
-import Input from './components/Input';
-import DialogBox, { DialogProps } from './components/DialogBox';
-import PopUp from './components/PopUp';
-import ListMenu, { ListMenuItemProps, ListMenuProps } from './components/ListMenu';
-import MainContainer from './components/MainContainer';
-import BrockCard from './components/BrockCard';
+
+import {
+  BreadcrumbBar,
+  BrockCard,
+  Button,
+  DialogBox,
+  DialogProps,
+  Input,
+  Header,
+  ListMenu,
+  ListMenuProps,
+  ListMenuItemProps,
+  MainContainer,
+  MultiProvider,
+  PopUp,
+  SideBar,
+  SideBarItem,
+ }from './components';
 import DataTableExample from './DataTableExample';
-import { Edit } from '@mui/icons-material';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -330,7 +339,7 @@ const App = () => {
         }
       >
 
-        <DataTableExample<{ id: string ; name: string }>
+        <DataTableExample<{ id: string; name: string }>
           title='clients'
           defaultOrderBy='id'
           isSelectable={true}
@@ -344,10 +353,10 @@ const App = () => {
                 name='id'
                 md={4} lg={4}
                 value={values && values.id}
-                onChange={setValues ? (e: React.ChangeEvent<HTMLInputElement>) => setValues({
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValues?.({
                   ...values,
                   id: e.currentTarget.value.replace(/\D/g, '')
-                }) : undefined}
+                })}
               />
               < Input
                 id='name'
@@ -355,10 +364,10 @@ const App = () => {
                 name='name'
                 md={8} lg={8}
                 value={values && values.name}
-                onChange={setValues ? (e: React.ChangeEvent<HTMLInputElement>) => setValues({
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValues?.({
                   ...values,
                   name: e.currentTarget.value
-                }) : undefined}
+                })}
               />
 
             </Fragment>
@@ -391,7 +400,7 @@ const App = () => {
               disablePadding: true,
               render: (row) => (
                 <Button model='icon' aria-label='Editar' onClick={() => console.log(row)}>
-                  <Edit />
+                  <EditIcon />
                 </Button>
               )
             }
@@ -411,15 +420,24 @@ const App = () => {
               name: 'test 3'
             },
           ]}
-          onGetRows={(params)=> console.log(params)}
-          onDeleteRows={(params)=> console.log(params)}
-          onExport={(params)=> console.log(params)}
+          onGetRows={(params) => console.log(params)}
+          onDeleteRows={(params) => console.log(params)}
+          onExport={(params) => console.log(params)}
         />
 
         <Button>
           test
         </Button>
         <Grid container spacing={2}>
+          {/* <DateTime
+            id='datetime'
+            name='datetime'
+            value={dataTest}
+            // onChange={setDataTest}
+
+            onChange={(newValue) => {setDataTest(newValue)}}
+            label='dataTest'
+          /> */}
           <Input
             id='email'
             label='Email'

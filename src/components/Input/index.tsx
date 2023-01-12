@@ -1,14 +1,16 @@
 
-import { GridProps } from '@mui/material/Grid';
-import { TextFieldProps } from '@mui/material/TextField';
-import { OutlinedInputProps } from '@mui/material/OutlinedInput';
-import Basic from './Basic';
-import Currency from './Currency';
-import Icon, { IconProps } from './Icon';
-import Search, { AutoCompleteFieldProps } from './Search';
-import Password from './Password';
-import Select, { SelectProps } from './Select';
-import CheckBoxGrided, { CheckBoxGridedProps } from './CheckBoxGrided';
+import {
+  GridProps,
+  TextFieldProps,
+  OutlinedInputProps,
+} from '@mui/material';
+import { Basic } from './Basic';
+import { Currency } from './Currency';
+import { Icon, IconProps } from './Icon';
+import { Search, AutoCompleteFieldProps } from './Search';
+import { Password } from './Password';
+import { Select, SelectProps } from './Select';
+import { CheckBoxGrided, CheckBoxGridedProps } from './CheckBoxGrided';
 
 export const defaultInputProps: GridProps & TextFieldProps = {
   xs: 12,
@@ -32,7 +34,10 @@ type InputPropsExt<T> =
   SelectProps &
   CheckBoxGridedProps;
 
-const Input = <T extends {}>({ model, ...params }: InputPropsExt<T>) => {
+export const Input = <T extends {}>({
+  model,
+  ...params
+}: InputPropsExt<T>) => {
   switch (model) {
     case 'select':
       return (
@@ -50,10 +55,6 @@ const Input = <T extends {}>({ model, ...params }: InputPropsExt<T>) => {
       return (
         <Currency {...params} />
       );
-    // case 'dateTime':
-    //   return (
-    //     <DateTime {...params} />
-    //   );
     case 'search':
       return (
         <Search {...params} />
@@ -70,5 +71,3 @@ const Input = <T extends {}>({ model, ...params }: InputPropsExt<T>) => {
 }
 
 Input.defaultProps = defaultInputProps;
-
-export default Input;

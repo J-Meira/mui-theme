@@ -1,9 +1,13 @@
-import Button, { ButtonProps } from '@mui/material/Button';
+import {
+  Button,
+  ButtonProps,
+} from '@mui/material';
 
-const Basic = ({ children, ...params }: ButtonProps) => (
+export const Basic = ({
+  children,
+  ...params
+}: ButtonProps) => (
   <Button {...params}>
     {children}
   </Button>
 );
-
-export default Basic;

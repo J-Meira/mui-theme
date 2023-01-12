@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
   Button,
   Dialog,
@@ -33,7 +31,10 @@ const defaultProps: DialogBoxProps = {
   close: () => (null)
 }
 
-const DialogBox = ({ dialog, close }: DialogBoxProps) => (
+export const DialogBox = ({
+  dialog,
+  close,
+}: DialogBoxProps) => (
   <Dialog
     open={dialog.open}
     onClose={() => close(false)}
@@ -62,5 +63,3 @@ const DialogBox = ({ dialog, close }: DialogBoxProps) => (
 );
 
 DialogBox.defaultProps = defaultProps;
-
-export default DialogBox;

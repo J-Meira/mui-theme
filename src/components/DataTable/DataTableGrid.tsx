@@ -1,7 +1,12 @@
-import { Grid, GridProps } from '@mui/material';
-import * as React from 'react';
+import {
+  Grid,
+  GridProps,
+} from '@mui/material';
 
-export const DataTableGrid = ({ children, className }: GridProps) => (
+export const DataTableGrid = ({
+  children,
+  className
+}: GridProps) => (
   <Grid
     container
     className={`data-table ${className ? className : ''}`}
@@ -11,5 +16,3 @@ export const DataTableGrid = ({ children, className }: GridProps) => (
     </Grid>
   </Grid>
 );
-
-export default DataTableGrid;

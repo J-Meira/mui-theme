@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import {
   IconButton,
@@ -8,22 +8,31 @@ import {
   FormHelperText,
   FormControl,
   OutlinedInputProps,
+  Grid,
+  GridProps,
+  TextFieldProps,
 } from '@mui/material';
-import Grid, { GridProps } from '@mui/material/Grid';
-import { TextFieldProps } from '@mui/material/TextField';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon,
+} from '@mui/icons-material';
 
 type PasswordProps = OutlinedInputProps & GridProps & TextFieldProps;
 
-const Password = ({
-  label, helperText, error, required, name, variant,
-  xs, sm, md, lg, ...params
+export const Password = ({
+  label,
+  helperText,
+  error,
+  required,
+  name,
+  variant,
+  xs,
+  sm,
+  md,
+  lg,
+  ...params
 }: PasswordProps) => {
-  const [showPassword, setshowPassword] = useState<boolean>(false);
-
-  const handleClickShowPassword = () => {
-    setshowPassword(!showPassword);
-  };
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <Grid item xs={xs} sm={sm} md={md} lg={lg}>
@@ -42,11 +51,11 @@ const Password = ({
             <InputAdornment position='end'>
               <IconButton
                 aria-label='input button action'
-                onClick={handleClickShowPassword}
+                onClick={() => setShowPassword(!showPassword)}
                 edge='end'
                 tabIndex={-1}
               >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
               </IconButton>
             </InputAdornment>
           }
@@ -63,4 +72,3 @@ const Password = ({
     </Grid>
   );
 }
-export default Password;

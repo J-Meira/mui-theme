@@ -1,15 +1,21 @@
-import { Typography, Breadcrumbs, Link } from '@mui/material';
+import {
+  Typography,
+  Breadcrumbs,
+  Link,
+} from '@mui/material';
 
-interface BreadcrumbsList{
+interface BreadcrumbsListProps {
   link?: string,
   label: string
 }
 
 interface BreadcrumbBarProps {
-  list: BreadcrumbsList[],
+  list: BreadcrumbsListProps[],
 }
 
-const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (
+export const BreadcrumbBar = ({
+  list,
+}: BreadcrumbBarProps) => (
   <Breadcrumbs aria-label='breadcrumb'>
     {list &&
       list.map((item, index) => {
@@ -23,10 +29,10 @@ const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (
           );
         }
         else {
-          return (<Typography key={index} color='textPrimary'>{item.label}</Typography>);
+          return (
+            <Typography key={index} color='textPrimary'>{item.label}</Typography>
+          );
         }
       })}
   </Breadcrumbs>
 );
-
-export default BreadcrumbBar;

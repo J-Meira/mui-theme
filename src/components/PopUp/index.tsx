@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   Button,
   Dialog,
@@ -33,48 +31,60 @@ const defaultProps: PopUpProps = {
   cancelLabel: 'Cancelar',
 }
 
-const PopUp = ({
-  open, cancel, name, title, successLabel,
-  cancelLabel, className, children, toggle, action
-}: PopUpProps) => {
-  return (
-    <Dialog
-      open={open}
-      onClose={toggle}
-      aria-labelledby={title ? `pop-up-${name}-title` : undefined}
-      className={`pop-up ${className ? className : ''}`}
-    >
-      {title && (
-        <DialogTitle id={`pop-up-${name}-title`}>
-          {title}
-          <IconButton aria-label='close' className='pop-up-close' onClick={toggle}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-      )}
-      <DialogContent>
-        <Grid container className='body-main' spacing={3}>
-          {children}
-        </Grid>
-      </DialogContent>
-      {(cancel || action) && (
-        <DialogActions>
-          {cancel && (
-            <Button onClick={toggle} color='error'>
-              {cancelLabel}
-            </Button>
-          )}
-          {action && (
-            <Button onClick={action} color='success'>
-              {successLabel}
-            </Button>
-          )}
-        </DialogActions>
-      )}
-    </Dialog >
-  );
-}
+export const PopUp = ({
+  open,
+  cancel,
+  name,
+  title,
+  successLabel,
+  cancelLabel,
+  className,
+  children,
+  toggle,
+  action,
+}: PopUpProps) => (
+  <Dialog
+    open={open}
+    onClose={toggle}
+    aria-labelledby={title ?? `pop-up-${name}-title`}
+    className={`pop-up ${className ? className : ''}`}
+  >
+    {title && (
+      <DialogTitle id={`pop-up-${name}-title`}>
+        {title}
+        <IconButton
+          aria-label='close'
+          className='pop-up-close'
+          onClick={toggle}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+    )}
+    <DialogContent>
+      <Grid
+        container
+        className='body-main'
+        spacing={3}
+      >
+        {children}
+      </Grid>
+    </DialogContent>
+    {(cancel || action) && (
+      <DialogActions>
+        {cancel && (
+          <Button onClick={toggle} color='error'>
+            {cancelLabel}
+          </Button>
+        )}
+        {action && (
+          <Button onClick={action} color='success'>
+            {successLabel}
+          </Button>
+        )}
+      </DialogActions>
+    )}
+  </Dialog >
+);
 
 PopUp.defaultProps = defaultProps;
-
-export default PopUp;

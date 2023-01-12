@@ -9,7 +9,10 @@ import {
   Collapse,
 } from '@mui/material';
 
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import {
+  ExpandLess as ExpandLessIcon,
+  ExpandMore as ExpandMoreIcon,
+} from '@mui/icons-material';
 
 interface SideBarItemProps {
   label: string,
@@ -22,7 +25,7 @@ interface SideBarItemProps {
   children?: React.ReactNode,
 };
 
-const SideBarItem = ({
+export const SideBarItem = ({
   label,
   icon,
   selected,
@@ -50,7 +53,7 @@ const SideBarItem = ({
           {expanded && (
             <ListItemText primary={label} />
           )}
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </ListItemButton>
       </ListItem>
       <Collapse in={open} timeout='auto' unmountOnExit>
@@ -84,5 +87,3 @@ const SideBarItem = ({
     </ListItem>
   );
 }
-
-export default SideBarItem;

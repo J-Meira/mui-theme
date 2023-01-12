@@ -1,14 +1,14 @@
 import { Delete } from '@mui/icons-material';
-import * as React from 'react';
-import { DataTableSelectedProps } from '.';
-import Button from '../Button';
 
-const DataTableSelected = ({
+import { Button } from '..';
+import { DataTableSelectedProps } from '.';
+
+export const DataTableSelected = ({
   totalOfRows,
   totalOfRowsLabel,
   deleteLabel,
   onDelete,
-}:DataTableSelectedProps) => {
+}: DataTableSelectedProps) => {
   return (
     <div className='data-table-selected'>
       {`${totalOfRows} ${totalOfRowsLabel}`}
@@ -17,12 +17,10 @@ const DataTableSelected = ({
         onClick={onDelete}
         color='warning'
         fullWidth={false}
-        >
+      >
         <Delete />
         <span>{deleteLabel}</span>
       </Button>
     </div>
   );
 }
-
-export default DataTableSelected;

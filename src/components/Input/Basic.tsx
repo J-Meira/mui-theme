@@ -1,9 +1,22 @@
-import Grid, { GridProps } from '@mui/material/Grid';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import {
+  Grid,
+  GridProps,
+  TextField,
+  TextFieldProps,
+} from '@mui/material';
 
 type BasicProps = GridProps & TextFieldProps;
 
-const Basic = ({ helperText, xs, sm, md, lg, error, variant, ...params }: BasicProps) => (
+export const Basic = ({
+  helperText,
+  xs,
+  sm,
+  md,
+  lg,
+  error,
+  variant,
+  ...params
+}: BasicProps) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
     <TextField
       variant={variant}
@@ -16,6 +29,3 @@ const Basic = ({ helperText, xs, sm, md, lg, error, variant, ...params }: BasicP
     />
   </Grid>
 );
-
-
-export default Basic;

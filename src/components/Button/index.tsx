@@ -1,21 +1,26 @@
 
-import { ButtonProps as MuiButtonProps  } from '@mui/material/Button';
+import { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 
-import Basic from './Basic';
-import Custom, { ColorsButtonProps } from './Custom';
-import Icon from './Icon';
+import { Basic } from './Basic';
+import { Custom, CustomColorsProps } from './Custom';
+import { Icon } from './Icon';
 
 interface ButtonProps extends MuiButtonProps {
   model?: 'custom' | 'icon',
-  colors?: ColorsButtonProps,
+  colors?: CustomColorsProps,
 };
 
 const defaultProps: ButtonProps = {
   fullWidth: true,
-  variant:'contained',
+  variant: 'contained',
 }
 
-const Button = ({ model, children, colors, ...params }: ButtonProps) => {
+export const Button = ({
+  model,
+  children,
+  colors,
+  ...params
+}: ButtonProps) => {
   switch (model) {
     case 'custom':
       return (
@@ -39,5 +44,3 @@ const Button = ({ model, children, colors, ...params }: ButtonProps) => {
 }
 
 Button.defaultProps = defaultProps;
-
-export default Button;

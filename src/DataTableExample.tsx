@@ -1,5 +1,5 @@
 import { Table, TableContainer } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DataTableActionsProps,
   DataTableColumnsProps,
@@ -10,8 +10,8 @@ import {
   DataTableBody,
   DataTablePagination,
   DataTableFooter,
-} from './components/DataTable';
-import DataTableSelected from './components/DataTable/DataTableSelected';
+  DataTableSelected,
+} from './components';
 import { useDebounce } from './hooks';
 
 interface DataTableProps<FT> {
@@ -129,7 +129,7 @@ const DataTableExample = <FT extends {}>({
   const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
 
   const onDelete = () => {
-    if(selected.length >0 && onDeleteRows){
+    if (selected.length > 0 && onDeleteRows) {
       onDeleteRows(selected);
     }
   }
@@ -143,7 +143,7 @@ const DataTableExample = <FT extends {}>({
     setPages(pagesTemp);
   }
 
-  const onHandlePage = (page:number) =>{
+  const onHandlePage = (page: number) => {
     setCurrentPage(page);
     setParams({
       ...params,
@@ -151,7 +151,7 @@ const DataTableExample = <FT extends {}>({
     })
   }
 
-  const onHandleRows = (rows:number) =>{
+  const onHandleRows = (rows: number) => {
     setRowsPerPage(rows);
     setParams({
       ...params,
@@ -159,7 +159,7 @@ const DataTableExample = <FT extends {}>({
     })
   }
 
-  const onHandleActive = (value:boolean) =>{
+  const onHandleActive = (value: boolean) => {
     setActive(value);
     onGetRows({
       search: search,
@@ -209,11 +209,11 @@ const DataTableExample = <FT extends {}>({
           activeValue={active}
           setActiveValue={onHandleActive}
           activeLabel='Listar inativos'
-          onExport={onExport ? () => onExport({
+          onExport={() => onExport?.({
             search: search,
             orderBy: `${orderBy} ${order}`,
             ...filtersValues
-          }): undefined}
+          })}
         />
       )}
       {(!isNotPaginated && pages.length > 1) && (
@@ -274,6 +274,13 @@ const DataTableExample = <FT extends {}>({
           lastPage={pages.length}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={onHandleRows}
+          rowsPerPageLabel='Registros por página:'
+          rowsPerPageDetails={
+            (rows, totalOfRows) =>
+              `Exibindo ${rows} ${rows > 1 ?
+                'registros' :
+                'registro'} de ${totalOfRows}`
+          }
           totalOfRows={totalOfRows}
         />
       )}

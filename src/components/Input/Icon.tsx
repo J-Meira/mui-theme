@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import {
   IconButton,
   OutlinedInput,
@@ -8,11 +6,16 @@ import {
   FormHelperText,
   FormControl,
   OutlinedInputProps,
+  Grid,
+  GridProps,
+  TextFieldProps,
 } from '@mui/material';
-import Grid, { GridProps } from '@mui/material/Grid';
-import { TextFieldProps } from '@mui/material/TextField';
 
-const Adornment = ({ icon, action, start }: IconProps) => (
+const Adornment = ({
+  icon,
+  action,
+  start,
+}: IconProps) => (
   <InputAdornment position={start ? 'start' : 'end'}>
     <IconButton
       aria-label='input button action'
@@ -39,9 +42,21 @@ const defaultProps: IconPropsEx = {
 
 //ToDo fix label start position on start icon type
 
-const Icon = ({
-  label, helperText, error, required, name, action,
-  variant, icon, start, xs, sm, md, lg, ...params
+export const Icon = ({
+  label,
+  helperText,
+  error,
+  required,
+  name,
+  action,
+  variant,
+  icon,
+  start,
+  xs,
+  sm,
+  md,
+  lg,
+  ...params
 }: IconPropsEx) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
     <FormControl
@@ -74,5 +89,3 @@ const Icon = ({
 );
 
 Icon.defaultProps = defaultProps;
-
-export default Icon;

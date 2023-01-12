@@ -1,11 +1,19 @@
-import { Collapse, Fab, Grid, } from '@mui/material';
-import React, { useState } from 'react';
-import Button from '../Button';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import SearchIcon from '@mui/icons-material/Search';
-import Input from '../Input';
+import { useState } from 'react';
+
+import {
+  Collapse,
+  Fab,
+  Grid,
+} from '@mui/material';
+import {
+  FilterList as FilterListIcon,
+  PictureAsPdf as PictureAsPdfIcon,
+  Search as SearchIcon,
+} from '@mui/icons-material';
+
+import { Button, Input } from '..';
 import { DataTableActionsProps } from '.';
+
 import { useWindowDimensions } from '../../hooks';
 
 export const DataTableActions = <FT extends {}>({
@@ -32,7 +40,7 @@ export const DataTableActions = <FT extends {}>({
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
 
   const clearFilters = () => {
-    if (onClearFilters) onClearFilters();
+    onClearFilters?.();
     setFiltersOpen(false);
   }
 
@@ -55,7 +63,7 @@ export const DataTableActions = <FT extends {}>({
                 onClick={() => setFiltersOpen(!filtersOpen)}
               >
                 <FilterListIcon />
-                {width> 400? filtersLabel : ''}
+                {width > 400 ? filtersLabel : ''}
               </Button>
             )}
           </div>
@@ -76,7 +84,6 @@ export const DataTableActions = <FT extends {}>({
               onChange={() => setActiveValue(!activeValue)}
             />
           )}
-
           {onExport && (
             <div className='export'>
               <Fab
@@ -116,5 +123,3 @@ export const DataTableActions = <FT extends {}>({
     </Grid>
   );
 }
-
-export default DataTableActions;

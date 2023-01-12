@@ -4,7 +4,9 @@ export interface DataTableActionsProps<FT> {
   onAdd?: (params: any) => void,
   addLabel: string,
   search: string,
-  setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  setSearch: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void,
   searchLabel: string,
   filters?: (
     filtersValues: FT,
@@ -39,7 +41,9 @@ export interface DataTableHeaderProps {
   isSelectable?: boolean,
   numSelected: number,
   onRequestSort: (key: string) => void,
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onSelectAllClick: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void,
   order: Order,
   orderBy: string,
   rowCount: number,
@@ -55,7 +59,7 @@ export interface DataTableBodyProps {
   isSelectableAnywhere?: boolean,
 }
 
-export interface DataTableSelectedProps{
+export interface DataTableSelectedProps {
   totalOfRows: number,
   totalOfRowsLabel: string,
   onDelete: () => void,
@@ -76,12 +80,23 @@ export interface DataTablePaginationProps {
   lastPage: number,
 }
 
+export interface DataTableRowsPerPageOptionsProps{
+  value: number,
+  label: string,
+}
+
 export interface DataTableFooterProps {
   currentPage: number,
   currentSize: number,
   lastPage: number,
+  list?: DataTableRowsPerPageOptionsProps[],
   rowsPerPage: number,
   setRowsPerPage: (value: number) => void,
+  rowsPerPageLabel: string,
+  rowsPerPageDetails: (
+    rows: number,
+    totalOfRows: number
+  ) => string
   totalOfRows: number,
 }
 
@@ -91,3 +106,4 @@ export * from './DataTableFooter';
 export * from './DataTableGrid';
 export * from './DataTableHeader';
 export * from './DataTablePagination';
+export * from './DataTableSelected';

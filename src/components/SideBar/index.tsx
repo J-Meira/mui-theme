@@ -22,7 +22,7 @@ interface SideBarProps {
   children?: React.ReactNode,
 };
 
-const SideBar = ({
+export const SideBar = ({
   logo,
   icon,
   expanded,
@@ -126,5 +126,3 @@ const SideBar = ({
     </Fragment>
   );
 }
-
-export default SideBar;

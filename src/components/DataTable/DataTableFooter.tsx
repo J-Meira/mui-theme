@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, MenuItem, TextField } from '@mui/material';
+import {
+  useEffect,
+  useState
+} from 'react';
+import {
+  Grid,
+  MenuItem,
+  TextField,
+} from '@mui/material';
 
-import { DataTableFooterProps } from '.';
+import { DataTableFooterProps, DataTableRowsPerPageOptionsProps } from '.';
 
-const list =
-  [
+const defaultList = [
   { value: 5, label: '5' },
   { value: 10, label: '10' },
   { value: 15, label: '15' },
@@ -21,18 +27,14 @@ export const DataTableFooter = ({
   currentPage,
   currentSize,
   lastPage,
+  list = defaultList,
   rowsPerPage,
   setRowsPerPage,
+  rowsPerPageLabel,
+  rowsPerPageDetails,
   totalOfRows,
 }: DataTableFooterProps) => {
   const [rows, setRows] = useState(0);
-
-  const handle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    console.log(value);
-
-    setRowsPerPage(value);
-  }
 
   useEffect(() => {
     setRows(
@@ -48,7 +50,7 @@ export const DataTableFooter = ({
 
   return (
     <Grid container className='data-table-footer'>
-      <span>Registros por página:</span>
+      <span>{rowsPerPageLabel}</span>
       <TextField
         variant='outlined'
         className='rows-input'
@@ -56,7 +58,10 @@ export const DataTableFooter = ({
         size='small'
         select
         value={rowsPerPage}
-        onChange={handle}
+        onChange={
+          (event: React.ChangeEvent<HTMLInputElement>) =>
+            setRowsPerPage(Number(event.target.value))
+        }
       >
         {list &&
           list.map((op) => (
@@ -68,10 +73,9 @@ export const DataTableFooter = ({
             </MenuItem>
           ))}
       </TextField>
-      <span>{`Exibindo ${rows} ${rows > 1 ? 'registros' : 'registro'} de ${totalOfRows}`}</span>
-
+      <span>
+        {rowsPerPageDetails(rows, totalOfRows)}
+      </span>
     </Grid>
   );
 }
-
-export default DataTableFooter;

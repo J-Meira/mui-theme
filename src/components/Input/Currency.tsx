@@ -4,16 +4,26 @@ import {
   InputAdornment,
   FormHelperText,
   FormControl,
-  OutlinedInputProps
+  OutlinedInputProps,
+  Grid,
+  GridProps,
+  TextFieldProps,
 } from '@mui/material';
-import Grid, { GridProps } from '@mui/material/Grid';
-import { TextFieldProps } from '@mui/material/TextField';
 
 type CurrencyProps = OutlinedInputProps & GridProps & TextFieldProps;
 
-const Currency = ({
-  label, helperText, error, required, name, variant,
-  xs, sm, md, lg, ...params
+export const Currency = ({
+  label,
+  helperText,
+  error,
+  required,
+  name,
+  variant,
+  xs,
+  sm,
+  md,
+  lg,
+  ...params
 }: CurrencyProps) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
     <FormControl
@@ -42,5 +52,3 @@ const Currency = ({
     </FormControl>
   </Grid>
 );
-
-export default Currency;

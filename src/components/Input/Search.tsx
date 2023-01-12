@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import Autocomplete from '@mui/material/Autocomplete';
-import Grid, { GridProps } from '@mui/material/Grid';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import {
+  Autocomplete,
+  Grid,
+  GridProps,
+  TextField,
+  TextFieldProps,
+} from '@mui/material';
 
 export const isString = (item: any): item is string => {
   return typeof item === "string";
@@ -16,7 +20,7 @@ export type AutoCompleteFieldProps<T> = {
 
 type SearchProps<T> = AutoCompleteFieldProps<T> & GridProps & TextFieldProps;
 
-const Search = <T extends {}>(
+export const Search = <T extends {}>(
   { selectValue, options, id, label, creatable, helperText, onBlur, variant,
     value, error, required, autoFocus, disabled, xs, sm, md, lg
   }: SearchProps<T>,
@@ -60,5 +64,3 @@ const Search = <T extends {}>(
     </Grid>
   );
 }
-
-export default Search;

@@ -1,5 +1,9 @@
-import * as React from 'react';
-import { Card, CardContent, Grid, GridProps } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Grid,
+  GridProps,
+} from '@mui/material';
 
 type BrockCardProps = {
   title?: React.ReactNode,
@@ -12,7 +16,14 @@ const defaultProps: BrockCardProps = {
   md: 12,
 }
 
-const BrockCard = ({ title, xs, sm, md, className, children }: BrockCardProps) => (
+export const BrockCard = ({
+  title,
+  xs,
+  sm,
+  md,
+  className,
+  children,
+}: BrockCardProps) => (
   <Grid
     item
     xs={xs} sm={sm} md={md}
@@ -36,5 +47,3 @@ const BrockCard = ({ title, xs, sm, md, className, children }: BrockCardProps) =
 );
 
 BrockCard.defaultProps = defaultProps;
-
-export default BrockCard;

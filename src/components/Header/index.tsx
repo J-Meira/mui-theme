@@ -1,4 +1,8 @@
-import { AppBar, Toolbar, IconButton } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 interface HeaderProps {
@@ -8,7 +12,12 @@ interface HeaderProps {
   actions?: React.ReactNode,
 };
 
-const Header = ({ sideBarControl, sideBarExpanded, navigation, actions }: HeaderProps) => (
+export const Header = ({
+  sideBarControl,
+  sideBarExpanded,
+  navigation,
+  actions,
+}: HeaderProps) => (
   <AppBar
     position='fixed'
     className='app-bar'>
@@ -31,5 +40,3 @@ const Header = ({ sideBarControl, sideBarExpanded, navigation, actions }: Header
     </Toolbar>
   </AppBar>
 );
-
-export default Header;

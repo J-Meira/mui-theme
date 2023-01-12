@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
   FormHelperText,
   FormControl,
@@ -6,8 +5,9 @@ import {
   FormControlLabel,
   Checkbox,
   CheckboxProps,
+  Grid,
+  GridProps,
 } from '@mui/material';
-import Grid, { GridProps } from '@mui/material/Grid';
 
 export interface CheckBoxGridedProps extends CheckboxProps {
   label?: string,
@@ -17,18 +17,24 @@ export interface CheckBoxGridedProps extends CheckboxProps {
 
 type CheckBoxGridedExProps = GridProps & CheckBoxGridedProps;
 
-const CheckBoxGrided = ({
-  label, helperText, error, required, name,
-  xs, sm, md, lg, value, ...params
+export const CheckBoxGrided = ({
+  label,
+  helperText,
+  error,
+  required,
+  name,
+  xs,
+  sm,
+  md,
+  lg,
+  value,
+  ...params
 }: CheckBoxGridedExProps) => (
   <Grid item xs={xs} sm={sm} md={md} lg={lg}>
     <FormControl
-      //variant={variant}
       margin='normal'
-      //fullWidth
       error={error}
       required={required}
-      //size='small'
       component='fieldset'
       variant='standard'
     >
@@ -48,5 +54,3 @@ const CheckBoxGrided = ({
     </FormControl>
   </Grid>
 );
-
-export default CheckBoxGrided;
