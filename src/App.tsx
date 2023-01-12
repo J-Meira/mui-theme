@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import icon from './logo-unica.svg';
 
 import {
-  MoveToInbox  as InboxIcon,
+  MoveToInbox as InboxIcon,
   Edit as EditIcon,
 } from '@mui/icons-material';
 import Grid from '@mui/material/Grid';
@@ -25,8 +25,10 @@ import {
   PopUp,
   SideBar,
   SideBarItem,
- }from './components';
+} from './components';
 import DataTableExample from './DataTableExample';
+import { useForm } from './hooks';
+import { Form } from '@unform/web';
 
 const topFilms = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -47,6 +49,7 @@ The build step will place the bundled scripts into the <body> tag.
 `;
 
 const App = () => {
+  const { formRef, save, saveAndClose, isSaveAndClose } = useForm();
   const [open, setOpen] = useState(true);
   const [expanded, setExpanded] = useState(true);
   const [dialog, setDialog] = useState<DialogProps>({
@@ -104,6 +107,10 @@ const App = () => {
       successLabel: 'Ok'
     });
     setOpenPopUp(status);
+  }
+
+  const handleSave = (formData: any) => {
+    console.log(formData);
   }
 
   return (
@@ -424,12 +431,12 @@ const App = () => {
           onDeleteRows={(params) => console.log(params)}
           onExport={(params) => console.log(params)}
         />
-
-        <Button>
-          test
-        </Button>
-        <Grid container spacing={2}>
-          {/* <DateTime
+        <Form ref={formRef} onSubmit={handleSave}>
+          <Button>
+            test
+          </Button>
+          <Grid container spacing={2}>
+            {/* <DateTime
             id='datetime'
             name='datetime'
             value={dataTest}
@@ -438,121 +445,104 @@ const App = () => {
             onChange={(newValue) => {setDataTest(newValue)}}
             label='dataTest'
           /> */}
-          <Input
-            id='email'
-            label='Email'
-            type='email'
-            name='email'
-            autoFocus
-            required
-          />
-          <Input
-            id='password'
-            label='pass'
-            name='password'
-            model='password'
-            autoFocus
-          //required
-          //error={true}
-          //helperText={'feedBacks.email || feedBacks.form'}
+            <Input
+              id='email'
+              label='Email'
+              type='email'
+              name='email'
+              autoFocus
+              required
+            />
+            <Input
+              id='password'
+              label='pass'
+              name='password'
+              model='password'
+              autoFocus
+            //required
+            //error={true}
+            //helperText={'feedBacks.email || feedBacks.form'}
 
-          />
-          <Input
-            id='email2'
-            label='Email'
-            type='email2'
-            name='email2'
+            />
+            <Input
+              id='email2'
+              label='Email'
+              type='email2'
+              name='email2'
+              //autoFocus
+              required
+              error={true}
+              helperText={'feedBacks.email || feedBacks.form'}
+            />
+            <Input
+              id='subTotal'
+              label='Sub Total'
+              name='subTotal'
+              model='currency'
+              value='0,00'
             //autoFocus
-            required
-            error={true}
-            helperText={'feedBacks.email || feedBacks.form'}
-          />
-          <Input
-            id='subTotal'
-            label='Sub Total'
-            name='subTotal'
-            model='currency'
-            value='0,00'
-          //autoFocus
-          />
-          <Input
-            id='action222'
-            label='fazer222'
-            name='action222'
-            model='icon'
-            action={() => console.log('test')}
-            icon={<InboxIcon />}
-            start={true}
-            //autoFocus
-            required
-            error={true}
-            value={''}
-            helperText={'feedBacks.email || feedBacks.form'}
+            />
+            <Input
+              id='action222'
+              label='fazer222'
+              name='action222'
+              model='icon'
+              action={() => console.log('test')}
+              icon={<InboxIcon />}
+              start={true}
+              //autoFocus
+              required
+              error={true}
+              value={''}
+              helperText={'feedBacks.email || feedBacks.form'}
 
-          />
-          <Input
-            id='action'
-            label='fazer'
-            name='action'
-            model='icon'
-            action={() => console.log('test')}
-            icon={<InboxIcon />}
-            //autoFocus
-            required
-            error={true}
-            value={''}
-            helperText={'feedBacks.email || feedBacks.form'}
+            />
+            <Input
+              id='action'
+              label='fazer'
+              name='action'
+              model='icon'
+              action={() => console.log('test')}
+              icon={<InboxIcon />}
+              //autoFocus
+              required
+              error={true}
+              value={''}
+              helperText={'feedBacks.email || feedBacks.form'}
 
-          />
-          <Input
-            id='action22dddd'
-            label='fazer'
-            name='action'
-            model='icon'
-            start={true}
-            action={() => console.log('test')}
-            icon={<InboxIcon />}
-          />
+            />
+            <Input
+              id='action22dddd'
+              label='fazer'
+              name='action'
+              model='icon'
+              start={true}
+              action={() => console.log('test')}
+              icon={<InboxIcon />}
+            />
 
-          <Input
-            id='select222'
-            label='select222'
-            name='select'
-            model='select'
-            value={0}
-            //list={[]}
-            list={[
-              { value: 0, label: 'aaa' },
-              { value: 1, label: 'bbb' },
-              { value: 2, label: 'ccc' },
-              { value: 3, label: 'ddd' },
-              { value: 4, label: 'eee' },
-              { value: 5, label: 'fff' },
-            ]}
-          //required
-          //error={true}
-          //helperText={'feedBacks.email || feedBacks.form'}
+            <Input
+              id='select222'
+              label='select222'
+              name='select'
+              model='select'
+              value={0}
+              //list={[]}
+              list={[
+                { value: 0, label: 'aaa' },
+                { value: 1, label: 'bbb' },
+                { value: 2, label: 'ccc' },
+                { value: 3, label: 'ddd' },
+                { value: 4, label: 'eee' },
+                { value: 5, label: 'fff' },
+              ]}
+            //required
+            //error={true}
+            //helperText={'feedBacks.email || feedBacks.form'}
 
-          />
-          <Input<{ title: string; year: number }>
-            id='Pesquisa'
-            label='Pesquisa'
-            name='subTotal'
-            model='search'
-            options={topFilms}
-            selectValue='title'
-            creatable={true}
-            //autoFocus
-            required
-            error={true}
-            helperText={'feedBacks.email || feedBacks.form'}
-
-          />
-          <BrockCard
-            title='Card Test'
-          >
+            />
             <Input<{ title: string; year: number }>
-              id='Pesquisa222'
+              id='Pesquisa'
               label='Pesquisa'
               name='subTotal'
               model='search'
@@ -565,66 +555,84 @@ const App = () => {
               helperText={'feedBacks.email || feedBacks.form'}
 
             />
-            <Input<{ title: string; year: number }>
-              id='Pesquisa3333'
-              label='Pesquisa'
-              name='subTotal'
-              model='search'
-              options={topFilms}
-              selectValue='title'
-              creatable={true}
-              //autoFocus
-              required
-              error={true}
-              helperText={'feedBacks.email || feedBacks.form'}
+            <BrockCard
+              title='Card Test'
+            >
+              <Input<{ title: string; year: number }>
+                id='Pesquisa222'
+                label='Pesquisa'
+                name='subTotal'
+                model='search'
+                options={topFilms}
+                selectValue='title'
+                creatable={true}
+                //autoFocus
+                required
+                error={true}
+                helperText={'feedBacks.email || feedBacks.form'}
 
-            />
+              />
+              <Input<{ title: string; year: number }>
+                id='Pesquisa3333'
+                label='Pesquisa'
+                name='subTotal'
+                model='search'
+                options={topFilms}
+                selectValue='title'
+                creatable={true}
+                //autoFocus
+                required
+                error={true}
+                helperText={'feedBacks.email || feedBacks.form'}
 
-          </BrockCard>
-          <BrockCard
-            title='Card Test2'
-            md={6}
-          >
-            <Input<{ title: string; year: number }>
-              md={12}
-              lg={12}
-              id='Pesquisa44444'
-              label='Pesquisa'
-              name='subTotal'
-              model='search'
-              options={topFilms}
-              selectValue='title'
-              creatable={true}
-              //autoFocus
-              required
-              error={true}
-              helperText={'feedBacks.email || feedBacks.form'}
+              />
 
-            />
-          </BrockCard>
-          <BrockCard
-            title='Card Test3'
-            md={6}
-          >
-            <Input<{ title: string; year: number }>
-              md={12}
-              lg={12}
-              id='Pesquisa55555'
-              label='Pesquisa'
-              name='subTotal'
-              model='search'
-              options={topFilms}
-              selectValue='title'
-              creatable={true}
-              //autoFocus
-              required
-              error={true}
-              helperText={'feedBacks.email || feedBacks.form'}
+            </BrockCard>
+            <BrockCard
+              title='Card Test2'
+              md={6}
+            >
+              <Input<{ title: string; year: number }>
+                md={12}
+                lg={12}
+                id='Pesquisa44444'
+                label='Pesquisa'
+                name='subTotal'
+                model='search'
+                options={topFilms}
+                selectValue='title'
+                creatable={true}
+                //autoFocus
+                required
+                error={true}
+                helperText={'feedBacks.email || feedBacks.form'}
 
-            />
-          </BrockCard>
+              />
+            </BrockCard>
+            <BrockCard
+              title='Card Test3'
+              md={6}
+            >
+              <Input<{ title: string; year: number }>
+                md={12}
+                lg={12}
+                id='Pesquisa55555'
+                label='Pesquisa'
+                name='subTotal'
+                model='search'
+                options={topFilms}
+                selectValue='title'
+                creatable={true}
+                //autoFocus
+                required
+                error={true}
+                helperText={'feedBacks.email || feedBacks.form'}
 
-        </Grid>
+              />
+            </BrockCard>
+
+          </Grid>
+        </Form>
         <DialogBox
           dialog={dialog}
           close={closeDialog}
