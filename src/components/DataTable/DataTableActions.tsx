@@ -23,8 +23,6 @@ export const DataTableActions = <FT extends {}>({
   setSearch,
   searchLabel,
   filters,
-  filtersValues,
-  setFiltersValues,
   filtersLabel,
   onApplyFilters,
   applyFiltersLabel,
@@ -73,14 +71,18 @@ export const DataTableActions = <FT extends {}>({
             icon={<SearchIcon />}
             onChange={setSearch}
             value={search}
-            md={4} lg={3}
+            grid={{
+              md: 4, lg: 3
+            }}
           />
           {showActive && (
             <Input
               model='checkBoxG'
               label={activeLabel}
               checked={activeValue}
-              md={4} lg={4} sm={10} xs={10}
+              grid={{
+                md: 4, lg: 3, sm: 10, xs: 10
+              }}
               onChange={() => setActiveValue(!activeValue)}
             />
           )}
@@ -96,11 +98,11 @@ export const DataTableActions = <FT extends {}>({
           )}
         </Grid>
       </Grid>
-      {(filters && filtersValues && setFiltersValues) && (
+      {filters && (
         <Grid item md={12} className='filters'>
           <Collapse in={filtersOpen} timeout='auto' unmountOnExit>
             <Grid container spacing={2}>
-              {filters(filtersValues, setFiltersValues)}
+              {filters()}
               <Grid item md={12} className='filters-actions'>
                 <Button
                   onClick={clearFilters}

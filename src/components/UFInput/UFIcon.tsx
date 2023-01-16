@@ -1,16 +1,22 @@
 import {
+  useState,
+  useEffect,
+} from 'react';
+import { useField } from '@unform/core';
+
+import {
   IconButton,
   InputAdornment,
   Grid,
   TextField,
 } from '@mui/material';
-import { InputProps } from '.';
+import { UFInputProps } from '.';
 
 const Adornment = ({
   icon,
   action,
   start,
-}: IconProps) => (
+}: UFIconProps) => (
   <InputAdornment position={start ? 'start' : 'end'}>
     <IconButton
       aria-label='input button action'
@@ -23,15 +29,15 @@ const Adornment = ({
   </InputAdornment>
 );
 
-export interface IconProps {
+export interface UFIconProps {
   icon?: React.ReactNode,
   action?: (params: any) => any,
   start?: boolean;
 }
 
-type IconPropsEx = InputProps & IconProps;
+type UFIconPropsEx = UFInputProps & UFIconProps;
 
-const defaultProps: IconPropsEx = {
+const defaultProps: UFIconPropsEx = {
   grid: {
     xs: 12,
     sm: 12,
@@ -39,20 +45,32 @@ const defaultProps: IconPropsEx = {
     lg: 8,
   },
   start: false,
+  name: '',
   variant: 'outlined',
 }
 
 //ToDo fix label start position on start icon type
 
-export const Icon = ({
+export const UFIcon = ({
   helperText,
+  name,
   action,
   variant,
   icon,
   start,
   grid,
   ...params
-}: IconPropsEx) => {
+}: UFIconPropsEx) => {
+  const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
+  const [value, setValue] = useState(defaultValue || '');
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      getValue: () => value,
+      setValue: (_, newValue) => setValue(newValue),
+    });
+  }, [registerField, fieldName, value]);
 
   return (
     <Grid item {...grid}>
@@ -62,8 +80,18 @@ export const Icon = ({
         margin='normal'
         fullWidth
         size='small'
-        error={!!helperText}
-        helperText={helperText}
+        error={!!error || !!helperText}
+        helperText={error || helperText}
+        defaultValue={defaultValue}
+        value={value || ''}
+        onChange={e => {
+          setValue(e.target.value);
+          params.onChange?.(e);
+        }}
+        onKeyDown={(e) => {
+          error && clearError();
+          params.onKeyDown?.(e);
+        }}
         InputProps={{
           startAdornment: start && (
             <Adornment icon={icon} action={action} start={start} />
@@ -76,4 +104,5 @@ export const Icon = ({
     </Grid>
   );
 }
-Icon.defaultProps = defaultProps;
+
+UFIcon.defaultProps = defaultProps;

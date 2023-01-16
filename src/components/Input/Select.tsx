@@ -1,10 +1,9 @@
 import {
   MenuItem,
   Grid,
-  GridProps,
   TextField,
-  TextFieldProps,
 } from '@mui/material';
+import { InputProps } from '.';
 
 export interface SelectOptionsProps {
   value: number,
@@ -13,47 +12,45 @@ export interface SelectOptionsProps {
 
 export interface SelectProps {
   list?: SelectOptionsProps[],
-  defaultValue?: string
+  defaultOption?: string
 }
 
-type SelectPropsExt = SelectProps & GridProps & TextFieldProps;
+type SelectPropsExt = SelectProps & InputProps;
 
 export const Select = ({
   list,
-  defaultValue,
+  defaultOption,
   helperText,
-  xs,
-  sm,
-  md,
-  lg,
-  error,
+  grid,
   variant,
   ...params
-}: SelectPropsExt) => (
-  <Grid item xs={xs} sm={sm} md={md} lg={lg}>
-    <TextField
-      variant={variant}
-      margin='normal'
-      fullWidth
-      size='small'
-      error={error}
-      helperText={error ? helperText : undefined}
-      select
-      //SelectProps={{ native: true }}
-      {...params}
-    >
-      {defaultValue && (
-        <MenuItem value={-1}>{defaultValue}</MenuItem>
-      )}
-      {list &&
-        list.map((op) => (
-          <MenuItem
-            key={`${op.value}-${op.label}`}
-            value={op.value}
-          >
-            {op.label}
-          </MenuItem>
-        ))}
-    </TextField>
-  </Grid>
-);
+}: SelectPropsExt) => {
+
+  return (
+    <Grid item {...grid}>
+      <TextField
+        {...params}
+        variant={variant}
+        margin='normal'
+        fullWidth
+        size='small'
+        error={!!helperText}
+        helperText={helperText}
+        select
+      >
+        {defaultOption && (
+          <MenuItem value={-1}>{defaultOption}</MenuItem>
+        )}
+        {list &&
+          list.map((op) => (
+            <MenuItem
+              key={`${op.value}-${op.label}`}
+              value={op.value}
+            >
+              {op.label}
+            </MenuItem>
+          ))}
+      </TextField>
+    </Grid>
+  );
+}

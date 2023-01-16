@@ -1,12 +1,10 @@
 import { useState } from 'react';
-
 import {
   Autocomplete,
   Grid,
-  GridProps,
   TextField,
-  TextFieldProps,
 } from '@mui/material';
+import { InputProps } from '.';
 
 export const isString = (item: any): item is string => {
   return typeof item === "string";
@@ -15,21 +13,32 @@ export const isString = (item: any): item is string => {
 export type AutoCompleteFieldProps<T> = {
   selectValue?: keyof T;
   options?: T[];
-  creatable?: boolean
+  creatable?: boolean,
 };
 
-type SearchProps<T> = AutoCompleteFieldProps<T> & GridProps & TextFieldProps;
+type SearchProps<T> = AutoCompleteFieldProps<T> & InputProps;
 
 export const Search = <T extends {}>(
-  { selectValue, options, id, label, creatable, helperText, onBlur, variant,
-    value, error, required, autoFocus, disabled, xs, sm, md, lg
+  {
+    selectValue,
+    options,
+    id,
+    label,
+    creatable,
+    helperText,
+    onBlur,
+    variant,
+    value,
+    required,
+    autoFocus,
+    disabled,
+    grid
   }: SearchProps<T>,
 ): React.ReactElement => {
-
   const [inputValue, setInputValue] = useState('');
 
   return (
-    <Grid item xs={xs} sm={sm} md={md} lg={lg}>
+    <Grid item {...grid}>
       <Autocomplete
         freeSolo={creatable}
         handleHomeEndKeys={creatable}
@@ -56,8 +65,8 @@ export const Search = <T extends {}>(
             margin='normal'
             variant={variant}
             onBlur={onBlur}
-            error={error}
-            helperText={error ? helperText : undefined}
+            error={!!helperText}
+            helperText={helperText}
           />
         )}
       />

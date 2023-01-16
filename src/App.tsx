@@ -15,7 +15,7 @@ import {
   Button,
   DialogBox,
   DialogProps,
-  Input,
+  UFInput,
   Header,
   ListMenu,
   ListMenuProps,
@@ -25,12 +25,25 @@ import {
   PopUp,
   SideBar,
   SideBarItem,
+  DateTimeInput,
 } from './components';
 import DataTableExample from './DataTableExample';
 import { useForm } from './hooks';
 import { Form } from '@unform/web';
+import dayjs from 'dayjs';
+// import { dayjs } from 'dayjs';
 
 const topFilms = [
+  { label: "The Shawshank Redemption", id: 1 },
+  { label: "The Godfather", id: 2 },
+  { label: "The Godfather: Part II", id: 3 },
+  { label: "The Dark Knight", id: 4 },
+  { label: "12 Angry Men", id: 5 },
+  { label: "Schindler's List", id: 6 },
+  { label: "Pulp Fiction", id: 7 }
+];
+
+const topFilms2 = [
   { title: "The Shawshank Redemption", year: 1994 },
   { title: "The Godfather", year: 1972 },
   { title: "The Godfather: Part II", year: 1974 },
@@ -49,7 +62,7 @@ The build step will place the bundled scripts into the <body> tag.
 `;
 
 const App = () => {
-  const { formRef, save, saveAndClose, isSaveAndClose } = useForm();
+  const { formRef, formSave } = useForm();
   const [open, setOpen] = useState(true);
   const [expanded, setExpanded] = useState(true);
   const [dialog, setDialog] = useState<DialogProps>({
@@ -115,6 +128,7 @@ const App = () => {
 
   return (
     <MultiProvider
+      adapterLocalePtBR={true}
       palette={{
         mode: 'dark',
         primary: {
@@ -352,33 +366,19 @@ const App = () => {
           isSelectable={true}
           actions={true}
           totalOfRows={15}
-          filters={(values, setValues) => (
+          filters={() => (
             <Fragment>
-              < Input
-                id='id'
+              < UFInput
                 label='Id'
                 name='id'
-                md={4} lg={4}
-                value={values && values.id}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValues?.({
-                  ...values,
-                  id: e.currentTarget.value.replace(/\D/g, '')
-                })}
+                grid={{ md: 4, lg: 4 }}
               />
-              < Input
-                id='name'
+              < UFInput
                 label='Nome'
                 name='name'
-                md={8} lg={8}
-                value={values && values.name}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValues?.({
-                  ...values,
-                  name: e.currentTarget.value
-                })}
+                grid={{ md: 8, lg: 8 }}
               />
-
             </Fragment>
-
           )}
           initialFilters={
             { id: '', name: '' }
@@ -426,33 +426,69 @@ const App = () => {
               id: 3,
               name: 'test 3'
             },
+            {
+              id: 4,
+              name: 'test'
+            },
+            {
+              id: 5,
+              name: 'test 2',
+              age: 32
+            },
+
           ]}
           onGetRows={(params) => console.log(params)}
           onDeleteRows={(params) => console.log(params)}
           onExport={(params) => console.log(params)}
         />
         <Form ref={formRef} onSubmit={handleSave}>
-          <Button>
+          <Button onClick={() => formSave()}>
             test
           </Button>
           <Grid container spacing={2}>
-            {/* <DateTime
-            id='datetime'
-            name='datetime'
-            value={dataTest}
-            // onChange={setDataTest}
+            <UFInput
+              label='Pesquisa'
+              name='searchTest'
+              model='search'
 
-            onChange={(newValue) => {setDataTest(newValue)}}
-            label='dataTest'
-          /> */}
-            <Input
+              options={topFilms}
+              //creatable={true}
+              //autoFocus
+              required
+
+            />
+            <DateTimeInput
+              name='dateTest'
+              label='DateTest'
+              // minDate={dayjs('01/04/2023')}// MM/DD/YYYY
+              // maxDate={dayjs('01/24/2023')}// MM/DD/YYYY
+              //disablePast={true}
+              //disableFuture={true}
+              //showTodayButton={true}
+              required={true}
+            />
+            <DateTimeInput
+              name='dateTest2'
+              label='DateTest2'
+              // minDate={dayjs('01/04/2023')}// MM/DD/YYYY
+              // maxDate={dayjs('01/24/2023')}// MM/DD/YYYY
+              //disablePast={true}
+              //disableFuture={true}
+              //showTodayButton={true}
+              required={true}
+              time={true}
+            />
+            <UFInput
               label='Email'
               type='email'
+              grid={{
+                lg: 12
+              }}
               name='email'
               autoFocus
               required
             />
-            <Input
+            <UFInput
               label='pass'
               name='password'
               model='password'
@@ -462,7 +498,7 @@ const App = () => {
             //helperText={'feedBacks.email || feedBacks.form'}
 
             />
-            <Input
+            <UFInput
               label='Email 2'
               type='email'
               name='email2'
@@ -470,55 +506,7 @@ const App = () => {
               error={true}
               helperText={'feedBacks.email || feedBacks.form'}
             />
-            <Input
-              id='subTotal'
-              label='Sub Total'
-              name='subTotal'
-              model='currency'
-              value='0,00'
-            //autoFocus
-            />
-            <Input
-              id='action222'
-              label='fazer222'
-              name='action222'
-              model='icon'
-              action={() => console.log('test')}
-              icon={<InboxIcon />}
-              start={true}
-              //autoFocus
-              required
-              error={true}
-              value={''}
-              helperText={'feedBacks.email || feedBacks.form'}
-
-            />
-            <Input
-              id='action'
-              label='fazer'
-              name='action'
-              model='icon'
-              action={() => console.log('test')}
-              icon={<InboxIcon />}
-              //autoFocus
-              required
-              error={true}
-              value={''}
-              helperText={'feedBacks.email || feedBacks.form'}
-
-            />
-            <Input
-              id='action22dddd'
-              label='fazer'
-              name='action'
-              model='icon'
-              start={true}
-              action={() => console.log('test')}
-              icon={<InboxIcon />}
-            />
-
-            <Input
-              id='select222'
+            <UFInput
               label='select222'
               name='select'
               model='select'
@@ -532,55 +520,73 @@ const App = () => {
                 { value: 4, label: 'eee' },
                 { value: 5, label: 'fff' },
               ]}
-            //required
-            //error={true}
-            //helperText={'feedBacks.email || feedBacks.form'}
 
             />
-            <Input<{ title: string; year: number }>
-              id='Pesquisa'
-              label='Pesquisa'
-              name='subTotal'
-              model='search'
-              options={topFilms}
-              selectValue='title'
-              creatable={true}
+
+
+            <UFInput
+              label='Check box here'
+              name='check'
+              model='checkBoxG'
+            />
+            <UFInput
+              label='fazer222'
+              name='action222'
+              model='icon'
+              action={() => console.log('test')}
+              icon={<InboxIcon />}
+              start={true}
               //autoFocus
               required
               error={true}
+              value={''}
               helperText={'feedBacks.email || feedBacks.form'}
 
             />
+            <UFInput
+              label='fazer'
+              name='action'
+              model='icon'
+              action={() => console.log('test')}
+              icon={<InboxIcon />}
+              //autoFocus
+              required
+              error={true}
+              value={''}
+              helperText={'feedBacks.email || feedBacks.form'}
+
+            />
+            <UFInput
+              label='fazer22'
+              name='action22'
+              model='icon'
+              start={true}
+              action={() => console.log('test')}
+              icon={<InboxIcon />}
+            />
+            <UFInput
+              label='Sub Total'
+              name='subTotal'
+              model='currency'
+            //autoFocus
+            />
+
+
+
+
+
             <BrockCard
               title='Card Test'
             >
-              <Input<{ title: string; year: number }>
-                id='Pesquisa222'
-                label='Pesquisa'
-                name='subTotal'
-                model='search'
-                options={topFilms}
-                selectValue='title'
-                creatable={true}
-                //autoFocus
+              <UFInput
+                label='name'
+                name='name2'
                 required
-                error={true}
                 helperText={'feedBacks.email || feedBacks.form'}
-
               />
-              <Input<{ title: string; year: number }>
-                id='Pesquisa3333'
-                label='Pesquisa'
-                name='subTotal'
-                model='search'
-                options={topFilms}
-                selectValue='title'
-                creatable={true}
-                //autoFocus
-                required
-                error={true}
-                helperText={'feedBacks.email || feedBacks.form'}
-
+              <UFInput
+                label='name4'
+                name='name4'
               />
 
             </BrockCard>
@@ -588,42 +594,24 @@ const App = () => {
               title='Card Test2'
               md={6}
             >
-              <Input<{ title: string; year: number }>
-                md={12}
-                lg={12}
-                id='Pesquisa44444'
-                label='Pesquisa'
-                name='subTotal'
-                model='search'
-                options={topFilms}
-                selectValue='title'
-                creatable={true}
-                //autoFocus
-                required
-                error={true}
-                helperText={'feedBacks.email || feedBacks.form'}
-
+              <UFInput
+                label='coin'
+                name='coin'
+                grid={{
+                  md: 12, lg: 12
+                }}
               />
             </BrockCard>
             <BrockCard
               title='Card Test3'
               md={6}
             >
-              <Input<{ title: string; year: number }>
-                md={12}
-                lg={12}
-                id='Pesquisa55555'
-                label='Pesquisa'
-                name='subTotal'
-                model='search'
-                options={topFilms}
-                selectValue='title'
-                creatable={true}
-                //autoFocus
-                required
-                error={true}
-                helperText={'feedBacks.email || feedBacks.form'}
-
+              <UFInput
+                label='coin2'
+                name='coin2'
+                grid={{
+                  md: 12, lg: 12
+                }}
               />
             </BrockCard>
 

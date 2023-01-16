@@ -8,12 +8,7 @@ export interface DataTableActionsProps<FT> {
     event: React.ChangeEvent<HTMLInputElement>
   ) => void,
   searchLabel: string,
-  filters?: (
-    filtersValues: FT,
-    setFilters: (value: any) => void
-  ) => React.ReactNode,
-  filtersValues?: FT,
-  setFiltersValues?: (values: FT) => void,
+  filters?: () => React.ReactNode,
   filtersLabel?: string,
   onApplyFilters?: () => void,
   applyFiltersLabel?: string,
@@ -86,9 +81,7 @@ export interface DataTableRowsPerPageOptionsProps{
 }
 
 export interface DataTableFooterProps {
-  currentPage: number,
   currentSize: number,
-  lastPage: number,
   list?: DataTableRowsPerPageOptionsProps[],
   rowsPerPage: number,
   setRowsPerPage: (value: number) => void,

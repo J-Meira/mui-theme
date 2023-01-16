@@ -1,14 +1,10 @@
 import {
-  useEffect,
-  useState
-} from 'react';
-import {
   Grid,
   MenuItem,
   TextField,
 } from '@mui/material';
 
-import { DataTableFooterProps, DataTableRowsPerPageOptionsProps } from '.';
+import { DataTableFooterProps } from '.';
 
 const defaultList = [
   { value: 5, label: '5' },
@@ -24,9 +20,7 @@ const defaultList = [
 ]
 
 export const DataTableFooter = ({
-  currentPage,
   currentSize,
-  lastPage,
   list = defaultList,
   rowsPerPage,
   setRowsPerPage,
@@ -34,19 +28,6 @@ export const DataTableFooter = ({
   rowsPerPageDetails,
   totalOfRows,
 }: DataTableFooterProps) => {
-  const [rows, setRows] = useState(0);
-
-  useEffect(() => {
-    setRows(
-      currentPage === lastPage ?
-        currentSize :
-        totalOfRows < rowsPerPage ?
-          totalOfRows :
-          rowsPerPage
-    );
-
-    // eslint-disable-next-line
-  }, [totalOfRows, rowsPerPage]);
 
   return (
     <Grid container className='data-table-footer'>
@@ -74,7 +55,7 @@ export const DataTableFooter = ({
           ))}
       </TextField>
       <span>
-        {rowsPerPageDetails(rows, totalOfRows)}
+        {rowsPerPageDetails(currentSize, totalOfRows)}
       </span>
     </Grid>
   );

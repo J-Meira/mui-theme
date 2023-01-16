@@ -1,5 +1,6 @@
-import { Table, TableContainer } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Table, TableContainer } from '@mui/material';
+import { Form } from '@unform/web';
 import {
   DataTableActionsProps,
   DataTableColumnsProps,
@@ -12,7 +13,7 @@ import {
   DataTableFooter,
   DataTableSelected,
 } from './components';
-import { useDebounce } from './hooks';
+import { useDebounce, useForm } from './hooks';
 
 interface DataTableProps<FT> {
   title: string,
@@ -52,6 +53,7 @@ const DataTableExample = <FT extends {}>({
   onDeleteRows,
   onExport,
 }: DataTableProps<FT>) => {
+  const { formRef, formSave, formExport, formReset, isExport } = useForm();
   const { debounce } = useDebounce(500, false);
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<string>(defaultOrderBy);
@@ -60,7 +62,7 @@ const DataTableExample = <FT extends {}>({
   const [filtersValues, setFiltersValues] = useState<FT | undefined>(initialFilters);
   const [selected, setSelected] = useState<number[]>([]);
   const [pages, setPages] = useState<number[]>([1]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(2);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [params, setParams] = useState<any>({
     ...initialParams,
@@ -68,20 +70,12 @@ const DataTableExample = <FT extends {}>({
   });
 
   const clearFilters = () => {
+    formReset();
     setFiltersValues(initialFilters);
     onGetRows({
       search: search,
       ...params,
       ...initialFilters,
-      onlyActives: !active,
-    });
-  }
-
-  const onApplyFilters = () => {
-    onGetRows({
-      search: search,
-      ...params,
-      ...filtersValues,
       onlyActives: !active,
     });
   }
@@ -169,6 +163,29 @@ const DataTableExample = <FT extends {}>({
     });
   }
 
+  const handleFilters = (data:FT) =>{
+    setFiltersValues({
+      ...filtersValues,
+      ...data
+    });
+    if(isExport()){
+      onExport?.({
+        search: search,
+        orderBy: `${orderBy} ${order}`,
+        onlyActives: !active,
+        ...data
+      });
+    }
+    else{
+      onGetRows({
+        search: search,
+        ...params,
+        ...data,
+        onlyActives: !active,
+      });
+    }
+  }
+
   useEffect(() => {
     arrangePages();
 
@@ -191,6 +208,7 @@ const DataTableExample = <FT extends {}>({
   return (
     <DataTableGrid>
       {actions && (
+        <Form ref={formRef} onSubmit={handleFilters}>
         <DataTableActions
           onAdd={onAdd}
           addLabel='+ Adicionar'
@@ -198,10 +216,8 @@ const DataTableExample = <FT extends {}>({
           setSearch={(e) => setSearch(e.target.value)}
           searchLabel='Pesquisar'
           filters={filters}
-          filtersValues={filtersValues}
-          setFiltersValues={setFiltersValues}
           filtersLabel={'Filtros'}
-          onApplyFilters={onApplyFilters}
+          onApplyFilters={formSave}
           applyFiltersLabel={'Filtrar'}
           onClearFilters={clearFilters}
           clearFiltersLabel={'Limpar'}
@@ -209,12 +225,9 @@ const DataTableExample = <FT extends {}>({
           activeValue={active}
           setActiveValue={onHandleActive}
           activeLabel='Listar inativos'
-          onExport={() => onExport?.({
-            search: search,
-            orderBy: `${orderBy} ${order}`,
-            ...filtersValues
-          })}
+          onExport={formExport}
         />
+        </Form>
       )}
       {(!isNotPaginated && pages.length > 1) && (
         <DataTablePagination
@@ -269,9 +282,7 @@ const DataTableExample = <FT extends {}>({
       )}
       {!isNotPaginated && (
         <DataTableFooter
-          currentPage={currentPage}
           currentSize={rows.length}
-          lastPage={pages.length}
           rowsPerPage={rowsPerPage}
           setRowsPerPage={onHandleRows}
           rowsPerPageLabel='Registros por página:'

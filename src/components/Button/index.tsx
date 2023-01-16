@@ -19,12 +19,16 @@ export const Button = ({
   model,
   children,
   colors,
+  fullWidth,
   ...params
 }: ButtonProps) => {
   switch (model) {
     case 'custom':
       return (
-        <Custom {...params}>
+        <Custom
+          fullWidth={fullWidth}
+          {...params}
+        >
           {children}
         </Custom>
       );
@@ -36,7 +40,10 @@ export const Button = ({
       );
     default:
       return (
-        <Basic {...params}>
+        <Basic
+          fullWidth={fullWidth}
+          {...params}
+        >
           {children}
         </Basic>
       );

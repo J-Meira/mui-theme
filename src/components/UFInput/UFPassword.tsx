@@ -1,4 +1,10 @@
 import {
+  useState,
+  useEffect,
+} from 'react';
+import { useField } from '@unform/core';
+
+import {
   IconButton,
   InputAdornment,
   Grid,
@@ -8,18 +14,28 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
-import { InputProps } from '.';
-import { useState } from 'react';
+import { UFInputProps } from '.';
 
-export const Password = ({
+export const UFPassword = ({
   label,
   helperText,
   required,
+  name,
   variant,
   grid,
   ...params
-}: InputProps) => {
+}: UFInputProps) => {
+  const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
+  const [value, setValue] = useState(defaultValue || '');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      getValue: () => value,
+      setValue: (_, newValue) => setValue(newValue),
+    });
+  }, [registerField, fieldName, value]);
 
   return (
     <Grid item {...grid}>
@@ -29,8 +45,18 @@ export const Password = ({
         margin='normal'
         fullWidth
         size='small'
-        error={!!helperText}
-        helperText={helperText}
+        error={!!error || !!helperText}
+        helperText={error || helperText}
+        defaultValue={defaultValue}
+        value={value || ''}
+        onChange={e => {
+          setValue(e.target.value);
+          params.onChange?.(e);
+        }}
+        onKeyDown={(e) => {
+          error && clearError();
+          params.onKeyDown?.(e);
+        }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
           endAdornment: (

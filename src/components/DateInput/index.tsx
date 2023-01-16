@@ -1,0 +1,177 @@
+import {
+  useState,
+  useEffect,
+} from 'react';
+
+import {
+  DatePicker,
+  DateTimePicker,
+} from '@mui/x-date-pickers';
+import {
+  TextField,
+  TextFieldProps,
+  Grid,
+  GridProps,
+} from '@mui/material';
+import { useField } from '@unform/core';
+
+export type DateTimeInputProps = TextFieldProps & {
+  time?: boolean,
+  name: string,
+  grid: GridProps,
+  maxDate?: any,
+  minDate?: any,
+  showTodayButton?: boolean,
+  todayButtonLabel?: string,
+  disableFuture?: boolean,
+  disablePast?: boolean,
+};
+
+const defaultProps: DateTimeInputProps = {
+  grid: {
+    xs: 12,
+    sm: 12,
+    md: 6,
+    lg: 8,
+  },
+  name: '',
+  variant: 'outlined',
+}
+
+const RenderInput = ({
+  error,
+  helperText,
+  onKeyDown,
+  ...params
+}: TextFieldProps) => (
+  <TextField
+    margin='normal'
+    fullWidth
+    size='small'
+    {...params}
+  />
+)
+
+export const DateTimeInput = ({
+  time,
+  grid,
+  helperText,
+  disabled,
+  name,
+  variant,
+  label,
+  maxDate,
+  minDate,
+  showTodayButton,
+  todayButtonLabel,
+  disableFuture,
+  disablePast,
+  required,
+  ...params
+}: DateTimeInputProps) => {
+  const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(defaultValue || '');
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      getValue: () => value,
+      setValue: (_, newValue) => setValue(newValue),
+    });
+  }, [registerField, fieldName, value]);
+
+  return (
+    <Grid item {...grid}>
+      {time?(
+        <DateTimePicker
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => {
+          setOpen(false);
+          params.onBlur?.(value);
+        }}
+        inputFormat='DD/MM/YYYY HH:mm'
+        label={label}
+        value={value || ''}
+        onChange={(newValue) => {
+          setValue(newValue);
+          params.onChange?.(newValue);
+        }}
+        maxDate={maxDate}
+        minDate={minDate}
+        disableFuture={disableFuture}
+        disablePast={disablePast}
+        showDaysOutsideCurrentMonth
+        mask='__/__/____ __:__'
+        disabled={disabled}
+        componentsProps={{
+          actionBar: {
+            actions: showTodayButton ? ['today'] : []
+          }
+        }}
+        renderInput={(innerParams) =>
+          <RenderInput
+            {...innerParams}
+            required={required}
+            onClick={(_) => setOpen(true)}
+            error={!!error || !!helperText}
+            helperText={error || helperText}
+            onKeyDown={(e) => {
+              error && clearError();
+              params.onKeyDown?.(e);
+            }}
+            {...params}
+          />
+        }
+      />
+      ):(
+<DatePicker
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => {
+          setOpen(false);
+          params.onBlur?.(value);
+        }}
+        inputFormat='DD/MM/YYYY'
+        label={label}
+        value={value || ''}
+        onChange={(newValue) => {
+          setValue(newValue);
+          params.onChange?.(newValue);
+        }}
+        maxDate={maxDate}
+        minDate={minDate}
+        disableFuture={disableFuture}
+        disablePast={disablePast}
+        showDaysOutsideCurrentMonth
+        mask='__/__/____'
+        disabled={disabled}
+        componentsProps={{
+          actionBar: {
+            actions: showTodayButton ? ['today'] : []
+          }
+        }}
+        renderInput={(innerParams) =>
+          <RenderInput
+            {...innerParams}
+            required={required}
+            onClick={(_) => setOpen(true)}
+            error={!!error || !!helperText}
+            helperText={error || helperText}
+            onKeyDown={(e) => {
+              error && clearError();
+              params.onKeyDown?.(e);
+            }}
+            {...params}
+          />
+        }
+      />
+      )}
+
+    </Grid>
+  );
+}
+
+DateTimeInput.defaultProps = defaultProps;

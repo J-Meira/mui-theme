@@ -12,28 +12,28 @@ import { Password } from './Password';
 import { Select, SelectProps } from './Select';
 import { CheckBoxGrided, CheckBoxGridedProps } from './CheckBoxGrided';
 
-export const defaultInputProps: GridProps & TextFieldProps = {
-  xs: 12,
-  sm: 12,
-  md: 6,
-  lg: 8,
-  variant: 'outlined',
-}
-
-export interface InputProps {
+export type InputProps = TextFieldProps & {
   model?: string,
-  name: string,
+  grid: GridProps,
 }
 
 type InputPropsExt<T> =
   InputProps &
   OutlinedInputProps &
-  GridProps &
-  TextFieldProps &
   AutoCompleteFieldProps<T> &
   IconProps &
   SelectProps &
   CheckBoxGridedProps;
+
+export const defaultInputProps: InputProps = {
+  grid: {
+    xs: 12,
+    sm: 12,
+    md: 6,
+    lg: 8,
+  },
+  variant: 'outlined',
+}
 
 export const Input = <T extends {}>({
   model,

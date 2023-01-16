@@ -6,51 +6,49 @@ import {
   Checkbox,
   CheckboxProps,
   Grid,
-  GridProps,
 } from '@mui/material';
+import { InputProps } from '.';
 
 export interface CheckBoxGridedProps extends CheckboxProps {
   label?: string,
   helperText?: string,
-  error?: boolean,
 }
 
-type CheckBoxGridedExProps = GridProps & CheckBoxGridedProps;
+type CheckBoxGridedExProps = InputProps & CheckBoxGridedProps;
 
 export const CheckBoxGrided = ({
   label,
   helperText,
-  error,
+  grid,
   required,
-  name,
-  xs,
-  sm,
-  md,
-  lg,
-  value,
   ...params
-}: CheckBoxGridedExProps) => (
-  <Grid item xs={xs} sm={sm} md={md} lg={lg}>
-    <FormControl
-      margin='normal'
-      error={error}
-      required={required}
-      component='fieldset'
-      variant='standard'
-    >
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox {...params} />
-          }
-          label={label}
-        />
-      </FormGroup>
-      {(helperText && error) && (
-        <FormHelperText>
-          {helperText}
-        </FormHelperText>
-      )}
-    </FormControl>
-  </Grid>
-);
+}: CheckBoxGridedExProps) => {
+
+  return (
+    <Grid item {...grid}>
+      <FormControl
+        margin='normal'
+        error={!!helperText}
+        required={required}
+        component='fieldset'
+        variant='standard'
+      >
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                {...params}
+              />
+            }
+            label={label}
+          />
+        </FormGroup>
+        {(helperText) && (
+          <FormHelperText>
+            {helperText}
+          </FormHelperText>
+        )}
+      </FormControl>
+    </Grid>
+  );
+}
