@@ -12,19 +12,17 @@ import { InputProps } from '.';
 import { useState } from 'react';
 
 export const Password = ({
-  label,
   helperText,
-  required,
   variant,
   grid,
-  ...params
+  ...rest
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth

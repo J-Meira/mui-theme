@@ -23,13 +23,13 @@ export const Select = ({
   helperText,
   grid,
   variant,
-  ...params
+  ...rest
 }: SelectPropsExt) => {
 
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth

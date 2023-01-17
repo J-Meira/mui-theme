@@ -21,7 +21,7 @@ export const CheckBoxGrided = ({
   helperText,
   grid,
   required,
-  ...params
+  ...rest
 }: CheckBoxGridedExProps) => {
 
   return (
@@ -37,7 +37,7 @@ export const CheckBoxGrided = ({
           <FormControlLabel
             control={
               <Checkbox
-                {...params}
+                {...rest}
               />
             }
             label={label}

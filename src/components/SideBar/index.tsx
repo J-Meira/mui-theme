@@ -20,7 +20,7 @@ interface SideBarProps {
   homeNavigate: (destiny: any) => any,
   onMouseHover: (state: boolean) => any,
   children?: React.ReactNode,
-};
+}
 
 export const SideBar = ({
   logo,

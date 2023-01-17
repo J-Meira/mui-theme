@@ -39,36 +39,36 @@ export const defaultUFInputProps: UFInputProps = {
 
 export const UFInput = ({
   model,
-  ...params
+  ...rest
 }: UFInputPropsExt) => {
   switch (model) {
     case 'select':
       return (
-        <UFSelect {...params} />
+        <UFSelect {...rest} />
       );
     case 'password':
       return (
-        <UFPassword {...params} />
+        <UFPassword {...rest} />
       );
     case 'icon':
       return (
-        <UFIcon {...params} />
+        <UFIcon {...rest} />
       );
     case 'currency':
       return (
-        <UFCurrency {...params} />
+        <UFCurrency {...rest} />
       );
     case 'search':
       return (
-        <UFSearch {...params} />
+        <UFSearch {...rest} />
       );
     case 'checkBoxG':
       return (
-        <UFCheckBoxGrided {...params} />
+        <UFCheckBoxGrided {...rest} />
       );
     default:
       return (
-        <UFBasic {...params} />
+        <UFBasic {...rest} />
       );
   }
 }

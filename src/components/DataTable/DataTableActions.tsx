@@ -16,7 +16,7 @@ import { DataTableActionsProps } from '.';
 
 import { useWindowDimensions } from '../../hooks';
 
-export const DataTableActions = <FT extends {}>({
+export const DataTableActions = ({
   onAdd,
   addLabel,
   search,
@@ -33,7 +33,7 @@ export const DataTableActions = <FT extends {}>({
   activeLabel,
   setActiveValue,
   onExport,
-}: DataTableActionsProps<FT>) => {
+}: DataTableActionsProps) => {
   const { width } = useWindowDimensions();
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
 

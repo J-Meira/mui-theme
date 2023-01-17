@@ -17,13 +17,11 @@ import {
 import { UFInputProps } from '.';
 
 export const UFPassword = ({
-  label,
   helperText,
-  required,
   name,
   variant,
   grid,
-  ...params
+  ...rest
 }: UFInputProps) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
   const [value, setValue] = useState(defaultValue || '');
@@ -40,7 +38,7 @@ export const UFPassword = ({
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth
@@ -51,11 +49,11 @@ export const UFPassword = ({
         value={value || ''}
         onChange={e => {
           setValue(e.target.value);
-          params.onChange?.(e);
+          rest.onChange?.(e);
         }}
         onKeyDown={(e) => {
           error && clearError();
-          params.onKeyDown?.(e);
+          rest.onKeyDown?.(e);
         }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{

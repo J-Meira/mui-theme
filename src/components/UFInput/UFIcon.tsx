@@ -59,7 +59,7 @@ export const UFIcon = ({
   icon,
   start,
   grid,
-  ...params
+  ...rest
 }: UFIconPropsEx) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
   const [value, setValue] = useState(defaultValue || '');
@@ -75,7 +75,7 @@ export const UFIcon = ({
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth
@@ -86,11 +86,11 @@ export const UFIcon = ({
         value={value || ''}
         onChange={e => {
           setValue(e.target.value);
-          params.onChange?.(e);
+          rest.onChange?.(e);
         }}
         onKeyDown={(e) => {
           error && clearError();
-          params.onKeyDown?.(e);
+          rest.onKeyDown?.(e);
         }}
         InputProps={{
           startAdornment: start && (

@@ -10,7 +10,7 @@ interface HeaderProps {
   sideBarExpanded: boolean,
   navigation?: React.ReactNode,
   actions?: React.ReactNode,
-};
+}
 
 export const Header = ({
   sideBarControl,

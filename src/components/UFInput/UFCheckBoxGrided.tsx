@@ -28,7 +28,7 @@ export const UFCheckBoxGrided = ({
   required,
   name,
   grid,
-  ...params
+  ...rest
 }: UFCheckBoxGridedExProps) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
   const [value, setValue] = useState(defaultValue || false);
@@ -54,12 +54,12 @@ export const UFCheckBoxGrided = ({
           <FormControlLabel
             control={
               <Checkbox
-                {...params}
+                {...rest}
                 defaultChecked={defaultValue}
                 checked={value || false}
                 onChange={(e, checked) => {
                   setValue(checked);
-                  params.onChange?.(e, checked);
+                  rest.onChange?.(e, checked);
                   error && clearError();
                 }}
               />

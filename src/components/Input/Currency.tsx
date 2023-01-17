@@ -9,11 +9,11 @@ export const Currency = ({
   helperText,
   variant,
   grid,
-  ...params
+  ...rest
 }: InputProps) => (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
 
         variant={variant}
         margin='normal'

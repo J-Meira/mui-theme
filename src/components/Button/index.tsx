@@ -8,7 +8,7 @@ import { Icon } from './Icon';
 interface ButtonProps extends MuiButtonProps {
   model?: 'custom' | 'icon',
   colors?: CustomColorsProps,
-};
+}
 
 const defaultProps: ButtonProps = {
   fullWidth: true,
@@ -20,21 +20,22 @@ export const Button = ({
   children,
   colors,
   fullWidth,
-  ...params
+  ...rest
 }: ButtonProps) => {
   switch (model) {
     case 'custom':
       return (
         <Custom
+          colors={colors}
           fullWidth={fullWidth}
-          {...params}
+          {...rest}
         >
           {children}
         </Custom>
       );
     case 'icon':
       return (
-        <Icon {...params}>
+        <Icon {...rest}>
           {children}
         </Icon>
       );
@@ -42,7 +43,7 @@ export const Button = ({
       return (
         <Basic
           fullWidth={fullWidth}
-          {...params}
+          {...rest}
         >
           {children}
         </Basic>

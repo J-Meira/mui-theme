@@ -26,7 +26,7 @@ interface MultiProviderProps {
   adapterLocalePtBR?: boolean,
   children: React.ReactNode,
   palette: PaletteProps,
-};
+}
 
 interface CreateThemeProps {
   palette: any,

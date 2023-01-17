@@ -13,11 +13,10 @@ import { UFInputProps } from '.';
 
 export const UFCurrency = ({
   helperText,
-  required,
   name,
   variant,
   grid,
-  ...params
+  ...rest
 }: UFInputProps) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
   const [value, setValue] = useState(defaultValue || '0,00');
@@ -27,6 +26,7 @@ export const UFCurrency = ({
       .replace(/\D/g, '')
       .replace(/^(0+)(\d)/g, '$2');
     let valueReturn = null;
+    let int = '';
     switch (value.length) {
       case 1:
         valueReturn = `0,0${value}`
@@ -35,7 +35,7 @@ export const UFCurrency = ({
         valueReturn = `0,${value}`
         break;
       default:
-        let int = value.slice(0, -2);
+        int = value.slice(0, -2);
         int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
         valueReturn = `${int},${value.slice(-2)}`;
         break;
@@ -54,8 +54,7 @@ export const UFCurrency = ({
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
-
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth
@@ -66,11 +65,11 @@ export const UFCurrency = ({
         value={value || ''}
         onChange={e => {
           setValue(mask(e.target.value));
-          params.onChange?.(e);
+          rest.onChange?.(e);
         }}
         onKeyDown={(e) => {
           error && clearError();
-          params.onKeyDown?.(e);
+          rest.onKeyDown?.(e);
         }}
         InputProps={{
           startAdornment: (

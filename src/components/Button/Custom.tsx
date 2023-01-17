@@ -20,7 +20,7 @@ export interface CustomColorsProps {
 
 interface CustomProps extends ButtonProps {
   colors: CustomColorsProps,
-};
+}
 
 const defaultProps: CustomProps = {
   colors: {
@@ -33,11 +33,11 @@ const defaultProps: CustomProps = {
 export const Custom = ({
   children,
   colors,
-  ...params
+  ...rest
 }: CustomProps) => (
   <Skeleton
     colors={colors}
-    {...params}
+    {...rest}
   >
     {children}
   </Skeleton>

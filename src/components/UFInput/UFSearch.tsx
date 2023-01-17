@@ -21,7 +21,7 @@ type UFAutoCompleteOptionsProps = {
 export interface UFAutoCompleteFieldProps {
   options?: UFAutoCompleteOptionsProps[];
   creatable?: boolean,
-};
+}
 
 type UFSearchProps = UFAutoCompleteFieldProps & UFInputProps;
 
@@ -66,7 +66,7 @@ export const UFSearch = (
     registerField({
       name: fieldName,
       getValue: () => selected,
-      setValue: (_, newSelected) => setSelected(newSelected),
+      setValue: (e, newSelected) => setSelected(newSelected),
     });
   }, [registerField, fieldName, selected]);
 
@@ -80,14 +80,15 @@ export const UFSearch = (
         fullWidth
         size='small'
         value={autoCompleteSelectedOption}
-        onChange={(_, newValue) => handle(newValue)}
+        onChange={(e, newValue) => handle(newValue)}
         getOptionLabel={(option: any) =>
           isString(option.label) ? option.label : ''
         }
         disabled={disabled}
-        onInputChange={(_, newInputValue) => {
+        onInputChange={(e, newInputValue) => {
           setInputValue(newInputValue);
         }}
+        inputValue={inputValue}
         renderInput={(params) => (
           <TextField
             {...params}

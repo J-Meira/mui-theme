@@ -1,6 +1,6 @@
 export type Order = 'asc' | 'desc';
 
-export interface DataTableActionsProps<FT> {
+export interface DataTableActionsProps {
   onAdd?: (params: any) => void,
   addLabel: string,
   search: string,

@@ -9,9 +9,9 @@ const defaultProps: IconButtonProps = {
 
 export const Icon = ({
   children,
-  ...params
+  ...rest
 }: IconButtonProps) => (
-  <IconButton {...params}>
+  <IconButton {...rest}>
     {children}
   </IconButton>
 );

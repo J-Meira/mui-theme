@@ -7,7 +7,6 @@ import {
 import { Basic } from './Basic';
 import { Currency } from './Currency';
 import { Icon, IconProps } from './Icon';
-import { Search, AutoCompleteFieldProps } from './Search';
 import { Password } from './Password';
 import { Select, SelectProps } from './Select';
 import { CheckBoxGrided, CheckBoxGridedProps } from './CheckBoxGrided';
@@ -17,10 +16,9 @@ export type InputProps = TextFieldProps & {
   grid: GridProps,
 }
 
-type InputPropsExt<T> =
+type InputPropsExt =
   InputProps &
   OutlinedInputProps &
-  AutoCompleteFieldProps<T> &
   IconProps &
   SelectProps &
   CheckBoxGridedProps;
@@ -35,38 +33,34 @@ export const defaultInputProps: InputProps = {
   variant: 'outlined',
 }
 
-export const Input = <T extends {}>({
+export const Input = ({
   model,
-  ...params
-}: InputPropsExt<T>) => {
+  ...rest
+}: InputPropsExt) => {
   switch (model) {
     case 'select':
       return (
-        <Select {...params} />
+        <Select {...rest} />
       );
     case 'password':
       return (
-        <Password {...params} />
+        <Password {...rest} />
       );
     case 'icon':
       return (
-        <Icon {...params} />
+        <Icon {...rest} />
       );
     case 'currency':
       return (
-        <Currency {...params} />
-      );
-    case 'search':
-      return (
-        <Search {...params} />
+        <Currency {...rest} />
       );
     case 'checkBoxG':
       return (
-        <CheckBoxGrided {...params} />
+        <CheckBoxGrided {...rest} />
       );
     default:
       return (
-        <Basic {...params} />
+        <Basic {...rest} />
       );
   }
 }

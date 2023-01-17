@@ -15,7 +15,7 @@ export const UFBasic = ({
   helperText,
   name,
   variant,
-  ...params
+  ...rest
 }: UFInputProps) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
   const [value, setValue] = useState(defaultValue || '');
@@ -31,7 +31,7 @@ export const UFBasic = ({
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth
@@ -42,11 +42,11 @@ export const UFBasic = ({
         value={value || ''}
         onChange={e => {
           setValue(e.target.value);
-          params.onChange?.(e);
+          rest.onChange?.(e);
         }}
         onKeyDown={(e) => {
           error && clearError();
-          params.onKeyDown?.(e);
+          rest.onKeyDown?.(e);
         }}
       />
     </Grid>

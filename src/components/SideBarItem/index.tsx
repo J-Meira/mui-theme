@@ -23,7 +23,7 @@ interface SideBarItemProps {
   secondary?: boolean,
   expanded?: boolean,
   children?: React.ReactNode,
-};
+}
 
 export const SideBarItem = ({
   label,

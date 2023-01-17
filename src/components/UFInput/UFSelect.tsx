@@ -30,7 +30,7 @@ export const UFSelect = ({
   helperText,
   grid,
   variant,
-  ...params
+  ...rest
 }: UFSelectPropsExt) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
   const [value, setValue] = useState(defaultValue || '');
@@ -46,7 +46,7 @@ export const UFSelect = ({
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth
@@ -55,8 +55,8 @@ export const UFSelect = ({
         helperText={error || helperText}
         defaultValue={defaultValue}
         value={value || ''}
-        onChange={e => { setValue(e.target.value); params.onChange?.(e); }}
-        onKeyDown={(e) => { error && clearError(); params.onKeyDown?.(e); }}
+        onChange={e => { setValue(e.target.value); rest.onChange?.(e); }}
+        onKeyDown={(e) => { error && clearError(); rest.onKeyDown?.(e); }}
         select
       >
         {defaultOption && (

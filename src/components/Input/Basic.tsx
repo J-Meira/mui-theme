@@ -8,11 +8,11 @@ export const Basic = ({
   grid,
   helperText,
   variant,
-  ...params
+  ...rest
 }: InputProps) => (
   <Grid item {...grid}>
     <TextField
-      {...params}
+      {...rest}
       variant={variant}
       margin='normal'
       fullWidth

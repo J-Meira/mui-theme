@@ -22,7 +22,6 @@ export type DateTimeInputProps = TextFieldProps & {
   maxDate?: any,
   minDate?: any,
   showTodayButton?: boolean,
-  todayButtonLabel?: string,
   disableFuture?: boolean,
   disablePast?: boolean,
 };
@@ -39,16 +38,13 @@ const defaultProps: DateTimeInputProps = {
 }
 
 const RenderInput = ({
-  error,
-  helperText,
-  onKeyDown,
-  ...params
+  ...rest
 }: TextFieldProps) => (
   <TextField
     margin='normal'
     fullWidth
     size='small'
-    {...params}
+    {...rest}
   />
 )
 
@@ -58,16 +54,14 @@ export const DateTimeInput = ({
   helperText,
   disabled,
   name,
-  variant,
   label,
   maxDate,
   minDate,
   showTodayButton,
-  todayButtonLabel,
   disableFuture,
   disablePast,
   required,
-  ...params
+  ...rest
 }: DateTimeInputProps) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
 
@@ -78,7 +72,7 @@ export const DateTimeInput = ({
     registerField({
       name: fieldName,
       getValue: () => value,
-      setValue: (_, newValue) => setValue(newValue),
+      setValue: (e, newValue) => setValue(newValue),
     });
   }, [registerField, fieldName, value]);
 
@@ -90,14 +84,14 @@ export const DateTimeInput = ({
         onOpen={() => setOpen(true)}
         onClose={() => {
           setOpen(false);
-          params.onBlur?.(value);
+          rest.onBlur?.(value);
         }}
         inputFormat='DD/MM/YYYY HH:mm'
         label={label}
         value={value || ''}
         onChange={(newValue) => {
           setValue(newValue);
-          params.onChange?.(newValue);
+          rest.onChange?.(newValue);
         }}
         maxDate={maxDate}
         minDate={minDate}
@@ -115,14 +109,14 @@ export const DateTimeInput = ({
           <RenderInput
             {...innerParams}
             required={required}
-            onClick={(_) => setOpen(true)}
+            onClick={() => setOpen(true)}
             error={!!error || !!helperText}
             helperText={error || helperText}
             onKeyDown={(e) => {
               error && clearError();
-              params.onKeyDown?.(e);
+              rest.onKeyDown?.(e);
             }}
-            {...params}
+            {...rest}
           />
         }
       />
@@ -132,14 +126,14 @@ export const DateTimeInput = ({
         onOpen={() => setOpen(true)}
         onClose={() => {
           setOpen(false);
-          params.onBlur?.(value);
+          rest.onBlur?.(value);
         }}
         inputFormat='DD/MM/YYYY'
         label={label}
         value={value || ''}
         onChange={(newValue) => {
           setValue(newValue);
-          params.onChange?.(newValue);
+          rest.onChange?.(newValue);
         }}
         maxDate={maxDate}
         minDate={minDate}
@@ -157,14 +151,14 @@ export const DateTimeInput = ({
           <RenderInput
             {...innerParams}
             required={required}
-            onClick={(_) => setOpen(true)}
+            onClick={() => setOpen(true)}
             error={!!error || !!helperText}
             helperText={error || helperText}
             onKeyDown={(e) => {
               error && clearError();
-              params.onKeyDown?.(e);
+              rest.onKeyDown?.(e);
             }}
-            {...params}
+            {...rest}
           />
         }
       />

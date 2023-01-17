@@ -5,9 +5,9 @@ import {
 
 export const Basic = ({
   children,
-  ...params
+  ...rest
 }: ButtonProps) => (
-  <Button {...params}>
+  <Button {...rest}>
     {children}
   </Button>
 );

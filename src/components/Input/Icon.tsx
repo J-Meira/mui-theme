@@ -51,13 +51,13 @@ export const Icon = ({
   icon,
   start,
   grid,
-  ...params
+  ...rest
 }: IconPropsEx) => {
 
   return (
     <Grid item {...grid}>
       <TextField
-        {...params}
+        {...rest}
         variant={variant}
         margin='normal'
         fullWidth
