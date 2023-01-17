@@ -59,7 +59,6 @@ export const MultiProvider = ({ adapterLocalePtBR, children, palette }: MultiPro
     })}
   >
     <LocalizationProvider
-      // dateFormats='dd/MM/yyyy'
       dateAdapter={AdapterDayjs}
       adapterLocale={adapterLocalePtBR ? 'pt-BR' : 'en'}
       localeText={
