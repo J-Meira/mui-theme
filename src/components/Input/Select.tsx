@@ -1,31 +1,19 @@
-import {
-  MenuItem,
-  Grid,
-  TextField,
-} from '@mui/material';
-import { InputProps } from '.';
+import { MenuItem, Grid, TextField } from '@mui/material'
+import { InputProps } from '.'
 
 export interface SelectOptionsProps {
-  value: number,
+  value: number
   label: string
 }
 
 export interface SelectProps {
-  list?: SelectOptionsProps[],
+  list?: SelectOptionsProps[]
   defaultOption?: string
 }
 
-type SelectPropsExt = SelectProps & InputProps;
+type SelectPropsExt = SelectProps & InputProps
 
-export const Select = ({
-  list,
-  defaultOption,
-  helperText,
-  grid,
-  variant,
-  ...rest
-}: SelectPropsExt) => {
-
+export const Select = ({ list, defaultOption, helperText, grid, variant, ...rest }: SelectPropsExt) => {
   return (
     <Grid item {...grid}>
       <TextField
@@ -38,19 +26,14 @@ export const Select = ({
         helperText={helperText}
         select
       >
-        {defaultOption && (
-          <MenuItem value={-1}>{defaultOption}</MenuItem>
-        )}
+        {defaultOption && <MenuItem value={-1}>{defaultOption}</MenuItem>}
         {list &&
           list.map((op) => (
-            <MenuItem
-              key={`${op.value}-${op.label}`}
-              value={op.value}
-            >
+            <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
               {op.label}
             </MenuItem>
           ))}
       </TextField>
     </Grid>
-  );
+  )
 }

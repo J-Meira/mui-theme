@@ -1,23 +1,10 @@
-import {
-  IconButton,
-  InputAdornment,
-  Grid,
-  TextField,
-} from '@mui/material';
-import {
-  Visibility as VisibilityIcon,
-  VisibilityOff as VisibilityOffIcon,
-} from '@mui/icons-material';
-import { InputProps } from '.';
-import { useState } from 'react';
+import { IconButton, InputAdornment, Grid, TextField } from '@mui/material'
+import { Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material'
+import { InputProps } from '.'
+import { useState } from 'react'
 
-export const Password = ({
-  helperText,
-  variant,
-  grid,
-  ...rest
-}: InputProps) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+export const Password = ({ helperText, variant, grid, ...rest }: InputProps) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   return (
     <Grid item {...grid}>
@@ -39,15 +26,12 @@ export const Password = ({
                 edge='end'
                 tabIndex={-1}
               >
-                {showPassword ?
-                  <VisibilityIcon /> :
-                  <VisibilityOffIcon />
-                }
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
               </IconButton>
             </InputAdornment>
           ),
         }}
       />
     </Grid>
-  );
+  )
 }

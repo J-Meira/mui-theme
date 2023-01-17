@@ -1,12 +1,6 @@
-import {
-  Checkbox,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-} from '@mui/material';
+import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material'
 
-import { DataTableHeaderProps } from '.';
+import { DataTableHeaderProps } from '.'
 
 export const DataTableHeader = ({
   columns,
@@ -37,22 +31,19 @@ export const DataTableHeader = ({
           padding={col.disablePadding ? 'none' : 'normal'}
           sortDirection={orderBy === col.key ? order : false}
         >
-          {col.isSortable ?
-            (
-              <TableSortLabel
-                active={orderBy === col.key}
-                direction={orderBy === col.key ? order : 'asc'}
-                onClick={() => onRequestSort(col.key)}
-              >
-                {col.label}
-              </TableSortLabel>
-            ) :
-            (
-              col.label
-            )
-          }
+          {col.isSortable ? (
+            <TableSortLabel
+              active={orderBy === col.key}
+              direction={orderBy === col.key ? order : 'asc'}
+              onClick={() => onRequestSort(col.key)}
+            >
+              {col.label}
+            </TableSortLabel>
+          ) : (
+            col.label
+          )}
         </TableCell>
       ))}
     </TableRow>
   </TableHead>
-);
+)

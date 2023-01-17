@@ -1,10 +1,6 @@
-import {
-  Grid,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Grid, MenuItem, TextField } from '@mui/material'
 
-import { DataTableFooterProps } from '.';
+import { DataTableFooterProps } from '.'
 
 const defaultList = [
   { value: 5, label: '5' },
@@ -28,7 +24,6 @@ export const DataTableFooter = ({
   rowsPerPageDetails,
   totalOfRows,
 }: DataTableFooterProps) => {
-
   return (
     <Grid container className='data-table-footer'>
       <span>{rowsPerPageLabel}</span>
@@ -39,24 +34,16 @@ export const DataTableFooter = ({
         size='small'
         select
         value={rowsPerPage}
-        onChange={
-          (event: React.ChangeEvent<HTMLInputElement>) =>
-            setRowsPerPage(Number(event.target.value))
-        }
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setRowsPerPage(Number(event.target.value))}
       >
         {list &&
           list.map((op) => (
-            <MenuItem
-              key={`${op.value}-${op.label}`}
-              value={op.value}
-            >
+            <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
               {op.label}
             </MenuItem>
           ))}
       </TextField>
-      <span>
-        {rowsPerPageDetails(currentSize, totalOfRows)}
-      </span>
+      <span>{rowsPerPageDetails(currentSize, totalOfRows)}</span>
     </Grid>
-  );
+  )
 }

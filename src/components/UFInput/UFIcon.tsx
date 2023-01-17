@@ -1,41 +1,24 @@
-import {
-  useState,
-  useEffect,
-} from 'react';
-import { useField } from '@unform/core';
+import { useState, useEffect } from 'react'
+import { useField } from '@unform/core'
 
-import {
-  IconButton,
-  InputAdornment,
-  Grid,
-  TextField,
-} from '@mui/material';
-import { UFInputProps } from '.';
+import { IconButton, InputAdornment, Grid, TextField } from '@mui/material'
+import { UFInputProps } from '.'
 
-const Adornment = ({
-  icon,
-  action,
-  start,
-}: UFIconProps) => (
+const Adornment = ({ icon, action, start }: UFIconProps) => (
   <InputAdornment position={start ? 'start' : 'end'}>
-    <IconButton
-      aria-label='input button action'
-      onClick={action}
-      edge={start ? false : 'end'}
-      tabIndex={-1}
-    >
+    <IconButton aria-label='input button action' onClick={action} edge={start ? false : 'end'} tabIndex={-1}>
       {icon}
     </IconButton>
   </InputAdornment>
-);
+)
 
 export interface UFIconProps {
-  icon?: React.ReactNode,
-  action?: (params: any) => any,
-  start?: boolean;
+  icon?: React.ReactNode
+  action?: (params: any) => any
+  start?: boolean
 }
 
-type UFIconPropsEx = UFInputProps & UFIconProps;
+type UFIconPropsEx = UFInputProps & UFIconProps
 
 const defaultProps: UFIconPropsEx = {
   grid: {
@@ -51,26 +34,17 @@ const defaultProps: UFIconPropsEx = {
 
 //ToDo fix label start position on start icon type
 
-export const UFIcon = ({
-  helperText,
-  name,
-  action,
-  variant,
-  icon,
-  start,
-  grid,
-  ...rest
-}: UFIconPropsEx) => {
-  const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
-  const [value, setValue] = useState(defaultValue || '');
+export const UFIcon = ({ helperText, name, action, variant, icon, start, grid, ...rest }: UFIconPropsEx) => {
+  const { fieldName, registerField, defaultValue, error, clearError } = useField(name)
+  const [value, setValue] = useState(defaultValue || '')
 
   useEffect(() => {
     registerField({
       name: fieldName,
       getValue: () => value,
       setValue: (_, newValue) => setValue(newValue),
-    });
-  }, [registerField, fieldName, value]);
+    })
+  }, [registerField, fieldName, value])
 
   return (
     <Grid item {...grid}>
@@ -84,25 +58,21 @@ export const UFIcon = ({
         helperText={error || helperText}
         defaultValue={defaultValue}
         value={value || ''}
-        onChange={e => {
-          setValue(e.target.value);
-          rest.onChange?.(e);
+        onChange={(e) => {
+          setValue(e.target.value)
+          rest.onChange?.(e)
         }}
         onKeyDown={(e) => {
-          error && clearError();
-          rest.onKeyDown?.(e);
+          error && clearError()
+          rest.onKeyDown?.(e)
         }}
         InputProps={{
-          startAdornment: start && (
-            <Adornment icon={icon} action={action} start={start} />
-          ),
-          endAdornment: !start && (
-            <Adornment icon={icon} action={action} start={start} />
-          ),
+          startAdornment: start && <Adornment icon={icon} action={action} start={start} />,
+          endAdornment: !start && <Adornment icon={icon} action={action} start={start} />,
         }}
       />
     </Grid>
-  );
+  )
 }
 
-UFIcon.defaultProps = defaultProps;
+UFIcon.defaultProps = defaultProps

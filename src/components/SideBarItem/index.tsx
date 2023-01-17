@@ -1,28 +1,18 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react'
 
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  ListItemButton,
-  Collapse,
-} from '@mui/material';
+import { List, ListItem, ListItemText, ListItemIcon, ListItemButton, Collapse } from '@mui/material'
 
-import {
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-} from '@mui/icons-material';
+import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
 
 interface SideBarItemProps {
-  label: string,
-  icon?: React.ReactNode,
-  selected: boolean,
-  action?: (params?: any) => any,
-  initialState?: boolean,
-  secondary?: boolean,
-  expanded?: boolean,
-  children?: React.ReactNode,
+  label: string
+  icon?: React.ReactNode
+  selected: boolean
+  action?: (params?: any) => any
+  initialState?: boolean
+  secondary?: boolean
+  expanded?: boolean
+  children?: React.ReactNode
 }
 
 export const SideBarItem = ({
@@ -35,24 +25,18 @@ export const SideBarItem = ({
   expanded,
   children,
 }: SideBarItemProps) => {
-  const [open, setOpen] = useState(initialState);
+  const [open, setOpen] = useState(initialState)
 
   useEffect(() => {
-    if (!expanded && open) setOpen(false);
-  }, [expanded, open]);
+    if (!expanded && open) setOpen(false)
+  }, [expanded, open])
 
   return children ? (
     <Fragment>
       <ListItem disablePadding onClick={() => setOpen(!open)}>
         <ListItemButton selected={selected}>
-          {icon && (
-            <ListItemIcon>
-              {icon}
-            </ListItemIcon>
-          )}
-          {expanded && (
-            <ListItemText primary={label} />
-          )}
+          {icon && <ListItemIcon>{icon}</ListItemIcon>}
+          {expanded && <ListItemText primary={label} />}
           {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </ListItemButton>
       </ListItem>
@@ -66,24 +50,12 @@ export const SideBarItem = ({
     <ListItem
       disablePadding
       onClick={action}
-      className={
-        secondary ?
-          selected ?
-            'secondary-selected' :
-            'secondary' :
-          ''
-      }
+      className={secondary ? (selected ? 'secondary-selected' : 'secondary') : ''}
     >
       <ListItemButton selected={selected}>
-        {icon && (
-          <ListItemIcon>
-            {icon}
-          </ListItemIcon>
-        )}
-        {expanded && (
-          <ListItemText primary={label} />
-        )}
+        {icon && <ListItemIcon>{icon}</ListItemIcon>}
+        {expanded && <ListItemText primary={label} />}
       </ListItemButton>
     </ListItem>
-  );
+  )
 }

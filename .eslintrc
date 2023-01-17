@@ -1,6 +1,8 @@
 {
   "root": true,
   "extends": [
+    "prettier",
+    "plugin:prettier/recommended",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
@@ -10,6 +12,7 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
+    "prettier",
     "react",
     "react-hooks"
   ],

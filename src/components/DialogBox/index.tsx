@@ -1,22 +1,15 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 
 export interface DialogProps {
-  open: boolean,
-  cancel?: boolean,
-  title: string,
-  message: string,
+  open: boolean
+  cancel?: boolean
+  title: string
+  message: string
   successLabel: string
 }
 
 interface DialogBoxProps {
-  dialog: DialogProps,
+  dialog: DialogProps
   close: (status: boolean) => any
 }
 
@@ -26,28 +19,21 @@ const defaultProps: DialogBoxProps = {
     cancel: true,
     title: '',
     message: '',
-    successLabel: 'Ok'
+    successLabel: 'Ok',
   },
-  close: () => (null)
+  close: () => null,
 }
 
-export const DialogBox = ({
-  dialog,
-  close,
-}: DialogBoxProps) => (
+export const DialogBox = ({ dialog, close }: DialogBoxProps) => (
   <Dialog
     open={dialog.open}
     onClose={() => close(false)}
     aria-labelledby='alert-dialog-title'
     aria-describedby='alert-dialog-description'
   >
-    <DialogTitle id='alert-dialog-title'>
-      {dialog.title}
-    </DialogTitle>
+    <DialogTitle id='alert-dialog-title'>{dialog.title}</DialogTitle>
     <DialogContent>
-      <DialogContentText id='alert-dialog-description'>
-        {dialog.message}
-      </DialogContentText>
+      <DialogContentText id='alert-dialog-description'>{dialog.message}</DialogContentText>
     </DialogContent>
     <DialogActions>
       {dialog.cancel && (
@@ -60,6 +46,6 @@ export const DialogBox = ({
       </Button>
     </DialogActions>
   </Dialog>
-);
+)
 
-DialogBox.defaultProps = defaultProps;
+DialogBox.defaultProps = defaultProps
