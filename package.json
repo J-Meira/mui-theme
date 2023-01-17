@@ -1,5 +1,5 @@
 {
-  "name": "bludata-theme",
+  "name": "@j-meira/mui-theme",
   "version": "0.1.0",
   "private": true,
   "description": "ui theme made with MUI 5",
@@ -57,18 +57,17 @@
     "react": ">=18"
   },
   "scripts": {
-    "build": "yarn clean && yarn build:esm && yarn build:cjs && yarn copy-files",
+    "build": "yarn build:esm && yarn build:cjs && yarn copy-files",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "clean": "rimraf dist/",
     "copy-files": "copyfiles -u 1 src/scss/**/*.scss dist/scss",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "prepare": "npm run build",
     "prepublishOnly": "npm run prettier && npm run lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/J-Meira/bludata-theme.git"
+  "repository": "git://github.com/jessica/my-npm-package.git",
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   }
 }
