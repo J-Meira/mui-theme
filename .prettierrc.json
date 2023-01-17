@@ -3,8 +3,8 @@
   "singleQuote": true,
   "trailingComma": "all",
   "tabWidth": 2,
-  "semi": false,
-  "printWidth": 120,
+  "semi": true,
+  "printWidth": 80,
   "jsxSingleQuote": true,
   "endOfLine": "auto"
 }

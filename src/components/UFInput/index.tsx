@@ -1,24 +1,24 @@
-import { GridProps, TextFieldProps, OutlinedInputProps } from '@mui/material'
-import { UFBasic } from './UFBasic'
-import { UFCurrency } from './UFCurrency'
-import { UFIcon, UFIconProps } from './UFIcon'
-import { UFSearch, UFAutoCompleteFieldProps } from './UFSearch'
-import { UFPassword } from './UFPassword'
-import { UFSelect, UFSelectProps } from './UFSelect'
-import { UFCheckBoxGrided, UFCheckBoxGridedProps } from './UFCheckBoxGrided'
+import { GridProps, TextFieldProps, OutlinedInputProps } from '@mui/material';
+import { UFBasic } from './UFBasic';
+import { UFCurrency } from './UFCurrency';
+import { UFIcon, UFIconProps } from './UFIcon';
+import { UFSearch, UFAutoCompleteFieldProps } from './UFSearch';
+import { UFPassword } from './UFPassword';
+import { UFSelect, UFSelectProps } from './UFSelect';
+import { UFCheckBoxGrided, UFCheckBoxGridedProps } from './UFCheckBoxGrided';
 
 export type UFInputProps = TextFieldProps & {
-  model?: string
-  name: string
-  grid: GridProps
-}
+  model?: string;
+  name: string;
+  grid: GridProps;
+};
 
 type UFInputPropsExt = UFInputProps &
   OutlinedInputProps &
   UFAutoCompleteFieldProps &
   UFIconProps &
   UFSelectProps &
-  UFCheckBoxGridedProps
+  UFCheckBoxGridedProps;
 
 export const defaultUFInputProps: UFInputProps = {
   grid: {
@@ -29,25 +29,25 @@ export const defaultUFInputProps: UFInputProps = {
   },
   name: '',
   variant: 'outlined',
-}
+};
 
 export const UFInput = ({ model, ...rest }: UFInputPropsExt) => {
   switch (model) {
     case 'select':
-      return <UFSelect {...rest} />
+      return <UFSelect {...rest} />;
     case 'password':
-      return <UFPassword {...rest} />
+      return <UFPassword {...rest} />;
     case 'icon':
-      return <UFIcon {...rest} />
+      return <UFIcon {...rest} />;
     case 'currency':
-      return <UFCurrency {...rest} />
+      return <UFCurrency {...rest} />;
     case 'search':
-      return <UFSearch {...rest} />
+      return <UFSearch {...rest} />;
     case 'checkBoxG':
-      return <UFCheckBoxGrided {...rest} />
+      return <UFCheckBoxGrided {...rest} />;
     default:
-      return <UFBasic {...rest} />
+      return <UFBasic {...rest} />;
   }
-}
+};
 
-UFInput.defaultProps = defaultUFInputProps
+UFInput.defaultProps = defaultUFInputProps;

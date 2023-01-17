@@ -1,9 +1,14 @@
-import { Delete } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material';
 
-import { Button } from '..'
-import { DataTableSelectedProps } from '.'
+import { Button } from '..';
+import { DataTableSelectedProps } from '.';
 
-export const DataTableSelected = ({ totalOfRows, totalOfRowsLabel, deleteLabel, onDelete }: DataTableSelectedProps) => {
+export const DataTableSelected = ({
+  totalOfRows,
+  totalOfRowsLabel,
+  deleteLabel,
+  onDelete,
+}: DataTableSelectedProps) => {
   return (
     <div className='data-table-selected'>
       {`${totalOfRows} ${totalOfRowsLabel}`}
@@ -12,5 +17,5 @@ export const DataTableSelected = ({ totalOfRows, totalOfRowsLabel, deleteLabel, 
         <span>{deleteLabel}</span>
       </Button>
     </div>
-  )
-}
+  );
+};

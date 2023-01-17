@@ -1,17 +1,21 @@
-import { GridProps, TextFieldProps, OutlinedInputProps } from '@mui/material'
-import { Basic } from './Basic'
-import { Currency } from './Currency'
-import { Icon, IconProps } from './Icon'
-import { Password } from './Password'
-import { Select, SelectProps } from './Select'
-import { CheckBoxGrided, CheckBoxGridedProps } from './CheckBoxGrided'
+import { GridProps, TextFieldProps, OutlinedInputProps } from '@mui/material';
+import { Basic } from './Basic';
+import { Currency } from './Currency';
+import { Icon, IconProps } from './Icon';
+import { Password } from './Password';
+import { Select, SelectProps } from './Select';
+import { CheckBoxGrided, CheckBoxGridedProps } from './CheckBoxGrided';
 
 export type InputProps = TextFieldProps & {
-  model?: string
-  grid: GridProps
-}
+  model?: string;
+  grid: GridProps;
+};
 
-type InputPropsExt = InputProps & OutlinedInputProps & IconProps & SelectProps & CheckBoxGridedProps
+type InputPropsExt = InputProps &
+  OutlinedInputProps &
+  IconProps &
+  SelectProps &
+  CheckBoxGridedProps;
 
 export const defaultInputProps: InputProps = {
   grid: {
@@ -21,23 +25,23 @@ export const defaultInputProps: InputProps = {
     lg: 8,
   },
   variant: 'outlined',
-}
+};
 
 export const Input = ({ model, ...rest }: InputPropsExt) => {
   switch (model) {
     case 'select':
-      return <Select {...rest} />
+      return <Select {...rest} />;
     case 'password':
-      return <Password {...rest} />
+      return <Password {...rest} />;
     case 'icon':
-      return <Icon {...rest} />
+      return <Icon {...rest} />;
     case 'currency':
-      return <Currency {...rest} />
+      return <Currency {...rest} />;
     case 'checkBoxG':
-      return <CheckBoxGrided {...rest} />
+      return <CheckBoxGrided {...rest} />;
     default:
-      return <Basic {...rest} />
+      return <Basic {...rest} />;
   }
-}
+};
 
-Input.defaultProps = defaultInputProps
+Input.defaultProps = defaultInputProps;

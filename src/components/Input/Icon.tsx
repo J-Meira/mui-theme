@@ -1,21 +1,26 @@
-import { IconButton, InputAdornment, Grid, TextField } from '@mui/material'
-import { InputProps } from '.'
+import { IconButton, InputAdornment, Grid, TextField } from '@mui/material';
+import { InputProps } from '.';
 
 const Adornment = ({ icon, action, start }: IconProps) => (
   <InputAdornment position={start ? 'start' : 'end'}>
-    <IconButton aria-label='input button action' onClick={action} edge={start ? false : 'end'} tabIndex={-1}>
+    <IconButton
+      aria-label='input button action'
+      onClick={action}
+      edge={start ? false : 'end'}
+      tabIndex={-1}
+    >
       {icon}
     </IconButton>
   </InputAdornment>
-)
+);
 
 export interface IconProps {
-  icon?: React.ReactNode
-  action?: (params: any) => any
-  start?: boolean
+  icon?: React.ReactNode;
+  action?: (params: any) => any;
+  start?: boolean;
 }
 
-type IconPropsEx = InputProps & IconProps
+type IconPropsEx = InputProps & IconProps;
 
 const defaultProps: IconPropsEx = {
   grid: {
@@ -26,11 +31,19 @@ const defaultProps: IconPropsEx = {
   },
   start: false,
   variant: 'outlined',
-}
+};
 
 //ToDo fix label start position on start icon type
 
-export const Icon = ({ helperText, action, variant, icon, start, grid, ...rest }: IconPropsEx) => {
+export const Icon = ({
+  helperText,
+  action,
+  variant,
+  icon,
+  start,
+  grid,
+  ...rest
+}: IconPropsEx) => {
   return (
     <Grid item {...grid}>
       <TextField
@@ -42,11 +55,15 @@ export const Icon = ({ helperText, action, variant, icon, start, grid, ...rest }
         error={!!helperText}
         helperText={helperText}
         InputProps={{
-          startAdornment: start && <Adornment icon={icon} action={action} start={start} />,
-          endAdornment: !start && <Adornment icon={icon} action={action} start={start} />,
+          startAdornment: start && (
+            <Adornment icon={icon} action={action} start={start} />
+          ),
+          endAdornment: !start && (
+            <Adornment icon={icon} action={action} start={start} />
+          ),
         }}
       />
     </Grid>
-  )
-}
-Icon.defaultProps = defaultProps
+  );
+};
+Icon.defaultProps = defaultProps;

@@ -1,16 +1,16 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-import { Collapse, Fab, Grid } from '@mui/material'
+import { Collapse, Fab, Grid } from '@mui/material';
 import {
   FilterList as FilterListIcon,
   PictureAsPdf as PictureAsPdfIcon,
   Search as SearchIcon,
-} from '@mui/icons-material'
+} from '@mui/icons-material';
 
-import { Button, Input } from '..'
-import { DataTableActionsProps } from '.'
+import { Button, Input } from '..';
+import { DataTableActionsProps } from '.';
 
-import { useWindowDimensions } from '../../hooks'
+import { useWindowDimensions } from '../../hooks';
 
 export const DataTableActions = ({
   onAdd,
@@ -30,13 +30,13 @@ export const DataTableActions = ({
   setActiveValue,
   onExport,
 }: DataTableActionsProps) => {
-  const { width } = useWindowDimensions()
-  const [filtersOpen, setFiltersOpen] = useState<boolean>(false)
+  const { width } = useWindowDimensions();
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
 
   const clearFilters = () => {
-    onClearFilters?.()
-    setFiltersOpen(false)
-  }
+    onClearFilters?.();
+    setFiltersOpen(false);
+  };
 
   return (
     <Grid container className='data-table-actions'>
@@ -97,7 +97,11 @@ export const DataTableActions = ({
             <Grid container spacing={2}>
               {filters()}
               <Grid item md={12} className='filters-actions'>
-                <Button onClick={clearFilters} fullWidth={false} color='warning'>
+                <Button
+                  onClick={clearFilters}
+                  fullWidth={false}
+                  color='warning'
+                >
                   {clearFiltersLabel}
                 </Button>
                 <Button onClick={onApplyFilters} fullWidth={false}>
@@ -109,5 +113,5 @@ export const DataTableActions = ({
         </Grid>
       )}
     </Grid>
-  )
-}
+  );
+};

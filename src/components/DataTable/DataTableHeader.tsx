@@ -1,6 +1,12 @@
-import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material'
+import {
+  Checkbox,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from '@mui/material';
 
-import { DataTableHeaderProps } from '.'
+import { DataTableHeaderProps } from '.';
 
 export const DataTableHeader = ({
   columns,
@@ -46,4 +52,4 @@ export const DataTableHeader = ({
       ))}
     </TableRow>
   </TableHead>
-)
+);

@@ -1,3 +1,3 @@
-export * from './useDebounce'
-export * from './useForm'
-export * from './useWindowDimensions'
+export * from './useDebounce';
+export * from './useForm';
+export * from './useWindowDimensions';

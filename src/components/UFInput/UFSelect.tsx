@@ -1,32 +1,41 @@
-import { useState, useEffect } from 'react'
-import { useField } from '@unform/core'
+import { useState, useEffect } from 'react';
+import { useField } from '@unform/core';
 
-import { MenuItem, Grid, TextField } from '@mui/material'
-import { UFInputProps } from '.'
+import { MenuItem, Grid, TextField } from '@mui/material';
+import { UFInputProps } from '.';
 
 export interface UFSelectOptionsProps {
-  value: number
-  label: string
+  value: number;
+  label: string;
 }
 
 export interface UFSelectProps {
-  list?: UFSelectOptionsProps[]
-  defaultOption?: string
+  list?: UFSelectOptionsProps[];
+  defaultOption?: string;
 }
 
-type UFSelectPropsExt = UFSelectProps & UFInputProps
+type UFSelectPropsExt = UFSelectProps & UFInputProps;
 
-export const UFSelect = ({ name, list, defaultOption, helperText, grid, variant, ...rest }: UFSelectPropsExt) => {
-  const { fieldName, registerField, defaultValue, error, clearError } = useField(name)
-  const [value, setValue] = useState(defaultValue || '')
+export const UFSelect = ({
+  name,
+  list,
+  defaultOption,
+  helperText,
+  grid,
+  variant,
+  ...rest
+}: UFSelectPropsExt) => {
+  const { fieldName, registerField, defaultValue, error, clearError } =
+    useField(name);
+  const [value, setValue] = useState(defaultValue || '');
 
   useEffect(() => {
     registerField({
       name: fieldName,
       getValue: () => value,
       setValue: (_, newValue) => setValue(newValue),
-    })
-  }, [registerField, fieldName, value])
+    });
+  }, [registerField, fieldName, value]);
 
   return (
     <Grid item {...grid}>
@@ -41,12 +50,12 @@ export const UFSelect = ({ name, list, defaultOption, helperText, grid, variant,
         defaultValue={defaultValue}
         value={value || ''}
         onChange={(e) => {
-          setValue(e.target.value)
-          rest.onChange?.(e)
+          setValue(e.target.value);
+          rest.onChange?.(e);
         }}
         onKeyDown={(e) => {
-          error && clearError()
-          rest.onKeyDown?.(e)
+          error && clearError();
+          rest.onKeyDown?.(e);
         }}
         select
       >
@@ -59,5 +68,5 @@ export const UFSelect = ({ name, list, defaultOption, helperText, grid, variant,
           ))}
       </TextField>
     </Grid>
-  )
-}
+  );
+};

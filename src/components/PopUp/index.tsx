@@ -1,17 +1,25 @@
-import { Button, Dialog, DialogActions, DialogContent, IconButton, DialogTitle, Grid } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
+  DialogTitle,
+  Grid,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface PopUpProps {
-  open: boolean
-  cancel?: boolean
-  name: string
-  title?: string
-  successLabel?: string
-  cancelLabel?: string
-  className?: string
-  children?: React.ReactNode
-  toggle?: (params: any) => any
-  action?: (params: any) => any
+  open: boolean;
+  cancel?: boolean;
+  name: string;
+  title?: string;
+  successLabel?: string;
+  cancelLabel?: string;
+  className?: string;
+  children?: React.ReactNode;
+  toggle?: (params: any) => any;
+  action?: (params: any) => any;
 }
 
 const defaultProps: PopUpProps = {
@@ -21,7 +29,7 @@ const defaultProps: PopUpProps = {
   title: '',
   successLabel: 'Ok',
   cancelLabel: 'Cancelar',
-}
+};
 
 export const PopUp = ({
   open,
@@ -44,7 +52,11 @@ export const PopUp = ({
     {title && (
       <DialogTitle id={`pop-up-${name}-title`}>
         {title}
-        <IconButton aria-label='close' className='pop-up-close' onClick={toggle}>
+        <IconButton
+          aria-label='close'
+          className='pop-up-close'
+          onClick={toggle}
+        >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -69,6 +81,6 @@ export const PopUp = ({
       </DialogActions>
     )}
   </Dialog>
-)
+);
 
-PopUp.defaultProps = defaultProps
+PopUp.defaultProps = defaultProps;

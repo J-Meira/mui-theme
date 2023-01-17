@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-import { DatePicker, DateTimePicker } from '@mui/x-date-pickers'
-import { TextField, TextFieldProps, Grid, GridProps } from '@mui/material'
-import { useField } from '@unform/core'
+import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
+import { TextField, TextFieldProps, Grid, GridProps } from '@mui/material';
+import { useField } from '@unform/core';
 
 export type DateTimeInputProps = TextFieldProps & {
-  time?: boolean
-  name: string
-  grid: GridProps
-  maxDate?: any
-  minDate?: any
-  showTodayButton?: boolean
-  disableFuture?: boolean
-  disablePast?: boolean
-}
+  time?: boolean;
+  name: string;
+  grid: GridProps;
+  maxDate?: any;
+  minDate?: any;
+  showTodayButton?: boolean;
+  disableFuture?: boolean;
+  disablePast?: boolean;
+};
 
 const defaultProps: DateTimeInputProps = {
   grid: {
@@ -24,9 +24,11 @@ const defaultProps: DateTimeInputProps = {
   },
   name: '',
   variant: 'outlined',
-}
+};
 
-const RenderInput = ({ ...rest }: TextFieldProps) => <TextField margin='normal' fullWidth size='small' {...rest} />
+const RenderInput = ({ ...rest }: TextFieldProps) => (
+  <TextField margin='normal' fullWidth size='small' {...rest} />
+);
 
 export const DateTimeInput = ({
   time,
@@ -43,18 +45,19 @@ export const DateTimeInput = ({
   required,
   ...rest
 }: DateTimeInputProps) => {
-  const { fieldName, registerField, defaultValue, error, clearError } = useField(name)
+  const { fieldName, registerField, defaultValue, error, clearError } =
+    useField(name);
 
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState(defaultValue || '')
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(defaultValue || '');
 
   useEffect(() => {
     registerField({
       name: fieldName,
       getValue: () => value,
       setValue: (_, newValue) => setValue(newValue),
-    })
-  }, [registerField, fieldName, value])
+    });
+  }, [registerField, fieldName, value]);
 
   return (
     <Grid item {...grid}>
@@ -63,15 +66,15 @@ export const DateTimeInput = ({
           open={open}
           onOpen={() => setOpen(true)}
           onClose={() => {
-            setOpen(false)
-            rest.onBlur?.(value)
+            setOpen(false);
+            rest.onBlur?.(value);
           }}
           inputFormat='DD/MM/YYYY HH:mm'
           label={label}
           value={value || ''}
           onChange={(newValue) => {
-            setValue(newValue)
-            rest.onChange?.(newValue)
+            setValue(newValue);
+            rest.onChange?.(newValue);
           }}
           maxDate={maxDate}
           minDate={minDate}
@@ -93,8 +96,8 @@ export const DateTimeInput = ({
               error={!!error || !!helperText}
               helperText={error || helperText}
               onKeyDown={(e) => {
-                error && clearError()
-                rest.onKeyDown?.(e)
+                error && clearError();
+                rest.onKeyDown?.(e);
               }}
               {...rest}
             />
@@ -105,15 +108,15 @@ export const DateTimeInput = ({
           open={open}
           onOpen={() => setOpen(true)}
           onClose={() => {
-            setOpen(false)
-            rest.onBlur?.(value)
+            setOpen(false);
+            rest.onBlur?.(value);
           }}
           inputFormat='DD/MM/YYYY'
           label={label}
           value={value || ''}
           onChange={(newValue) => {
-            setValue(newValue)
-            rest.onChange?.(newValue)
+            setValue(newValue);
+            rest.onChange?.(newValue);
           }}
           maxDate={maxDate}
           minDate={minDate}
@@ -135,8 +138,8 @@ export const DateTimeInput = ({
               error={!!error || !!helperText}
               helperText={error || helperText}
               onKeyDown={(e) => {
-                error && clearError()
-                rest.onKeyDown?.(e)
+                error && clearError();
+                rest.onKeyDown?.(e);
               }}
               {...rest}
             />
@@ -144,7 +147,7 @@ export const DateTimeInput = ({
         />
       )}
     </Grid>
-  )
-}
+  );
+};
 
-DateTimeInput.defaultProps = defaultProps
+DateTimeInput.defaultProps = defaultProps;

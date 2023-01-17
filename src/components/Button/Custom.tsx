@@ -1,5 +1,5 @@
-import { styled } from '@mui/material/styles'
-import { Button, ButtonProps } from '@mui/material'
+import { styled } from '@mui/material/styles';
+import { Button, ButtonProps } from '@mui/material';
 
 const Skeleton = styled(Button)<CustomProps>(({ colors }) => ({
   color: colors.text,
@@ -7,16 +7,16 @@ const Skeleton = styled(Button)<CustomProps>(({ colors }) => ({
   '&:hover': {
     backgroundColor: colors.backgroundHover,
   },
-}))
+}));
 
 export interface CustomColorsProps {
-  text: string
-  background: string
-  backgroundHover: string
+  text: string;
+  background: string;
+  backgroundHover: string;
 }
 
 interface CustomProps extends ButtonProps {
-  colors: CustomColorsProps
+  colors: CustomColorsProps;
 }
 
 const defaultProps: CustomProps = {
@@ -25,12 +25,12 @@ const defaultProps: CustomProps = {
     background: '#9c9fa8',
     backgroundHover: '#6e7179',
   },
-}
+};
 
 export const Custom = ({ children, colors, ...rest }: CustomProps) => (
   <Skeleton colors={colors} {...rest}>
     {children}
   </Skeleton>
-)
+);
 
-Custom.defaultProps = defaultProps
+Custom.defaultProps = defaultProps;

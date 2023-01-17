@@ -1,12 +1,12 @@
-import { Typography, Breadcrumbs, Link } from '@mui/material'
+import { Typography, Breadcrumbs, Link } from '@mui/material';
 
 interface BreadcrumbsListProps {
-  link?: string
-  label: string
+  link?: string;
+  label: string;
 }
 
 interface BreadcrumbBarProps {
-  list: BreadcrumbsListProps[]
+  list: BreadcrumbsListProps[];
 }
 
 export const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (
@@ -20,14 +20,14 @@ export const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (
             </Link>
           ) : (
             <Typography key={index}>{item.label}</Typography>
-          )
+          );
         } else {
           return (
             <Typography key={index} color='textPrimary'>
               {item.label}
             </Typography>
-          )
+          );
         }
       })}
   </Breadcrumbs>
-)
+);

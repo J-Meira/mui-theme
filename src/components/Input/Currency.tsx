@@ -1,7 +1,12 @@
-import { InputAdornment, TextField, Grid } from '@mui/material'
-import { InputProps } from '.'
+import { InputAdornment, TextField, Grid } from '@mui/material';
+import { InputProps } from '.';
 
-export const Currency = ({ helperText, variant, grid, ...rest }: InputProps) => (
+export const Currency = ({
+  helperText,
+  variant,
+  grid,
+  ...rest
+}: InputProps) => (
   <Grid item {...grid}>
     <TextField
       {...rest}
@@ -16,4 +21,4 @@ export const Currency = ({ helperText, variant, grid, ...rest }: InputProps) => 
       }}
     />
   </Grid>
-)
+);

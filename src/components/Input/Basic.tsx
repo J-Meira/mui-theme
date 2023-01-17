@@ -1,5 +1,5 @@
-import { Grid, TextField } from '@mui/material'
-import { InputProps } from '.'
+import { Grid, TextField } from '@mui/material';
+import { InputProps } from '.';
 
 export const Basic = ({ grid, helperText, variant, ...rest }: InputProps) => (
   <Grid item {...grid}>
@@ -13,4 +13,4 @@ export const Basic = ({ grid, helperText, variant, ...rest }: InputProps) => (
       helperText={helperText}
     />
   </Grid>
-)
+);
