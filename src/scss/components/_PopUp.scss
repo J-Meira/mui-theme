@@ -1,8 +1,4 @@
 .pop-up {
-  .MuiDialog-paper {
-    width: 80%;
-    max-width: 450px;
-  }
   .MuiDialogTitle-root {
     background-color: $primary;
     text-align: center;
@@ -17,6 +13,6 @@
   .body-main {
     margin: 0 !important;
     padding: 1rem !important;
-    width: 100%!important;
+    width: 100% !important;
   }
 }

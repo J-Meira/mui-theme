@@ -1,69 +1,116 @@
-import { IconButton, InputAdornment, Grid, TextField } from '@mui/material';
+import { Field, FieldProps } from 'formik';
+import {
+  IconButton,
+  InputAdornment as MuiInputAdornment,
+  TextField,
+} from '@mui/material';
 import { InputProps } from '.';
 
-const Adornment = ({ icon, action, start }: IconProps) => (
-  <InputAdornment position={start ? 'start' : 'end'}>
-    <IconButton
-      aria-label='input button action'
-      onClick={action}
-      edge={start ? false : 'end'}
-      tabIndex={-1}
-    >
-      {icon}
-    </IconButton>
-  </InputAdornment>
-);
-
 export interface IconProps {
+  action?: (params?: any) => void;
+  actionTitle?: string;
   icon?: React.ReactNode;
-  action?: (params: any) => any;
   start?: boolean;
 }
 
-type IconPropsEx = InputProps & IconProps;
+type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
+  IconProps;
 
-const defaultProps: IconPropsEx = {
-  grid: {
-    xs: 12,
-    sm: 12,
-    md: 6,
-    lg: 8,
-  },
-  start: false,
-  variant: 'outlined',
-};
+export const InputAdornment = ({
+  action,
+  actionTitle,
+  icon,
+  start,
+}: IconProps) => (
+  <MuiInputAdornment position={start ? 'start' : 'end'}>
+    <IconButton
+      aria-label={`input action ${actionTitle || ''}`}
+      onClick={action}
+      edge={start ? false : 'end'}
+      tabIndex={-1}
+      title={actionTitle}
+    >
+      {icon}
+    </IconButton>
+  </MuiInputAdornment>
+);
 
 //ToDo fix label start position on start icon type
 
 export const Icon = ({
-  helperText,
   action,
-  variant,
+  actionTitle,
+  helperText,
   icon,
+  isNoFormik,
+  name,
+  onBlur,
+  onChange,
+  readOnly,
   start,
-  grid,
+  variant,
   ...rest
 }: IconPropsEx) => {
-  return (
-    <Grid item {...grid}>
-      <TextField
-        {...rest}
-        variant={variant}
-        margin='normal'
-        fullWidth
-        size='small'
-        error={!!helperText}
-        helperText={helperText}
-        InputProps={{
-          startAdornment: start && (
-            <Adornment icon={icon} action={action} start={start} />
-          ),
-          endAdornment: !start && (
-            <Adornment icon={icon} action={action} start={start} />
-          ),
-        }}
-      />
-    </Grid>
+  const adornment = (
+    <InputAdornment
+      action={action}
+      actionTitle={actionTitle}
+      icon={icon}
+      start={start}
+    />
+  );
+
+  return isNoFormik ? (
+    <TextField
+      {...rest}
+      error={!!helperText}
+      helperText={helperText}
+      id={name}
+      name={name}
+      fullWidth
+      InputProps={{
+        readOnly,
+        endAdornment: !start && adornment,
+        startAdornment: start && adornment,
+      }}
+      margin='normal'
+      onBlur={onBlur}
+      onChange={onChange}
+      size='small'
+      variant={variant}
+    />
+  ) : (
+    <Field name={name}>
+      {({ field, meta }: FieldProps) => {
+        const { touched, error } = meta;
+        return (
+          <TextField
+            {...rest}
+            {...field}
+            error={touched && !!error}
+            helperText={touched && error}
+            id={name}
+            name={name}
+            fullWidth
+            InputProps={{
+              readOnly,
+              endAdornment: !start && adornment,
+              startAdornment: start && adornment,
+            }}
+            margin='normal'
+            onBlur={(e) => {
+              field.onBlur(e);
+              onBlur?.(e);
+            }}
+            onChange={(e) => {
+              field.onChange(e);
+              onChange?.(e);
+            }}
+            size='small'
+            variant={variant}
+          />
+        );
+      }}
+    </Field>
   );
 };
-Icon.defaultProps = defaultProps;

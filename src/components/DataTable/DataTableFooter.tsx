@@ -1,4 +1,4 @@
-import { Grid, MenuItem, TextField } from '@mui/material';
+import { Grid, MenuItem, TextField, Typography } from '@mui/material';
 
 import { DataTableFooterProps } from '.';
 
@@ -26,7 +26,9 @@ export const DataTableFooter = ({
 }: DataTableFooterProps) => {
   return (
     <Grid container className='data-table-footer'>
-      <span>{rowsPerPageLabel}</span>
+      <Typography variant='caption' component='span'>
+        {rowsPerPageLabel}
+      </Typography>
       <TextField
         variant='outlined'
         className='rows-input'
@@ -45,7 +47,9 @@ export const DataTableFooter = ({
             </MenuItem>
           ))}
       </TextField>
-      <span>{rowsPerPageDetails(currentSize, totalOfRows)}</span>
+      <Typography variant='caption' component='span'>
+        {rowsPerPageDetails(currentSize, totalOfRows)}
+      </Typography>
     </Grid>
   );
 };

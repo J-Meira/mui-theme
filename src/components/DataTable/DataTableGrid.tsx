@@ -1,9 +1,18 @@
-import { Grid, GridProps } from '@mui/material';
+import { Grid } from '@mui/material';
+import { DataTableGridProps } from '.';
 
-export const DataTableGrid = ({ children, className }: GridProps) => (
+export const DataTableGrid = ({
+  children,
+  className,
+  noChildrenGrid,
+}: DataTableGridProps) => (
   <Grid container className={`data-table ${className ? className : ''}`}>
-    <Grid item md={12}>
-      {children}
-    </Grid>
+    {noChildrenGrid ? (
+      children
+    ) : (
+      <Grid item xs={12}>
+        {children}
+      </Grid>
+    )}
   </Grid>
 );

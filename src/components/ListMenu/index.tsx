@@ -3,7 +3,7 @@ import { Menu, MenuItem } from '@mui/material';
 export interface ListMenuItemProps {
   label: string;
   destiny?: string;
-  action?: (params?: any) => any;
+  action?: (params?: any) => void;
 }
 
 export interface ListMenuProps {
@@ -12,10 +12,10 @@ export interface ListMenuProps {
   list?: ListMenuItemProps[];
 }
 
-interface ListMenuPropExt {
+export interface ListMenuPropExt {
   menu: ListMenuProps;
-  toggle: () => any;
-  navigate: (destiny?: string) => any;
+  toggle: () => void;
+  navigate: (destiny: string) => void;
 }
 
 export const ListMenu = ({ menu, toggle, navigate }: ListMenuPropExt) => {

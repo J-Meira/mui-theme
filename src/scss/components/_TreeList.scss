@@ -1,0 +1,35 @@
+.tree-list {
+  .tree-item {
+    &.primary {
+      .MuiListItemButton-root {
+        padding-left: 2rem;
+      }
+    }
+    &.secondary {
+      .MuiListItemButton-root {
+        padding-left: 4rem;
+      }
+    }
+    &.tertiary {
+      .MuiListItemButton-root {
+        padding-left: 6rem;
+      }
+    }
+    &.quaternary {
+      .MuiListItemButton-root {
+        padding-left: 8rem;
+      }
+    }
+  }
+  .MuiCollapse-horizontal {
+    padding-left: 2.5rem;
+    .MuiList-root {
+      display: flex;
+      flex-direction: row;
+      .MuiListItemButton-root {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+      }
+    }
+  }
+}

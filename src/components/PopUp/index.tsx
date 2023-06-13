@@ -6,81 +6,105 @@ import {
   IconButton,
   DialogTitle,
   Grid,
+  DialogProps,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-interface PopUpProps {
-  open: boolean;
+export interface PopUpProps extends DialogProps {
+  action?: () => void;
   cancel?: boolean;
-  name: string;
-  title?: string;
-  successLabel?: string;
   cancelLabel?: string;
   className?: string;
-  children?: React.ReactNode;
-  toggle?: (params: any) => any;
-  action?: (params: any) => any;
+  disableBackdropClick?: boolean;
+  grided: boolean;
+  name: string;
+  successLabel?: string;
+  title?: string;
+  toggle: () => void;
 }
 
-const defaultProps: PopUpProps = {
+export const defaultProps: PopUpProps = {
   open: false,
-  cancel: true,
+  cancel: false,
+  cancelLabel: 'Cancel',
+  disableBackdropClick: false,
+  grided: false,
   name: '',
-  title: '',
   successLabel: 'Ok',
-  cancelLabel: 'Cancelar',
+  title: '',
+  toggle: () => null,
 };
 
 export const PopUp = ({
-  open,
-  cancel,
-  name,
-  title,
-  successLabel,
-  cancelLabel,
-  className,
-  children,
-  toggle,
   action,
-}: PopUpProps) => (
-  <Dialog
-    open={open}
-    onClose={toggle}
-    aria-labelledby={title ?? `pop-up-${name}-title`}
-    className={`pop-up ${className ? className : ''}`}
-  >
-    {title && (
-      <DialogTitle id={`pop-up-${name}-title`}>
-        {title}
-        <IconButton
-          aria-label='close'
-          className='pop-up-close'
-          onClick={toggle}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-    )}
-    <DialogContent>
-      <Grid container className='body-main' spacing={3}>
-        {children}
-      </Grid>
-    </DialogContent>
-    {(cancel || action) && (
-      <DialogActions>
-        {cancel && (
-          <Button onClick={toggle} color='error'>
-            {cancelLabel}
-          </Button>
+  cancel,
+  cancelLabel,
+  children,
+  className,
+  disableBackdropClick,
+  grided,
+  name,
+  open,
+  successLabel,
+  title,
+  toggle,
+  ...rest
+}: PopUpProps) => {
+  const handleClose = (e: object, reason: string) => {
+    if (
+      disableBackdropClick &&
+      e &&
+      (reason === 'escapeKeyDown' || reason === 'backdropClick')
+    )
+      return false;
+    return toggle();
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby={title ?? `pop-up-${name}-title`}
+      className={`pop-up ${className ? className : ''}`}
+      {...rest}
+    >
+      {title && (
+        <DialogTitle id={`pop-up-${name}-title`}>
+          {title}
+          <IconButton
+            aria-label='close'
+            className='pop-up-close'
+            onClick={toggle}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+      )}
+      <DialogContent>
+        {grided ? (
+          <Grid container className='body-main' spacing={3}>
+            {children}
+          </Grid>
+        ) : (
+          children
         )}
-        {action && (
-          <Button onClick={action} color='success'>
-            {successLabel}
-          </Button>
-        )}
-      </DialogActions>
-    )}
-  </Dialog>
-);
+      </DialogContent>
+      {(cancel || action) && (
+        <DialogActions>
+          {cancel && (
+            <Button onClick={toggle} color='error'>
+              {cancelLabel}
+            </Button>
+          )}
+          {action && (
+            <Button onClick={action} color='success'>
+              {successLabel}
+            </Button>
+          )}
+        </DialogActions>
+      )}
+    </Dialog>
+  );
+};
 
 PopUp.defaultProps = defaultProps;

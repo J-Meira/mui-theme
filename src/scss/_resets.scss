@@ -1,6 +1,6 @@
 html,
 body,
-#root{
+#root {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -16,4 +16,22 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+.MuiDialogContentText-root {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.MuiTableContainer-root {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $gray-middle;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $primary;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: $primary-hover;
+  }
 }

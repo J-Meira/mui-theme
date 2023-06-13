@@ -36,6 +36,15 @@ export const DataTableHeader = ({
           align={col.align}
           padding={col.disablePadding ? 'none' : 'normal'}
           sortDirection={orderBy === col.key ? order : false}
+          style={
+            col.minWidth || col.maxWidth || col.width
+              ? {
+                  maxWidth: col.maxWidth,
+                  minWidth: col.minWidth,
+                  width: col.width,
+                }
+              : undefined
+          }
         >
           {col.isSortable ? (
             <TableSortLabel

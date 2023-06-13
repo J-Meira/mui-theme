@@ -14,26 +14,26 @@ import {
   ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
 
-interface SideBarItemProps {
-  label: string;
-  icon?: React.ReactNode;
-  selected: boolean;
-  action?: (params?: any) => any;
-  initialState?: boolean;
-  secondary?: boolean;
-  expanded?: boolean;
+export interface SideBarItemProps {
+  action?: (params?: any) => void;
   children?: React.ReactNode;
+  expanded?: boolean;
+  icon?: React.ReactNode;
+  initialState?: boolean;
+  label: string;
+  secondary?: boolean;
+  selected: boolean;
 }
 
 export const SideBarItem = ({
-  label,
-  icon,
-  selected,
   action,
-  initialState,
-  secondary,
-  expanded,
   children,
+  expanded,
+  icon,
+  initialState,
+  label,
+  secondary,
+  selected,
 }: SideBarItemProps) => {
   const [open, setOpen] = useState(initialState);
 

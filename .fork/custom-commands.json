@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Update tags",
+    "target": "repository",
+    "action": {
+      "type": "sh",
+      "script": "git pull --tag --force",
+      "showOutput": false,
+      "waitForExit": false
+    }
+  }
+]

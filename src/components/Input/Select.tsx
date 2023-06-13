@@ -1,46 +1,101 @@
-import { MenuItem, Grid, TextField } from '@mui/material';
+import { Field, FieldProps } from 'formik';
+import { TextField } from '@mui/material';
 import { InputProps } from '.';
 
 export interface SelectOptionsProps {
-  value: number;
   label: string;
+  obj?: any;
+  value: number;
 }
 
 export interface SelectProps {
-  list?: SelectOptionsProps[];
   defaultOption?: string;
 }
 
-type SelectPropsExt = SelectProps & InputProps;
+type SelectPropsEx = Omit<
+  InputProps,
+  'className' | 'grid' | 'noGrid' | 'model' | 'rowDirection'
+> &
+  SelectProps;
 
 export const Select = ({
-  list,
   defaultOption,
   helperText,
-  grid,
+  isNoFormik,
+  options,
+  name,
+  onBlur,
+  onChange,
+  readOnly,
   variant,
   ...rest
-}: SelectPropsExt) => {
-  return (
-    <Grid item {...grid}>
-      <TextField
-        {...rest}
-        variant={variant}
-        margin='normal'
-        fullWidth
-        size='small'
-        error={!!helperText}
-        helperText={helperText}
-        select
-      >
-        {defaultOption && <MenuItem value={-1}>{defaultOption}</MenuItem>}
-        {list &&
-          list.map((op) => (
-            <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
-              {op.label}
-            </MenuItem>
-          ))}
-      </TextField>
-    </Grid>
+}: SelectPropsEx) =>
+  isNoFormik ? (
+    <TextField
+      {...rest}
+      error={!!helperText}
+      helperText={helperText}
+      id={name}
+      name={name}
+      fullWidth
+      InputProps={{
+        readOnly,
+      }}
+      margin='normal'
+      onBlur={onBlur}
+      onChange={onChange}
+      select
+      SelectProps={{ native: true }}
+      size='small'
+      variant={variant}
+    >
+      {defaultOption && <option value={-1}>{defaultOption}</option>}
+      {options &&
+        options.map((op) => (
+          <option key={`${op.value}-${op.label}`} value={op.value}>
+            {op.label}
+          </option>
+        ))}
+    </TextField>
+  ) : (
+    <Field name={name}>
+      {({ field, meta }: FieldProps) => {
+        const { touched, error } = meta;
+        return (
+          <TextField
+            {...rest}
+            {...field}
+            error={touched && !!error}
+            helperText={touched && error}
+            id={name}
+            name={name}
+            fullWidth
+            InputProps={{
+              readOnly,
+            }}
+            margin='normal'
+            onBlur={(e) => {
+              field.onBlur(e);
+              onBlur?.(e);
+            }}
+            onChange={(e) => {
+              field.onChange(e);
+              onChange?.(e);
+            }}
+            select
+            SelectProps={{ native: true }}
+            size='small'
+            variant={variant}
+          >
+            {defaultOption && <option value={-1}>{defaultOption}</option>}
+            {options &&
+              options.map((op) => (
+                <option key={`${op.value}-${op.label}`} value={op.value}>
+                  {op.label}
+                </option>
+              ))}
+          </TextField>
+        );
+      }}
+    </Field>
   );
-};

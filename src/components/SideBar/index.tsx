@@ -3,15 +3,15 @@ import { Fragment, useEffect, useState } from 'react';
 import { Drawer, DrawerProps, List, Popover, Typography } from '@mui/material';
 import { useWindowDimensions } from '../../hooks';
 
-interface SideBarProps {
+export interface SideBarProps {
   logo: string;
   icon: string;
   expanded: boolean;
-  version: string;
-  versionDate: string;
+  version?: string;
+  versionDate?: string;
   sideBarControl: () => void;
-  homeNavigate: (destiny: any) => any;
-  onMouseHover: (state: boolean) => any;
+  homeNavigate: (destiny: any) => void;
+  onMouseHover: (state: boolean) => void;
   children?: React.ReactNode;
 }
 
@@ -81,14 +81,15 @@ export const SideBar = ({
         </div>
         {version && versionDate && (
           <div className='side-bar-footer'>
-            <small
+            <Typography
+              component='small'
               aria-owns={openPopover ? 'version-date-popover' : undefined}
               aria-haspopup='true'
               onMouseEnter={handlePopoverOpen}
               onMouseLeave={handlePopoverClose}
             >
               {version}
-            </small>
+            </Typography>
             <Popover
               id='version-date-popover'
               sx={{

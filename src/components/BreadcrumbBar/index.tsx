@@ -1,11 +1,11 @@
 import { Typography, Breadcrumbs, Link } from '@mui/material';
 
-interface BreadcrumbsListProps {
+export interface BreadcrumbsListProps {
   link?: string;
   label: string;
 }
 
-interface BreadcrumbBarProps {
+export interface BreadcrumbBarProps {
   list: BreadcrumbsListProps[];
 }
 

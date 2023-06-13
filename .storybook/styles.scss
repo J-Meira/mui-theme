@@ -1,0 +1,44 @@
+@import '../src/scss';
+
+.story-book-body {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  position: relative;
+
+  .MuiDrawer-paper,
+  .side-bar-header,
+  .side-bar-footer {
+    position: absolute;
+  }
+}
+
+.sb-story,
+#storybook-root {
+  .MuiListItemText-root,
+  .data-table-footer,
+  .MuiFormControlLabel-root,
+  .data-table-selected {
+    color: #fff !important;
+  }
+}
+
+.story-book {
+  .MuiAppBar-positionFixed {
+    position: relative !important;
+  }
+}
+
+.story-book-layout {
+  display: flex;
+  position: relative;
+
+  .MuiDrawer-paper,
+  .side-bar-header,
+  .side-bar-footer {
+    position: absolute;
+  }
+  .MuiAppBar-positionFixed {
+    position: absolute !important;
+  }
+}

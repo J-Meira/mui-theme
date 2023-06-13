@@ -1,20 +1,32 @@
-import { Card } from '@mui/material';
+import { Card, Paper } from '@mui/material';
+import { useMultiContext } from '../MultiProvider';
 
-interface MainContainerProps {
+export interface MainContainerProps {
   children: React.ReactNode;
-  subHeader?: React.ReactNode;
+  footer?: React.ReactNode;
   sideBarExpanded?: boolean;
+  subHeader?: React.ReactNode;
 }
 
 export const MainContainer = ({
   children,
-  subHeader,
+  footer,
   sideBarExpanded,
-}: MainContainerProps) => (
-  <div className={`main ${!sideBarExpanded ? 'main-expanded' : ''}`}>
-    {subHeader}
-    <Card variant='outlined' className='main-card'>
-      {children}
-    </Card>
-  </div>
-);
+  subHeader,
+}: MainContainerProps) => {
+  const { backgroundColor } = useMultiContext();
+  return (
+    <Paper
+      elevation={0}
+      sx={{ backgroundColor: backgroundColor }}
+      square
+      className={`main ${!sideBarExpanded ? 'main-expanded' : ''}`}
+    >
+      {subHeader}
+      <Card variant='outlined' className='main-card'>
+        {children}
+      </Card>
+      {footer}
+    </Paper>
+  );
+};

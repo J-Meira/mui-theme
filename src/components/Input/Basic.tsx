@@ -1,16 +1,63 @@
-import { Grid, TextField } from '@mui/material';
+import { Field, FieldProps } from 'formik';
+import { TextField } from '@mui/material';
 import { InputProps } from '.';
 
-export const Basic = ({ grid, helperText, variant, ...rest }: InputProps) => (
-  <Grid item {...grid}>
+export const Basic = ({
+  helperText,
+  isNoFormik,
+  name,
+  onBlur,
+  onChange,
+  readOnly,
+  variant,
+  ...rest
+}: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) =>
+  isNoFormik ? (
     <TextField
       {...rest}
-      variant={variant}
-      margin='normal'
-      fullWidth
-      size='small'
       error={!!helperText}
       helperText={helperText}
+      id={name}
+      name={name}
+      fullWidth
+      InputProps={{
+        readOnly,
+      }}
+      margin='normal'
+      onBlur={onBlur}
+      onChange={onChange}
+      size='small'
+      variant={variant}
     />
-  </Grid>
-);
+  ) : (
+    <Field name={name}>
+      {({ field, meta }: FieldProps) => {
+        const { touched, error } = meta;
+        return (
+          <TextField
+            {...rest}
+            {...field}
+            error={touched && !!error}
+            helperText={touched && error}
+            id={name}
+            name={name}
+            fullWidth
+            InputProps={{
+              readOnly,
+            }}
+            margin='normal'
+            onBlur={(e) => {
+              field.onBlur(e);
+              onBlur?.(e);
+            }}
+            onChange={(e) => {
+              field.onChange(e);
+              onChange?.(e);
+            }}
+            size='small'
+            variant={variant}
+          />
+        );
+      }}
+    </Field>
+  );

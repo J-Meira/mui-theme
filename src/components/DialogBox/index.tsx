@@ -7,17 +7,24 @@ import {
   DialogTitle,
 } from '@mui/material';
 
+export interface DialogReturnProps {
+  origin?: string;
+  status?: boolean;
+}
+
 export interface DialogProps {
   open: boolean;
   cancel?: boolean;
   title: string;
-  message: string;
+  message: string | React.ReactNode;
   successLabel: string;
+  origin: string;
+  return: DialogReturnProps;
 }
 
 interface DialogBoxProps {
   dialog: DialogProps;
-  close: (status: boolean) => any;
+  close: (status: boolean) => void;
 }
 
 const defaultProps: DialogBoxProps = {
@@ -26,7 +33,9 @@ const defaultProps: DialogBoxProps = {
     cancel: true,
     title: '',
     message: '',
+    origin: '',
     successLabel: 'Ok',
+    return: {},
   },
   close: () => null,
 };
@@ -40,7 +49,7 @@ export const DialogBox = ({ dialog, close }: DialogBoxProps) => (
   >
     <DialogTitle id='alert-dialog-title'>{dialog.title}</DialogTitle>
     <DialogContent>
-      <DialogContentText id='alert-dialog-description'>
+      <DialogContentText component='span' id='alert-dialog-description'>
         {dialog.message}
       </DialogContentText>
     </DialogContent>

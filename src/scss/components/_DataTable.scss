@@ -1,79 +1,88 @@
-.data-table {
-  .data-table-actions {
-    margin-bottom: 1rem;
+.data-table-actions {
+  margin-bottom: 1rem;
 
-    .buttons {
-      flex: 0 1 auto;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      padding-left: 24px;
-      padding-bottom: 0.5rem;
+  .buttons {
+    flex: 0 1 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-left: 24px;
+    padding-bottom: 0.5rem;
 
-      button {
-        line-height: 2;
-        & + button {
-          margin-left: 24px;
-        }
-      }
-    }
-
-    .export {
-      flex: 1 1 auto;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      padding-bottom: 0.5rem;
-    }
-
-    .filters{
-      padding-top: 0.5rem;
-
-      .filters-actions{
-        display: flex;
-        justify-content: flex-end;
-        .MuiButton-contained+.MuiButton-contained{
-          margin-left: 24px;
-        }
+    button {
+      line-height: 2;
+      & + button {
+        margin-left: 24px;
       }
     }
   }
 
-  .selectable-row{
-    cursor: pointer;
+  .buttons-spc {
+    margin-top: calc(1.4375em + 8px);
   }
 
-  .data-table-selected{
+  .export {
+    flex: 1 1 auto;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 0.5rem;
   }
 
-  .data-table-pagination{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 0;
+  .filters {
+    padding-top: 0.5rem;
 
-    .MuiButton-root{
-      // font-size: 0.6rem!important;
-      min-width: 40px;
-      min-height: 32px;
-      padding: 3px 4px!important;
+    .filters-actions {
+      display: flex;
+      justify-content: flex-end;
+      .MuiButton-contained + .MuiButton-contained {
+        margin-left: 24px;
+      }
+    }
+  }
+}
 
-      +.MuiButton-root{
+.data-table-selectable {
+  cursor: pointer;
+}
+
+.data-table-selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  .selected-custom-actions {
+    .MuiButton-root {
+      + .MuiButton-root {
         margin-left: 0.5rem;
       }
     }
   }
+}
 
-  .data-table-footer{
-    align-items: center;
-    margin: 2rem 0;
-    .rows-input{
-      margin: 0 1rem;
-      min-width: 70px;
+.data-table-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+
+  .MuiButton-root {
+    // font-size: 0.6rem!important;
+    min-width: 40px;
+    min-height: 32px;
+    padding: 3px 4px !important;
+
+    + .MuiButton-root {
+      margin-left: 0.5rem;
     }
+  }
+}
+
+.data-table-footer {
+  align-items: center;
+  margin: 2rem 0;
+  .rows-input {
+    margin: 0 1rem;
+    min-width: 70px;
   }
 }

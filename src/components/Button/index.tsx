@@ -4,7 +4,7 @@ import { Basic } from './Basic';
 import { Custom, CustomColorsProps } from './Custom';
 import { Icon } from './Icon';
 
-interface ButtonProps extends MuiButtonProps {
+export interface ButtonProps extends MuiButtonProps {
   model?: 'custom' | 'icon';
   colors?: CustomColorsProps;
 }

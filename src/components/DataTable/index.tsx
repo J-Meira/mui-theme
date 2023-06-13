@@ -1,3 +1,5 @@
+import { GridProps } from '@mui/material';
+
 export type Order = 'asc' | 'desc';
 
 export interface DataTableActionsProps {
@@ -6,17 +8,27 @@ export interface DataTableActionsProps {
   search: string;
   setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
   searchLabel: string;
-  filters?: () => React.ReactNode;
+  filters?: (onApplyFilters?: () => void) => React.ReactNode;
   filtersLabel?: string;
+  filterOpened?: boolean;
   onApplyFilters?: () => void;
   applyFiltersLabel?: string;
   onClearFilters?: () => void;
   clearFiltersLabel?: string;
   showActive: boolean;
+  hideSearch?: boolean;
   activeValue: boolean;
   activeLabel: string;
   setActiveValue: (value: boolean) => void;
   onExport?: () => void;
+}
+
+export interface EnumObjectProps {
+  [key: number]: string;
+}
+
+export interface ObjectEnumProps {
+  [key: string]: number;
 }
 
 export interface DataTableColumnsProps {
@@ -25,8 +37,18 @@ export interface DataTableColumnsProps {
   label?: string;
   limit?: number;
   isSortable?: boolean;
+  objectKey?: string;
+  enumObject?: EnumObjectProps;
+  width?: number;
+  minWidth?: number;
+  maxWidth?: number;
+  isSelectable?: boolean;
   align?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
-  render?: (row: any) => React.ReactNode;
+  render?: (row: any, index?: number) => React.ReactNode;
+}
+
+export interface DataTableGridProps extends GridProps {
+  noChildrenGrid?: boolean;
 }
 
 export interface DataTableHeaderProps {
@@ -40,21 +62,31 @@ export interface DataTableHeaderProps {
   rowCount: number;
 }
 
-export interface DataTableBodyProps {
+export interface DataTableContainerProps {
+  children: React.ReactNode;
+  tabHeight?: number;
   title: string;
-  rows: any[];
+}
+
+export interface DataTableBodyProps {
   columns: DataTableColumnsProps[];
-  onSelectRow: (row: any) => void;
-  isSelected: (row: any) => boolean;
   isSelectable?: boolean;
   isSelectableAnywhere?: boolean;
+  isSelectableAnywhereElse?: boolean;
+  isSelected: (row: any) => boolean;
+  onSelectRow: (row: any) => void;
+  rows: any[];
+  title: string;
+  uniqueCol?: () => React.ReactNode;
 }
 
 export interface DataTableSelectedProps {
   totalOfRows: number;
   totalOfRowsLabel: string;
-  onDelete: () => void;
-  deleteLabel: string;
+  onDelete?: () => void;
+  deleteLabel?: string;
+  selected: number[];
+  selectedCustomAction?: (selected: number[]) => React.ReactNode;
 }
 
 export interface PageButtonProps {
@@ -64,8 +96,13 @@ export interface PageButtonProps {
   disabled?: boolean;
 }
 
+export interface PagesProps {
+  pageNumber: number;
+}
+
 export interface DataTablePaginationProps {
-  pages: number[];
+  title: string;
+  pages: PagesProps[];
   currentPage: number;
   setPage: (page: number) => void;
   lastPage: number;
@@ -88,6 +125,7 @@ export interface DataTableFooterProps {
 
 export * from './DataTableActions';
 export * from './DataTableBody';
+export * from './DataTableContainer';
 export * from './DataTableFooter';
 export * from './DataTableGrid';
 export * from './DataTableHeader';

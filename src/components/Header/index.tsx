@@ -1,8 +1,8 @@
 import { AppBar, Toolbar, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-interface HeaderProps {
-  sideBarControl: () => any;
+export interface HeaderProps {
+  sideBarControl: () => void;
   sideBarExpanded: boolean;
   navigation?: React.ReactNode;
   actions?: React.ReactNode;

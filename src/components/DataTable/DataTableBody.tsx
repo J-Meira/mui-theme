@@ -3,15 +3,28 @@ import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import { DataTableBodyProps, DataTableColumnsProps } from '.';
 
 export const DataTableBody = ({
-  title,
   columns,
-  rows,
-  onSelectRow,
-  isSelected,
   isSelectable,
   isSelectableAnywhere,
+  isSelectableAnywhereElse,
+  isSelected,
+  onSelectRow,
+  rows,
+  title,
+  uniqueCol,
 }: DataTableBodyProps) => (
   <TableBody>
+    {uniqueCol && (
+      <TableRow hover tabIndex={-1}>
+        <TableCell
+          align='center'
+          padding='normal'
+          colSpan={columns.length + (isSelectable ? 1 : 0)}
+        >
+          {uniqueCol()}
+        </TableCell>
+      </TableRow>
+    )}
     {rows &&
       rows.map((row, index) => {
         const isItemSelected = isSelected(row);
@@ -19,13 +32,25 @@ export const DataTableBody = ({
         return (
           <TableRow
             hover
-            onClick={isSelectableAnywhere ? () => onSelectRow(row) : undefined}
-            role='checkbox'
-            className='selectable-row'
-            aria-checked={isItemSelected}
+            onClick={
+              isSelectable && isSelectableAnywhere
+                ? () => onSelectRow(row)
+                : undefined
+            }
+            role={isSelectable && isSelectableAnywhere ? 'checkbox' : undefined}
+            className={
+              isSelectable && isSelectableAnywhere
+                ? 'data-table-selectable'
+                : undefined
+            }
+            aria-checked={
+              isSelectable && isSelectableAnywhere ? isItemSelected : undefined
+            }
             tabIndex={-1}
             key={labelId}
-            selected={isItemSelected}
+            selected={
+              isSelectable && isSelectableAnywhere ? isItemSelected : undefined
+            }
           >
             {isSelectable && (
               <TableCell padding='checkbox'>
@@ -45,6 +70,16 @@ export const DataTableBody = ({
                       key={index + key}
                       align={col.align}
                       padding={col.disablePadding ? 'none' : 'normal'}
+                      className={
+                        isSelectable && isSelectableAnywhereElse
+                          ? 'data-table-selectable'
+                          : undefined
+                      }
+                      onClick={
+                        isSelectable && isSelectableAnywhereElse
+                          ? () => onSelectRow(row)
+                          : undefined
+                      }
                     >
                       {row[key].length > col.limit
                         ? row[key].slice(0, col.limit) + '...'
@@ -57,8 +92,62 @@ export const DataTableBody = ({
                       key={index + key}
                       align={col.align}
                       padding={col.disablePadding ? 'none' : 'normal'}
+                      className={
+                        col.isSelectable &&
+                        isSelectable &&
+                        isSelectableAnywhereElse
+                          ? 'data-table-selectable'
+                          : undefined
+                      }
+                      onClick={
+                        col.isSelectable &&
+                        isSelectable &&
+                        isSelectableAnywhereElse
+                          ? () => onSelectRow(row)
+                          : undefined
+                      }
                     >
-                      {col.render(row)}
+                      {col.render(row, index)}
+                    </TableCell>
+                  );
+                } else if (col.objectKey) {
+                  return (
+                    <TableCell
+                      key={index + key}
+                      align={col.align}
+                      padding={col.disablePadding ? 'none' : 'normal'}
+                      className={
+                        isSelectable && isSelectableAnywhereElse
+                          ? 'data-table-selectable'
+                          : undefined
+                      }
+                      onClick={
+                        isSelectable && isSelectableAnywhereElse
+                          ? () => onSelectRow(row)
+                          : undefined
+                      }
+                    >
+                      {row[key][col.objectKey]}
+                    </TableCell>
+                  );
+                } else if (col.enumObject) {
+                  return (
+                    <TableCell
+                      key={index + key}
+                      align={col.align}
+                      padding={col.disablePadding ? 'none' : 'normal'}
+                      className={
+                        isSelectable && isSelectableAnywhereElse
+                          ? 'data-table-selectable'
+                          : undefined
+                      }
+                      onClick={
+                        isSelectable && isSelectableAnywhereElse
+                          ? () => onSelectRow(row)
+                          : undefined
+                      }
+                    >
+                      {col.enumObject[row[key]]}
                     </TableCell>
                   );
                 } else {
@@ -67,6 +156,16 @@ export const DataTableBody = ({
                       key={index + key}
                       align={col.align}
                       padding={col.disablePadding ? 'none' : 'normal'}
+                      className={
+                        isSelectable && isSelectableAnywhereElse
+                          ? 'data-table-selectable'
+                          : undefined
+                      }
+                      onClick={
+                        isSelectable && isSelectableAnywhereElse
+                          ? () => onSelectRow(row)
+                          : undefined
+                      }
                     >
                       {row[key]}
                     </TableCell>

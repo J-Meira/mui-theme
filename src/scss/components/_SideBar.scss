@@ -2,7 +2,7 @@
   position: relative;
 
   .MuiDrawer-paper {
-    background-color: $gray-midle;
+    background-color: $gray-middle;
     border-right: 0;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -12,18 +12,12 @@
     &::-webkit-scrollbar {
       width: 5px;
     }
-
-    /* Track */
     &::-webkit-scrollbar-track {
-      background: $gray-midle;
+      background: $gray-middle;
     }
-
-    /* Handle */
     &::-webkit-scrollbar-thumb {
       background: $primary;
     }
-
-    /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
       background: $primary-hover;
     }
@@ -116,6 +110,11 @@
       padding: 0.5rem !important;
     }
   }
+  .side-bar-footer {
+    small {
+      font-size: 0.7rem;
+    }
+  }
 }
 
 #version-date-popover {
@@ -124,7 +123,7 @@
   }
 }
 
-.click-listener{
+.click-listener {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -138,10 +137,10 @@
     .side-bar-header {
       height: 56px;
 
-    .logo {
-      height: calc(56px - 1.2rem);
-      cursor: pointer;
-    }
+      .logo {
+        height: calc(56px - 1.2rem);
+        cursor: pointer;
+      }
     }
   }
 }

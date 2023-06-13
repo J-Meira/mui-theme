@@ -1,0 +1,20 @@
+.group-card {
+  .title {
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.4375em;
+      letter-spacing: 0.00938em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .title-collapsed {
+    cursor: pointer;
+    svg {
+      margin-left: 1rem;
+    }
+  }
+}

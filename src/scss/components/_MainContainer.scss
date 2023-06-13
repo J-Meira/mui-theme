@@ -1,47 +1,45 @@
+$main-padding: 64px 0 0 min(280px, 60vw);
+$main-padding-expanded: min(60px, 20vw);
 .main {
   flex: 1 1 auto;
   overflow-y: scroll;
   overflow-x: hidden;
-  width: calc(100% - calc(min(280px, 60vw) + 4rem));
-  padding-left: calc(min(280px, 60vw) + 2rem);
-  padding-right: 2rem;
-  padding-top: calc(64px + 2rem);
-  max-height: 100%;
+  // width: calc(100% - calc(min(280px, 60vw) - 2rem));
+  padding: $main-padding;
+  position: relative;
 
   &::-webkit-scrollbar {
     width: 5px;
   }
-
-  /* Track */
   &::-webkit-scrollbar-track {
     background: RGBA(48, 48, 48, 0);
   }
-
-  /* Handle */
   &::-webkit-scrollbar-thumb {
     background: $gray-strong;
   }
-
-  /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     background-color: $primary-hover;
   }
 
-  .main-card{
+  .main-card {
     padding: 2rem;
+    width: calc(100% - 8rem);
+    margin: 0 auto;
   }
-
 }
 .main-expanded {
-  width: calc(100% - calc(min(60px, 20vw) + 4rem));
-  padding-left: calc(min(60px, 20vw) + 2rem);
-  padding-right: 2rem;
+  padding-left: $main-padding-expanded;
 }
 
-
 @media screen and (max-width: 840px) {
-  .main, .main-expanded {
-    width: calc(100% - 4rem);
-    padding-left: 2rem;
+  .main,
+  .main-expanded {
+    padding-left: 0;
+  }
+}
+@media screen and (max-width: 600px) {
+  .main,
+  .main-expanded {
+    padding-top: 56px;
   }
 }

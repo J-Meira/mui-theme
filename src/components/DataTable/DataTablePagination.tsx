@@ -29,13 +29,15 @@ const PageButton = ({
 };
 
 export const DataTablePagination = ({
+  title,
   pages,
   currentPage,
   setPage,
   lastPage,
 }: DataTablePaginationProps) => {
   const options = pages.filter(
-    (item) => item <= currentPage + 5 && item >= currentPage - 5,
+    (item) =>
+      item.pageNumber <= currentPage + 5 && item.pageNumber >= currentPage - 5,
   );
 
   return (
@@ -50,13 +52,13 @@ export const DataTablePagination = ({
         <KeyboardArrowLeft />
       </PageButton>
       {options &&
-        options.map((item) => (
+        options.map((item, index) => (
           <PageButton
-            key={`page_item_${item}`}
-            onClick={() => setPage(item)}
-            active={item === currentPage}
+            key={`${title}_page_item_${index}`}
+            onClick={() => setPage(item.pageNumber)}
+            active={item.pageNumber === currentPage}
           >
-            {item}
+            {item.pageNumber}
           </PageButton>
         ))}
       <PageButton

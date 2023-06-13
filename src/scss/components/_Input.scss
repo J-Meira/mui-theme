@@ -14,17 +14,78 @@
 }
 
 .Mui-error {
-  select {
+  select,
+  .MuiSelect-icon,
+  .MuiIconButton-root,
+  .MuiInputBase-input,
+  .MuiRadio-root,
+  .MuiCheckbox-root,
+  .MuiFormControlLabel-label {
     color: #f44336;
   }
-  .MuiSelect-icon {
-    // color: rgba(0, 0, 0, 0.54);
+  &[role='radiogroup'] {
     color: #f44336;
+  }
+}
+
+.MuiAutocomplete-clearIndicator {
+  visibility: visible !important;
+}
+
+.search-input-endAdornment {
+  position: absolute;
+  right: 34px;
+  top: calc(50% - 14px);
+
+  .MuiIconButton-root {
+    padding: 4px;
+    svg {
+      font-size: 1.25rem;
+    }
+  }
+}
+.search-input-endAdornment.unSelect {
+  right: 9px;
+  .MuiIconButton-root {
+    margin-right: -2px;
+  }
+}
+
+.dark-switch {
+  border-radius: 50px;
+  position: relative;
+  width: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  .board {
+    width: 50px;
+    height: 20px;
+    position: absolute;
+    top: calc(50% - 11px);
+    left: 5px;
+    border-radius: 50px;
+    background-color: #dedede;
   }
   .MuiIconButton-root {
-    color: #f44336;
+    background-color: #fff;
+    font-size: 0.725rem;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    &:hover {
+      background-color: #fff;
+      filter: brightness(80%);
+    }
   }
-  .MuiInputBase-input {
-    color: #f44336;
+}
+.dark-switch-on {
+  justify-content: flex-end;
+  .MuiIconButton-root {
+    background-color: #121212;
+    &:hover {
+      background-color: #121212;
+      filter: brightness(80%);
+    }
   }
 }

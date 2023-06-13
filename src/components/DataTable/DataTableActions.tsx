@@ -20,10 +20,12 @@ export const DataTableActions = ({
   searchLabel,
   filters,
   filtersLabel,
+  filterOpened,
   onApplyFilters,
   applyFiltersLabel,
   onClearFilters,
   clearFiltersLabel,
+  hideSearch,
   showActive,
   activeValue,
   activeLabel,
@@ -31,7 +33,7 @@ export const DataTableActions = ({
   onExport,
 }: DataTableActionsProps) => {
   const { width } = useWindowDimensions();
-  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(!!filterOpened);
 
   const clearFilters = () => {
     onClearFilters?.();
@@ -40,37 +42,51 @@ export const DataTableActions = ({
 
   return (
     <Grid container className='data-table-actions'>
-      <Grid item md={12}>
+      <Grid item xs={12}>
         <Grid container spacing={3}>
-          <div className='buttons'>
-            <Button color='primary' fullWidth={false} onClick={onAdd}>
-              {addLabel}
-            </Button>
-            {filters && (
-              <Button
-                fullWidth={false}
-                variant={!filtersOpen ? 'outlined' : undefined}
-                onClick={() => setFiltersOpen(!filtersOpen)}
-              >
-                <FilterListIcon />
-                {width > 400 ? filtersLabel : ''}
-              </Button>
-            )}
-          </div>
-          <Input
-            model='icon'
-            label={searchLabel}
-            icon={<SearchIcon />}
-            onChange={setSearch}
-            value={search}
-            grid={{
-              md: 4,
-              lg: 3,
-            }}
-          />
+          {(onAdd || filters) && (
+            <div
+              className={`buttons${
+                hideSearch && !showActive ? ' buttons-spc' : ''
+              }`}
+            >
+              {onAdd && (
+                <Button color='primary' fullWidth={false} onClick={onAdd}>
+                  {addLabel}
+                </Button>
+              )}
+              {filters && (
+                <Button
+                  fullWidth={false}
+                  variant={!filtersOpen ? 'outlined' : undefined}
+                  onClick={() => setFiltersOpen(!filtersOpen)}
+                >
+                  <FilterListIcon />
+                  {width > 400 ? filtersLabel : ''}
+                </Button>
+              )}
+            </div>
+          )}
+          {!hideSearch && (
+            <Input
+              isNoFormik
+              name='data-table-search'
+              model='icon'
+              label={searchLabel}
+              icon={<SearchIcon />}
+              onChange={setSearch}
+              value={search}
+              grid={{
+                md: 4,
+                lg: 3,
+              }}
+            />
+          )}
           {showActive && (
             <Input
-              model='checkBoxG'
+              isNoFormik
+              model='checkBox'
+              name='activeInput'
               label={activeLabel}
               checked={activeValue}
               grid={{
@@ -84,7 +100,7 @@ export const DataTableActions = ({
           )}
           {onExport && (
             <div className='export'>
-              <Fab onClick={onExport} size='small'>
+              <Fab color='primary' onClick={onExport} size='small'>
                 <PictureAsPdfIcon />
               </Fab>
             </div>
@@ -92,11 +108,11 @@ export const DataTableActions = ({
         </Grid>
       </Grid>
       {filters && (
-        <Grid item md={12} className='filters'>
+        <Grid item xs={12} className='filters'>
           <Collapse in={filtersOpen} timeout='auto' unmountOnExit>
             <Grid container spacing={2}>
-              {filters()}
-              <Grid item md={12} className='filters-actions'>
+              {filters(onApplyFilters ? onApplyFilters : undefined)}
+              <Grid item xs={12} className='filters-actions'>
                 <Button
                   onClick={clearFilters}
                   fullWidth={false}
