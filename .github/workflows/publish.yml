@@ -13,13 +13,6 @@ jobs:
       - name: Checkout GitHub Action
         uses: actions/checkout@master
 
-      - name: Login Docker
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ secrets.AZURE_LOGIN_SERVER }}
-          username: ${{ secrets.AZURE_USERNAME }}
-          password: ${{ secrets.AZURE_PASSWORD }}
-
       - name: Set git env
         run: |
           echo "TAG_NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
