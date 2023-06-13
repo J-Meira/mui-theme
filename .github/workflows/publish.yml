@@ -5,8 +5,8 @@ on:
 name: Publish
 
 jobs:
-  sb-build-and-deploy:
-    name: StoryBook Build and Deploy
+  build-and-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -31,19 +31,6 @@ jobs:
           echo "STORYBOOK_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
           echo "$(<.env)"
 
-      - name: Build and Push Docker Image
-        run: |
-          docker build . -t ${{ secrets.AZURE_LOGIN_SERVER }}/npm-tema-story-book:${{ env.TAG_NAME }}
-          docker push ${{ secrets.AZURE_LOGIN_SERVER }}/npm-tema-story-book:${{ env.TAG_NAME }}
-
-  theme-build-and-publish:
-    name: Theme Build and Publish
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout GitHub Action
-        uses: actions/checkout@master
-
       - name: Setup Node
         uses: actions/setup-node@master
         with:
@@ -55,7 +42,24 @@ jobs:
       - name: NPM Login
         run: NPM_USER=${{ vars.NPM_USER }} NPM_PASS=${{ secrets.NPM_PASS }} NPM_EMAIL=any@any.com NPM_REGISTRY=${{ secrets.NPM_URL }} npm-cli-login
 
-      - name: Build Theme
+      - name: Install depends
         run: |
           yarn --ignore-scripts
+
+      - name: Build and publish theme
+        run: |
           yarn publish --no-git-tag-version
+
+      - name: Build StoryBook
+        run: |
+          yarn build-storybook
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: sa-east-1
+
+      - name: Deploy to S3
+        run: aws s3 sync ./storybook-static/ s3://mui-theme.jm.app.br --delete
