@@ -1,23 +1,26 @@
-import { toast } from 'react-toastify';
+import { enqueueSnackbar } from 'notistack';
 
 const error = (msg: string, callback?: () => void, toastId?: string) => {
-  return toast.error(msg, {
+  return enqueueSnackbar(msg, {
     onClose: () => callback?.(),
-    toastId,
+    variant: 'error',
+    key: toastId,
   });
 };
 
 const warning = (msg: string, callback?: () => void, toastId?: string) => {
-  return toast.warning(msg, {
+  return enqueueSnackbar(msg, {
     onClose: () => callback?.(),
-    toastId,
+    variant: 'warning',
+    key: toastId,
   });
 };
 
 const success = (msg: string, callback?: () => void, toastId?: string) => {
-  return toast.success(msg, {
+  return enqueueSnackbar(msg, {
     onClose: () => callback?.(),
-    toastId,
+    variant: 'success',
+    key: toastId,
   });
 };
 
