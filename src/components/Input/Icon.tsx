@@ -3,6 +3,7 @@ import {
   IconButton,
   InputAdornment as MuiInputAdornment,
   TextField,
+  Typography,
 } from '@mui/material';
 import { InputProps } from '.';
 
@@ -10,6 +11,7 @@ export interface IconProps {
   action?: (params?: any) => void;
   actionTitle?: string;
   icon?: React.ReactNode;
+  label?: React.ReactNode;
   start?: boolean;
 }
 
@@ -20,9 +22,11 @@ export const InputAdornment = ({
   action,
   actionTitle,
   icon,
+  label,
   start,
 }: IconProps) => (
   <MuiInputAdornment position={start ? 'start' : 'end'}>
+    {label && <Typography variant='caption'>{label}</Typography>}
     <IconButton
       aria-label={`input action ${actionTitle || ''}`}
       onClick={action}

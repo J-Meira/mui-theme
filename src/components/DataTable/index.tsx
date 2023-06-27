@@ -32,19 +32,20 @@ export interface ObjectEnumProps {
 }
 
 export interface DataTableColumnsProps {
-  key: string;
+  align?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
+  className?: string;
   disablePadding?: boolean;
+  enumObject?: EnumObjectProps;
+  isSelectable?: boolean;
+  isSortable?: boolean;
+  key: string;
   label?: string;
   limit?: number;
-  isSortable?: boolean;
-  objectKey?: string;
-  enumObject?: EnumObjectProps;
-  width?: number;
-  minWidth?: number;
   maxWidth?: number;
-  isSelectable?: boolean;
-  align?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
+  minWidth?: number;
+  objectKey?: string;
   render?: (row: any, index?: number) => React.ReactNode;
+  width?: number;
 }
 
 export interface DataTableGridProps extends GridProps {

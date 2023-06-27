@@ -12,5 +12,4 @@ export * from './PopUp';
 export * from './SideBar';
 export * from './SideBarItem';
 export * from './Tabs';
-export * from './Toast';
 export * from './TreeListItem';
