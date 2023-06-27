@@ -162,6 +162,7 @@ Input.defaultProps = defaultInputProps;
 export * from './CheckBox';
 export * from './DarkSwitch';
 export * from './DatePicker';
+export * from './FileUpload';
 export * from './Icon';
 export * from './Mask';
 export * from './RadioGroup';
