@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { Meta } from '@storybook/react';
 import { useArgs, useState } from '@storybook/client-api';
 import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';

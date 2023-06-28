@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { Meta } from '@storybook/react';
 import { Edit } from '@mui/icons-material';
 import { Grid } from '@mui/material';
