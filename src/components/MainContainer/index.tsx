@@ -20,7 +20,13 @@ export const MainContainer = ({
       elevation={0}
       sx={{ backgroundColor: backgroundColor }}
       square
-      className={`main ${!sideBarExpanded ? 'main-expanded' : ''}`}
+      className={`main ${
+        sideBarExpanded === undefined
+          ? 'main-full'
+          : !sideBarExpanded
+          ? 'main-expanded'
+          : ''
+      }`}
     >
       {subHeader}
       <Card variant='outlined' className='main-card'>

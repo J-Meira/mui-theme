@@ -11,6 +11,10 @@ export const withTheme = (Story) => {
   return (
     <MultiProvider
       adapterLocalePtBR
+      snackAnchorHorizontal='right'
+      snackAnchorVertical='top'
+      snackAutoHideDuration={5000}
+      snackMax={3}
       palette={{
         primary: {
           light: '#ff5f4e',

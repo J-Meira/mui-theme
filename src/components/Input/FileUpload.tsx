@@ -5,7 +5,7 @@ import {
   Clear as ClearIcon,
 } from '@mui/icons-material';
 import { Grid, GridProps, TextField } from '@mui/material';
-import { InputAdornment, InputProps } from '.';
+import { InputAd, InputProps } from '.';
 
 export interface FileUploadProps
   extends Omit<
@@ -112,7 +112,7 @@ export const FileUpload = ({
         InputProps={{
           readOnly: true,
           endAdornment: innerValue && (
-            <InputAdornment
+            <InputAd
               label={!hideSizeText && fileSize}
               icon={<ClearIcon />}
               action={!readOnly ? handleDelete : undefined}
@@ -120,9 +120,7 @@ export const FileUpload = ({
               start={false}
             />
           ),
-          startAdornment: (
-            <InputAdornment icon={<FileUploadIcon />} start={true} />
-          ),
+          startAdornment: <InputAd icon={<FileUploadIcon />} start={true} />,
         }}
         margin='normal'
         onChange={undefined}

@@ -3,6 +3,7 @@ import { Meta, Source, Canvas } from '@storybook/blocks';
 import Code from './assets/code-brackets.svg';
 import Node from './assets/node.svg';
 import Yarn from './assets/yarn.svg';
+import Sass from './assets/sass.svg';
 
 <Meta title='Introduction' />
 
@@ -31,15 +32,15 @@ import Yarn from './assets/yarn.svg';
       .link-list {
         row-gap: 20px;
         column-gap: 20px;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
       }
     }
 
     @media all and (-ms-high-contrast:none) {
     .link-list {
         display: -ms-grid;
-        -ms-grid-columns: 1fr 1fr 1fr;
-        -ms-grid-rows: 1fr 1fr 1fr;
+        -ms-grid-columns: 1fr 1fr 1fr 1fr;
+        -ms-grid-rows: 1fr 1fr 1fr 1fr;
       }
     }
 
@@ -126,7 +127,7 @@ Developer with [Mui Core](https://mui.com/core/#/)
   >
     <img src={Node} alt='node' />
     <span>
-      <strong>Node.js</strong> v18
+      <strong>Node.js</strong> v18 +
     </span>
   </a>
   <a
@@ -136,7 +137,7 @@ Developer with [Mui Core](https://mui.com/core/#/)
   >
     <img src={Yarn} alt='node' />
     <span>
-      <strong>Yarn</strong> v1.22.19
+      <strong>Yarn</strong> v1.22 +
     </span>
   </a>
   <a
@@ -146,7 +147,17 @@ Developer with [Mui Core](https://mui.com/core/#/)
   >
     <img src={Code} alt='node' />
     <span>
-      <strong>npm-cli-login</strong> v1.0.0
+      <strong>npm-cli-login</strong> v1.0 +
+    </span>
+  </a>
+  <a
+    className='link-item'
+    href='https://www.npmjs.com/package/sass'
+    target='_blank'
+  >
+    <img src={Sass} alt='Sass' />
+    <span>
+      <strong>Sass</strong> v1.62 +
     </span>
   </a>
 
@@ -163,10 +174,10 @@ Developer with [Mui Core](https://mui.com/core/#/)
 <Source
   dark
   language='bash'
-  code='yarn login --registry=https://npm.pkg.github.com'
+  code='yarn login --registry=https://npm.pkg.github.com --scope=@j-meira'
 />
 
-- Instalar:
+- Install theme:
 
 <Source dark language='bash' code='yarn add @j-meira/mui-theme' />
 
@@ -176,7 +187,7 @@ Developer with [Mui Core](https://mui.com/core/#/)
   dark
   language='typescript'
   code={`
-import { MultiProvider, Toast } from '@j-meira/mui-theme';
+import { MultiProvider } from '@j-meira/mui-theme';
 import { Loading } from './components';
 
 import { AppRoutes } from './routers';
@@ -184,29 +195,36 @@ import { AppRoutes } from './routers';
 export const App = () => (
   <MultiProvider
     adapterLocalePtBR
+    snackAnchorHorizontal='right'
+    snackAnchorVertical='top'
+    snackAutoHideDuration={5000}
+    snackMax={3}
     palette={{
       primary: {
-        light: '#6fddff',
-        main: '#29abe2',
-        dark: '#007cb0',
+        light: '#ff5f4e',
+        main: '#ed1c24',
+        dark: '#b20000',
         contrastText: '#fff',
       },
       secondary: {
-        light: '#74706f',
-        main: '#494544',
-        dark: '#221e1d',
-        contrastText: '#fff',
+        light: '#cdd0d9',
+        main: '#9c9fa8',
+        dark: '#6e7179',
+        contrastText: '#000',
       },
     }}
   >
     <AppRoutes />
     <Loading />
-    <Toast />
   </MultiProvider>
 );
 
 `}
 />
+
+- Install Sass:
+
+<Source dark language='bash' code='yarn add sass' />
 
 - Import styles:
 

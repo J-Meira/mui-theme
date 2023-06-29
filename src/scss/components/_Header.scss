@@ -18,6 +18,10 @@
   .tool-bar-expanded {
     padding-left: calc(min(60px, 20vw) + 2rem);
   }
+
+  .tool-bar-full {
+    padding-left: 2rem;
+  }
 }
 
 @media screen and (max-width: 840px) {

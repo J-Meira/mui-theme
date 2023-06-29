@@ -1,5 +1,4 @@
 import React from 'react';
-
 import type { Meta } from '@storybook/react';
 import { useState } from '@storybook/client-api';
 import { DataTableFooter, DataTableGrid } from '../../src';

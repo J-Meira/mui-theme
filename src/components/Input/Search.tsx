@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useField } from 'formik';
-import { Autocomplete, TextField } from '@mui/material';
-import { InputProps, SelectOptionsProps, filter } from '.';
+import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
+import { InputProps, SearchProps, SelectOptionsProps } from '.';
 
-export const isString = (item: any): item is string => {
+const filter = createFilterOptions<SelectOptionsProps>();
+
+const isString = (item: any): item is string => {
   return typeof item === 'string';
 };
-
-export interface SearchProps {
-  creatable?: boolean;
-  creatableLabel?: string;
-  readOnly?: boolean;
-  searchChange?: (newValue: number) => void;
-}
 
 type SearchExProps = Omit<
   InputProps,

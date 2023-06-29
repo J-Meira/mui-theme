@@ -24,5 +24,11 @@
     "declarationMap": true
   },
   "include": ["src"],
-  "exclude": ["dist", "node_modules", "stories", "storybook-static"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "stories",
+    ".storybook",
+    "storybook-static"
+  ]
 }

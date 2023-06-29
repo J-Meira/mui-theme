@@ -1,4 +1,5 @@
 import {
+  CheckboxProps,
   Grid,
   GridProps,
   OutlinedInputProps,
@@ -6,16 +7,22 @@ import {
 } from '@mui/material';
 
 import { Basic } from './Basic';
-import { CheckBox, CheckBoxProps } from './CheckBox';
-import { Currency, CurrencyProps } from './Currency';
-import { Icon, IconProps } from './Icon';
-import { Mask, MaskProps } from './Mask';
+import { CheckBox } from './CheckBox';
+import { Currency } from './Currency';
+import { Icon } from './Icon';
+import { Mask } from './Mask';
 import { Number } from './Number';
-import { Password, PasswordProps } from './Password';
-import { Search, SearchProps } from './Search';
-import { SearchRequest, SearchRequestProps } from './SearchRequest';
-import { Select, SelectOptionsProps, SelectProps } from './Select';
-import { RadioGroup, RadioGroupProps } from './RadioGroup';
+import { Password } from './Password';
+import { Search } from './Search';
+import { SearchRequest } from './SearchRequest';
+import { Select } from './Select';
+import { RadioGroup } from './RadioGroup';
+
+export interface SelectOptionsProps {
+  label: string;
+  obj?: any;
+  value: number;
+}
 
 export type InputProps = TextFieldProps & {
   className?: string;
@@ -38,6 +45,68 @@ export type InputProps = TextFieldProps & {
   readOnly?: boolean;
 };
 
+export interface CheckBoxProps extends CheckboxProps {
+  label?: string;
+  helperText?: string;
+}
+
+export interface CurrencyProps {
+  hidePrefix?: boolean;
+}
+
+export interface IconProps {
+  action?: (params?: any) => void;
+  actionTitle?: string;
+  icon?: React.ReactNode;
+  label?: React.ReactNode;
+  start?: boolean;
+}
+
+export interface MaskProps {
+  custom?: (value: string) => string;
+  maskModel?:
+    | 'cpf'
+    | 'cnpj'
+    | 'document'
+    | 'number'
+    | 'phone'
+    | 'plate'
+    | 'postalCode';
+}
+
+export interface PasswordProps {
+  showTitle?: string;
+  hideTitle?: string;
+}
+
+export interface RadioGroupInputProps {
+  rowDirection?: boolean;
+  label?: string;
+}
+
+export interface SearchProps {
+  creatable?: boolean;
+  creatableLabel?: string;
+  readOnly?: boolean;
+  searchChange?: (newValue: number) => void;
+}
+
+export interface SearchRequestProps {
+  creatable?: boolean;
+  creatableLabel?: string;
+  icon?: React.ReactNode;
+  iconAction?: (params?: any) => void;
+  iconActionTitle?: string;
+  initialSelected?: number;
+  getList?: (param?: string, id?: number) => Promise<SelectOptionsProps[]>;
+  readOnly?: boolean;
+  searchChange?: (newValue: number) => void;
+  setCreatableValue?: (value: string) => void;
+}
+export interface SelectProps {
+  defaultOption?: string;
+}
+
 type InputPropsExt = InputProps &
   CheckBoxProps &
   CurrencyProps &
@@ -45,7 +114,7 @@ type InputPropsExt = InputProps &
   MaskProps &
   PasswordProps &
   OutlinedInputProps &
-  RadioGroupProps &
+  RadioGroupInputProps &
   SearchProps &
   SearchRequestProps &
   SelectProps;
@@ -159,13 +228,8 @@ export const Input = ({
 
 Input.defaultProps = defaultInputProps;
 
-export * from './CheckBox';
 export * from './DarkSwitch';
 export * from './DatePicker';
 export * from './FileUpload';
-export * from './Icon';
+export * from './InputAd';
 export * from './Mask';
-export * from './RadioGroup';
-export * from './Search';
-export * from './SearchRequest';
-export * from './Select';
