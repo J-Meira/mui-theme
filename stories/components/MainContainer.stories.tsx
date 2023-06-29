@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta } from '@storybook/react';
 import { useArgs } from '@storybook/client-api';
 
@@ -29,29 +30,42 @@ export default {
   title: 'Components/MainContainer',
   component: MainContainer,
   tags: ['autodocs'],
+  args: {
+    sideBarExpanded: false,
+  },
 } satisfies Meta<typeof MainContainer>;
 
 export const Basic = () => {
-  const [{ isOpen }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ isOpen: !isOpen });
+  const [{ sideBarExpanded }, updateArgs] = useArgs();
+  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
 
   return (
     <div className='story-book'>
-      <MainContainer sideBarExpanded={isOpen}>
+      <MainContainer sideBarExpanded={sideBarExpanded}>
         <Button onClick={handleClose}>Collapse</Button>
       </MainContainer>
     </div>
   );
 };
 
+export const Full = () => {
+  return (
+    <div className='story-book'>
+      <MainContainer>
+        <Button>Test</Button>
+      </MainContainer>
+    </div>
+  );
+};
+
 export const SubHeader = () => {
-  const [{ isOpen }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ isOpen: !isOpen });
+  const [{ sideBarExpanded }, updateArgs] = useArgs();
+  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
 
   return (
     <div className='story-book'>
       <MainContainer
-        sideBarExpanded={isOpen}
+        sideBarExpanded={sideBarExpanded}
         subHeader={
           <div style={{ padding: '1rem', width: '100%' }}>
             <BreadcrumbBar list={breadcrumbLlist} />
@@ -65,13 +79,13 @@ export const SubHeader = () => {
 };
 
 export const Footer = () => {
-  const [{ isOpen }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ isOpen: !isOpen });
+  const [{ sideBarExpanded }, updateArgs] = useArgs();
+  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
 
   return (
     <div className='story-book'>
       <MainContainer
-        sideBarExpanded={isOpen}
+        sideBarExpanded={sideBarExpanded}
         footer={
           <div style={{ padding: '1rem', width: '100%', textAlign: 'center' }}>
             <span>{footer}</span>
@@ -85,13 +99,13 @@ export const Footer = () => {
 };
 
 export const SubHeaderFooter = () => {
-  const [{ isOpen }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ isOpen: !isOpen });
+  const [{ sideBarExpanded }, updateArgs] = useArgs();
+  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
 
   return (
     <div className='story-book'>
       <MainContainer
-        sideBarExpanded={isOpen}
+        sideBarExpanded={sideBarExpanded}
         subHeader={
           <div style={{ padding: '1rem', width: '100%' }}>
             <BreadcrumbBar list={breadcrumbLlist} />

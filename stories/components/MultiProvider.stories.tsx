@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Grid } from '@mui/material';
 
@@ -32,7 +33,8 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   args: {
     adapterLocalePtBR: true,
-    snackAnchorOrigin: { horizontal: 'right', vertical: 'top' },
+    snackAnchorHorizontal: 'right',
+    snackAnchorVertical: 'top',
     snackAutoHideDuration: 5000,
     snackMax: 3,
     palette: {
