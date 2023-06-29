@@ -2,11 +2,11 @@ import React from 'react';
 import type { Meta } from '@storybook/react';
 import { Grid } from '@mui/material';
 
-import { DatePickerInput } from '../../src';
+import { DatePicker } from '../../src';
 
 export default {
   title: 'Components/InputDatePicker',
-  component: DatePickerInput,
+  component: DatePicker,
   tags: ['autodocs'],
   args: {
     name: 'date',
@@ -16,16 +16,16 @@ export default {
       lg: 12,
     },
   },
-} satisfies Meta<typeof DatePickerInput>;
+} satisfies Meta<typeof DatePicker>;
 
 export const Basic = ({ ...args }) => (
   <Grid container spacing={2}>
-    <DatePickerInput isNoFormik {...args} />
+    <DatePicker isNoFormik {...args} />
   </Grid>
 );
 
 export const WithTime = ({ ...args }) => (
   <Grid container spacing={2}>
-    <DatePickerInput isNoFormik time {...args} />
+    <DatePicker isNoFormik time {...args} />
   </Grid>
 );

@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import React from 'react';
 import 'jest-canvas-mock';
 import { render } from '@testing-library/react';
