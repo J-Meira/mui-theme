@@ -11,7 +11,8 @@ export const withTheme = (Story) => {
   return (
     <MultiProvider
       adapterLocalePtBR
-      snackAnchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+      snackAnchorHorizontal='right'
+      snackAnchorVertical='top'
       snackAutoHideDuration={5000}
       snackMax={3}
       palette={{

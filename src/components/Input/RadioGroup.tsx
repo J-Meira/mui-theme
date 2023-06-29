@@ -7,18 +7,13 @@ import {
   RadioGroup as MuiRadioGroup,
   Radio,
 } from '@mui/material';
-import { InputProps } from '.';
-
-export interface RadioGroupProps {
-  rowDirection?: boolean;
-  label?: string;
-}
+import { InputProps, RadioGroupInputProps } from '.';
 
 type RadioGroupExProps = Omit<
   InputProps,
   'className' | 'grid' | 'noGrid' | 'model'
 > &
-  RadioGroupProps;
+  RadioGroupInputProps;
 
 const RadioGroupRender = ({
   helperText,

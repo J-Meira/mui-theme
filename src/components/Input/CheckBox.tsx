@@ -5,14 +5,8 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  CheckboxProps,
 } from '@mui/material';
-import { InputProps } from '.';
-
-export interface CheckBoxProps extends CheckboxProps {
-  label?: string;
-  helperText?: string;
-}
+import { CheckBoxProps, InputProps } from '.';
 
 type CheckBoxExProps = Omit<
   InputProps,

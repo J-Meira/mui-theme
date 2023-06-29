@@ -2,8 +2,8 @@ import { AppBar, Toolbar, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 export interface HeaderProps {
-  sideBarControl: () => void;
-  sideBarExpanded: boolean;
+  sideBarControl?: () => void;
+  sideBarExpanded?: boolean;
   navigation?: React.ReactNode;
   actions?: React.ReactNode;
 }
@@ -16,19 +16,29 @@ export const Header = ({
 }: HeaderProps) => (
   <AppBar position='fixed' className='app-bar'>
     <Toolbar
-      className={`tool-bar ${!sideBarExpanded ? 'tool-bar-expanded' : ''}`}
+      className={`tool-bar ${
+        sideBarExpanded === undefined
+          ? 'tool-bar-full'
+          : !sideBarExpanded
+          ? 'tool-bar-expanded'
+          : ''
+      }`}
     >
-      <div className='navigation-bar'>
-        <IconButton
-          edge='start'
-          color='inherit'
-          aria-label='menu'
-          onClick={sideBarControl}
-        >
-          <MenuIcon />
-        </IconButton>
-        {navigation}
-      </div>
+      {(navigation || sideBarControl) && (
+        <div className='navigation-bar'>
+          {sideBarControl && (
+            <IconButton
+              edge='start'
+              color='inherit'
+              aria-label='menu'
+              onClick={sideBarControl}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          {navigation}
+        </div>
+      )}
       {actions && <div className='actions-bar'>{actions}</div>}
     </Toolbar>
   </AppBar>

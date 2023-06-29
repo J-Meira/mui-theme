@@ -1,19 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps } from '.';
-
-export interface MaskProps {
-  custom?: (value: string) => string;
-  maskModel?:
-    | 'cpf'
-    | 'cnpj'
-    | 'document'
-    | 'number'
-    | 'phone'
-    | 'plate'
-    | 'postalCode';
-}
+import { InputProps, MaskProps } from '.';
 
 type MaskPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
   MaskProps;

@@ -1,43 +1,9 @@
 import { Field, FieldProps } from 'formik';
-import {
-  IconButton,
-  InputAdornment as MuiInputAdornment,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { InputProps } from '.';
-
-export interface IconProps {
-  action?: (params?: any) => void;
-  actionTitle?: string;
-  icon?: React.ReactNode;
-  label?: React.ReactNode;
-  start?: boolean;
-}
+import { TextField } from '@mui/material';
+import { IconProps, InputAd, InputProps } from '.';
 
 type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
   IconProps;
-
-export const InputAdornment = ({
-  action,
-  actionTitle,
-  icon,
-  label,
-  start,
-}: IconProps) => (
-  <MuiInputAdornment position={start ? 'start' : 'end'}>
-    {label && <Typography variant='caption'>{label}</Typography>}
-    <IconButton
-      aria-label={`input action ${actionTitle || ''}`}
-      onClick={action}
-      edge={start ? false : 'end'}
-      tabIndex={-1}
-      title={actionTitle}
-    >
-      {icon}
-    </IconButton>
-  </MuiInputAdornment>
-);
 
 //ToDo fix label start position on start icon type
 
@@ -56,7 +22,7 @@ export const Icon = ({
   ...rest
 }: IconPropsEx) => {
   const adornment = (
-    <InputAdornment
+    <InputAd
       action={action}
       actionTitle={actionTitle}
       icon={icon}

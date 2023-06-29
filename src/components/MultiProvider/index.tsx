@@ -17,7 +17,11 @@ import { ptBR as corePtBR, enUS as coreEnUS } from '@mui/material/locale';
 import { ptBR as datePtBR, enUS as dateEnUS } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { SnackbarProvider, SnackbarProviderProps } from 'notistack';
+import {
+  SnackbarOrigin,
+  SnackbarProvider,
+  SnackbarProviderProps,
+} from 'notistack';
 
 export interface PaletteProps {
   primary: {
@@ -39,7 +43,8 @@ export interface MultiProviderProps {
   children: React.ReactNode;
   palette: PaletteProps;
   paletteDark?: PaletteProps;
-  snackAnchorOrigin: SnackbarProviderProps['anchorOrigin'];
+  snackAnchorHorizontal: SnackbarOrigin['horizontal'];
+  snackAnchorVertical: SnackbarOrigin['vertical'];
   snackAutoHideDuration: SnackbarProviderProps['autoHideDuration'];
   snackMax: SnackbarProviderProps['maxSnack'];
 }
@@ -62,7 +67,8 @@ export const MultiProvider: FC<MultiProviderProps> = ({
   children,
   palette,
   paletteDark,
-  snackAnchorOrigin,
+  snackAnchorHorizontal,
+  snackAnchorVertical,
   snackAutoHideDuration,
   snackMax,
 }) => {
@@ -132,7 +138,10 @@ export const MultiProvider: FC<MultiProviderProps> = ({
         })}
       >
         <SnackbarProvider
-          anchorOrigin={snackAnchorOrigin}
+          anchorOrigin={{
+            horizontal: snackAnchorHorizontal,
+            vertical: snackAnchorVertical,
+          }}
           autoHideDuration={snackAutoHideDuration}
           maxSnack={snackMax}
         >

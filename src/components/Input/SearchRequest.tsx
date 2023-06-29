@@ -7,29 +7,20 @@ import {
   TextField,
   createFilterOptions,
 } from '@mui/material';
-import { InputProps, isString, SelectOptionsProps } from '.';
+import { InputProps, SearchRequestProps, SelectOptionsProps } from '.';
 import { useDebounce } from '../../hooks';
 
-export interface SearchRequestProps {
-  creatable?: boolean;
-  creatableLabel?: string;
-  icon?: React.ReactNode;
-  iconAction?: (params?: any) => void;
-  iconActionTitle?: string;
-  initialSelected?: number;
-  getList?: (param?: string, id?: number) => Promise<SelectOptionsProps[]>;
-  readOnly?: boolean;
-  searchChange?: (newValue: number) => void;
-  setCreatableValue?: (value: string) => void;
-}
+const filter = createFilterOptions<SelectOptionsProps>();
+
+const isString = (item: any): item is string => {
+  return typeof item === 'string';
+};
 
 export type SearchRequestExProps = Omit<
   InputProps,
   'className' | 'isNoFormik' | 'noGrid' | 'model' | 'rowDirection'
 > &
   SearchRequestProps;
-
-export const filter = createFilterOptions<SelectOptionsProps>();
 
 export const SearchRequest = ({
   autoFocus,

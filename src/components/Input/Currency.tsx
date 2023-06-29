@@ -1,10 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { InputAdornment, TextField } from '@mui/material';
-import { InputProps } from '.';
-
-export interface CurrencyProps {
-  hidePrefix?: boolean;
-}
+import { CurrencyProps, InputProps } from '.';
 
 type CurrencyPropsEx = Omit<
   InputProps,

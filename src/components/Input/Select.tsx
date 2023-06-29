@@ -1,16 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps } from '.';
-
-export interface SelectOptionsProps {
-  label: string;
-  obj?: any;
-  value: number;
-}
-
-export interface SelectProps {
-  defaultOption?: string;
-}
+import { InputProps, SelectProps } from '.';
 
 type SelectPropsEx = Omit<
   InputProps,

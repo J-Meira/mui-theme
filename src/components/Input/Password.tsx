@@ -5,12 +5,7 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
-import { InputProps } from '.';
-
-export interface PasswordProps {
-  showTitle?: string;
-  hideTitle?: string;
-}
+import { InputProps, PasswordProps } from '.';
 
 type PasswordPropsEx = Omit<
   InputProps,
