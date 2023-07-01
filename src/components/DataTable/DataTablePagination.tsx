@@ -37,7 +37,7 @@ export const DataTablePagination = ({
 }: DataTablePaginationProps) => {
   const options = pages.filter(
     (item) =>
-      item.pageNumber <= currentPage + 5 && item.pageNumber >= currentPage - 5,
+      item.pageNumber <= currentPage + (currentPage === 1 ? 5 : 2) && item.pageNumber >= currentPage - (currentPage === lastPage ? 5 : 2),
   );
 
   return (
