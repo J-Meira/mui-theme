@@ -64,6 +64,7 @@ export const FileUpload = ({
   placeholder,
   deleteLabel,
 }: FileUploadProps) => {
+  const [inputKey, setInputKey] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const [innerValue, setInnerValue] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
@@ -93,6 +94,7 @@ export const FileUpload = ({
   };
 
   const handleDelete = () => {
+    setInputKey((prevKey) => prevKey + 1);
     onChange?.(null);
     setInnerValue(null);
     setFileName('');
@@ -130,6 +132,7 @@ export const FileUpload = ({
         onClick={!readOnly ? handleClick : undefined}
       />
       <input
+        key={inputKey}
         type='file'
         ref={inputRef}
         onChange={handleChange}
