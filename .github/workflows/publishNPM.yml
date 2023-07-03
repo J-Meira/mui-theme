@@ -1,0 +1,54 @@
+on:
+  release:
+    types: [published]
+
+name: Publish
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@master
+
+      - name: Set git env
+        run: |
+          echo "TAG_NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
+      - name: Make envfile
+        run: |
+          cat > .env
+          echo "STORYBOOK_VERSION=${{ env.TAG_NAME }}" >> .env
+          echo "STORYBOOK_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
+          echo "$(<.env)"
+
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: 18.16
+
+      - name: Install depends
+        run: |
+          yarn --ignore-scripts
+
+      - name: Build and publish theme
+        run: |
+          yarn publish --no-git-tag-version
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Build StoryBook
+        run: |
+          yarn build-storybook
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: sa-east-1
+
+      - name: Deploy to S3
+        run: aws s3 sync ./storybook-static/ s3://mui-theme.jm.app.br --delete

@@ -1,6 +1,6 @@
 {
   "name": "@j-meira/mui-theme",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "ui theme made with MUI 5",
   "author": "J-Meira",
   "license": "ISC",
@@ -75,9 +75,6 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "build": "yarn build:esm && yarn build:cjs && yarn copy-scss",
