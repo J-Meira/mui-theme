@@ -33,11 +33,12 @@ jobs:
         run: |
           yarn --ignore-scripts
 
+      - name: NPM Login
+        run: NPM_USER=${{ vars.NPM_USER }} NPM_PASS=${{ secrets.NPM_TOKEN }} NPM_EMAIL=${{ vars.NPM_EMAIL }} npm-cli-login
+
       - name: Build and publish theme
         run: |
           yarn publish --no-git-tag-version
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build StoryBook
         run: |
