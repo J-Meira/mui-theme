@@ -68,15 +68,11 @@
   flex-wrap: wrap;
 
   .MuiButton-root {
-    // font-size: 0.6rem!important;
     min-width: 40px;
     min-height: 32px;
     padding: 3px 4px !important;
+    margin: 0 0.25rem;
     margin-bottom: 0.5rem;
-
-    + .MuiButton-root {
-      margin-left: 0.5rem;
-    }
   }
 }
 
@@ -86,5 +82,13 @@
   .rows-input {
     margin: 0 1rem;
     min-width: 70px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .data-table-pagination {
+    .btn-hide-mobile {
+      display: none;
+    }
   }
 }

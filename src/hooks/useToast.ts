@@ -1,31 +1,56 @@
 import { enqueueSnackbar } from 'notistack';
 
-const error = (msg: string, callback?: () => void, toastId?: string) => {
+export interface UseToastOptionsProps {
+  autoHideDuration?: number | null;
+  persist?: boolean;
+  onClose?: () => void;
+  toastId?: string;
+}
+
+const basic = (msg: string, options?: UseToastOptionsProps) => {
   return enqueueSnackbar(msg, {
-    onClose: () => callback?.(),
+    ...options,
+    variant: 'default',
+    key: options?.toastId,
+  });
+};
+
+const error = (msg: string, options?: UseToastOptionsProps) => {
+  return enqueueSnackbar(msg, {
+    ...options,
     variant: 'error',
-    key: toastId,
+    key: options?.toastId,
   });
 };
 
-const warning = (msg: string, callback?: () => void, toastId?: string) => {
+const info = (msg: string, options?: UseToastOptionsProps) => {
   return enqueueSnackbar(msg, {
-    onClose: () => callback?.(),
-    variant: 'warning',
-    key: toastId,
+    ...options,
+    variant: 'info',
+    key: options?.toastId,
   });
 };
 
-const success = (msg: string, callback?: () => void, toastId?: string) => {
+const success = (msg: string, options?: UseToastOptionsProps) => {
   return enqueueSnackbar(msg, {
-    onClose: () => callback?.(),
+    ...options,
     variant: 'success',
-    key: toastId,
+    key: options?.toastId,
+  });
+};
+
+const warning = (msg: string, options?: UseToastOptionsProps) => {
+  return enqueueSnackbar(msg, {
+    ...options,
+    variant: 'warning',
+    key: options?.toastId,
   });
 };
 
 export const useToast = {
+  basic,
   error,
-  warning,
+  info,
   success,
+  warning,
 };

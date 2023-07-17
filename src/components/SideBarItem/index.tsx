@@ -23,6 +23,7 @@ export interface SideBarItemProps {
   label: string;
   secondary?: boolean;
   selected: boolean;
+  sideBarControl?: () => void;
 }
 
 export const SideBarItem = ({
@@ -34,19 +35,39 @@ export const SideBarItem = ({
   label,
   secondary,
   selected,
+  sideBarControl,
 }: SideBarItemProps) => {
   const [open, setOpen] = useState(initialState);
 
+  const openMain = () => {
+    if (!open && !expanded && sideBarControl) {
+      sideBarControl();
+    }
+    setOpen(!open);
+  };
+
+  const labelToIcon = () => {
+    const splited = label.split(' ');
+    return splited.length > 1
+      ? `${splited[0][0]}${splited[1][0]}`
+      : `${splited[0][0]}${splited[0][1]}`;
+  };
+
   useEffect(() => {
     if (!expanded && open) setOpen(false);
-  }, [expanded, open]);
+
+    // eslint-disable-next-line
+  }, [expanded]);
 
   return children ? (
     <Fragment>
-      <ListItem disablePadding onClick={() => setOpen(!open)}>
-        <ListItemButton selected={selected}>
+      <ListItem disablePadding onClick={openMain}>
+        <ListItemButton selected={selected} title={label}>
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
-          {expanded && <ListItemText primary={label} />}
+          {expanded !== false && <ListItemText primary={label} />}
+          {!icon && expanded === false && (
+            <ListItemText primary={labelToIcon()} />
+          )}
           {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </ListItemButton>
       </ListItem>
@@ -64,9 +85,12 @@ export const SideBarItem = ({
         secondary ? (selected ? 'secondary-selected' : 'secondary') : ''
       }
     >
-      <ListItemButton selected={selected}>
+      <ListItemButton selected={selected} title={label}>
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
-        {expanded && <ListItemText primary={label} />}
+        {expanded !== false && <ListItemText primary={label} />}
+        {!icon && expanded === false && (
+          <ListItemText primary={labelToIcon()} />
+        )}
       </ListItemButton>
     </ListItem>
   );
