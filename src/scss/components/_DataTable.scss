@@ -46,6 +46,14 @@
   cursor: pointer;
 }
 
+.data-table-row-line-through {
+  text-decoration: line-through !important;
+
+  input {
+    text-decoration: line-through !important;
+  }
+}
+
 .data-table-selected {
   display: flex;
   justify-content: space-between;

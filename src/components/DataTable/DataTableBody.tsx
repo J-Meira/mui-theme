@@ -14,10 +14,14 @@ export const DataTableBody = ({
   title,
   uniqueCol,
 }: DataTableBodyProps) => {
-  const getClassName = (className?: string): string | undefined => {
-    return customClickAction || (isSelectable && isSelectableAnywhereElse)
-      ? `data-table-selectable${className ? ' ' + className : ''}`
-      : className;
+  const getClassName = (className?: string, row?: any): string | undefined => {
+    const rowClass = row && row.status ? 'data-table-row-line-through ' : '';
+    return (
+      rowClass +
+      (customClickAction || (isSelectable && isSelectableAnywhereElse)
+        ? `data-table-selectable${className ? ' ' + className : ''}`
+        : className)
+    );
   };
 
   return (
@@ -48,7 +52,7 @@ export const DataTableBody = ({
               role={
                 isSelectable && isSelectableAnywhere ? 'checkbox' : undefined
               }
-              className={getClassName()}
+              className={getClassName(undefined, row)}
               aria-checked={
                 isSelectable && isSelectableAnywhere
                   ? isItemSelected
