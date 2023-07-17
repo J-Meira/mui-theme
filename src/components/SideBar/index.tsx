@@ -11,7 +11,7 @@ export interface SideBarProps {
   versionDate?: string;
   sideBarControl: () => void;
   homeNavigate: (destiny: any) => void;
-  onMouseHover: (state: boolean) => void;
+  onMouseHover?: (state: boolean) => void;
   children?: React.ReactNode;
 }
 
@@ -65,8 +65,8 @@ export const SideBar = ({
         anchor='left'
         open={expanded}
         className={className}
-        onMouseEnter={() => onMouseHover(true)}
-        onMouseLeave={() => onMouseHover(false)}
+        onMouseEnter={onMouseHover ? () => onMouseHover(true) : undefined}
+        onMouseLeave={onMouseHover ? () => onMouseHover(false) : undefined}
       >
         <div className='side-bar-header'>
           <img

@@ -105,6 +105,7 @@ export interface SearchRequestProps {
 }
 export interface SelectProps {
   defaultOption?: string;
+  NoNativeOptions?: boolean;
 }
 
 type InputPropsExt = InputProps &
@@ -142,6 +143,7 @@ export const Input = ({
   grid,
   hidePrefix,
   model,
+  NoNativeOptions,
   noGrid,
   showTitle,
   hideTitle,
@@ -210,7 +212,12 @@ export const Input = ({
         );
       case 'select':
         return (
-          <Select defaultOption={defaultOption} options={options} {...rest} />
+          <Select
+            defaultOption={defaultOption}
+            NoNativeOptions={NoNativeOptions}
+            options={options}
+            {...rest}
+          />
         );
       default:
         return <Basic {...rest} />;

@@ -1,5 +1,5 @@
 import { Field, FieldProps } from 'formik';
-import { TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
 import { InputProps, SelectProps } from '.';
 
 type SelectPropsEx = Omit<
@@ -12,8 +12,9 @@ export const Select = ({
   defaultOption,
   helperText,
   isNoFormik,
-  options,
   name,
+  NoNativeOptions,
+  options,
   onBlur,
   onChange,
   readOnly,
@@ -35,17 +36,28 @@ export const Select = ({
       onBlur={onBlur}
       onChange={onChange}
       select
-      SelectProps={{ native: true }}
+      SelectProps={!NoNativeOptions ? { native: true } : undefined}
       size='small'
       variant={variant}
     >
-      {defaultOption && <option value={-1}>{defaultOption}</option>}
-      {options &&
-        options.map((op) => (
-          <option key={`${op.value}-${op.label}`} value={op.value}>
-            {op.label}
-          </option>
+      {defaultOption &&
+        (NoNativeOptions ? (
+          <MenuItem value={-1}>{defaultOption}</MenuItem>
+        ) : (
+          <option value={-1}>{defaultOption}</option>
         ))}
+      {options &&
+        options.map((op) =>
+          NoNativeOptions ? (
+            <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
+              {op.label}
+            </MenuItem>
+          ) : (
+            <option key={`${op.value}-${op.label}`} value={op.value}>
+              {op.label}
+            </option>
+          ),
+        )}
     </TextField>
   ) : (
     <Field name={name}>
@@ -73,17 +85,28 @@ export const Select = ({
               onChange?.(e);
             }}
             select
-            SelectProps={{ native: true }}
+            SelectProps={!NoNativeOptions ? { native: true } : undefined}
             size='small'
             variant={variant}
           >
-            {defaultOption && <option value={-1}>{defaultOption}</option>}
-            {options &&
-              options.map((op) => (
-                <option key={`${op.value}-${op.label}`} value={op.value}>
-                  {op.label}
-                </option>
+            {defaultOption &&
+              (NoNativeOptions ? (
+                <MenuItem value={-1}>{defaultOption}</MenuItem>
+              ) : (
+                <option value={-1}>{defaultOption}</option>
               ))}
+            {options &&
+              options.map((op) =>
+                NoNativeOptions ? (
+                  <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
+                    {op.label}
+                  </MenuItem>
+                ) : (
+                  <option key={`${op.value}-${op.label}`} value={op.value}>
+                    {op.label}
+                  </option>
+                ),
+              )}
           </TextField>
         );
       }}

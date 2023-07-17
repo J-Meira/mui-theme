@@ -71,6 +71,7 @@ export interface DataTableContainerProps {
 
 export interface DataTableBodyProps {
   columns: DataTableColumnsProps[];
+  customClickAction?: (row: any) => void;
   isSelectable?: boolean;
   isSelectableAnywhere?: boolean;
   isSelectableAnywhereElse?: boolean;
@@ -93,6 +94,7 @@ export interface DataTableSelectedProps {
 export interface PageButtonProps {
   onClick: (page: any) => void;
   children: React.ReactNode;
+  className?: string;
   active?: boolean;
   disabled?: boolean;
 }

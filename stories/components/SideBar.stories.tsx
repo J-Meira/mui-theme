@@ -51,14 +51,30 @@ export const Basic = () => {
           icon={<HomeIcon />}
           selected={true}
           expanded={expanded}
-          action={() => console.log('go home')}
-        />
+          sideBarControl={sideBarControl}
+          initialState={true}
+        >
+          <SideBarItem
+            label='Main'
+            selected={true}
+            expanded={expanded}
+            action={() => console.log('go home')}
+            sideBarControl={sideBarControl}
+          />
+          <SideBarItem
+            label='Main Context'
+            selected={true}
+            expanded={expanded}
+            action={() => console.log('go home')}
+            sideBarControl={sideBarControl}
+          />
+        </SideBarItem>
         <SideBarItem
           label='Lists'
-          icon={<ListIcon />}
           selected={false}
           expanded={expanded}
           action={() => console.log('go home')}
+          sideBarControl={sideBarControl}
         />
       </SideBar>
       <MainContainer sideBarExpanded={open}>

@@ -10,18 +10,24 @@ import {
 } from 'react';
 
 import {
-  ThemeProvider,
-  createTheme as muiCreateTheme,
-} from '@mui/material/styles';
-import { ptBR as corePtBR, enUS as coreEnUS } from '@mui/material/locale';
-import { ptBR as datePtBR, enUS as dateEnUS } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {
+  closeSnackbar,
   SnackbarOrigin,
   SnackbarProvider,
   SnackbarProviderProps,
 } from 'notistack';
+
+import {
+  ThemeProvider,
+  createTheme as muiCreateTheme,
+} from '@mui/material/styles';
+
+import { Close as CloseIcon } from '@mui/icons-material';
+import { ptBR as corePtBR, enUS as coreEnUS } from '@mui/material/locale';
+import { ptBR as datePtBR, enUS as dateEnUS } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+import { Button } from '../Button';
 
 export interface PaletteProps {
   primary: {
@@ -45,8 +51,8 @@ export interface MultiProviderProps {
   paletteDark?: PaletteProps;
   snackAnchorHorizontal: SnackbarOrigin['horizontal'];
   snackAnchorVertical: SnackbarOrigin['vertical'];
-  snackAutoHideDuration: SnackbarProviderProps['autoHideDuration'];
-  snackMax: SnackbarProviderProps['maxSnack'];
+  snackAutoHideDuration?: SnackbarProviderProps['autoHideDuration'];
+  snackMax?: SnackbarProviderProps['maxSnack'];
 }
 
 export interface CreateThemeProps {
@@ -144,6 +150,11 @@ export const MultiProvider: FC<MultiProviderProps> = ({
           }}
           autoHideDuration={snackAutoHideDuration}
           maxSnack={snackMax}
+          action={(snackbarId) => (
+            <Button model='icon' onClick={() => closeSnackbar(snackbarId)}>
+              <CloseIcon />
+            </Button>
+          )}
         >
           <LocalizationProvider
             adapterLocale={adapterLocalePtBR ? 'pt-BR' : 'en'}

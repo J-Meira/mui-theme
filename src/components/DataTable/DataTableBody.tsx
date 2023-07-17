@@ -4,6 +4,7 @@ import { DataTableBodyProps, DataTableColumnsProps } from '.';
 
 export const DataTableBody = ({
   columns,
+  customClickAction,
   isSelectable,
   isSelectableAnywhere,
   isSelectableAnywhereElse,
@@ -14,7 +15,7 @@ export const DataTableBody = ({
   uniqueCol,
 }: DataTableBodyProps) => {
   const getClassName = (className?: string): string | undefined => {
-    return isSelectable && isSelectableAnywhereElse
+    return customClickAction || (isSelectable && isSelectableAnywhereElse)
       ? `data-table-selectable${className ? ' ' + className : ''}`
       : className;
   };
@@ -81,7 +82,9 @@ export const DataTableBody = ({
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
                         onClick={
-                          isSelectable && isSelectableAnywhereElse
+                          customClickAction
+                            ? () => customClickAction(row)
+                            : isSelectable && isSelectableAnywhereElse
                             ? () => onSelectRow(row)
                             : undefined
                         }
@@ -107,9 +110,11 @@ export const DataTableBody = ({
                             : col.className
                         }
                         onClick={
-                          col.isSelectable &&
-                          isSelectable &&
-                          isSelectableAnywhereElse
+                          col.isSelectable && customClickAction
+                            ? () => customClickAction(row)
+                            : col.isSelectable &&
+                              isSelectable &&
+                              isSelectableAnywhereElse
                             ? () => onSelectRow(row)
                             : undefined
                         }
@@ -125,7 +130,9 @@ export const DataTableBody = ({
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
                         onClick={
-                          isSelectable && isSelectableAnywhereElse
+                          customClickAction
+                            ? () => customClickAction(row)
+                            : isSelectable && isSelectableAnywhereElse
                             ? () => onSelectRow(row)
                             : undefined
                         }
@@ -141,7 +148,9 @@ export const DataTableBody = ({
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
                         onClick={
-                          isSelectable && isSelectableAnywhereElse
+                          customClickAction
+                            ? () => customClickAction(row)
+                            : isSelectable && isSelectableAnywhereElse
                             ? () => onSelectRow(row)
                             : undefined
                         }
@@ -157,7 +166,9 @@ export const DataTableBody = ({
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
                         onClick={
-                          isSelectable && isSelectableAnywhereElse
+                          customClickAction
+                            ? () => customClickAction(row)
+                            : isSelectable && isSelectableAnywhereElse
                             ? () => onSelectRow(row)
                             : undefined
                         }

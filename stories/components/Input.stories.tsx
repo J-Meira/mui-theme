@@ -149,6 +149,12 @@ export const SearchRequest = ({ ...args }) => {
 
 export const Select = ({ ...args }) => (
   <Grid container spacing={2}>
+    <Input {...args} NoNativeOptions model='select' defaultOption='Select' />
+  </Grid>
+);
+
+export const SelectNative = ({ ...args }) => (
+  <Grid container spacing={2}>
     <Input {...args} model='select' defaultOption='Select' />
   </Grid>
 );
