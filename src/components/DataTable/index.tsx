@@ -87,8 +87,8 @@ export interface DataTableSelectedProps {
   totalOfRowsLabel: string;
   onDelete?: () => void;
   deleteLabel?: string;
-  selected: number[];
-  selectedCustomAction?: (selected: number[]) => React.ReactNode;
+  selected: number[] | string[];
+  selectedCustomAction?: (selected: number[] | string[]) => React.ReactNode;
 }
 
 export interface PageButtonProps {
