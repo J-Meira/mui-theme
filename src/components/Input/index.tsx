@@ -51,7 +51,8 @@ export interface CheckBoxProps extends CheckboxProps {
 }
 
 export interface CurrencyProps {
-  hidePrefix?: boolean;
+  hideSymbol?: boolean;
+  symbol?: string;
 }
 
 export interface IconProps {
@@ -148,7 +149,7 @@ export const Input = ({
   defaultOption,
   icon,
   grid,
-  hidePrefix,
+  hideSymbol,
   hideTitle,
   maskModel,
   model,
@@ -159,6 +160,7 @@ export const Input = ({
   showTitle,
   searchChange,
   start,
+  symbol,
   ...rest
 }: InputPropsExt) => {
   const getGrid = (g: GridProps) => {
@@ -173,7 +175,7 @@ export const Input = ({
       case 'checkBox':
         return <CheckBox {...rest} />;
       case 'currency':
-        return <Currency hidePrefix={hidePrefix} {...rest} />;
+        return <Currency hideSymbol={hideSymbol} symbol={symbol} {...rest} />;
       case 'icon':
         return (
           <Icon
