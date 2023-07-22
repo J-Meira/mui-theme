@@ -74,6 +74,10 @@ export interface MaskProps {
     | 'postalCode';
 }
 
+export interface NumberProps {
+  decimal?: boolean;
+}
+
 export interface PasswordProps {
   showTitle?: string;
   hideTitle?: string;
@@ -113,6 +117,7 @@ type InputPropsExt = InputProps &
   CurrencyProps &
   IconProps &
   MaskProps &
+  NumberProps &
   PasswordProps &
   OutlinedInputProps &
   RadioGroupInputProps &
@@ -135,24 +140,25 @@ export const defaultInputProps: InputProps = {
 export const Input = ({
   action,
   actionTitle,
-  start,
-  custom,
-  maskModel,
-  icon,
   className,
+  creatable,
+  creatableLabel,
+  custom,
+  decimal,
+  defaultOption,
+  icon,
   grid,
   hidePrefix,
+  hideTitle,
+  maskModel,
   model,
   NoNativeOptions,
   noGrid,
-  showTitle,
-  hideTitle,
-  rowDirection,
   options,
-  creatable,
-  creatableLabel,
+  rowDirection,
+  showTitle,
   searchChange,
-  defaultOption,
+  start,
   ...rest
 }: InputPropsExt) => {
   const getGrid = (g: GridProps) => {
@@ -181,7 +187,7 @@ export const Input = ({
       case 'mask':
         return <Mask custom={custom} maskModel={maskModel} {...rest} />;
       case 'number':
-        return <Number {...rest} />;
+        return <Number decimal={decimal} {...rest} />;
       case 'password':
         return (
           <Password hideTitle={hideTitle} showTitle={showTitle} {...rest} />
