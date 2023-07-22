@@ -1,8 +1,12 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps } from '.';
+import { InputProps, NumberProps } from '.';
+
+type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
+  NumberProps;
 
 export const Number = ({
+  decimal,
   helperText,
   isNoFormik,
   name,
@@ -11,11 +15,28 @@ export const Number = ({
   readOnly,
   variant,
   ...rest
-}: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) => {
+}: NumberEx) => {
   const mask = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    e.target.value = String(e.target.value).replace(/\D/g, '');
+    let valueReturn = e.target.value;
+
+    if (decimal) {
+      valueReturn = String(valueReturn).replace(/[^-0-9.]/g, '');
+      const decimalCount = valueReturn.split('.').length - 1;
+
+      if (decimalCount > 1) {
+        valueReturn = valueReturn.replace(/\.+$/, '');
+      }
+    } else {
+      valueReturn = String(valueReturn).replace(/[^-0-9]/g, '');
+    }
+
+    if (valueReturn.indexOf('-') > 0) {
+      valueReturn = valueReturn.replace('-', '');
+    }
+
+    e.target.value = valueReturn;
 
     return e;
   };
