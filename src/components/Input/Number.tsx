@@ -60,7 +60,7 @@ export const Number = ({
       size='small'
       type='number'
       variant={variant}
-      value={rest.value || ''}
+      value={rest.value !== null ? rest.value : ''}
     />
   ) : (
     <Field name={name}>
@@ -90,7 +90,7 @@ export const Number = ({
             size='small'
             type='number'
             variant={variant}
-            value={field.value || ''}
+            value={field.value !== null ? field.value : ''}
           />
         );
       }}
