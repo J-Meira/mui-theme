@@ -63,6 +63,7 @@ export interface CreateThemeProps {
 export interface MultiContextData {
   backgroundColor: string;
   dark: boolean;
+  isAdapterLocalePtBR: boolean;
   onChangeMode: () => void;
 }
 
@@ -81,6 +82,11 @@ export const MultiProvider: FC<MultiProviderProps> = ({
   const [dark, setDark] = useState(false);
 
   const backgroundColor = useMemo(() => (dark ? '#191919' : '#f0f0f7'), [dark]);
+
+  const isAdapterLocalePtBR = useMemo(
+    () => (adapterLocalePtBR ? true : false),
+    [adapterLocalePtBR],
+  );
 
   const handleChangeMode = useCallback(() => {
     localStorage.setItem('MUI_THEME_DARk', JSON.stringify(!dark));
@@ -134,6 +140,7 @@ export const MultiProvider: FC<MultiProviderProps> = ({
       value={{
         backgroundColor,
         dark,
+        isAdapterLocalePtBR,
         onChangeMode: handleChangeMode,
       }}
     >
