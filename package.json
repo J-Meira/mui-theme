@@ -1,6 +1,6 @@
 {
   "name": "@j-meira/mui-theme",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "ui theme made with MUI 5",
   "author": "J-Meira",
   "license": "ISC",
@@ -91,6 +91,8 @@
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "test": "jest --config jestconfig.json",
     "storybook": "storybook dev -p 6006 -h dev.jm.app.br --https --ssl-ca ./.ssl/ca.crt --ssl-cert ./.ssl/cert.crt --ssl-key ./.ssl/cert.key",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "update-version": "yarn version --no-git-tag-version",
+    "release": "yarn update-version && yarn prepare"
   }
 }
