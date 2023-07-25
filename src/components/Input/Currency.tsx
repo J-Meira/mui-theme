@@ -40,7 +40,7 @@ export const Currency = ({
         break;
       default:
         int = value.slice(0, -2);
-        int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1');
         valueReturn = `${int}${separator}${value.slice(-2)}`;
         break;
     }
@@ -68,7 +68,7 @@ export const Currency = ({
       onChange={onChange}
       variant={variant}
       size='small'
-      type='number'
+      // type='number'
     />
   ) : (
     <Field name={name}>
@@ -100,7 +100,7 @@ export const Currency = ({
             }}
             variant={variant}
             size='small'
-            type='number'
+            // type='number'
           />
         );
       }}
