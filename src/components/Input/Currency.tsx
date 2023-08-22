@@ -21,27 +21,24 @@ export const Currency = ({
   variant,
   ...rest
 }: CurrencyPropsEx) => {
-  const { isAdapterLocalePtBR } = useMultiContext();
-
   const mask = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const value = e.target.value.replace(/\D/g, '').replace(/^(0+)(\d)/g, '$2');
     let valueReturn = null;
     let int = '';
-    const separator = isAdapterLocalePtBR ? ',' : '.';
 
     switch (value.length) {
       case 1:
-        valueReturn = `0${separator}0${value}`;
+        valueReturn = `0.0${value}`;
         break;
       case 2:
-        valueReturn = `0${separator}${value}`;
+        valueReturn = `0.${value}`;
         break;
       default:
         int = value.slice(0, -2);
         int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1');
-        valueReturn = `${int}${separator}${value.slice(-2)}`;
+        valueReturn = `${int}.${value.slice(-2)}`;
         break;
     }
     e.target.value = valueReturn;
@@ -68,7 +65,7 @@ export const Currency = ({
       onChange={onChange}
       variant={variant}
       size='small'
-      // type='number'
+      type='number'
     />
   ) : (
     <Field name={name}>
@@ -100,7 +97,7 @@ export const Currency = ({
             }}
             variant={variant}
             size='small'
-            // type='number'
+            type='number'
           />
         );
       }}
