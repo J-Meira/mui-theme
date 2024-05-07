@@ -17,6 +17,7 @@ import { Search } from './Search';
 import { SearchRequest } from './SearchRequest';
 import { Select } from './Select';
 import { RadioGroup } from './RadioGroup';
+import { ReactNode } from 'react';
 
 export interface SelectOptionsProps {
   label: string;
@@ -46,7 +47,7 @@ export type InputProps = TextFieldProps & {
 };
 
 export interface CheckBoxProps extends CheckboxProps {
-  label?: string;
+  label?: ReactNode;
   helperText?: string;
 }
 
@@ -58,8 +59,8 @@ export interface CurrencyProps {
 export interface IconProps {
   action?: (params?: any) => void;
   actionTitle?: string;
-  icon?: React.ReactNode;
-  label?: React.ReactNode;
+  icon?: ReactNode;
+  label?: ReactNode;
   start?: boolean;
 }
 
@@ -86,7 +87,7 @@ export interface PasswordProps {
 
 export interface RadioGroupInputProps {
   rowDirection?: boolean;
-  label?: string;
+  label?: ReactNode;
 }
 
 export interface SearchProps {
@@ -99,7 +100,7 @@ export interface SearchProps {
 export interface SearchRequestProps {
   creatable?: boolean;
   creatableLabel?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   iconAction?: (params?: any) => void;
   iconActionTitle?: string;
   initialSelected?: number;
