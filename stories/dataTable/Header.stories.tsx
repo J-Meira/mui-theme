@@ -6,7 +6,7 @@ import {
   DataTableGrid,
   DataTableHeader,
   EnumObjectProps,
-  maskPhone,
+  toMask,
 } from '../../src';
 
 const levelEnum: EnumObjectProps = {
@@ -38,7 +38,7 @@ export default {
         label: 'Phone',
         disablePadding: true,
         isSortable: true,
-        render: (row) => (row.phone ? maskPhone(row.phone) : ''),
+        render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
       },
       {
         key: 'level',

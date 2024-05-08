@@ -8,7 +8,7 @@ import {
   DataTableGrid,
   DataTableSelected,
   EnumObjectProps,
-  maskPhone,
+  toMask,
 } from '../../src';
 
 interface IRows {
@@ -57,7 +57,7 @@ const columns: DataTableColumnsProps[] = [
     key: 'phone',
     label: 'Phone',
     disablePadding: true,
-    render: (row) => (row.phone ? maskPhone(row.phone) : ''),
+    render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
   },
   {
     key: 'level',

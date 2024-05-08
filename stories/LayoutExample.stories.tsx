@@ -17,7 +17,7 @@ import {
   Order,
   SideBar,
   SideBarItem,
-  maskPhone,
+  toMask,
 } from '../src';
 import { env } from './env';
 
@@ -81,7 +81,7 @@ const columns: DataTableColumnsProps[] = [
     key: 'phone',
     label: 'Phone',
     disablePadding: true,
-    render: (row) => (row.phone ? maskPhone(row.phone) : ''),
+    render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
   },
   {
     key: 'level',

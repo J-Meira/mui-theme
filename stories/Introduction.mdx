@@ -2,7 +2,7 @@ import { Meta, Source, Canvas } from '@storybook/blocks';
 
 import Code from './assets/code-brackets.svg';
 import Node from './assets/node.svg';
-import Yarn from './assets/yarn.svg';
+import Pnpm from './assets/pnpm.svg';
 import Sass from './assets/sass.svg';
 
 <Meta title='Introduction' />
@@ -127,17 +127,17 @@ Developer with [Mui Core](https://mui.com/core/#/)
   >
     <img src={Node} alt='node' />
     <span>
-      <strong>Node.js</strong> v18 +
+      <strong>Node.js</strong> v20 +
     </span>
   </a>
   <a
     className='link-item'
-    href='https://classic.yarnpkg.com/en/docs/install#windows-stable'
+    href='https://pnpm.io/installation'
     target='_blank'
   >
-    <img src={Yarn} alt='node' />
+    <img src={Pnpm} alt='node' />
     <span>
-      <strong>Yarn</strong> v1.22 +
+      <strong>pnpm</strong> v9 +
     </span>
   </a>
   <a
@@ -165,21 +165,17 @@ Developer with [Mui Core](https://mui.com/core/#/)
 
 <div className='subheading'>Get Started</div>
 
-- Install <strong>npm-cli-login</strong>:
-
-<Source dark language='bash' code='yarn global add npm-cli-login' />
-
 - Login on git:
 
 <Source
   dark
   language='bash'
-  code='yarn login --registry=https://npm.pkg.github.com --scope=@j-meira'
+  code='npm login --registry=https://npm.pkg.github.com --scope=@j-meira'
 />
 
 - Install theme:
 
-<Source dark language='bash' code='yarn add @j-meira/mui-theme' />
+<Source dark language='bash' code='pnpm add @j-meira/mui-theme' />
 
 - Wrap App with MultiProvider:
 
@@ -224,7 +220,7 @@ export const App = () => (
 
 - Install Sass:
 
-<Source dark language='bash' code='yarn add sass' />
+<Source dark language='bash' code='pnpm add sass' />
 
 - Import styles:
 
@@ -246,6 +242,147 @@ export const AppRoutes = () => (
   <Button>Basic</Button>
 );
   `}
+/>
+
+<div className='subheading'>Github Actions examples</div>
+
+- Build and Deploy with Git Action:
+
+<Source
+  dark
+  language='yml'
+  code={`
+  on:
+  release:
+    types: [published]
+
+name: Build and Deploy
+
+jobs:
+build-and-deploy:
+name: Build and Deploy
+runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@master
+
+      - name: Make envfile
+        run: |
+          cat > .env
+          echo "VITE_VERSION=v1.0.0 >> .env
+          echo "VITE_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
+          echo "$(<.env)"
+
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: 20.1
+
+      - name: Install PNPM
+        run: npm install -g pnpm
+
+      - name: Install NPM Login
+        run: npm install -g npm-cli-login
+
+      - name: NPM Login
+        run: NPM_USER=\${{ vars.NPM_USER }} NPM_PASS=\${{ secrets.NPM_PASS }} NPM_EMAIL=\${{ vars.NPM_EMAIL }} NPM_REGISTRY=\${{ vars.NPM_URL }} NPM_SCOPE=@j-meira npm-cli-login
+
+      - name: Install depends
+        run: |
+          pnpm install --ignore-scripts
+
+      - name: Build
+        run: |
+          pnpm build
+
+      - name: Deploy step
+        run: //any action to deploy
+
+`}
+/>
+
+- Build with Docker in Git Action:
+
+<Source
+  dark
+  language='yml'
+  code={`
+  on:
+  release:
+    types: [published]
+
+name: Build with Docker
+
+jobs:
+build-and-deploy:
+name: Build and Deploy
+runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@master
+
+      - name: Login Docker
+        uses: docker/login-action@master
+        with:
+          username: \${{ secrets.DOCKERHUB_USER }}
+          password: \${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Make envfile
+        run: |
+          cat > .env
+          echo "VITE_VERSION=v1.0.0 >> .env
+          echo "VITE_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
+          echo "$(<.env)"
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build . -t \${{ vars.REPOSITORY_NAME }}:\${{ env.TAG_NAME }} --build-arg NPM_USER=\${{ vars.NPM_USER }} --build-arg NPM_EMAIL=\${{ vars.NPM_EMAIL }} --build-arg NPM_PASS=\${{ secrets.NPM_PASS }} --build-arg NPM_URL=\${{ vars.NPM_URL }}
+          docker push \${{ vars.REPOSITORY_NAME }}:\${{ env.TAG_NAME }}
+
+`}
+/>
+
+- DockerFile:
+
+<Source
+  dark
+  language='bash'
+  code={`
+  # Stage 0, "build-stage"
+FROM node:20.1 as build-stage
+ARG NPM_EMAIL
+ARG NPM_USER
+ARG NPM_PASS
+ARG NPM_URL
+
+WORKDIR /app
+
+COPY ./nginx.conf /nginx.conf
+
+COPY package\*.json /app/
+
+RUN npm install -g pnpm
+
+RUN npm install -g npm-cli-login
+
+RUN npm-cli-login -u \${NPM_USER} -p \${NPM_PASS} -e \${NPM_EMAIL} -r \${NPM_URL} -s "@j-meira"
+
+RUN pnpm install --ignore-scripts
+
+COPY ./ /app/
+
+RUN pnpm build
+
+# Stage 1, "deploy"
+
+FROM nginx:1.22.1 as deploy-stage
+
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html
+
+COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
+`}
 />
 
 > Contact: <a href='https://github.com/J-Meira' target='_blank'> J.Meira</a>
