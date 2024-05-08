@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Field, FieldProps } from 'formik';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import {
-  Visibility as VisibilityIcon,
-  VisibilityOff as VisibilityOffIcon,
-} from '@mui/icons-material';
+  MdVisibility as VisibilityIcon,
+  MdVisibilityOff as VisibilityOffIcon,
+} from 'react-icons/md';
 import { InputProps, PasswordProps } from '.';
 
 type PasswordPropsEx = Omit<

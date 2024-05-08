@@ -1,4 +1,4 @@
-import { Delete } from '@mui/icons-material';
+import { MdDelete as DeleteIcon } from 'react-icons/md';
 import { Typography } from '@mui/material';
 
 import { Button } from '..';
@@ -22,7 +22,7 @@ export const DataTableSelected = ({
           color='warning'
           fullWidth={false}
         >
-          <Delete />
+          <DeleteIcon />
           <Typography variant='caption' component='span'>
             {deleteLabel}
           </Typography>

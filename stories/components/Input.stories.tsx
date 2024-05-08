@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { Edit } from '@mui/icons-material';
+import { MdEdit as EditIcon } from 'react-icons/md';
 import { Grid } from '@mui/material';
 import { Formik } from 'formik';
 
@@ -62,7 +62,7 @@ export const Icon = ({ ...args }) => (
     <Input
       {...args}
       model='icon'
-      icon={<Edit />}
+      icon={<EditIcon />}
       action={() => console.log('action')}
     />
   </Grid>

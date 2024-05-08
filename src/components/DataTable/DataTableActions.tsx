@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import { Collapse, Fab, Grid } from '@mui/material';
 import {
-  FilterList as FilterListIcon,
-  PictureAsPdf as PictureAsPdfIcon,
-  Search as SearchIcon,
-} from '@mui/icons-material';
+  MdFilterList as FilterListIcon,
+  MdPictureAsPdf as PictureAsPdfIcon,
+  MdSearch as SearchIcon,
+} from 'react-icons/md';
 
 import { Button, Input } from '..';
 import { DataTableActionsProps } from '.';

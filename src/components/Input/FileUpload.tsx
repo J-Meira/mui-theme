@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 
 import {
-  FileUpload as FileUploadIcon,
-  Clear as ClearIcon,
-} from '@mui/icons-material';
+  MdFileUpload as FileUploadIcon,
+  MdClear as ClearIcon,
+} from 'react-icons/md';
 import { Grid, GridProps, TextField } from '@mui/material';
 import { InputAd, InputProps } from '.';
 

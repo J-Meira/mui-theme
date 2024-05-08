@@ -8,7 +8,7 @@ import {
   Grid,
   DialogProps,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { MdClose as CloseIcon } from 'react-icons/md';
 
 export interface PopUpProps extends DialogProps {
   action?: () => void;

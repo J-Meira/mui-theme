@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Card, CardContent, Grid, GridProps, Typography } from '@mui/material';
 import {
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
-} from '@mui/icons-material';
+  MdExpandMore as ExpandMoreIcon,
+  MdExpandLess as ExpandLessIcon,
+} from 'react-icons/md';
 
 export type GroupCardProps = {
   className?: string;

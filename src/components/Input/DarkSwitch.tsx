@@ -1,8 +1,8 @@
 import { Card, IconButton } from '@mui/material';
 import {
-  DarkMode as DarkModeIcon,
-  LightMode as LightModeIcon,
-} from '@mui/icons-material';
+  MdDarkMode as DarkModeIcon,
+  MdLightMode as LightModeIcon,
+} from 'react-icons/md';
 import { useMultiContext } from '../MultiProvider';
 
 export const DarkSwitch = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useArgs, useState } from '@storybook/client-api';
-import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
+import { MdHome as HomeIcon, MdList as ListIcon } from 'react-icons/md';
 import {
   BreadcrumbBar,
   BreadcrumbsListProps,

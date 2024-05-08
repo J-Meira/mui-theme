@@ -7,7 +7,7 @@ import {
   Popover,
   Typography,
 } from '@mui/material';
-import { Error as ErrorIcon } from '@mui/icons-material';
+import { MdError as ErrorIcon } from 'react-icons/md';
 import { TabPanel, TabPanelProps } from './TabPanel';
 
 export interface TabsProps {

@@ -21,7 +21,7 @@ import {
   createTheme as muiCreateTheme,
 } from '@mui/material/styles';
 
-import { Close as CloseIcon } from '@mui/icons-material';
+import { MdClose as CloseIcon } from 'react-icons/md';
 import { ptBR as corePtBR, enUS as coreEnUS } from '@mui/material/locale';
 import { ptBR as datePtBR, enUS as dateEnUS } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';

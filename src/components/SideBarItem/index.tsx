@@ -10,9 +10,9 @@ import {
 } from '@mui/material';
 
 import {
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-} from '@mui/icons-material';
+  MdExpandLess as ExpandLessIcon,
+  MdExpandMore as ExpandMoreIcon,
+} from 'react-icons/md';
 
 export interface SideBarItemProps {
   action?: (params?: any) => void;
