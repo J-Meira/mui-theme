@@ -1,4 +1,4 @@
-import 'moment/locale/pt-br';
+import 'dayjs/locale/pt-br';
 import {
   createContext,
   FC,
@@ -23,8 +23,11 @@ import {
 
 import { MdClose as CloseIcon } from 'react-icons/md';
 import { ptBR as corePtBR, enUS as coreEnUS } from '@mui/material/locale';
-import { ptBR as datePtBR, enUS as dateEnUS } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import {
+  ptBR as datePtBR,
+  enUS as dateEnUS,
+} from '@mui/x-date-pickers/locales';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Button } from '../Button';
@@ -165,7 +168,7 @@ export const MultiProvider: FC<MultiProviderProps> = ({
         >
           <LocalizationProvider
             adapterLocale={adapterLocalePtBR ? 'pt-BR' : 'en'}
-            dateAdapter={AdapterMoment}
+            dateAdapter={AdapterDayjs}
             localeText={
               adapterLocalePtBR
                 ? datePtBR.components.MuiLocalizationProvider.defaultProps
