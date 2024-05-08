@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import {
   List,
@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemButton,
   Collapse,
+  ListItemButtonProps,
 } from '@mui/material';
 
 import {
@@ -14,20 +15,17 @@ import {
   MdExpandMore as ExpandMoreIcon,
 } from 'react-icons/md';
 
-export interface SideBarItemProps {
-  action?: (params?: any) => void;
-  children?: React.ReactNode;
+export interface SideBarItemProps extends ListItemButtonProps {
+  destiny?: string;
   expanded?: boolean;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   initialState?: boolean;
   label: string;
   secondary?: boolean;
-  selected: boolean;
   sideBarControl?: () => void;
 }
 
 export const SideBarItem = ({
-  action,
   children,
   expanded,
   icon,
@@ -36,6 +34,7 @@ export const SideBarItem = ({
   secondary,
   selected,
   sideBarControl,
+  ...rest
 }: SideBarItemProps) => {
   const [open, setOpen] = useState(initialState);
 
@@ -47,10 +46,8 @@ export const SideBarItem = ({
   };
 
   const labelToIcon = () => {
-    const splited = label.split(' ');
-    return splited.length > 1
-      ? `${splited[0][0]}${splited[1][0]}`
-      : `${splited[0][0]}${splited[0][1]}`;
+    const s = label.split(' ');
+    return s.length > 1 ? `${s[0][0]}${s[1][0]}` : `${s[0][0]}${s[0][1]}`;
   };
 
   useEffect(() => {
@@ -60,9 +57,14 @@ export const SideBarItem = ({
   }, [expanded]);
 
   return children ? (
-    <Fragment>
-      <ListItem disablePadding onClick={openMain}>
-        <ListItemButton selected={selected} title={label}>
+    <>
+      <ListItem disablePadding>
+        <ListItemButton
+          onClick={openMain}
+          title={label}
+          selected={selected}
+          {...rest}
+        >
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
           {expanded !== false && <ListItemText primary={label} />}
           {!icon && expanded === false && (
@@ -76,16 +78,15 @@ export const SideBarItem = ({
           {children}
         </List>
       </Collapse>
-    </Fragment>
+    </>
   ) : (
     <ListItem
       disablePadding
-      onClick={action}
       className={
         secondary ? (selected ? 'secondary-selected' : 'secondary') : ''
       }
     >
-      <ListItemButton selected={selected} title={label}>
+      <ListItemButton title={label} selected={selected} {...rest}>
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
         {expanded !== false && <ListItemText primary={label} />}
         {!icon && expanded === false && (
