@@ -1,7 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { InputAdornment, TextField } from '@mui/material';
 import { CurrencyProps, InputProps } from '.';
-import { useMultiContext } from '../MultiProvider';
 
 type CurrencyPropsEx = Omit<
   InputProps,
