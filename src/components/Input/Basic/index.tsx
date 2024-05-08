@@ -1,36 +1,18 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { IconProps, InputAd, InputProps } from '.';
+import { InputProps } from '..';
 
-type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
-  IconProps;
-
-//ToDo fix label start position on start icon type
-
-export const Icon = ({
-  action,
-  actionTitle,
+export const Basic = ({
   helperText,
-  icon,
   localControl,
   name,
   onBlur,
   onChange,
   readOnly,
-  start,
   variant,
   ...rest
-}: IconPropsEx) => {
-  const adornment = (
-    <InputAd
-      action={action}
-      actionTitle={actionTitle}
-      icon={icon}
-      start={start}
-    />
-  );
-
-  return localControl ? (
+}: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) =>
+  localControl ? (
     <TextField
       {...rest}
       error={!!helperText}
@@ -40,8 +22,6 @@ export const Icon = ({
       fullWidth
       InputProps={{
         readOnly,
-        endAdornment: !start && adornment,
-        startAdornment: start && adornment,
       }}
       margin='normal'
       onBlur={onBlur}
@@ -64,8 +44,6 @@ export const Icon = ({
             fullWidth
             InputProps={{
               readOnly,
-              endAdornment: !start && adornment,
-              startAdornment: start && adornment,
             }}
             margin='normal'
             onBlur={(e) => {
@@ -83,4 +61,3 @@ export const Icon = ({
       }}
     </Field>
   );
-};

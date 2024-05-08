@@ -1,45 +1,41 @@
 import { Field, FieldProps } from 'formik';
-import { InputAdornment, TextField } from '@mui/material';
-import { CurrencyProps, InputProps } from '.';
+import { TextField } from '@mui/material';
+import { InputProps, NumberProps } from '..';
 
-type CurrencyPropsEx = Omit<
-  InputProps,
-  'className' | 'grid' | 'noGrid' | 'model'
-> &
-  CurrencyProps;
+type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
+  NumberProps;
 
-export const Currency = ({
+export const Number = ({
+  decimal,
   helperText,
-  hideSymbol,
   localControl,
   name,
   onBlur,
   onChange,
   readOnly,
-  symbol = '$',
   variant,
   ...rest
-}: CurrencyPropsEx) => {
+}: NumberEx) => {
   const mask = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const value = e.target.value.replace(/\D/g, '').replace(/^(0+)(\d)/g, '$2');
-    let valueReturn = null;
-    let int = '';
+    let valueReturn = e.target.value;
 
-    switch (value.length) {
-      case 1:
-        valueReturn = `0.0${value}`;
-        break;
-      case 2:
-        valueReturn = `0.${value}`;
-        break;
-      default:
-        int = value.slice(0, -2);
-        int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1');
-        valueReturn = `${int}.${value.slice(-2)}`;
-        break;
+    if (decimal) {
+      valueReturn = String(valueReturn).replace(/[^-0-9.]/g, '');
+      const decimalCount = valueReturn.split('.').length - 1;
+
+      if (decimalCount > 1) {
+        valueReturn = valueReturn.replace(/\.+$/, '');
+      }
+    } else {
+      valueReturn = String(valueReturn).replace(/[^-0-9]/g, '');
     }
+
+    if (valueReturn.indexOf('-') > 0) {
+      valueReturn = valueReturn.replace('-', '');
+    }
+
     e.target.value = valueReturn;
 
     return e;
@@ -55,16 +51,16 @@ export const Currency = ({
       fullWidth
       InputProps={{
         readOnly,
-        startAdornment: !hideSymbol ? (
-          <InputAdornment position='start'>{symbol}</InputAdornment>
-        ) : undefined,
       }}
       margin='normal'
       onBlur={onBlur}
-      onChange={onChange}
-      variant={variant}
+      onChange={(e) => {
+        onChange?.(mask(e));
+      }}
       size='small'
       type='number'
+      variant={variant}
+      value={rest.value !== null ? rest.value : ''}
     />
   ) : (
     <Field name={name}>
@@ -81,9 +77,6 @@ export const Currency = ({
             fullWidth
             InputProps={{
               readOnly,
-              startAdornment: !hideSymbol ? (
-                <InputAdornment position='start'>{symbol}</InputAdornment>
-              ) : undefined,
             }}
             margin='normal'
             onBlur={(e) => {
@@ -94,9 +87,10 @@ export const Currency = ({
               field.onChange(mask(e));
               onChange?.(mask(e));
             }}
-            variant={variant}
             size='small'
             type='number'
+            variant={variant}
+            value={field.value !== null ? field.value : ''}
           />
         );
       }}

@@ -1,5 +1,5 @@
 import { Card, Paper } from '@mui/material';
-import { useMultiContext } from '../MultiProvider';
+import { useMultiContext } from '../MultiProvider/useMultiContext';
 
 export interface MainContainerProps {
   children: React.ReactNode;

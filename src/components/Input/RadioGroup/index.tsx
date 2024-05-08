@@ -7,7 +7,7 @@ import {
   RadioGroup as MuiRadioGroup,
   Radio,
 } from '@mui/material';
-import { InputProps, RadioGroupInputProps } from '.';
+import { InputProps, RadioGroupInputProps } from '..';
 
 type RadioGroupExProps = Omit<
   InputProps,

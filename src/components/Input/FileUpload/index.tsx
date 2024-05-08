@@ -5,7 +5,10 @@ import {
   MdClear as ClearIcon,
 } from 'react-icons/md';
 import { Grid, GridProps, TextField } from '@mui/material';
-import { InputAd, InputProps } from '.';
+import { InputProps } from '..';
+import { InputAd } from '../InputAd';
+import { getFileSize } from './getFileSize';
+import { defaultProps } from './defaultProps';
 
 export interface FileUploadProps
   extends Omit<
@@ -25,28 +28,6 @@ export interface FileUploadProps
   accept?: HTMLInputElement['accept'];
   deleteLabel?: string;
 }
-
-const defaultProps: FileUploadProps = {
-  grid: {
-    xs: 12,
-    sm: 12,
-    md: 6,
-    lg: 8,
-  },
-  name: '',
-  variant: 'outlined',
-  deleteLabel: 'Delete file',
-};
-
-export const getFileSize = (size: number): string => {
-  if (size < 1024) return `${size} B`;
-  size = size / 1024;
-  if (size < 1024) return `${Math.ceil(size)} KB`;
-  size = size / 1024;
-  if (size < 1024) return `${size.toFixed(2)} MB`;
-  size = size / 1024;
-  return `${size.toFixed(2)} GB`;
-};
 
 export const FileUpload = ({
   accept,

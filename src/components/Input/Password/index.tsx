@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Field, FieldProps } from 'formik';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import {
   MdVisibility as VisibilityIcon,
   MdVisibilityOff as VisibilityOffIcon,
 } from 'react-icons/md';
-import { InputProps, PasswordProps } from '.';
+import { InputProps, PasswordProps } from '..';
+import { InputAd } from '../InputAd';
 
 type PasswordPropsEx = Omit<
   InputProps,
@@ -26,6 +27,15 @@ export const Password = ({
 }: PasswordPropsEx) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const adornment = (
+    <InputAd
+      action={() => setShowPassword(!showPassword)}
+      actionTitle={showPassword ? hideTitle : showTitle}
+      icon={showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      start
+    />
+  );
+
   return localControl ? (
     <TextField
       {...rest}
@@ -35,19 +45,7 @@ export const Password = ({
       name={name}
       fullWidth
       InputProps={{
-        endAdornment: (
-          <InputAdornment position='end'>
-            <IconButton
-              aria-label='input action show/hide password'
-              onClick={() => setShowPassword(!showPassword)}
-              edge='end'
-              tabIndex={-1}
-              title={showPassword ? hideTitle : showTitle}
-            >
-              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-            </IconButton>
-          </InputAdornment>
-        ),
+        endAdornment: adornment,
       }}
       margin='normal'
       onBlur={onBlur}
@@ -70,19 +68,7 @@ export const Password = ({
             name={name}
             fullWidth
             InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label='input action show/hide password'
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge='end'
-                    tabIndex={-1}
-                    title={showPassword ? hideTitle : showTitle}
-                  >
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+              endAdornment: adornment,
             }}
             margin='normal'
             onBlur={(e) => {

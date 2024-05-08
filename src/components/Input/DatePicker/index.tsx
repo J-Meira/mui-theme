@@ -8,6 +8,7 @@ import {
   DatePicker as MuiDatePicker,
   DateTimePicker as MuiDateTimePicker,
 } from '@mui/x-date-pickers';
+import { defaultProps } from './defaultProps';
 
 export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   className?: string;
@@ -24,19 +25,6 @@ export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   time?: boolean;
   value: Dayjs | null;
   onChange?: (newValue: Dayjs | null) => void;
-};
-
-const defaultProps: DatePickerProps = {
-  grid: {
-    xs: 12,
-    sm: 12,
-    md: 6,
-    lg: 8,
-  },
-  localControl: false,
-  name: '',
-  variant: 'outlined',
-  value: null,
 };
 
 export const DatePicker = ({

@@ -15,9 +15,7 @@ export interface TabsProps {
   title: string;
 }
 
-export * from './TabPanel';
-
-export const Tabs = ({ title, tabs }: TabsProps) => {
+export const TabsContainer = ({ title, tabs }: TabsProps) => {
   const [active, setActive] = useState(0);
   const [error, setError] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();

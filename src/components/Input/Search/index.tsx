@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useField } from 'formik';
 import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
-import { InputProps, SearchProps, SelectOptionsProps } from '.';
+import { InputProps, SearchProps, SelectOptionsProps } from '..';
 
 const filter = createFilterOptions<SelectOptionsProps>();
 

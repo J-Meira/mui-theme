@@ -3,7 +3,6 @@ import {
   createContext,
   FC,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -70,7 +69,7 @@ export interface MultiContextData {
   onChangeMode: () => void;
 }
 
-const MultiContext = createContext({} as MultiContextData);
+export const MultiContext = createContext({} as MultiContextData);
 
 export const MultiProvider: FC<MultiProviderProps> = ({
   adapterLocalePtBR,
@@ -134,8 +133,6 @@ export const MultiProvider: FC<MultiProviderProps> = ({
       );
       if (localDark) setDark(true);
     }
-
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -184,5 +181,3 @@ export const MultiProvider: FC<MultiProviderProps> = ({
     </MultiContext.Provider>
   );
 };
-
-export const useMultiContext = () => useContext(MultiContext);
