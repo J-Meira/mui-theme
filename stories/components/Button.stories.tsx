@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Edit } from '@mui/icons-material';
+import { MdEdit as EditIcon } from 'react-icons/md';
 
 import { Button } from '../../src';
 
@@ -43,7 +43,7 @@ export const Custom: Story = {
 
 export const Icom: Story = {
   args: {
-    children: <Edit />,
+    children: <EditIcon />,
     model: 'icon',
   },
 };

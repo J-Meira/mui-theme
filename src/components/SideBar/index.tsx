@@ -51,8 +51,6 @@ export const SideBar = ({
     }
     setType(type);
     setClassName(className);
-
-    // eslint-disable-next-line
   }, [width, expanded]);
 
   return (

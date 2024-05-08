@@ -125,12 +125,3 @@ export interface DataTableFooterProps {
   rowsPerPageDetails: (rows: number, totalOfRows: number) => string;
   totalOfRows: number;
 }
-
-export * from './DataTableActions';
-export * from './DataTableBody';
-export * from './DataTableContainer';
-export * from './DataTableFooter';
-export * from './DataTableGrid';
-export * from './DataTableHeader';
-export * from './DataTablePagination';
-export * from './DataTableSelected';

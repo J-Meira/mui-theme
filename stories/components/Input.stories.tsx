@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { Edit } from '@mui/icons-material';
+import { MdEdit as EditIcon } from 'react-icons/md';
 import { Grid } from '@mui/material';
 import { Formik } from 'formik';
 
@@ -13,7 +13,7 @@ export default {
   args: {
     name: 'name',
     label: 'Name',
-    isNoFormik: true,
+    localControl: true,
     grid: {
       md: 12,
       lg: 12,
@@ -62,7 +62,7 @@ export const Icon = ({ ...args }) => (
     <Input
       {...args}
       model='icon'
-      icon={<Edit />}
+      icon={<EditIcon />}
       action={() => console.log('action')}
     />
   </Grid>
@@ -106,7 +106,7 @@ export const Search = ({ ...args }) => {
       {({ handleSubmit }) => (
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Input {...args} isNoFormik model='search' />
+            <Input {...args} localControl model='search' />
           </Grid>
         </form>
       )}
@@ -136,7 +136,7 @@ export const SearchRequest = ({ ...args }) => {
             <Input
               {...args}
               model='searchRequest'
-              isNoFormik
+              localControl
               creatable
               getList={search}
             />

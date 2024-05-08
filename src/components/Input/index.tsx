@@ -18,6 +18,7 @@ import { SearchRequest } from './SearchRequest';
 import { Select } from './Select';
 import { RadioGroup } from './RadioGroup';
 import { ReactNode } from 'react';
+import { defaultProps } from './defaultProps';
 
 export interface SelectOptionsProps {
   label: string;
@@ -28,7 +29,7 @@ export interface SelectOptionsProps {
 export type InputProps = TextFieldProps & {
   className?: string;
   grid: GridProps;
-  isNoFormik: boolean;
+  localControl: boolean;
   name: string;
   noGrid?: boolean;
   model?:
@@ -127,18 +128,6 @@ type InputPropsExt = InputProps &
   SearchRequestProps &
   SelectProps;
 
-export const defaultInputProps: InputProps = {
-  grid: {
-    xs: 12,
-    sm: 12,
-    md: 6,
-    lg: 8,
-  },
-  isNoFormik: false,
-  name: '',
-  variant: 'outlined',
-};
-
 export const Input = ({
   action,
   actionTitle,
@@ -166,7 +155,7 @@ export const Input = ({
 }: InputPropsExt) => {
   const getGrid = (g: GridProps) => {
     return {
-      ...defaultInputProps.grid,
+      ...defaultProps.grid,
       ...g,
     };
   };
@@ -242,10 +231,4 @@ export const Input = ({
   );
 };
 
-Input.defaultProps = defaultInputProps;
-
-export * from './DarkSwitch';
-export * from './DatePicker';
-export * from './FileUpload';
-export * from './InputAd';
-export * from './Mask';
+Input.defaultProps = defaultProps;

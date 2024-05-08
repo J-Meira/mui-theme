@@ -1,9 +1,9 @@
 import {
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-  KeyboardDoubleArrowLeft,
-  KeyboardDoubleArrowRight,
-} from '@mui/icons-material';
+  MdKeyboardArrowLeft as ArrowLeftIcon,
+  MdKeyboardArrowRight as ArrowRightIcon,
+  MdKeyboardDoubleArrowLeft as DoubleArrowLeftIcon,
+  MdKeyboardDoubleArrowRight as DoubleArrowRightIcon,
+} from 'react-icons/md';
 
 import { DataTablePaginationProps, PageButtonProps } from '.';
 import { Button } from '..';
@@ -46,13 +46,13 @@ export const DataTablePagination = ({
   return (
     <div className='data-table-pagination'>
       <PageButton onClick={() => setPage(1)} disabled={currentPage === 1}>
-        <KeyboardDoubleArrowLeft />
+        <DoubleArrowLeftIcon />
       </PageButton>
       <PageButton
         onClick={() => setPage(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        <KeyboardArrowLeft />
+        <ArrowLeftIcon />
       </PageButton>
       {options &&
         options.map((item, index) => (
@@ -69,13 +69,13 @@ export const DataTablePagination = ({
         onClick={() => setPage(currentPage + 1)}
         disabled={currentPage === lastPage}
       >
-        <KeyboardArrowRight />
+        <ArrowRightIcon />
       </PageButton>
       <PageButton
         onClick={() => setPage(lastPage)}
         disabled={currentPage === lastPage}
       >
-        <KeyboardDoubleArrowRight />
+        <DoubleArrowRightIcon />
       </PageButton>
     </div>
   );

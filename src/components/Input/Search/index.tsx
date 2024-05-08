@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useField } from 'formik';
 import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
-import { InputProps, SearchProps, SelectOptionsProps } from '.';
+import { InputProps, SearchProps, SelectOptionsProps } from '..';
 
 const filter = createFilterOptions<SelectOptionsProps>();
 
@@ -11,7 +11,7 @@ const isString = (item: any): item is string => {
 
 type SearchExProps = Omit<
   InputProps,
-  'className' | 'grid' | 'isNoFormik' | 'noGrid' | 'model'
+  'className' | 'grid' | 'localControl' | 'noGrid' | 'model'
 > &
   SearchProps;
 

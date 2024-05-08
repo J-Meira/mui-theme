@@ -1,9 +1,8 @@
-import 'moment/locale/pt-br';
+import 'dayjs/locale/pt-br';
 import {
   createContext,
   FC,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -21,10 +20,13 @@ import {
   createTheme as muiCreateTheme,
 } from '@mui/material/styles';
 
-import { Close as CloseIcon } from '@mui/icons-material';
+import { MdClose as CloseIcon } from 'react-icons/md';
 import { ptBR as corePtBR, enUS as coreEnUS } from '@mui/material/locale';
-import { ptBR as datePtBR, enUS as dateEnUS } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import {
+  ptBR as datePtBR,
+  enUS as dateEnUS,
+} from '@mui/x-date-pickers/locales';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Button } from '../Button';
@@ -67,7 +69,7 @@ export interface MultiContextData {
   onChangeMode: () => void;
 }
 
-const MultiContext = createContext({} as MultiContextData);
+export const MultiContext = createContext({} as MultiContextData);
 
 export const MultiProvider: FC<MultiProviderProps> = ({
   adapterLocalePtBR,
@@ -131,8 +133,6 @@ export const MultiProvider: FC<MultiProviderProps> = ({
       );
       if (localDark) setDark(true);
     }
-
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -165,7 +165,7 @@ export const MultiProvider: FC<MultiProviderProps> = ({
         >
           <LocalizationProvider
             adapterLocale={adapterLocalePtBR ? 'pt-BR' : 'en'}
-            dateAdapter={AdapterMoment}
+            dateAdapter={AdapterDayjs}
             localeText={
               adapterLocalePtBR
                 ? datePtBR.components.MuiLocalizationProvider.defaultProps
@@ -181,5 +181,3 @@ export const MultiProvider: FC<MultiProviderProps> = ({
     </MultiContext.Provider>
   );
 };
-
-export const useMultiContext = () => useContext(MultiContext);

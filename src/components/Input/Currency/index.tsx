@@ -1,47 +1,51 @@
 import { Field, FieldProps } from 'formik';
-import { TextField } from '@mui/material';
-import { InputProps, NumberProps } from '.';
+import { InputAdornment, TextField } from '@mui/material';
+import { CurrencyProps, InputProps } from '..';
 
-type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
-  NumberProps;
+type CurrencyPropsEx = Omit<
+  InputProps,
+  'className' | 'grid' | 'noGrid' | 'model'
+> &
+  CurrencyProps;
 
-export const Number = ({
-  decimal,
+export const Currency = ({
   helperText,
-  isNoFormik,
+  hideSymbol,
+  localControl,
   name,
   onBlur,
   onChange,
   readOnly,
+  symbol = '$',
   variant,
   ...rest
-}: NumberEx) => {
+}: CurrencyPropsEx) => {
   const mask = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    let valueReturn = e.target.value;
+    const value = e.target.value.replace(/\D/g, '').replace(/^(0+)(\d)/g, '$2');
+    let valueReturn = null;
+    let int = '';
 
-    if (decimal) {
-      valueReturn = String(valueReturn).replace(/[^-0-9.]/g, '');
-      const decimalCount = valueReturn.split('.').length - 1;
-
-      if (decimalCount > 1) {
-        valueReturn = valueReturn.replace(/\.+$/, '');
-      }
-    } else {
-      valueReturn = String(valueReturn).replace(/[^-0-9]/g, '');
+    switch (value.length) {
+      case 1:
+        valueReturn = `0.0${value}`;
+        break;
+      case 2:
+        valueReturn = `0.${value}`;
+        break;
+      default:
+        int = value.slice(0, -2);
+        int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1');
+        valueReturn = `${int}.${value.slice(-2)}`;
+        break;
     }
-
-    if (valueReturn.indexOf('-') > 0) {
-      valueReturn = valueReturn.replace('-', '');
-    }
-
     e.target.value = valueReturn;
 
     return e;
   };
 
-  return isNoFormik ? (
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}
@@ -51,16 +55,16 @@ export const Number = ({
       fullWidth
       InputProps={{
         readOnly,
+        startAdornment: !hideSymbol ? (
+          <InputAdornment position='start'>{symbol}</InputAdornment>
+        ) : undefined,
       }}
       margin='normal'
       onBlur={onBlur}
-      onChange={(e) => {
-        onChange?.(mask(e));
-      }}
+      onChange={onChange}
+      variant={variant}
       size='small'
       type='number'
-      variant={variant}
-      value={rest.value !== null ? rest.value : ''}
     />
   ) : (
     <Field name={name}>
@@ -77,6 +81,9 @@ export const Number = ({
             fullWidth
             InputProps={{
               readOnly,
+              startAdornment: !hideSymbol ? (
+                <InputAdornment position='start'>{symbol}</InputAdornment>
+              ) : undefined,
             }}
             margin='normal'
             onBlur={(e) => {
@@ -87,10 +94,9 @@ export const Number = ({
               field.onChange(mask(e));
               onChange?.(mask(e));
             }}
+            variant={variant}
             size='small'
             type='number'
-            variant={variant}
-            value={field.value !== null ? field.value : ''}
           />
         );
       }}

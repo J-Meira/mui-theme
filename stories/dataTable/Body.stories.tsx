@@ -6,7 +6,7 @@ import {
   DataTableContainer,
   DataTableGrid,
   EnumObjectProps,
-  maskPhone,
+  toMask,
 } from '../../src';
 
 interface IRows {
@@ -60,7 +60,7 @@ export default {
         key: 'phone',
         label: 'Phone',
         disablePadding: true,
-        render: (row) => (row.phone ? maskPhone(row.phone) : ''),
+        render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
       },
       {
         key: 'level',

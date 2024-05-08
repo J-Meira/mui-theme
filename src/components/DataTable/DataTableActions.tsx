@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import { Collapse, Fab, Grid } from '@mui/material';
 import {
-  FilterList as FilterListIcon,
-  PictureAsPdf as PictureAsPdfIcon,
-  Search as SearchIcon,
-} from '@mui/icons-material';
+  MdFilterList as FilterListIcon,
+  MdPictureAsPdf as PictureAsPdfIcon,
+  MdSearch as SearchIcon,
+} from 'react-icons/md';
 
 import { Button, Input } from '..';
 import { DataTableActionsProps } from '.';
@@ -69,7 +69,7 @@ export const DataTableActions = ({
           )}
           {!hideSearch && (
             <Input
-              isNoFormik
+              localControl
               name='data-table-search'
               model='icon'
               label={searchLabel}
@@ -84,7 +84,7 @@ export const DataTableActions = ({
           )}
           {showActive && (
             <Input
-              isNoFormik
+              localControl
               model='checkBox'
               name='activeInput'
               label={activeLabel}

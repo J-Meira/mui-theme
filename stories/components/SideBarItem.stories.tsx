@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Home, List } from '@mui/icons-material';
-
+import { MdHome as HomeIcon, MdList as ListIcon } from 'react-icons/md';
 import { SideBarItem } from '../../src';
 
 const meta = {
@@ -17,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   args: {
     expanded: true,
-    icon: <Home />,
+    icon: <HomeIcon />,
     label: 'Home',
     selected: false,
   },
@@ -26,7 +25,7 @@ export const Basic: Story = {
 export const Active: Story = {
   args: {
     expanded: true,
-    icon: <Home />,
+    icon: <HomeIcon />,
     label: 'Home',
     selected: true,
   },
@@ -35,7 +34,7 @@ export const Active: Story = {
 export const WithChildren: Story = {
   args: {
     expanded: true,
-    icon: <List />,
+    icon: <ListIcon />,
     children: (
       <>
         <SideBarItem
@@ -60,7 +59,7 @@ export const WithChildren: Story = {
 export const OpenOnStart: Story = {
   args: {
     expanded: true,
-    icon: <List />,
+    icon: <ListIcon />,
     initialState: true,
     children: (
       <>

@@ -110,7 +110,7 @@ export const WithFilters = ({ ...args }) => {
                 label='From'
                 name='from'
                 disableFuture
-                isNoFormik
+                localControl
                 value={filtersValues.from}
                 onChange={(e: any) =>
                   updateFilters({
@@ -127,7 +127,7 @@ export const WithFilters = ({ ...args }) => {
                 label='To'
                 name='to'
                 disableFuture
-                isNoFormik
+                localControl
                 value={filtersValues.to}
                 onChange={(e: any) =>
                   updateFilters({

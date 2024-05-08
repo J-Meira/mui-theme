@@ -7,7 +7,7 @@ import {
   Popover,
   Typography,
 } from '@mui/material';
-import { Error as ErrorIcon } from '@mui/icons-material';
+import { MdError as ErrorIcon } from 'react-icons/md';
 import { TabPanel, TabPanelProps } from './TabPanel';
 
 export interface TabsProps {
@@ -15,9 +15,7 @@ export interface TabsProps {
   title: string;
 }
 
-export * from './TabPanel';
-
-export const Tabs = ({ title, tabs }: TabsProps) => {
+export const TabsContainer = ({ title, tabs }: TabsProps) => {
   const [active, setActive] = useState(0);
   const [error, setError] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();

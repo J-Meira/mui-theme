@@ -20,12 +20,12 @@ export default {
 
 export const Basic = ({ ...args }) => (
   <Grid container spacing={2}>
-    <DatePicker isNoFormik {...args} />
+    <DatePicker localControl {...args} />
   </Grid>
 );
 
 export const WithTime = ({ ...args }) => (
   <Grid container spacing={2}>
-    <DatePicker isNoFormik time {...args} />
+    <DatePicker localControl time {...args} />
   </Grid>
 );

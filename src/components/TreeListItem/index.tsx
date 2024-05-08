@@ -10,7 +10,7 @@ import {
   ListItemText,
 } from '@mui/material';
 
-import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
+import { MdAdd as AddIcon, MdRemove as RemoveIcon } from 'react-icons/md';
 
 export interface TreeListItemProps {
   children?: React.ReactNode;

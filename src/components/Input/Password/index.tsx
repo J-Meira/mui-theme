@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Field, FieldProps } from 'formik';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import {
-  Visibility as VisibilityIcon,
-  VisibilityOff as VisibilityOffIcon,
-} from '@mui/icons-material';
-import { InputProps, PasswordProps } from '.';
+  MdVisibility as VisibilityIcon,
+  MdVisibilityOff as VisibilityOffIcon,
+} from 'react-icons/md';
+import { InputProps, PasswordProps } from '..';
+import { InputAd } from '../InputAd';
 
 type PasswordPropsEx = Omit<
   InputProps,
@@ -16,7 +17,7 @@ type PasswordPropsEx = Omit<
 export const Password = ({
   helperText,
   hideTitle,
-  isNoFormik,
+  localControl,
   name,
   onBlur,
   onChange,
@@ -26,7 +27,16 @@ export const Password = ({
 }: PasswordPropsEx) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  return isNoFormik ? (
+  const adornment = (
+    <InputAd
+      action={() => setShowPassword(!showPassword)}
+      actionTitle={showPassword ? hideTitle : showTitle}
+      icon={showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      start
+    />
+  );
+
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}
@@ -35,19 +45,7 @@ export const Password = ({
       name={name}
       fullWidth
       InputProps={{
-        endAdornment: (
-          <InputAdornment position='end'>
-            <IconButton
-              aria-label='input action show/hide password'
-              onClick={() => setShowPassword(!showPassword)}
-              edge='end'
-              tabIndex={-1}
-              title={showPassword ? hideTitle : showTitle}
-            >
-              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-            </IconButton>
-          </InputAdornment>
-        ),
+        endAdornment: adornment,
       }}
       margin='normal'
       onBlur={onBlur}
@@ -70,19 +68,7 @@ export const Password = ({
             name={name}
             fullWidth
             InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label='input action show/hide password'
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge='end'
-                    tabIndex={-1}
-                    title={showPassword ? hideTitle : showTitle}
-                  >
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+              endAdornment: adornment,
             }}
             margin='normal'
             onBlur={(e) => {

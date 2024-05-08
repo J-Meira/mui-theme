@@ -89,8 +89,8 @@ export const DataTableBody = ({
                           customClickAction
                             ? () => customClickAction(row)
                             : isSelectable && isSelectableAnywhereElse
-                            ? () => onSelectRow(row)
-                            : undefined
+                              ? () => onSelectRow(row)
+                              : undefined
                         }
                       >
                         {row[key].length > col.limit
@@ -117,10 +117,10 @@ export const DataTableBody = ({
                           col.isSelectable && customClickAction
                             ? () => customClickAction(row)
                             : col.isSelectable &&
-                              isSelectable &&
-                              isSelectableAnywhereElse
-                            ? () => onSelectRow(row)
-                            : undefined
+                                isSelectable &&
+                                isSelectableAnywhereElse
+                              ? () => onSelectRow(row)
+                              : undefined
                         }
                       >
                         {col.render(row, index)}
@@ -137,8 +137,8 @@ export const DataTableBody = ({
                           customClickAction
                             ? () => customClickAction(row)
                             : isSelectable && isSelectableAnywhereElse
-                            ? () => onSelectRow(row)
-                            : undefined
+                              ? () => onSelectRow(row)
+                              : undefined
                         }
                       >
                         {row[key][col.objectKey]}
@@ -155,8 +155,8 @@ export const DataTableBody = ({
                           customClickAction
                             ? () => customClickAction(row)
                             : isSelectable && isSelectableAnywhereElse
-                            ? () => onSelectRow(row)
-                            : undefined
+                              ? () => onSelectRow(row)
+                              : undefined
                         }
                       >
                         {col.enumObject[row[key]]}
@@ -173,8 +173,8 @@ export const DataTableBody = ({
                           customClickAction
                             ? () => customClickAction(row)
                             : isSelectable && isSelectableAnywhereElse
-                            ? () => onSelectRow(row)
-                            : undefined
+                              ? () => onSelectRow(row)
+                              : undefined
                         }
                       >
                         {row[key]}

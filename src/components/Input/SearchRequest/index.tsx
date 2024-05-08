@@ -7,8 +7,8 @@ import {
   TextField,
   createFilterOptions,
 } from '@mui/material';
-import { InputProps, SearchRequestProps, SelectOptionsProps } from '.';
-import { useDebounce } from '../../hooks';
+import { InputProps, SearchRequestProps, SelectOptionsProps } from '..';
+import { useDebounce } from '../../../hooks';
 
 const filter = createFilterOptions<SelectOptionsProps>();
 
@@ -18,7 +18,7 @@ const isString = (item: any): item is string => {
 
 export type SearchRequestExProps = Omit<
   InputProps,
-  'className' | 'isNoFormik' | 'noGrid' | 'model' | 'rowDirection'
+  'className' | 'localControl' | 'noGrid' | 'model' | 'rowDirection'
 > &
   SearchRequestProps;
 

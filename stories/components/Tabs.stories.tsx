@@ -1,14 +1,14 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Tabs, TreeListItem } from '../../src';
+import { TabsContainer, TreeListItem } from '../../src';
 import { Grid, List, Typography } from '@mui/material';
 
 const meta = {
   title: 'Components/Tabs',
-  component: Tabs,
+  component: TabsContainer,
   tags: ['autodocs'],
-} satisfies Meta<typeof Tabs>;
+} satisfies Meta<typeof TabsContainer>;
 
 export default meta;
 

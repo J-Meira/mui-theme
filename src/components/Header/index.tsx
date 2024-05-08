@@ -1,6 +1,5 @@
 import { AppBar, Toolbar, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-
+import { MdMenu as MenuIcon } from 'react-icons/md';
 export interface HeaderProps {
   sideBarControl?: () => void;
   sideBarExpanded?: boolean;
@@ -20,8 +19,8 @@ export const Header = ({
         sideBarExpanded === undefined
           ? 'tool-bar-full'
           : !sideBarExpanded
-          ? 'tool-bar-expanded'
-          : ''
+            ? 'tool-bar-expanded'
+            : ''
       }`}
     >
       {(navigation || sideBarControl) && (

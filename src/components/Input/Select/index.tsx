@@ -1,6 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { MenuItem, TextField } from '@mui/material';
-import { InputProps, SelectProps } from '.';
+import { InputProps, SelectProps } from '..';
 
 type SelectPropsEx = Omit<
   InputProps,
@@ -11,7 +11,7 @@ type SelectPropsEx = Omit<
 export const Select = ({
   defaultOption,
   helperText,
-  isNoFormik,
+  localControl,
   name,
   NoNativeOptions,
   options,
@@ -21,7 +21,7 @@ export const Select = ({
   variant,
   ...rest
 }: SelectPropsEx) =>
-  isNoFormik ? (
+  localControl ? (
     <TextField
       {...rest}
       error={!!helperText}

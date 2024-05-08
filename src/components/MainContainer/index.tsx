@@ -1,5 +1,5 @@
 import { Card, Paper } from '@mui/material';
-import { useMultiContext } from '../MultiProvider';
+import { useMultiContext } from '../MultiProvider/useMultiContext';
 
 export interface MainContainerProps {
   children: React.ReactNode;
@@ -24,8 +24,8 @@ export const MainContainer = ({
         sideBarExpanded === undefined
           ? 'main-full'
           : !sideBarExpanded
-          ? 'main-expanded'
-          : ''
+            ? 'main-expanded'
+            : ''
       }`}
     >
       {subHeader}

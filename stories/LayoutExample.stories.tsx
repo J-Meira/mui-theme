@@ -1,6 +1,6 @@
 import React from 'react';
 import { useArgs, useState } from '@storybook/client-api';
-import { Home as HomeIcon, List as ListIcon } from '@mui/icons-material';
+import { MdHome as HomeIcon, MdList as ListIcon } from 'react-icons/md';
 import {
   BreadcrumbBar,
   BreadcrumbsListProps,
@@ -17,7 +17,7 @@ import {
   Order,
   SideBar,
   SideBarItem,
-  maskPhone,
+  toMask,
 } from '../src';
 import { env } from './env';
 
@@ -81,7 +81,7 @@ const columns: DataTableColumnsProps[] = [
     key: 'phone',
     label: 'Phone',
     disablePadding: true,
-    render: (row) => (row.phone ? maskPhone(row.phone) : ''),
+    render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
   },
   {
     key: 'level',

@@ -1,18 +1,37 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps } from '.';
+import { InputAd } from '../InputAd';
+import { IconProps, InputProps } from '..';
 
-export const Basic = ({
+type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
+  IconProps;
+
+//ToDo fix label start position on start icon type
+
+export const Icon = ({
+  action,
+  actionTitle,
   helperText,
-  isNoFormik,
+  icon,
+  localControl,
   name,
   onBlur,
   onChange,
   readOnly,
+  start,
   variant,
   ...rest
-}: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) =>
-  isNoFormik ? (
+}: IconPropsEx) => {
+  const adornment = (
+    <InputAd
+      action={action}
+      actionTitle={actionTitle}
+      icon={icon}
+      start={start}
+    />
+  );
+
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}
@@ -22,6 +41,8 @@ export const Basic = ({
       fullWidth
       InputProps={{
         readOnly,
+        endAdornment: !start && adornment,
+        startAdornment: start && adornment,
       }}
       margin='normal'
       onBlur={onBlur}
@@ -44,6 +65,8 @@ export const Basic = ({
             fullWidth
             InputProps={{
               readOnly,
+              endAdornment: !start && adornment,
+              startAdornment: start && adornment,
             }}
             margin='normal'
             onBlur={(e) => {
@@ -61,3 +84,4 @@ export const Basic = ({
       }}
     </Field>
   );
+};

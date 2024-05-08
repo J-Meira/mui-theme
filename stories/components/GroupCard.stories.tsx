@@ -21,9 +21,14 @@ export default {
 export const Basic = ({ ...args }) => {
   return (
     <GroupCard {...args}>
-      <Input isNoFormik label='Login' name='login' grid={{ lg: 12, md: 12 }} />
       <Input
-        isNoFormik
+        localControl
+        label='Login'
+        name='login'
+        grid={{ lg: 12, md: 12 }}
+      />
+      <Input
+        localControl
         label='Password'
         name='password'
         model='password'
@@ -36,9 +41,14 @@ export const Basic = ({ ...args }) => {
 export const Collapsed = ({ ...args }) => {
   return (
     <GroupCard {...args} collapsed={true}>
-      <Input isNoFormik label='Login' name='login' grid={{ lg: 12, md: 12 }} />
       <Input
-        isNoFormik
+        localControl
+        label='Login'
+        name='login'
+        grid={{ lg: 12, md: 12 }}
+      />
+      <Input
+        localControl
         label='Password'
         name='password'
         model='password'
@@ -51,9 +61,14 @@ export const Collapsed = ({ ...args }) => {
 export const CollapsedOpen = ({ ...args }) => {
   return (
     <GroupCard {...args} collapsed={true} openStart={true}>
-      <Input isNoFormik label='Login' name='login' grid={{ lg: 12, md: 12 }} />
       <Input
-        isNoFormik
+        localControl
+        label='Login'
+        name='login'
+        grid={{ lg: 12, md: 12 }}
+      />
+      <Input
+        localControl
         label='Password'
         name='password'
         model='password'
