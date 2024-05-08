@@ -24,8 +24,8 @@ export const MainContainer = ({
         sideBarExpanded === undefined
           ? 'main-full'
           : !sideBarExpanded
-          ? 'main-expanded'
-          : ''
+            ? 'main-expanded'
+            : ''
       }`}
     >
       {subHeader}

@@ -19,8 +19,8 @@ export const Header = ({
         sideBarExpanded === undefined
           ? 'tool-bar-full'
           : !sideBarExpanded
-          ? 'tool-bar-expanded'
-          : ''
+            ? 'tool-bar-expanded'
+            : ''
       }`}
     >
       {(navigation || sideBarControl) && (
