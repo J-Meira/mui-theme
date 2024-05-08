@@ -12,7 +12,7 @@ export const Icon = ({
   actionTitle,
   helperText,
   icon,
-  isNoFormik,
+  localControl,
   name,
   onBlur,
   onChange,
@@ -30,7 +30,7 @@ export const Icon = ({
     />
   );
 
-  return isNoFormik ? (
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}

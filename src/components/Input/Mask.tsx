@@ -9,7 +9,7 @@ type MaskPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
 export const Mask = ({
   custom,
   helperText,
-  isNoFormik,
+  localControl,
   InputProps,
   maskModel,
   name,
@@ -56,7 +56,7 @@ export const Mask = ({
     // eslint-disable-next-line
   }, [rest.value]);
 
-  return isNoFormik ? (
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}

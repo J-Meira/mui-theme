@@ -20,7 +20,7 @@ const CheckBoxRender = ({
   name,
   required,
   ...rest
-}: Omit<CheckBoxExProps, 'isNoFormik'>) => (
+}: Omit<CheckBoxExProps, 'localControl'>) => (
   <FormControl
     component='fieldset'
     error={!!helperText}
@@ -40,12 +40,12 @@ const CheckBoxRender = ({
 
 export const CheckBox = ({
   helperText,
-  isNoFormik,
+  localControl,
   name,
   onChange,
   ...rest
 }: CheckBoxExProps) =>
-  isNoFormik ? (
+  localControl ? (
     <CheckBoxRender
       {...rest}
       helperText={helperText}

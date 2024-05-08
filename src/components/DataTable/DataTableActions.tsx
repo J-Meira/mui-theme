@@ -69,7 +69,7 @@ export const DataTableActions = ({
           )}
           {!hideSearch && (
             <Input
-              isNoFormik
+              localControl
               name='data-table-search'
               model='icon'
               label={searchLabel}
@@ -84,7 +84,7 @@ export const DataTableActions = ({
           )}
           {showActive && (
             <Input
-              isNoFormik
+              localControl
               model='checkBox'
               name='activeInput'
               label={activeLabel}

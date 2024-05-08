@@ -16,7 +16,7 @@ export interface FileUploadProps
     | 'type'
     | 'multiline'
     | 'defaultValue'
-    | 'isNoFormik'
+    | 'localControl'
     | 'model'
   > {
   value?: File | null;

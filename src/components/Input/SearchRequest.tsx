@@ -18,7 +18,7 @@ const isString = (item: any): item is string => {
 
 export type SearchRequestExProps = Omit<
   InputProps,
-  'className' | 'isNoFormik' | 'noGrid' | 'model' | 'rowDirection'
+  'className' | 'localControl' | 'noGrid' | 'model' | 'rowDirection'
 > &
   SearchRequestProps;
 

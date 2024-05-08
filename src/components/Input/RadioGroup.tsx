@@ -24,7 +24,7 @@ const RadioGroupRender = ({
   required,
   rowDirection,
   value,
-}: Omit<RadioGroupExProps, `isNoFormik`>): React.ReactElement => (
+}: Omit<RadioGroupExProps, `localControl`>): React.ReactElement => (
   <FormControl
     component='fieldset'
     error={!!helperText}
@@ -55,13 +55,13 @@ const RadioGroupRender = ({
 );
 
 export const RadioGroup = ({
-  isNoFormik,
+  localControl,
   helperText,
   onChange,
   name,
   ...rest
 }: RadioGroupExProps) =>
-  isNoFormik ? (
+  localControl ? (
     <RadioGroupRender
       {...rest}
       helperText={helperText}

@@ -28,7 +28,7 @@ export interface SelectOptionsProps {
 export type InputProps = TextFieldProps & {
   className?: string;
   grid: GridProps;
-  isNoFormik: boolean;
+  localControl: boolean;
   name: string;
   noGrid?: boolean;
   model?:
@@ -134,7 +134,7 @@ export const defaultInputProps: InputProps = {
     md: 6,
     lg: 8,
   },
-  isNoFormik: false,
+  localControl: false,
   name: '',
   variant: 'outlined',
 };

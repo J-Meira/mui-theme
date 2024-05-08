@@ -11,7 +11,7 @@ type CurrencyPropsEx = Omit<
 export const Currency = ({
   helperText,
   hideSymbol,
-  isNoFormik,
+  localControl,
   name,
   onBlur,
   onChange,
@@ -45,7 +45,7 @@ export const Currency = ({
     return e;
   };
 
-  return isNoFormik ? (
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}

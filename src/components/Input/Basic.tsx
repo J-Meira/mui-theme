@@ -4,7 +4,7 @@ import { InputProps } from '.';
 
 export const Basic = ({
   helperText,
-  isNoFormik,
+  localControl,
   name,
   onBlur,
   onChange,
@@ -12,7 +12,7 @@ export const Basic = ({
   variant,
   ...rest
 }: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) =>
-  isNoFormik ? (
+  localControl ? (
     <TextField
       {...rest}
       error={!!helperText}

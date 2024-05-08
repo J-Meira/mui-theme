@@ -8,7 +8,7 @@ type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
 export const Number = ({
   decimal,
   helperText,
-  isNoFormik,
+  localControl,
   name,
   onBlur,
   onChange,
@@ -41,7 +41,7 @@ export const Number = ({
     return e;
   };
 
-  return isNoFormik ? (
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}

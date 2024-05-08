@@ -16,7 +16,7 @@ type PasswordPropsEx = Omit<
 export const Password = ({
   helperText,
   hideTitle,
-  isNoFormik,
+  localControl,
   name,
   onBlur,
   onChange,
@@ -26,7 +26,7 @@ export const Password = ({
 }: PasswordPropsEx) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  return isNoFormik ? (
+  return localControl ? (
     <TextField
       {...rest}
       error={!!helperText}
