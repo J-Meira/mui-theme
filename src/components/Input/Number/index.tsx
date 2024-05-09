@@ -13,7 +13,7 @@ export const Number = ({
   onBlur,
   onChange,
   readOnly,
-  variant,
+  variant = 'outlined',
   ...rest
 }: NumberEx) => {
   const mask = (

@@ -17,7 +17,7 @@ export const Mask = ({
   onBlur,
   onChange,
   readOnly,
-  variant,
+  variant = 'outlined',
   ...rest
 }: MaskPropsEx) => {
   const [value, setValue] = useState<any>('');

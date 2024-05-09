@@ -2,7 +2,6 @@ import { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 
 import { Basic } from './Basic';
 import { Icon } from './Icon';
-import { defaultProps } from './defaultProps';
 
 export interface ButtonProps extends MuiButtonProps {
   model?: 'custom' | 'icon';
@@ -11,7 +10,8 @@ export interface ButtonProps extends MuiButtonProps {
 export const Button = ({
   model,
   children,
-  fullWidth,
+  fullWidth = true,
+  variant = 'contained',
   ...rest
 }: ButtonProps) => {
   switch (model) {
@@ -19,11 +19,9 @@ export const Button = ({
       return <Icon {...rest}>{children}</Icon>;
     default:
       return (
-        <Basic fullWidth={fullWidth} {...rest}>
+        <Basic fullWidth={fullWidth} variant={variant} {...rest}>
           {children}
         </Basic>
       );
   }
 };
-
-Button.defaultProps = defaultProps;

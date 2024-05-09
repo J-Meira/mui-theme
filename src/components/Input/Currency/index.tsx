@@ -17,7 +17,7 @@ export const Currency = ({
   onChange,
   readOnly,
   symbol = '$',
-  variant,
+  variant = 'outlined',
   ...rest
 }: CurrencyPropsEx) => {
   const mask = (

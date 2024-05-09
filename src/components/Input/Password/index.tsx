@@ -21,7 +21,7 @@ export const Password = ({
   name,
   onBlur,
   onChange,
-  variant,
+  variant = 'outlined',
   showTitle,
   ...rest
 }: PasswordPropsEx) => {

@@ -6,7 +6,6 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { defaultProps } from './defaultProps';
 
 export interface DialogReturnProps {
   origin?: string;
@@ -29,7 +28,21 @@ export interface DialogBoxProps {
   close: (status: boolean) => void;
 }
 
-export const DialogBox = ({ dialog, cancelLabel, close }: DialogBoxProps) => (
+const defaultDialog: DialogProps = {
+  open: false,
+  cancel: true,
+  title: '',
+  message: '',
+  origin: '',
+  successLabel: 'Ok',
+  return: {},
+};
+
+export const DialogBox = ({
+  dialog = defaultDialog,
+  cancelLabel = 'Cancel',
+  close,
+}: DialogBoxProps) => (
   <Dialog
     open={dialog.open}
     onClose={() => close(false)}
@@ -54,5 +67,3 @@ export const DialogBox = ({ dialog, cancelLabel, close }: DialogBoxProps) => (
     </DialogActions>
   </Dialog>
 );
-
-DialogBox.defaultProps = defaultProps;

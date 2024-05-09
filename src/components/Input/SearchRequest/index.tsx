@@ -38,7 +38,7 @@ export const SearchRequest = ({
   required,
   searchChange,
   setCreatableValue,
-  variant,
+  variant = 'outlined',
 }: Omit<SearchRequestExProps, 'grid'>): React.ReactElement => {
   const [field, meta, helper] = useField(name);
   const { touched, error } = meta;

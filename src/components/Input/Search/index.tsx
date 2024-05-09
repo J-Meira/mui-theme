@@ -26,7 +26,7 @@ export const Search = ({
   readOnly,
   required,
   searchChange,
-  variant,
+  variant = 'outlined',
 }: SearchExProps): React.ReactElement => {
   const [field, meta, helper] = useField(name);
   const { touched, error } = meta;

@@ -18,7 +18,7 @@ import { SearchRequest } from './SearchRequest';
 import { Select } from './Select';
 import { RadioGroup } from './RadioGroup';
 import { ReactNode } from 'react';
-import { defaultProps } from './defaultProps';
+import { defaultGrid } from './defaultGrid';
 
 export interface SelectOptionsProps {
   label: string;
@@ -138,9 +138,11 @@ export const Input = ({
   decimal,
   defaultOption,
   icon,
-  grid,
+  grid = defaultGrid,
   hideSymbol,
   hideTitle,
+  name = '',
+  localControl = false,
   maskModel,
   model,
   NoNativeOptions,
@@ -155,7 +157,7 @@ export const Input = ({
 }: InputPropsExt) => {
   const getGrid = (g: GridProps) => {
     return {
-      ...defaultProps.grid,
+      ...defaultGrid,
       ...g,
     };
   };
@@ -163,12 +165,22 @@ export const Input = ({
   const render = (() => {
     switch (model) {
       case 'checkBox':
-        return <CheckBox {...rest} />;
+        return <CheckBox name={name} localControl={localControl} {...rest} />;
       case 'currency':
-        return <Currency hideSymbol={hideSymbol} symbol={symbol} {...rest} />;
+        return (
+          <Currency
+            name={name}
+            localControl={localControl}
+            hideSymbol={hideSymbol}
+            symbol={symbol}
+            {...rest}
+          />
+        );
       case 'icon':
         return (
           <Icon
+            name={name}
+            localControl={localControl}
             action={action}
             actionTitle={actionTitle}
             icon={icon}
@@ -177,20 +189,48 @@ export const Input = ({
           />
         );
       case 'mask':
-        return <Mask custom={custom} maskModel={maskModel} {...rest} />;
+        return (
+          <Mask
+            name={name}
+            localControl={localControl}
+            custom={custom}
+            maskModel={maskModel}
+            {...rest}
+          />
+        );
       case 'number':
-        return <Number decimal={decimal} {...rest} />;
+        return (
+          <Number
+            name={name}
+            localControl={localControl}
+            decimal={decimal}
+            {...rest}
+          />
+        );
       case 'password':
         return (
-          <Password hideTitle={hideTitle} showTitle={showTitle} {...rest} />
+          <Password
+            name={name}
+            localControl={localControl}
+            hideTitle={hideTitle}
+            showTitle={showTitle}
+            {...rest}
+          />
         );
       case 'radioGroup':
         return (
-          <RadioGroup rowDirection={rowDirection} options={options} {...rest} />
+          <RadioGroup
+            name={name}
+            localControl={localControl}
+            rowDirection={rowDirection}
+            options={options}
+            {...rest}
+          />
         );
       case 'search':
         return (
           <Search
+            name={name}
             creatable={creatable}
             creatableLabel={creatableLabel}
             searchChange={searchChange}
@@ -201,6 +241,7 @@ export const Input = ({
       case 'searchRequest':
         return (
           <SearchRequest
+            name={name}
             creatable={creatable}
             creatableLabel={creatableLabel}
             searchChange={searchChange}
@@ -211,6 +252,8 @@ export const Input = ({
       case 'select':
         return (
           <Select
+            name={name}
+            localControl={localControl}
             defaultOption={defaultOption}
             NoNativeOptions={NoNativeOptions}
             options={options}
@@ -218,7 +261,7 @@ export const Input = ({
           />
         );
       default:
-        return <Basic {...rest} />;
+        return <Basic name={name} localControl={localControl} {...rest} />;
     }
   })();
 
@@ -230,5 +273,3 @@ export const Input = ({
     </Grid>
   );
 };
-
-Input.defaultProps = defaultProps;

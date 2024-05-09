@@ -8,7 +8,7 @@ import { Grid, GridProps, TextField } from '@mui/material';
 import { InputProps } from '..';
 import { InputAd } from '../InputAd';
 import { getFileSize } from './getFileSize';
-import { defaultProps } from './defaultProps';
+import { defaultGrid } from '../defaultGrid';
 
 export interface FileUploadProps
   extends Omit<
@@ -36,14 +36,14 @@ export const FileUpload = ({
   noGrid,
   hideSizeText,
   helperText,
-  name,
+  name = '',
   readOnly,
-  variant,
+  variant = 'outlined',
   onChange,
   value,
   label,
   placeholder,
-  deleteLabel,
+  deleteLabel = 'Delete file',
 }: FileUploadProps) => {
   const [inputKey, setInputKey] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,7 +53,7 @@ export const FileUpload = ({
 
   const getGrid = (g: GridProps) => {
     return {
-      ...defaultProps.grid,
+      ...defaultGrid,
       ...g,
     };
   };

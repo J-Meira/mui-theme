@@ -8,7 +8,7 @@ import {
   DatePicker as MuiDatePicker,
   DateTimePicker as MuiDateTimePicker,
 } from '@mui/x-date-pickers';
-import { defaultProps } from './defaultProps';
+import { defaultGrid } from '../defaultGrid';
 
 export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   className?: string;
@@ -32,13 +32,13 @@ export const DatePicker = ({
   disabled,
   disableFuture,
   disablePast,
-  grid,
+  grid = defaultGrid,
   helperText,
-  localControl,
+  localControl = false,
   label,
   maxDate,
   minDate,
-  name,
+  name = '',
   noGrid,
   onBlur,
   onChange,
@@ -46,14 +46,16 @@ export const DatePicker = ({
   required,
   showTodayButton,
   time,
+  variant = 'outlined',
+  value = null,
   ...rest
 }: DatePickerProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<Dayjs | null>(null);
+  const [innerValue, setInnerValue] = useState<Dayjs | null>(null);
 
   const getGrid = (g: GridProps) => {
     return {
-      ...defaultProps.grid,
+      ...defaultGrid,
       ...g,
     };
   };
@@ -69,6 +71,7 @@ export const DatePicker = ({
       required: required,
       label: label,
       disabled: disabled,
+      variant: variant,
       ...rest,
     };
 
@@ -100,10 +103,10 @@ export const DatePicker = ({
   };
 
   useEffect(() => {
-    if (value != rest.value) setValue(rest.value);
+    if (innerValue != value) setInnerValue(value);
 
     // eslint-disable-next-line
-  }, [rest.value]);
+  }, [value]);
 
   const render = (() => {
     return localControl ? (
@@ -115,10 +118,10 @@ export const DatePicker = ({
           onClose={() => setOpen(false)}
           onChange={(newValue) => {
             onChange?.(newValue);
-            setValue(newValue);
+            setInnerValue(newValue);
           }}
           open={open}
-          value={value}
+          value={innerValue}
           slotProps={{
             textField: {
               onClick: () => setOpen(true),
@@ -138,10 +141,10 @@ export const DatePicker = ({
           onClose={() => setOpen(false)}
           onChange={(newValue) => {
             onChange?.(newValue);
-            setValue(newValue);
+            setInnerValue(newValue);
           }}
           open={open}
-          value={value}
+          value={innerValue}
           slotProps={{
             textField: {
               onClick: () => setOpen(true),
@@ -225,5 +228,3 @@ export const DatePicker = ({
     </Grid>
   );
 };
-
-DatePicker.defaultProps = defaultProps;

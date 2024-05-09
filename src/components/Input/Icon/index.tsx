@@ -19,7 +19,7 @@ export const Icon = ({
   onChange,
   readOnly,
   start,
-  variant,
+  variant = 'outlined',
   ...rest
 }: IconPropsEx) => {
   const adornment = (

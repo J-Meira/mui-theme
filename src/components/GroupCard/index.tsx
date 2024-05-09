@@ -4,7 +4,6 @@ import {
   MdExpandMore as ExpandMoreIcon,
   MdExpandLess as ExpandLessIcon,
 } from 'react-icons/md';
-import { defaultProps } from './defaultProps';
 
 export type GroupCardProps = {
   className?: string;
@@ -17,13 +16,13 @@ export type GroupCardProps = {
 export const GroupCard = ({
   children,
   className,
-  collapsed,
-  noGridSizes,
-  openStart,
+  collapsed = false,
+  noGridSizes = false,
+  openStart = false,
   title,
-  xs,
-  sm,
-  md,
+  md = 12,
+  sm = 12,
+  xs = 12,
 }: GroupCardProps) => {
   const [open, setOpen] = useState(openStart);
   return (
@@ -66,5 +65,3 @@ export const GroupCard = ({
     </Grid>
   );
 };
-
-GroupCard.defaultProps = defaultProps;

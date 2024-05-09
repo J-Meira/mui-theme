@@ -9,7 +9,7 @@ export const Basic = ({
   onBlur,
   onChange,
   readOnly,
-  variant,
+  variant = 'outlined',
   ...rest
 }: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) =>
   localControl ? (

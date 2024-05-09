@@ -18,7 +18,7 @@ export const Select = ({
   onBlur,
   onChange,
   readOnly,
-  variant,
+  variant = 'outlined',
   ...rest
 }: SelectPropsEx) =>
   localControl ? (
