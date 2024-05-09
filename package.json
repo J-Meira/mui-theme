@@ -1,6 +1,6 @@
 {
   "name": "@j-meira/mui-theme",
-  "version": "0.4.30",
+  "version": "0.4.33",
   "description": "ui theme made with MUI 5",
   "author": "J-Meira",
   "license": "ISC",
@@ -33,8 +33,8 @@
     "@types/node": "^20.12.10",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "7.2.0",
+    "@typescript-eslint/parser": "7.2.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.29.1",
@@ -78,13 +78,13 @@
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "pnpm build:esm && pnpm build:cjs && pnpm copy-scss",
+    "build": "pnpm pre-build && pnpm build:pkg && pnpm copy-scss",
+    "build:pkg": "pnpm build:esm && pnpm build:cjs",
     "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
     "build:esm": "tsc --declarationDir dist/esm",
     "clean": "node clean.ts",
     "copy-scss": "node copy.ts",
-    "prepublishOnly": "pnpm build",
-    "prepare": "pnpm prettier && pnpm lint  && pnpm clean",
+    "pre-build": "pnpm prettier && pnpm lint  && pnpm clean",
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "lint": "eslint ./src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "jest --config jestconfig.json",
@@ -92,6 +92,6 @@
     "storybook-ssl": "storybook dev -p 6006 -h dev.jm.app.br --https --ssl-ca ./.ssl/ca.crt --ssl-cert ./.ssl/cert.crt --ssl-key ./.ssl/cert.key",
     "build-storybook": "storybook build",
     "up-version": "pnpm version --no-git-tag-version",
-    "release": "pnpm up-version && pnpm prepare"
+    "pre-release": "pnpm pre-build && pnpm up-version"
   }
 }
