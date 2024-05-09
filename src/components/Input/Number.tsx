@@ -1,6 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps, NumberProps } from '..';
+import { InputProps, NumberProps } from '.';
 
 type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
   NumberProps;

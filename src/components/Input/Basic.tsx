@@ -1,6 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps } from '..';
+import { InputProps } from '.';
 
 export const Basic = ({
   helperText,

@@ -7,8 +7,8 @@ import {
 
 export type GroupCardProps = {
   className?: string;
-  collapsed: boolean;
-  noGridSizes: boolean;
+  collapsed?: boolean;
+  noGridSizes?: boolean;
   openStart?: boolean;
   title?: React.ReactNode;
 } & GridProps;

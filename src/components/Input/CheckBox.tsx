@@ -6,7 +6,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material';
-import { CheckBoxProps, InputProps } from '..';
+import { CheckBoxProps, InputProps } from '.';
 
 type CheckBoxExProps = Omit<
   InputProps,

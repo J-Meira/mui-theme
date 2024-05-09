@@ -1,33 +1,38 @@
+import { useState } from 'react';
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputAd } from '../InputAd';
-import { IconProps, InputProps } from '..';
+import {
+  MdVisibility as VisibilityIcon,
+  MdVisibilityOff as VisibilityOffIcon,
+} from 'react-icons/md';
+import { InputProps, PasswordProps } from '.';
+import { InputAd } from './InputAd';
 
-type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
-  IconProps;
+type PasswordPropsEx = Omit<
+  InputProps,
+  'className' | 'grid' | 'noGrid' | 'model'
+> &
+  PasswordProps;
 
-//ToDo fix label start position on start icon type
-
-export const Icon = ({
-  action,
-  actionTitle,
+export const Password = ({
   helperText,
-  icon,
+  hideTitle,
   localControl,
   name,
   onBlur,
   onChange,
-  readOnly,
-  start,
   variant = 'outlined',
+  showTitle,
   ...rest
-}: IconPropsEx) => {
+}: PasswordPropsEx) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const adornment = (
     <InputAd
-      action={action}
-      actionTitle={actionTitle}
-      icon={icon}
-      start={start}
+      action={() => setShowPassword(!showPassword)}
+      actionTitle={showPassword ? hideTitle : showTitle}
+      icon={showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      start
     />
   );
 
@@ -40,13 +45,12 @@ export const Icon = ({
       name={name}
       fullWidth
       InputProps={{
-        readOnly,
-        endAdornment: !start && adornment,
-        startAdornment: start && adornment,
+        endAdornment: adornment,
       }}
       margin='normal'
       onBlur={onBlur}
       onChange={onChange}
+      type={showPassword ? 'text' : 'password'}
       size='small'
       variant={variant}
     />
@@ -64,9 +68,7 @@ export const Icon = ({
             name={name}
             fullWidth
             InputProps={{
-              readOnly,
-              endAdornment: !start && adornment,
-              startAdornment: start && adornment,
+              endAdornment: adornment,
             }}
             margin='normal'
             onBlur={(e) => {
@@ -77,6 +79,7 @@ export const Icon = ({
               field.onChange(e);
               onChange?.(e);
             }}
+            type={showPassword ? 'text' : 'password'}
             size='small'
             variant={variant}
           />

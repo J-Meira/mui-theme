@@ -16,7 +16,7 @@ export interface PopUpProps extends DialogProps {
   cancelLabel?: string;
   className?: string;
   disableBackdropClick?: boolean;
-  grided: boolean;
+  grided?: boolean;
   name: string;
   successLabel?: string;
   title?: string;

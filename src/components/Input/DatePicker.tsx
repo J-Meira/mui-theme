@@ -8,7 +8,7 @@ import {
   DatePicker as MuiDatePicker,
   DateTimePicker as MuiDateTimePicker,
 } from '@mui/x-date-pickers';
-import { defaultGrid } from '../defaultGrid';
+import { defaultGrid } from './defaultGrid';
 
 export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   className?: string;

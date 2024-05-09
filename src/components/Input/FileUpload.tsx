@@ -5,10 +5,10 @@ import {
   MdClear as ClearIcon,
 } from 'react-icons/md';
 import { Grid, GridProps, TextField } from '@mui/material';
-import { InputProps } from '..';
-import { InputAd } from '../InputAd';
+import { InputProps } from '.';
+import { InputAd } from './InputAd';
 import { getFileSize } from './getFileSize';
-import { defaultGrid } from '../defaultGrid';
+import { defaultGrid } from './defaultGrid';
 
 export interface FileUploadProps
   extends Omit<
@@ -32,7 +32,7 @@ export interface FileUploadProps
 export const FileUpload = ({
   accept,
   className,
-  grid,
+  grid = defaultGrid,
   noGrid,
   hideSizeText,
   helperText,

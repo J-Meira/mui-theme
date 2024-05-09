@@ -1,6 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { MenuItem, TextField } from '@mui/material';
-import { InputProps, SelectProps } from '..';
+import { InputProps, SelectProps } from '.';
 
 type SelectPropsEx = Omit<
   InputProps,

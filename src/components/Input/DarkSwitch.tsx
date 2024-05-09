@@ -3,7 +3,7 @@ import {
   MdDarkMode as DarkModeIcon,
   MdLightMode as LightModeIcon,
 } from 'react-icons/md';
-import { useMultiContext } from '../../MultiProvider';
+import { useMultiContext } from '../MultiProvider';
 
 export const DarkSwitch = () => {
   const { dark, onChangeMode } = useMultiContext();

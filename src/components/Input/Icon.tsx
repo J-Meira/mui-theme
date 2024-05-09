@@ -1,38 +1,33 @@
-import { useState } from 'react';
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import {
-  MdVisibility as VisibilityIcon,
-  MdVisibilityOff as VisibilityOffIcon,
-} from 'react-icons/md';
-import { InputProps, PasswordProps } from '..';
-import { InputAd } from '../InputAd';
+import { InputAd } from './InputAd';
+import { IconProps, InputProps } from '.';
 
-type PasswordPropsEx = Omit<
-  InputProps,
-  'className' | 'grid' | 'noGrid' | 'model'
-> &
-  PasswordProps;
+type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
+  IconProps;
 
-export const Password = ({
+//ToDo fix label start position on start icon type
+
+export const Icon = ({
+  action,
+  actionTitle,
   helperText,
-  hideTitle,
+  icon,
   localControl,
   name,
   onBlur,
   onChange,
+  readOnly,
+  start,
   variant = 'outlined',
-  showTitle,
   ...rest
-}: PasswordPropsEx) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
+}: IconPropsEx) => {
   const adornment = (
     <InputAd
-      action={() => setShowPassword(!showPassword)}
-      actionTitle={showPassword ? hideTitle : showTitle}
-      icon={showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-      start
+      action={action}
+      actionTitle={actionTitle}
+      icon={icon}
+      start={start}
     />
   );
 
@@ -45,12 +40,13 @@ export const Password = ({
       name={name}
       fullWidth
       InputProps={{
-        endAdornment: adornment,
+        readOnly,
+        endAdornment: !start && adornment,
+        startAdornment: start && adornment,
       }}
       margin='normal'
       onBlur={onBlur}
       onChange={onChange}
-      type={showPassword ? 'text' : 'password'}
       size='small'
       variant={variant}
     />
@@ -68,7 +64,9 @@ export const Password = ({
             name={name}
             fullWidth
             InputProps={{
-              endAdornment: adornment,
+              readOnly,
+              endAdornment: !start && adornment,
+              startAdornment: start && adornment,
             }}
             margin='normal'
             onBlur={(e) => {
@@ -79,7 +77,6 @@ export const Password = ({
               field.onChange(e);
               onChange?.(e);
             }}
-            type={showPassword ? 'text' : 'password'}
             size='small'
             variant={variant}
           />

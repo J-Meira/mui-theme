@@ -7,8 +7,8 @@ import {
   TextField,
   createFilterOptions,
 } from '@mui/material';
-import { InputProps, SearchRequestProps, SelectOptionsProps } from '..';
-import { useDebounce } from '../../../hooks';
+import { InputProps, SearchRequestProps, SelectOptionsProps } from '.';
+import { useDebounce } from '../../hooks';
 
 const filter = createFilterOptions<SelectOptionsProps>();
 

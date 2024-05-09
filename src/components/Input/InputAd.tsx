@@ -3,7 +3,7 @@ import {
   InputAdornment as MuiInputAdornment,
   Typography,
 } from '@mui/material';
-import { IconProps } from '..';
+import { IconProps } from '.';
 
 export const InputAd = ({
   action,
