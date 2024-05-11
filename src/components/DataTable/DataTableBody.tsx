@@ -2,7 +2,7 @@ import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 
 import { DataTableBodyProps, DataTableColumnsProps } from '.';
 
-export const DataTableBody = ({
+export const DataTableBody = <T,>({
   columns,
   customClickAction,
   isSelectable,
@@ -12,10 +12,12 @@ export const DataTableBody = ({
   onSelectRow,
   rows,
   title,
+  statusProp,
   uniqueCol,
-}: DataTableBodyProps) => {
-  const getClassName = (className?: string, row?: any): string | undefined => {
-    const rowClass = row && row.status ? 'data-table-row-line-through ' : '';
+}: DataTableBodyProps<T>) => {
+  const getClassName = (className?: string, row?: T): string | undefined => {
+    const rowClass =
+      row && row[statusProp] ? 'data-table-row-line-through ' : '';
     return (
       rowClass +
       (customClickAction || (isSelectable && isSelectableAnywhereElse)
@@ -76,12 +78,12 @@ export const DataTableBody = ({
                 </TableCell>
               )}
               {columns &&
-                columns.map((col: DataTableColumnsProps) => {
+                columns.map((col: DataTableColumnsProps<T>) => {
                   const key = col.key;
                   if (col.limit) {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -93,6 +95,7 @@ export const DataTableBody = ({
                               : undefined
                         }
                       >
+                        {/*error here */}
                         {row[key].length > col.limit
                           ? row[key].slice(0, col.limit) + '...'
                           : row[key]}
@@ -101,7 +104,7 @@ export const DataTableBody = ({
                   } else if (col.render) {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={
@@ -129,7 +132,7 @@ export const DataTableBody = ({
                   } else if (col.objectKey) {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -141,13 +144,14 @@ export const DataTableBody = ({
                               : undefined
                         }
                       >
+                        {/*error here */}
                         {row[key][col.objectKey]}
                       </TableCell>
                     );
                   } else if (col.enumObject) {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -159,13 +163,14 @@ export const DataTableBody = ({
                               : undefined
                         }
                       >
+                        {/*error here */}
                         {col.enumObject[row[key]]}
                       </TableCell>
                     );
                   } else {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -177,6 +182,7 @@ export const DataTableBody = ({
                               : undefined
                         }
                       >
+                        {/*error here */}
                         {row[key]}
                       </TableCell>
                     );
