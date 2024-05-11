@@ -1,25 +1,26 @@
 import { GridProps } from '@mui/material';
+import { ChangeEvent, ReactNode } from 'react';
 
 export type Order = 'asc' | 'desc';
 
 export interface DataTableActionsProps {
-  onAdd?: (params: any) => void;
+  onAdd?: () => void;
   addLabel: string;
-  search: string;
-  setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  searchValue: string;
+  setSearchValue: (event: ChangeEvent<HTMLInputElement>) => void;
   searchLabel: string;
-  filters?: (onApplyFilters?: () => void) => React.ReactNode;
+  filters?: (onApplyFilters?: () => void) => ReactNode;
   filtersLabel?: string;
   filterOpened?: boolean;
   onApplyFilters?: () => void;
   applyFiltersLabel?: string;
   onClearFilters?: () => void;
   clearFiltersLabel?: string;
-  showActive: boolean;
+  showActive?: boolean;
   hideSearch?: boolean;
-  activeValue: boolean;
-  activeLabel: string;
-  setActiveValue: (value: boolean) => void;
+  activeValue?: boolean;
+  activeLabel?: string;
+  setActiveValue?: (value: boolean) => void;
   onExport?: () => void;
 }
 
@@ -44,7 +45,7 @@ export interface DataTableColumnsProps {
   maxWidth?: number;
   minWidth?: number;
   objectKey?: string;
-  render?: (row: any, index?: number) => React.ReactNode;
+  render?: (row: any, index?: number) => ReactNode;
   width?: number;
 }
 
@@ -57,14 +58,14 @@ export interface DataTableHeaderProps {
   isSelectable?: boolean;
   numSelected: number;
   onRequestSort: (key: string) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
 }
 
 export interface DataTableContainerProps {
-  children: React.ReactNode;
+  children: ReactNode;
   tabHeight?: number;
   title: string;
 }
@@ -79,7 +80,7 @@ export interface DataTableBodyProps {
   onSelectRow: (row: any) => void;
   rows: any[];
   title: string;
-  uniqueCol?: () => React.ReactNode;
+  uniqueCol?: () => ReactNode;
 }
 
 export interface DataTableSelectedProps {
@@ -88,12 +89,12 @@ export interface DataTableSelectedProps {
   onDelete?: () => void;
   deleteLabel?: string;
   selected: number[] | string[];
-  selectedCustomAction?: (selected: number[] | string[]) => React.ReactNode;
+  selectedCustomAction?: (selected: number[] | string[]) => ReactNode;
 }
 
 export interface PageButtonProps {
   onClick: (page: any) => void;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   active?: boolean;
   disabled?: boolean;
