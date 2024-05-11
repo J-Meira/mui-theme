@@ -32,7 +32,6 @@ export const Password = ({
       action={() => setShowPassword(!showPassword)}
       actionTitle={showPassword ? hideTitle : showTitle}
       icon={showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-      start
     />
   );
 
