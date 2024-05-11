@@ -188,14 +188,12 @@ export const Basic = ({ ...args }) => {
           icon={<HomeIcon />}
           selected={true}
           expanded={expanded}
-          action={() => console.log('go home')}
         />
         <SideBarItem
           label='Lists'
           icon={<ListIcon />}
           selected={false}
           expanded={expanded}
-          action={() => console.log('go home')}
         />
       </SideBar>
       <MainContainer

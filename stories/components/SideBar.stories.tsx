@@ -58,14 +58,12 @@ export const Basic = () => {
             label='Main'
             selected={true}
             expanded={expanded}
-            action={() => console.log('go home')}
             sideBarControl={sideBarControl}
           />
           <SideBarItem
             label='Main Context'
             selected={true}
             expanded={expanded}
-            action={() => console.log('go home')}
             sideBarControl={sideBarControl}
           />
         </SideBarItem>
@@ -73,7 +71,6 @@ export const Basic = () => {
           label='Lists'
           selected={false}
           expanded={expanded}
-          action={() => console.log('go home')}
           sideBarControl={sideBarControl}
         />
       </SideBar>

@@ -8,13 +8,6 @@ const meta = {
   title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
-  argTypes: {
-    colors: {
-      text: { control: 'color' },
-      background: { control: 'color' },
-      backgroundHover: { control: 'color' },
-    },
-  },
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -28,16 +21,12 @@ export const Basic: Story = {
   },
 };
 
-export const Custom: Story = {
+export const Responsive: Story = {
   args: {
     fullWidth: false,
-    children: 'Custom',
-    model: 'custom',
-    colors: {
-      text: '#000',
-      background: '#9c9fa8',
-      backgroundHover: '#6e7179',
-    },
+    children: 'Responsive',
+    model: 'responsive',
+    icon: <EditIcon />,
   },
 };
 
