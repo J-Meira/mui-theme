@@ -42,7 +42,7 @@ const rows: IRows[] = [
   { id: 15, name: 'Daniel Cooper', level: 2 },
 ];
 
-const columns: DataTableColumnsProps[] = [
+const columns: DataTableColumnsProps<IRows>[] = [
   {
     key: 'id',
     label: '#',
@@ -80,7 +80,7 @@ export default {
 } satisfies Meta<typeof DataTableSelected>;
 
 export const Basic = ({ ...args }) => {
-  const [selected, setSelected] = useState<number[]>([]);
+  const [selected, setSelected] = useState<IRows['id'][]>([]);
 
   const onSelectRow = (row: any) => {
     const selectedIndex = selected.indexOf(row.id);
@@ -119,7 +119,7 @@ export const Basic = ({ ...args }) => {
           />
         </DataTableContainer>
         {selected.length > 0 && (
-          <DataTableSelected
+          <DataTableSelected<IRows, 'id'>
             totalOfRows={selected.length}
             totalOfRowsLabel='Records Selected'
             deleteLabel='Delete'

@@ -43,7 +43,11 @@ const rows: IRows[] = [
   { id: 15, name: 'Daniel Cooper', level: 2 },
 ];
 
-const columns: DataTableColumnsProps[] = [
+const columns: DataTableColumnsProps<IRows>[] = [
+  {
+    key: 'actions',
+    label: '#',
+  },
   {
     key: 'id',
     label: '#',
@@ -80,11 +84,11 @@ export default {
 };
 
 export const Basic = ({ ...args }) => {
-  const [selected, setSelected] = useState<number[]>([]);
-  const [orderBy, setOrderBy] = useState('');
+  const [selected, setSelected] = useState<IRows['id'][]>([]);
+  const [orderBy, setOrderBy] = useState<keyof IRows>('id');
   const [order, setOrder] = useState<Order>('asc');
 
-  const onRequestSort = (key: string) => {
+  const onRequestSort = (key: keyof IRows) => {
     const isAsc = orderBy === key && order === 'asc';
     const newOrder = isAsc ? 'desc' : 'asc';
     setOrder(newOrder);
@@ -126,7 +130,7 @@ export const Basic = ({ ...args }) => {
     <div className='story-book'>
       <DataTableGrid>
         <DataTableContainer title={args.title}>
-          <DataTableHeader
+          <DataTableHeader<IRows>
             columns={args.columns}
             order={order}
             orderBy={orderBy}
@@ -136,7 +140,7 @@ export const Basic = ({ ...args }) => {
             onRequestSort={onRequestSort}
             onSelectAllClick={onSelectAllClick}
           />
-          <DataTableBody
+          <DataTableBody<IRows>
             title={args.title}
             columns={args.columns}
             rows={args.rows}
@@ -147,7 +151,7 @@ export const Basic = ({ ...args }) => {
           />
         </DataTableContainer>
         {selected.length > 0 && (
-          <DataTableSelected
+          <DataTableSelected<IRows, 'id'>
             totalOfRows={selected.length}
             totalOfRowsLabel='Records Selected'
             deleteLabel='Delete'

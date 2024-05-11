@@ -3,6 +3,7 @@ import type { Meta } from '@storybook/react';
 import { useState } from '@storybook/client-api';
 import {
   DataTableBody,
+  DataTableColumnsProps,
   DataTableContainer,
   DataTableGrid,
   EnumObjectProps,
@@ -40,41 +41,47 @@ const rows: IRows[] = [
   { id: 15, name: 'Daniel Cooper', level: 2 },
 ];
 
+const columns: DataTableColumnsProps<IRows>[] = [
+  {
+    key: 'actions',
+    label: '#',
+  },
+  {
+    key: 'id',
+    label: '#',
+  },
+  {
+    key: 'name',
+    label: 'Name',
+    limit: 10,
+    disablePadding: true,
+  },
+  {
+    key: 'phone',
+    label: 'Phone',
+    disablePadding: true,
+    render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
+  },
+  {
+    key: 'level',
+    label: 'Level',
+    enumObject: levelEnum,
+  },
+];
+
 export default {
   title: 'DataTable/Body',
   component: DataTableBody,
   tags: ['autodocs'],
   args: {
-    columns: [
-      {
-        key: 'id',
-        label: '#',
-      },
-      {
-        key: 'name',
-        label: 'Name',
-        limit: 10,
-        disablePadding: true,
-      },
-      {
-        key: 'phone',
-        label: 'Phone',
-        disablePadding: true,
-        render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
-      },
-      {
-        key: 'level',
-        label: 'Level',
-        enumObject: levelEnum,
-      },
-    ],
+    columns: columns,
     isSelectable: false,
     isSelectableAnywhere: false,
     isSelectableAnywhereElse: false,
     rows: rows,
     title: 'Basic body',
   },
-} satisfies Meta<typeof DataTableBody>;
+} satisfies Meta<typeof DataTableBody<IRows>>;
 
 export const Basic = ({ ...args }) => {
   const [selected, setSelected] = useState<number[]>([]);

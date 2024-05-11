@@ -1,8 +1,8 @@
 import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 
-import { DataTableBodyProps, DataTableColumnsProps } from '.';
+import { DataTableBodyProps } from '.';
 
-export const DataTableBody = ({
+export const DataTableBody = <T extends object>({
   columns,
   customClickAction,
   isSelectable,
@@ -12,10 +12,14 @@ export const DataTableBody = ({
   onSelectRow,
   rows,
   title,
+  statusProp,
   uniqueCol,
-}: DataTableBodyProps) => {
-  const getClassName = (className?: string, row?: any): string | undefined => {
-    const rowClass = row && row.status ? 'data-table-row-line-through ' : '';
+}: DataTableBodyProps<T>) => {
+  const getClassName = (className?: string, row?: T): string | undefined => {
+    const rowClass =
+      row && statusProp && row[statusProp]
+        ? 'data-table-row-line-through '
+        : '';
     return (
       rowClass +
       (customClickAction || (isSelectable && isSelectableAnywhereElse)
@@ -23,6 +27,9 @@ export const DataTableBody = ({
         : className)
     );
   };
+
+  const compressedString = (value: string, limit: number) =>
+    value.length > limit ? value.slice(0, limit) + '...' : value;
 
   return (
     <TableBody>
@@ -76,32 +83,13 @@ export const DataTableBody = ({
                 </TableCell>
               )}
               {columns &&
-                columns.map((col: DataTableColumnsProps) => {
+                columns.map((col) => {
                   const key = col.key;
-                  if (col.limit) {
+                  if (key === 'actions' || col.render) {
+                    if (!col.render) return;
                     return (
                       <TableCell
-                        key={index + key}
-                        align={col.align}
-                        padding={col.disablePadding ? 'none' : 'normal'}
-                        className={getClassName(col.className)}
-                        onClick={
-                          customClickAction
-                            ? () => customClickAction(row)
-                            : isSelectable && isSelectableAnywhereElse
-                              ? () => onSelectRow(row)
-                              : undefined
-                        }
-                      >
-                        {row[key].length > col.limit
-                          ? row[key].slice(0, col.limit) + '...'
-                          : row[key]}
-                      </TableCell>
-                    );
-                  } else if (col.render) {
-                    return (
-                      <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={
@@ -126,10 +114,10 @@ export const DataTableBody = ({
                         {col.render(row, index)}
                       </TableCell>
                     );
-                  } else if (col.objectKey) {
+                  } else if (col.limit) {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -141,13 +129,31 @@ export const DataTableBody = ({
                               : undefined
                         }
                       >
-                        {row[key][col.objectKey]}
+                        {compressedString(row[key] as string, col.limit)}
                       </TableCell>
                     );
+                    //                   } else if (col.objectKey) {
+                    // return (
+                    //   <TableCell
+                    //     key={index + key.toString()}
+                    //     align={col.align}
+                    //     padding={col.disablePadding ? 'none' : 'normal'}
+                    //     className={getClassName(col.className)}
+                    //     onClick={
+                    //       customClickAction
+                    //         ? () => customClickAction(row)
+                    //         : isSelectable && isSelectableAnywhereElse
+                    //           ? () => onSelectRow(row)
+                    //           : undefined
+                    //     }
+                    //   >
+                    //     {row[key][col.objectKey]}
+                    //   </TableCell>
+                    // );
                   } else if (col.enumObject) {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -159,13 +165,13 @@ export const DataTableBody = ({
                               : undefined
                         }
                       >
-                        {col.enumObject[row[key]]}
+                        {col.enumObject[row[key] as number]}
                       </TableCell>
                     );
                   } else {
                     return (
                       <TableCell
-                        key={index + key}
+                        key={index + key.toString()}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -177,7 +183,7 @@ export const DataTableBody = ({
                               : undefined
                         }
                       >
-                        {row[key]}
+                        {row[key] as string}
                       </TableCell>
                     );
                   }

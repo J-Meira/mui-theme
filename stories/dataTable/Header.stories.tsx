@@ -15,6 +15,13 @@ const levelEnum: EnumObjectProps = {
   2: 'Regular',
 };
 
+interface IRows {
+  id: number;
+  name: string;
+  phone?: string;
+  level: number;
+}
+
 export default {
   title: 'DataTable/Header',
   component: DataTableHeader,
@@ -53,12 +60,12 @@ export default {
     order: 'asc',
     orderBy: 'id',
   },
-} satisfies Meta<typeof DataTableHeader>;
+} satisfies Meta<typeof DataTableHeader<IRows>>;
 
 export const Basic = ({ ...args }) => {
   const [{ orderBy, order, numSelected }, updateArgs] = useArgs();
 
-  const onRequestSort = (key: string) => {
+  const onRequestSort = (key: keyof IRows) => {
     const isAsc = orderBy === key && order === 'asc';
     const newOrder = isAsc ? 'desc' : 'asc';
     updateArgs({
@@ -107,7 +114,7 @@ export const Basic = ({ ...args }) => {
 export const Selectable = ({ ...args }) => {
   const [{ orderBy, order, numSelected }, updateArgs] = useArgs();
 
-  const onRequestSort = (key: string) => {
+  const onRequestSort = (key: keyof IRows) => {
     const isAsc = orderBy === key && order === 'asc';
     const newOrder = isAsc ? 'desc' : 'asc';
     updateArgs({

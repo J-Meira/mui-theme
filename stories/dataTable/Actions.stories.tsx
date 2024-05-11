@@ -2,10 +2,11 @@ import React from 'react';
 import type { Meta } from '@storybook/react';
 import { useArgs, useState } from '@storybook/client-api';
 import { DataTableActions, DataTableGrid, DatePicker } from '../../src';
+import { Dayjs } from 'dayjs';
 
 interface IFilters {
-  from: string | null;
-  to: string | null;
+  from: Dayjs | null;
+  to: Dayjs | null;
 }
 
 const initialFilters: IFilters = {
@@ -18,24 +19,24 @@ export default {
   component: DataTableActions,
   tags: ['autodocs'],
   args: {
-    search: '',
+    searchValue: '',
     activeValue: true,
   },
 } satisfies Meta<typeof DataTableActions>;
 
 export const Basic = ({ ...args }) => {
-  const [{ search, activeValue }, updateArgs] = useArgs();
+  const [{ searchValue, activeValue }, updateArgs] = useArgs();
 
-  const setSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const setSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateArgs({
-      search: e.target.value,
+      searchValue: e.target.value,
       activeValue: activeValue,
     });
   };
 
   const setActiveValue = () => {
     updateArgs({
-      search: search,
+      searchValue: searchValue,
       activeValue: !activeValue,
     });
   };
@@ -48,10 +49,10 @@ export const Basic = ({ ...args }) => {
           searchLabel={'Search'}
           showActive={true}
           activeLabel={'Show only actives'}
-          search={args.search}
+          searchValue={args.searchValue}
           activeValue={args.activeValue}
           onAdd={() => console.log('add')}
-          setSearch={setSearch}
+          setSearchValue={setSearchValue}
           setActiveValue={setActiveValue}
           onExport={() => console.log('export')}
         />
@@ -61,19 +62,19 @@ export const Basic = ({ ...args }) => {
 };
 
 export const WithFilters = ({ ...args }) => {
-  const [{ search, activeValue }, updateArgs] = useArgs();
+  const [{ searchValue, activeValue }, updateArgs] = useArgs();
   const [filtersValues, updateFilters] = useState<IFilters>(initialFilters);
 
-  const setSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const setSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateArgs({
-      search: e.target.value,
+      searchValue: e.target.value,
       activeValue: activeValue,
     });
   };
 
   const setActiveValue = () => {
     updateArgs({
-      search: search,
+      searchValue: searchValue,
       activeValue: !activeValue,
     });
   };
@@ -91,10 +92,10 @@ export const WithFilters = ({ ...args }) => {
           clearFiltersLabel={'Clear'}
           showActive={true}
           activeLabel={'Show only actives'}
-          search={args.search}
+          searchValue={args.searchValue}
           activeValue={args.activeValue}
           onAdd={() => console.log('add')}
-          setSearch={setSearch}
+          setSearchValue={setSearchValue}
           setActiveValue={setActiveValue}
           onExport={() => console.log('export')}
           onApplyFilters={() => console.log(filtersValues)}

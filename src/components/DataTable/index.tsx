@@ -32,20 +32,20 @@ export interface ObjectEnumProps {
   [key: string]: number;
 }
 
-export interface DataTableColumnsProps {
+export interface DataTableColumnsProps<T extends object> {
   align?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
   className?: string;
   disablePadding?: boolean;
   enumObject?: EnumObjectProps;
   isSelectable?: boolean;
   isSortable?: boolean;
-  key: string;
+  key: keyof T | 'actions';
   label?: string;
   limit?: number;
   maxWidth?: number;
   minWidth?: number;
   objectKey?: string;
-  render?: (row: any, index?: number) => ReactNode;
+  render?: (row: T, index?: number) => ReactNode;
   width?: number;
 }
 
@@ -53,14 +53,14 @@ export interface DataTableGridProps extends GridProps {
   noChildrenGrid?: boolean;
 }
 
-export interface DataTableHeaderProps {
-  columns: DataTableColumnsProps[];
+export interface DataTableHeaderProps<T extends object> {
+  columns: DataTableColumnsProps<T>[];
   isSelectable?: boolean;
   numSelected: number;
-  onRequestSort: (key: string) => void;
+  onRequestSort: (key: keyof T) => void;
   onSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
   order: Order;
-  orderBy: string;
+  orderBy: keyof T;
   rowCount: number;
 }
 
@@ -70,26 +70,27 @@ export interface DataTableContainerProps {
   title: string;
 }
 
-export interface DataTableBodyProps {
-  columns: DataTableColumnsProps[];
-  customClickAction?: (row: any) => void;
+export interface DataTableBodyProps<T extends object> {
+  columns: DataTableColumnsProps<T>[];
+  customClickAction?: (row: T) => void;
   isSelectable?: boolean;
   isSelectableAnywhere?: boolean;
   isSelectableAnywhereElse?: boolean;
-  isSelected: (row: any) => boolean;
-  onSelectRow: (row: any) => void;
-  rows: any[];
+  isSelected: (row: T) => boolean;
+  onSelectRow: (row: T) => void;
+  rows: T[];
   title: string;
+  statusProp?: keyof T;
   uniqueCol?: () => ReactNode;
 }
 
-export interface DataTableSelectedProps {
+export interface DataTableSelectedProps<T extends object, K extends keyof T> {
   totalOfRows: number;
   totalOfRowsLabel: string;
   onDelete?: () => void;
   deleteLabel?: string;
-  selected: number[] | string[];
-  selectedCustomAction?: (selected: number[] | string[]) => ReactNode;
+  selected: T[K][];
+  selectedCustomAction?: (selected: T[K][]) => ReactNode;
 }
 
 export interface PageButtonProps {
