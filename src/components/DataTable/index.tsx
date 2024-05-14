@@ -84,13 +84,13 @@ export interface DataTableBodyProps<T extends object> {
   uniqueCol?: () => ReactNode;
 }
 
-export interface DataTableSelectedProps<T extends object, K extends keyof T> {
+export interface DataTableSelectedProps<T extends object> {
   totalOfRows: number;
   totalOfRowsLabel: string;
   onDelete?: () => void;
   deleteLabel?: string;
-  selected: T[K][];
-  selectedCustomAction?: (selected: T[K][]) => ReactNode;
+  selected: T[keyof T][];
+  selectedCustomAction?: (selected: T[keyof T][]) => ReactNode;
 }
 
 export interface PageButtonProps {

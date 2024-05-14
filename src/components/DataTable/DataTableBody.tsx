@@ -87,6 +87,10 @@ export const DataTableBody = <T extends object>({
                   const key = col.key;
                   if (key === 'actions' || col.render) {
                     if (!col.render) return;
+                    col.className =
+                      key === 'actions' && !col.className
+                        ? 'data-table-col-actions'
+                        : col.className;
                     return (
                       <TableCell
                         key={index + key.toString()}

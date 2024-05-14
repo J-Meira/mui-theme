@@ -3,14 +3,14 @@ import { MdDelete as DeleteIcon } from 'react-icons/md';
 import { Button } from '..';
 import { DataTableSelectedProps } from '.';
 
-export const DataTableSelected = <T extends object, K extends keyof T>({
+export const DataTableSelected = <T extends object>({
   totalOfRows,
   totalOfRowsLabel,
   deleteLabel,
   onDelete,
   selected,
   selectedCustomAction,
-}: DataTableSelectedProps<T, K>) => {
+}: DataTableSelectedProps<T>) => {
   return (
     <div className='data-table-selected'>
       {`${totalOfRows} ${totalOfRowsLabel}`}

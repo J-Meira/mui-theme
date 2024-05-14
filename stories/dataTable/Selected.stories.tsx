@@ -119,7 +119,7 @@ export const Basic = ({ ...args }) => {
           />
         </DataTableContainer>
         {selected.length > 0 && (
-          <DataTableSelected<IRows, 'id'>
+          <DataTableSelected<IRows>
             totalOfRows={selected.length}
             totalOfRowsLabel='Records Selected'
             deleteLabel='Delete'
