@@ -75,6 +75,7 @@ export interface MaskProps {
     | 'number'
     | 'phone'
     | 'plate'
+    | 'upper'
     | 'postalCode';
 }
 

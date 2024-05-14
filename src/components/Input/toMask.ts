@@ -55,6 +55,10 @@ const phone = (value: string) => {
   return value;
 };
 
+const upper = (value: string) => {
+  return value.toUpperCase();
+};
+
 const plate = (value: string) => {
   value = value
     .toUpperCase()
@@ -96,4 +100,5 @@ export const toMask = {
   phone,
   plate,
   currency,
+  upper,
 };

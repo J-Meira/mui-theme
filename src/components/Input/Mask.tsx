@@ -43,6 +43,8 @@ export const Mask = ({
             return toMask.plate(value);
           case 'postalCode':
             return toMask.postalCode(value);
+          case 'upper':
+            return toMask.upper(value);
           default:
             return value;
         }
