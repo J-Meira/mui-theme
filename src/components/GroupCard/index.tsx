@@ -8,6 +8,7 @@ import {
 export type GroupCardProps = {
   className?: string;
   collapsed?: boolean;
+  error?: string;
   noGridSizes?: boolean;
   openStart?: boolean;
   title?: React.ReactNode;
@@ -17,6 +18,7 @@ export const GroupCard = ({
   children,
   className,
   collapsed = false,
+  error,
   noGridSizes = false,
   openStart = false,
   title,
@@ -31,7 +33,7 @@ export const GroupCard = ({
       xs={noGridSizes ? undefined : xs}
       sm={noGridSizes ? undefined : sm}
       md={noGridSizes ? undefined : md}
-      className={`group-card ${className ? className : ''}`}
+      className={`group-card ${error ? 'group-card-error' : ''} ${className ? className : ''}`}
     >
       <Card variant='outlined'>
         <CardContent
@@ -59,6 +61,11 @@ export const GroupCard = ({
               </Grid>
             )}
             {collapsed ? (open ? children : null) : children}
+            {error && (
+              <Typography variant='caption' color='error'>
+                {error}
+              </Typography>
+            )}
           </Grid>
         </CardContent>
       </Card>
