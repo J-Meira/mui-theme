@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
@@ -7,11 +7,11 @@ const get = (key: string) => {
   return b ? b.pop() : '';
 };
 
-const set = (key: string, value: string, expires?: Dayjs) => {
+const set = (key: string, value: string, expires?: Date) => {
   if (!expires) {
-    expires = dayjs().add(2, 'year');
+    expires = dayjs().add(2, 'year').utc().toDate();
   }
-  document.cookie = `${key}=${value};expires=${expires.utc().toDate()};path=/`;
+  document.cookie = `${key}=${value};expires=${expires};path=/`;
 };
 
 const remove = (key: string) => {
