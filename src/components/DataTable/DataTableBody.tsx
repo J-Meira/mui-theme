@@ -83,7 +83,7 @@ export const DataTableBody = <T extends object>({
                 </TableCell>
               )}
               {columns &&
-                columns.map((col) => {
+                columns.map((col, cIndex) => {
                   const key = col.key;
                   if (key === 'actions' || col.render) {
                     if (!col.render) return;
@@ -93,7 +93,7 @@ export const DataTableBody = <T extends object>({
                         : col.className;
                     return (
                       <TableCell
-                        key={index + key.toString()}
+                        key={index + key.toString() + cIndex}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={
@@ -121,7 +121,7 @@ export const DataTableBody = <T extends object>({
                   } else if (col.limit) {
                     return (
                       <TableCell
-                        key={index + key.toString()}
+                        key={index + key.toString() + cIndex}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -139,7 +139,7 @@ export const DataTableBody = <T extends object>({
                     //                   } else if (col.objectKey) {
                     // return (
                     //   <TableCell
-                    //     key={index + key.toString()}
+                    //     key={index + key.toString()+cIndex}
                     //     align={col.align}
                     //     padding={col.disablePadding ? 'none' : 'normal'}
                     //     className={getClassName(col.className)}
@@ -157,7 +157,7 @@ export const DataTableBody = <T extends object>({
                   } else if (col.enumObject) {
                     return (
                       <TableCell
-                        key={index + key.toString()}
+                        key={index + key.toString() + cIndex}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -175,7 +175,7 @@ export const DataTableBody = <T extends object>({
                   } else {
                     return (
                       <TableCell
-                        key={index + key.toString()}
+                        key={index + key.toString() + cIndex}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
