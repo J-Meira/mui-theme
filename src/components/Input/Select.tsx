@@ -20,26 +20,9 @@ export const Select = ({
   readOnly,
   variant = 'outlined',
   ...rest
-}: SelectPropsEx) =>
-  localControl ? (
-    <TextField
-      {...rest}
-      error={!!helperText}
-      helperText={helperText}
-      id={name}
-      name={name}
-      fullWidth
-      InputProps={{
-        readOnly,
-      }}
-      margin='normal'
-      onBlur={onBlur}
-      onChange={onChange}
-      select
-      SelectProps={!NoNativeOptions ? { native: true } : undefined}
-      size='small'
-      variant={variant}
-    >
+}: SelectPropsEx) => {
+  const renderOptions = () => (
+    <>
       {defaultOption &&
         (NoNativeOptions ? (
           <MenuItem value={-1}>{defaultOption}</MenuItem>
@@ -58,6 +41,28 @@ export const Select = ({
             </option>
           ),
         )}
+    </>
+  );
+  return localControl ? (
+    <TextField
+      {...rest}
+      error={!!helperText}
+      helperText={helperText}
+      id={name}
+      name={name}
+      fullWidth
+      InputProps={{
+        readOnly,
+      }}
+      margin='normal'
+      onBlur={onBlur}
+      onChange={onChange}
+      select
+      SelectProps={!NoNativeOptions ? { native: true } : undefined}
+      size='small'
+      variant={variant}
+    >
+      {renderOptions()}
     </TextField>
   ) : (
     <Field name={name}>
@@ -89,26 +94,10 @@ export const Select = ({
             size='small'
             variant={variant}
           >
-            {defaultOption &&
-              (NoNativeOptions ? (
-                <MenuItem value={-1}>{defaultOption}</MenuItem>
-              ) : (
-                <option value={-1}>{defaultOption}</option>
-              ))}
-            {options &&
-              options.map((op) =>
-                NoNativeOptions ? (
-                  <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
-                    {op.label}
-                  </MenuItem>
-                ) : (
-                  <option key={`${op.value}-${op.label}`} value={op.value}>
-                    {op.label}
-                  </option>
-                ),
-              )}
+            {renderOptions()}
           </TextField>
         );
       }}
     </Field>
   );
+};
