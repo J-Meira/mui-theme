@@ -18,14 +18,14 @@ export default {
   },
 } satisfies Meta<typeof DatePicker>;
 
-export const Basic = ({ ...args }) => (
+export const Basic = ({ name, ...args }) => (
   <Grid container spacing={2}>
-    <DatePicker localControl {...args} />
+    <DatePicker name={name} localControl {...args} />
   </Grid>
 );
 
-export const WithTime = ({ ...args }) => (
+export const WithTime = ({ name, ...args }) => (
   <Grid container spacing={2}>
-    <DatePicker localControl time {...args} />
+    <DatePicker name={name} localControl time {...args} />
   </Grid>
 );

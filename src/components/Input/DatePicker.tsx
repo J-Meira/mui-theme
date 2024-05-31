@@ -14,8 +14,9 @@ export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   className?: string;
   disableFuture?: boolean;
   disablePast?: boolean;
-  grid: GridProps;
-  localControl: boolean;
+  grid?: GridProps;
+  localControl?: boolean;
+  amPm?: boolean;
   maxDate?: Dayjs;
   minDate?: Dayjs;
   name: string;
@@ -23,22 +24,29 @@ export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   readOnly?: boolean;
   showTodayButton?: boolean;
   time?: boolean;
-  value: Dayjs | null;
+  value?: Dayjs | null;
   onChange?: (newValue: Dayjs | null) => void;
 };
 
-export const DatePicker = ({
+type RenderProps = Omit<
+  DatePickerProps,
+  'localControl' | 'onChange' | 'value'
+> & {
+  value: Dayjs | null;
+  onChange: (newValue: Dayjs | null) => void;
+};
+const RenderDatePicker = ({
   className,
   disabled,
   disableFuture,
   disablePast,
   grid = defaultGrid,
   helperText,
-  localControl = false,
   label,
+  amPm = false,
   maxDate,
   minDate,
-  name = '',
+  name,
   noGrid,
   onBlur,
   onChange,
@@ -47,9 +55,9 @@ export const DatePicker = ({
   showTodayButton,
   time,
   variant = 'outlined',
-  value = null,
+  value,
   ...rest
-}: DatePickerProps) => {
+}: RenderProps) => {
   const [open, setOpen] = useState(false);
   const [innerValue, setInnerValue] = useState<Dayjs | null>(null);
 
@@ -60,36 +68,20 @@ export const DatePicker = ({
     };
   };
 
-  const renderProps = (
-    field?: FieldProps['field'],
-    meta?: FieldProps['meta'],
-  ) => {
-    const textProps: TextFieldProps = {
-      margin: 'normal',
-      fullWidth: true,
-      size: 'small',
-      required: required,
-      label: label,
-      disabled: disabled,
-      variant: variant,
-      ...rest,
-    };
-
-    if (field && meta) {
-      const { touched, error } = meta;
-      return {
-        ...field,
-        error: touched && !!error,
-        helperText: touched && error,
-        ...textProps,
-      };
-    } else {
-      return {
-        error: !!helperText,
-        helperText: helperText,
-        ...textProps,
-      };
-    }
+  const inputProps: TextFieldProps = {
+    margin: 'normal',
+    fullWidth: true,
+    size: 'small',
+    required: required,
+    label: label,
+    disabled: disabled,
+    variant: variant,
+    name: name,
+    error: !!helperText,
+    helperText: helperText,
+    onClick: () => setOpen(true),
+    onBlur: onBlur,
+    ...rest,
   };
 
   const dateProps = {
@@ -109,114 +101,45 @@ export const DatePicker = ({
   }, [value]);
 
   const render = (() => {
-    return localControl ? (
-      time ? (
-        <MuiDateTimePicker
-          {...dateProps}
-          format='DD/MM/YYYY HH:mm'
-          onOpen={() => setOpen(true)}
-          onClose={() => setOpen(false)}
-          onChange={(newValue) => {
-            onChange?.(newValue);
-            setInnerValue(newValue);
-          }}
-          open={open}
-          value={innerValue}
-          slotProps={{
-            textField: {
-              onClick: () => setOpen(true),
-              onBlur: onBlur,
-              ...renderProps(),
-            },
-            actionBar: () => ({
-              actions: showTodayButton ? ['today'] : [],
-            }),
-          }}
-        />
-      ) : (
-        <MuiDatePicker
-          {...dateProps}
-          format='DD/MM/YYYY'
-          onOpen={() => setOpen(true)}
-          onClose={() => setOpen(false)}
-          onChange={(newValue) => {
-            onChange?.(newValue);
-            setInnerValue(newValue);
-          }}
-          open={open}
-          value={innerValue}
-          slotProps={{
-            textField: {
-              onClick: () => setOpen(true),
-              onBlur: onBlur,
-              ...renderProps(),
-            },
-            actionBar: () => ({
-              actions: showTodayButton ? ['today'] : [],
-            }),
-          }}
-        />
-      )
-    ) : (
-      <Field name={name}>
-        {({ field, meta, form }: FieldProps) => {
-          return time ? (
-            <MuiDateTimePicker
-              {...dateProps}
-              format='DD/MM/YYYY HH:mm'
-              onOpen={() => setOpen(true)}
-              onClose={() => setOpen(false)}
-              onChange={(newValue) => {
-                field.onChange({ target: { name, value: newValue } });
-                onChange?.(newValue);
-              }}
-              open={open}
-              value={field.value}
-              slotProps={{
-                textField: {
-                  ...renderProps(field, meta),
-                  onClick: () => setOpen(true),
-                  onBlur: (e) => {
-                    field.onBlur({ target: { name } });
-                    form.setFieldTouched(name, true);
-                    onBlur?.(e);
-                  },
-                },
-                actionBar: () => ({
-                  actions: showTodayButton ? ['today'] : [],
-                }),
-              }}
-            />
-          ) : (
-            <MuiDatePicker
-              {...dateProps}
-              format='DD/MM/YYYY'
-              onOpen={() => setOpen(true)}
-              onClose={() => setOpen(false)}
-              onChange={(newValue) => {
-                field.onChange({ target: { name, value: newValue } });
-                onChange?.(newValue);
-              }}
-              open={open}
-              value={field.value}
-              slotProps={{
-                textField: {
-                  ...renderProps(field, meta),
-                  onClick: () => setOpen(true),
-                  onBlur: (e) => {
-                    field.onBlur({ target: { name } });
-                    form.setFieldTouched(name, true);
-                    onBlur?.(e);
-                  },
-                },
-                actionBar: () => ({
-                  actions: showTodayButton ? ['today'] : [],
-                }),
-              }}
-            />
-          );
+    return time ? (
+      <MuiDateTimePicker
+        {...dateProps}
+        ampm={amPm}
+        format='DD/MM/YYYY HH:mm'
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        onChange={(newValue) => {
+          onChange?.(newValue);
+          setInnerValue(newValue);
         }}
-      </Field>
+        open={open}
+        value={innerValue}
+        slotProps={{
+          textField: inputProps,
+          actionBar: () => ({
+            actions: showTodayButton ? ['today'] : [],
+          }),
+        }}
+      />
+    ) : (
+      <MuiDatePicker
+        {...dateProps}
+        format='DD/MM/YYYY'
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        onChange={(newValue) => {
+          onChange?.(newValue);
+          setInnerValue(newValue);
+        }}
+        open={open}
+        value={innerValue}
+        slotProps={{
+          textField: inputProps,
+          actionBar: () => ({
+            actions: showTodayButton ? ['today'] : [],
+          }),
+        }}
+      />
     );
   })();
 
@@ -226,5 +149,49 @@ export const DatePicker = ({
     <Grid item className={className} {...getGrid(grid)}>
       {render}
     </Grid>
+  );
+};
+export const DatePicker = ({
+  helperText,
+  localControl = false,
+  name = '',
+  onBlur,
+  onChange,
+  value = null,
+  ...rest
+}: DatePickerProps) => {
+  return localControl ? (
+    <RenderDatePicker
+      {...rest}
+      onBlur={onBlur}
+      name={name}
+      helperText={helperText}
+      onChange={(newValue) => onChange?.(newValue)}
+      value={value}
+    />
+  ) : (
+    <Field name={name}>
+      {({ field, meta, form }: FieldProps) => {
+        const { touched, error } = meta;
+        return (
+          <RenderDatePicker
+            {...rest}
+            {...field}
+            name={name}
+            helperText={touched && error}
+            onChange={(newValue) => {
+              field.onChange({ target: { name, value: newValue } });
+              onChange?.(newValue);
+            }}
+            onBlur={(e) => {
+              field.onBlur({ target: { name } });
+              form.setFieldTouched(name, true);
+              onBlur?.(e);
+            }}
+            {...rest}
+          />
+        );
+      }}
+    </Field>
   );
 };

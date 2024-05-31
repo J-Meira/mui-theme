@@ -70,7 +70,7 @@ export const PopUp = ({
       )}
       <DialogContent>
         {grided ? (
-          <Grid container className='body-main' spacing={3}>
+          <Grid container spacing={3}>
             {children}
           </Grid>
         ) : (
