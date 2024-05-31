@@ -17,6 +17,7 @@ export * from './Input';
 export * from './Input/DarkSwitch';
 export * from './Input/DatePicker';
 export * from './Input/FileUpload';
+export * from './Input/SearchGeneric';
 export * from './Input/InputAd';
 export * from './Input/defaultGrid';
 export * from './Input/getFileSize';
