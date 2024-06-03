@@ -81,7 +81,7 @@ export interface DataTableBodyProps<T extends object> {
   rows: T[];
   title: string;
   statusProp?: keyof T;
-  uniqueCol?: () => ReactNode;
+  uniqueCol?: ReactNode;
 }
 
 export interface DataTableSelectedProps<T extends object> {

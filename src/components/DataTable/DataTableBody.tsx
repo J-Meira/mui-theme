@@ -40,7 +40,7 @@ export const DataTableBody = <T extends object>({
             padding='normal'
             colSpan={columns.length + (isSelectable ? 1 : 0)}
           >
-            {uniqueCol()}
+            {uniqueCol}
           </TableCell>
         </TableRow>
       )}
