@@ -12,6 +12,7 @@ import { MdClose as CloseIcon } from 'react-icons/md';
 
 export interface PopUpProps extends DialogProps {
   action?: () => void;
+  actionDisabled?: boolean;
   cancel?: boolean;
   cancelLabel?: string;
   className?: string;
@@ -25,6 +26,7 @@ export interface PopUpProps extends DialogProps {
 
 export const PopUp = ({
   action,
+  actionDisabled,
   cancel = false,
   cancelLabel = 'Cancel',
   children,
@@ -85,7 +87,7 @@ export const PopUp = ({
             </Button>
           )}
           {action && (
-            <Button onClick={action} color='success'>
+            <Button onClick={action} disabled={actionDisabled} color='success'>
               {successLabel}
             </Button>
           )}
