@@ -7,7 +7,7 @@ import { MultiProvider } from '../src';
 
 import './styles.scss';
 
-export const withTheme = (Story) => {
+export const withTheme = (Story) => { 
   return (
     <MultiProvider
       adapterLocalePtBR
@@ -37,7 +37,6 @@ export const withTheme = (Story) => {
 
 const preview: Preview = {
   parameters: {
-    // actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,

@@ -1,5 +1,4 @@
-import React from 'react';
-import { useArgs } from '@storybook/client-api';
+import React, { useState } from 'react';
 import { Meta } from '@storybook/react';
 import { ButtonProps, Grid, Slider, Typography } from '@mui/material';
 import { Button, MultiProvider, useToast } from '../../src';
@@ -25,20 +24,15 @@ const msgTypes: ButtonProps['color'][] = [
 ];
 
 export const Basic = ({ ...args }) => {
-  const [{ snackAutoHideDuration, snackMax }, updateArgs] = useArgs();
+  const [snackMax, setSnackMax] = useState(5);
+  const [snackAutoHideDuration, setSnackAutoHideDuration] = useState(5000);
 
   const handleSnackMax = (newValue: number | number[]) => {
-    updateArgs({
-      ...args,
-      snackMax: Array.isArray(newValue) ? newValue[0] : newValue,
-    });
+    setSnackMax(Array.isArray(newValue) ? newValue[0] : newValue);
   };
 
   const handleDuration = (newValue: number | number[]) => {
-    updateArgs({
-      ...args,
-      snackAutoHideDuration: Array.isArray(newValue) ? newValue[0] : newValue,
-    });
+    setSnackAutoHideDuration(Array.isArray(newValue) ? newValue[0] : newValue);
   };
 
   const onCloseTest = () => {
@@ -69,7 +63,7 @@ export const Basic = ({ ...args }) => {
       adapterLocalePtBR
       snackAnchorHorizontal={args.snackAnchorHorizontal}
       snackAnchorVertical={args.snackAnchorVertical}
-      snackAutoHideDuration={args.snackAutoHideDuration}
+      snackAutoHideDuration={snackAutoHideDuration}
       snackMax={snackMax}
       palette={{
         primary: {
@@ -93,7 +87,7 @@ export const Basic = ({ ...args }) => {
           </Typography>
           <Slider
             aria-label='snackMax'
-            value={args.snackMax}
+            value={snackMax}
             min={1}
             max={10}
             step={1}
@@ -107,7 +101,7 @@ export const Basic = ({ ...args }) => {
           </Typography>
           <Slider
             aria-label='snackAutoHideDuration'
-            value={args.snackAutoHideDuration}
+            value={snackAutoHideDuration}
             min={1000}
             max={10000}
             step={100}

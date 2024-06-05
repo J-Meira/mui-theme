@@ -1,9 +1,9 @@
 import React from 'react';
-import type { Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import { Input, GroupCard } from '../../src';
 
-export default {
+const meta = {
   title: 'Components/GroupCard',
   component: GroupCard,
   tags: ['autodocs'],
@@ -18,62 +18,71 @@ export default {
   },
 } satisfies Meta<typeof GroupCard>;
 
-export const Basic = ({ ...args }) => {
-  return (
-    <GroupCard {...args}>
-      <Input
-        localControl
-        label='Login'
-        name='login'
-        grid={{ lg: 12, md: 12 }}
-      />
-      <Input
-        localControl
-        label='Password'
-        name='password'
-        model='password'
-        grid={{ lg: 12, md: 12 }}
-      />
-    </GroupCard>
-  );
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
+  render: ({ ...args }) => {
+    return (
+      <GroupCard {...args}>
+        <Input
+          localControl
+          label='Login'
+          name='login'
+          grid={{ lg: 12, md: 12 }}
+        />
+        <Input
+          localControl
+          label='Password'
+          name='password'
+          model='password'
+          grid={{ lg: 12, md: 12 }}
+        />
+      </GroupCard>
+    );
+  },
 };
 
-export const Collapsed = ({ ...args }) => {
-  return (
-    <GroupCard {...args} collapsed={true}>
-      <Input
-        localControl
-        label='Login'
-        name='login'
-        grid={{ lg: 12, md: 12 }}
-      />
-      <Input
-        localControl
-        label='Password'
-        name='password'
-        model='password'
-        grid={{ lg: 12, md: 12 }}
-      />
-    </GroupCard>
-  );
+export const Collapsed: Story = {
+  render: ({ ...args }) => {
+    return (
+      <GroupCard {...args} collapsed={true}>
+        <Input
+          localControl
+          label='Login'
+          name='login2'
+          grid={{ lg: 12, md: 12 }}
+        />
+        <Input
+          localControl
+          label='Password'
+          name='password2'
+          model='password'
+          grid={{ lg: 12, md: 12 }}
+        />
+      </GroupCard>
+    );
+  },
 };
 
-export const CollapsedOpen = ({ ...args }) => {
-  return (
-    <GroupCard {...args} collapsed={true} openStart={true}>
-      <Input
-        localControl
-        label='Login'
-        name='login'
-        grid={{ lg: 12, md: 12 }}
-      />
-      <Input
-        localControl
-        label='Password'
-        name='password'
-        model='password'
-        grid={{ lg: 12, md: 12 }}
-      />
-    </GroupCard>
-  );
+export const CollapsedOpen: Story = {
+  render: ({ ...args }) => {
+    return (
+      <GroupCard {...args} collapsed={true} openStart={true}>
+        <Input
+          localControl
+          label='Login'
+          name='login3'
+          grid={{ lg: 12, md: 12 }}
+        />
+        <Input
+          localControl
+          label='Password'
+          name='password3'
+          model='password'
+          grid={{ lg: 12, md: 12 }}
+        />
+      </GroupCard>
+    );
+  },
 };

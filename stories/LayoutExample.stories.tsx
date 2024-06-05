@@ -1,6 +1,11 @@
-import React from 'react';
-import { useArgs, useState } from '@storybook/client-api';
+import React, { useEffect, useState } from 'react';
+
+import { StoryObj, Meta } from '@storybook/react';
+
+import { env } from './env';
+
 import { MdHome as HomeIcon, MdList as ListIcon } from 'react-icons/md';
+
 import {
   BreadcrumbBar,
   BreadcrumbsListProps,
@@ -19,7 +24,6 @@ import {
   SideBarItem,
   toMask,
 } from '../src';
-import { env } from './env';
 
 interface IRows {
   id: number;
@@ -52,7 +56,7 @@ const rows: IRows[] = [
   { id: 15, name: 'Daniel Cooper', level: 2 },
 ];
 
-const breadcrumbLlist: BreadcrumbsListProps[] = [
+const breadcrumbList: BreadcrumbsListProps[] = [
   {
     label: 'Home',
     link: '/',
@@ -66,7 +70,7 @@ const breadcrumbLlist: BreadcrumbsListProps[] = [
   },
 ];
 
-const columns: DataTableColumnsProps[] = [
+const columns: DataTableColumnsProps<IRows>[] = [
   {
     key: 'id',
     label: '#',
@@ -93,155 +97,167 @@ const columns: DataTableColumnsProps[] = [
 const date = new Date();
 const footer = `© 2008 - ${date.getFullYear()} JM Creative. All Rights Reserved`;
 
+interface BasicProps {
+  expanded: boolean;
+  isSelectable: boolean;
+  isSelectableAnywhere: boolean;
+  title: string;
+}
+
 export default {
   title: 'Layout/Basic',
   tags: ['autodocs'],
+} satisfies Meta<BasicProps>;
+
+type Story = StoryObj<BasicProps>;
+
+export const Basic: Story = {
   args: {
     expanded: true,
     isSelectable: true,
     isSelectableAnywhere: true,
-    rows: rows,
-    columns: columns,
     title: 'full-example',
   },
-};
+  render: (args) => {
+    const [selected, setSelected] = useState<IRows['id'][]>([]);
+    const [orderBy, setOrderBy] = useState<keyof IRows>('id');
+    const [order, setOrder] = useState<Order>('asc');
+    const [open, setOpen] = useState(true);
+    const [expanded, setExpanded] = useState(true);
 
-export const Basic = ({ ...args }) => {
-  const [selected, setSelected] = useState<number[]>([]);
-  const [orderBy, setOrderBy] = useState('');
-  const [order, setOrder] = useState<Order>('asc');
-  const [{ expanded }, updateArgs] = useArgs();
-  const [open, setOpen] = useState(true);
+    const sideBarControl = () => {
+      setOpen(!open);
+      setExpanded(!expanded);
+    };
 
-  const sideBarControl = () => {
-    updateArgs({
-      expanded: !expanded,
-    });
-    setOpen(!open);
-  };
+    const sideBarMouseHover = (status: boolean) => {
+      if (!open) {
+        setExpanded(status);
+      }
+    };
 
-  const sideBarMouseHover = (status: boolean) => {
-    if (!open) {
-      updateArgs({
-        expanded: status,
-      });
-    }
-  };
+    const onRequestSort = (key: keyof IRows) => {
+      const isAsc = orderBy === key && order === 'asc';
+      const newOrder = isAsc ? 'desc' : 'asc';
+      setOrder(newOrder);
+      setOrderBy(key);
+    };
 
-  const onRequestSort = (key: string) => {
-    const isAsc = orderBy === key && order === 'asc';
-    const newOrder = isAsc ? 'desc' : 'asc';
-    setOrder(newOrder);
-    setOrderBy(key);
-  };
+    const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        const newSelected = rows.map((n) => n.id);
+        setSelected(newSelected);
+        return;
+      }
+      setSelected([]);
+    };
 
-  const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelected: any[];
-    if (event.target.checked) {
-      newSelected = rows.map((n) => n.id);
+    const onSelectRow = (row: IRows) => {
+      const selectedIndex = selected.indexOf(row.id);
+      let newSelected: IRows['id'][] = [];
+
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, row.id);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1),
+        );
+      }
       setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
+    };
 
-  const onSelectRow = (row: any) => {
-    const selectedIndex = selected.indexOf(row.id);
-    let newSelected: any[] = [];
+    const isSelected = (row: IRows) => selected.indexOf(row.id) !== -1;
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, row.id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
-  };
+    useEffect(() => {
+      setExpanded(args.expanded);
 
-  const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
+      // eslint-disable-next-line
+    }, [args.expanded]);
 
-  return (
-    <div className='story-book-layout'>
-      <Header
-        sideBarControl={sideBarControl}
-        sideBarExpanded={open}
-        actions={<DarkSwitch />}
-      />
-      <SideBar
-        expanded={expanded}
-        logo='https://assets.jm.app.br/logo.svg'
-        icon='https://assets.jm.app.br/icon.svg'
-        version={env('STORYBOOK_VERSION') || 'v1.0.0'}
-        versionDate={env('STORYBOOK_V_DATE') || '2023-06-01T00:00:00'}
-        sideBarControl={sideBarControl}
-        homeNavigate={() => console.log('/')}
-        onMouseHover={sideBarMouseHover}
-      >
-        <SideBarItem
-          label='Home'
-          icon={<HomeIcon />}
-          selected={true}
-          expanded={expanded}
+    return (
+      <div className='story-book-layout'>
+        <Header
+          sideBarControl={sideBarControl}
+          sideBarExpanded={expanded}
+          actions={<DarkSwitch />}
         />
-        <SideBarItem
-          label='Lists'
-          icon={<ListIcon />}
-          selected={false}
-          expanded={expanded}
-        />
-      </SideBar>
-      <MainContainer
-        sideBarExpanded={open}
-        subHeader={
-          <div style={{ padding: '1rem', width: '100%' }}>
-            <BreadcrumbBar list={breadcrumbLlist} />
-          </div>
-        }
-        footer={
-          <div style={{ padding: '1rem', width: '100%', textAlign: 'center' }}>
-            <span>{footer}</span>
-          </div>
-        }
-      >
-        <DataTableGrid>
-          <DataTableContainer title={args.title}>
-            <DataTableHeader
-              columns={args.columns}
-              order={order}
-              orderBy={orderBy}
-              isSelectable={args.isSelectable}
-              numSelected={selected.length}
-              rowCount={args.rows.length}
-              onRequestSort={onRequestSort}
-              onSelectAllClick={onSelectAllClick}
-            />
-            <DataTableBody
-              title={args.title}
-              columns={args.columns}
-              rows={args.rows}
-              isSelectable={args.isSelectable}
-              isSelectableAnywhere={args.isSelectableAnywhere}
-              isSelected={isSelected}
-              onSelectRow={onSelectRow}
-            />
-          </DataTableContainer>
-          {selected.length > 0 && (
-            <DataTableSelected
-              totalOfRows={selected.length}
-              totalOfRowsLabel='Records Selected'
-              deleteLabel='Delete'
-              onDelete={() => console.log('delete')}
-              selected={selected}
-            />
-          )}
-        </DataTableGrid>
-      </MainContainer>
-    </div>
-  );
+        <SideBar
+          expanded={expanded || open}
+          logo='https://assets.jm.app.br/logo.svg'
+          icon='https://assets.jm.app.br/icon.svg'
+          version={env('STORYBOOK_VERSION') || 'v1.0.0'}
+          versionDate={env('STORYBOOK_V_DATE') || '2023-06-01T00:00:00'}
+          sideBarControl={sideBarControl}
+          homeNavigate={() => console.log('/')}
+          onMouseHover={sideBarMouseHover}
+        >
+          <SideBarItem
+            label='Home'
+            icon={<HomeIcon />}
+            selected={true}
+            expanded={expanded}
+          />
+          <SideBarItem
+            label='Lists'
+            icon={<ListIcon />}
+            selected={false}
+            expanded={expanded}
+          />
+        </SideBar>
+        <MainContainer
+          sideBarExpanded={expanded}
+          subHeader={
+            <div style={{ padding: '1rem', width: '100%' }}>
+              <BreadcrumbBar list={breadcrumbList} />
+            </div>
+          }
+          footer={
+            <div
+              style={{ padding: '1rem', width: '100%', textAlign: 'center' }}
+            >
+              <span>{footer}</span>
+            </div>
+          }
+        >
+          <DataTableGrid>
+            <DataTableContainer title={args.title}>
+              <DataTableHeader<IRows>
+                columns={columns}
+                order={order}
+                orderBy={orderBy}
+                isSelectable={args.isSelectable}
+                numSelected={selected.length}
+                rowCount={rows.length}
+                onRequestSort={onRequestSort}
+                onSelectAllClick={onSelectAllClick}
+              />
+              <DataTableBody<IRows>
+                title={args.title}
+                columns={columns}
+                rows={rows}
+                isSelectable={args.isSelectable}
+                isSelectableAnywhere={args.isSelectableAnywhere}
+                isSelected={isSelected}
+                onSelectRow={onSelectRow}
+              />
+            </DataTableContainer>
+            {selected.length > 0 && (
+              <DataTableSelected<IRows>
+                totalOfRows={selected.length}
+                totalOfRowsLabel='Records Selected'
+                deleteLabel='Delete'
+                onDelete={() => console.log('delete')}
+                selected={selected}
+              />
+            )}
+          </DataTableGrid>
+        </MainContainer>
+      </div>
+    );
+  },
 };

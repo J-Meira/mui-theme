@@ -1,6 +1,5 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useState } from '@storybook/client-api';
+import React, { useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react';
 import {
   DataTableBody,
   DataTableColumnsProps,
@@ -17,6 +16,8 @@ interface IRows {
   phone?: string;
   level: number;
 }
+
+const tableTitle = 'title-here';
 
 const levelEnum: EnumObjectProps = {
   0: 'Roockie',
@@ -66,68 +67,71 @@ const columns: DataTableColumnsProps<IRows>[] = [
   },
 ];
 
-export default {
+const meta: Meta<typeof DataTableSelected<IRows>> = {
   title: 'DataTable/Selected',
   component: DataTableSelected,
   tags: ['autodocs'],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
   args: {
-    // isSelectable: false,
-    // isSelectableAnywhere: false,
-    // isSelectableAnywhereElse: false,
-    // rows: rows,
-    // title: 'Basic body',
+    totalOfRows: 10,
+    totalOfRowsLabel: 'Records Selected',
+    deleteLabel: 'Delete',
+    selected: [],
   },
-} satisfies Meta<typeof DataTableSelected>;
+  render: ({ ...args }) => {
+    const [selected, setSelected] = useState<IRows['id'][]>([]);
 
-export const Basic = ({ ...args }) => {
-  const [selected, setSelected] = useState<IRows['id'][]>([]);
+    const onSelectRow = (row: IRows) => {
+      const selectedIndex = selected.indexOf(row.id);
+      let newSelected: IRows['id'][] = [];
 
-  const onSelectRow = (row: any) => {
-    const selectedIndex = selected.indexOf(row.id);
-    let newSelected: any[] = [];
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, row.id);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1),
+        );
+      }
+      setSelected(newSelected);
+    };
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, row.id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
-  };
+    const isSelected = (row: IRows) => selected.indexOf(row.id) !== -1;
 
-  const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
-
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableContainer title={args.title}>
-          <DataTableBody
-            {...args}
-            title={args.title}
-            columns={columns}
-            rows={rows}
-            isSelectable
-            isSelectableAnywhere
-            isSelected={isSelected}
-            onSelectRow={onSelectRow}
-          />
-        </DataTableContainer>
-        {selected.length > 0 && (
-          <DataTableSelected<IRows>
-            totalOfRows={selected.length}
-            totalOfRowsLabel='Records Selected'
-            deleteLabel='Delete'
-            onDelete={() => console.log('delete')}
-            selected={selected}
-          />
-        )}
-      </DataTableGrid>
-    </div>
-  );
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableContainer title={tableTitle}>
+            <DataTableBody
+              title={tableTitle}
+              columns={columns}
+              rows={rows}
+              isSelectable
+              isSelectableAnywhere
+              isSelected={isSelected}
+              onSelectRow={onSelectRow}
+            />
+          </DataTableContainer>
+          {selected.length > 0 && (
+            <DataTableSelected<IRows>
+              {...args}
+              totalOfRows={selected.length}
+              onDelete={() => console.log('delete')}
+              selected={selected}
+            />
+          )}
+        </DataTableGrid>
+      </div>
+    );
+  },
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { MdEdit as EditIcon } from 'react-icons/md';
 
 import { Button } from '../../src';

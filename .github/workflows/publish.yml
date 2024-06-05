@@ -52,7 +52,7 @@ jobs:
 
       - name: Build StoryBook
         run: |
-          pnpm build-storybook
+          pnpm build-sb
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@master

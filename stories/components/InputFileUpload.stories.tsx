@@ -1,10 +1,10 @@
 import React from 'react';
-import type { Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { Grid } from '@mui/material';
 
 import { FileUpload } from '../../src';
 
-export default {
+const meta = {
   title: 'Components/InputFileUpload',
   component: FileUpload,
   tags: ['autodocs'],
@@ -22,8 +22,14 @@ export default {
   },
 } satisfies Meta<typeof FileUpload>;
 
-export const Basic = ({ ...args }) => (
-  <Grid container spacing={2}>
-    <FileUpload name={args.name} grid={args.grid} {...args} />
-  </Grid>
-);
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
+  render: ({ ...args }) => (
+    <Grid container spacing={2}>
+      <FileUpload {...args} />
+    </Grid>
+  ),
+};

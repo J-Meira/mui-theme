@@ -1,9 +1,9 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs } from '@storybook/client-api';
+import React, { useEffect, useState } from 'react';
+
+import { Meta, StoryObj } from '@storybook/react';
 import { DataTablePagination, DataTableGrid } from '../../src';
 
-export default {
+const meta = {
   title: 'DataTable/Pagination',
   component: DataTablePagination,
   tags: ['autodocs'],
@@ -32,24 +32,40 @@ export default {
       { pageNumber: 20 },
     ],
     currentPage: 5,
+    setPage: (p) => console.log(p),
     lastPage: 20,
   },
 } satisfies Meta<typeof DataTablePagination>;
+export default meta;
 
-export const Basic = ({ ...args }) => {
-  const [{ currentPage }, updateArgs] = useArgs();
+type Story = StoryObj<typeof meta>;
 
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTablePagination
-          title={args.title}
-          pages={args.pages}
-          currentPage={currentPage}
-          lastPage={args.lastPage}
-          setPage={(page) => updateArgs({ currentPage: page })}
-        />
-      </DataTableGrid>
-    </div>
-  );
+export const Basic: Story = {
+  render: (args) => {
+    const [currentPage, setCurrentPage] = useState(5);
+
+    const setPage = (page: number) => {
+      setCurrentPage(page);
+    };
+
+    useEffect(() => {
+      setCurrentPage(args.currentPage);
+
+      // eslint-disable-next-line
+    }, [args.currentPage]);
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTablePagination
+            title={args.title}
+            pages={args.pages}
+            currentPage={currentPage}
+            lastPage={args.lastPage}
+            setPage={setPage}
+          />
+        </DataTableGrid>
+      </div>
+    );
+  },
 };

@@ -1,13 +1,19 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs } from '@storybook/client-api';
+import React, { useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import { Button, DialogBox } from '../../src';
 
-export default {
+const meta = {
   title: 'Components/DialogBox',
   component: DialogBox,
   tags: ['autodocs'],
+} satisfies Meta<typeof DialogBox>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
   args: {
     dialog: {
       open: true,
@@ -18,24 +24,54 @@ export default {
       successLabel: 'Ok',
       return: {},
     },
+    cancelLabel: 'Cancel',
+    close: (s) => console.log(s),
   },
-} satisfies Meta<typeof DialogBox>;
+  render: (args) => {
+    const [dialog, setDialog] = useState({
+      open: false,
+      cancel: true,
+      title: '',
+      message: '',
+      origin: '',
+      successLabel: 'Ok',
+      return: {},
+    });
 
-export const Basic = ({ ...args }) => {
-  const [{ isOpen }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ isOpen: !isOpen });
+    const close = (status: boolean) =>
+      setDialog({
+        open: false,
+        cancel: true,
+        title: '',
+        message: '',
+        origin: '',
+        successLabel: 'Ok',
+        return: {
+          origin: dialog.origin,
+          status,
+        },
+      });
 
-  return (
-    <div>
-      <Button onClick={() => updateArgs({ isOpen: !isOpen })}>Open</Button>
-      <DialogBox
-        {...args}
-        dialog={{
-          ...args.dialog,
-          open: isOpen,
-        }}
-        close={handleClose}
-      />
-    </div>
-  );
+    const open = () =>
+      setDialog({
+        open: true,
+        cancel: true,
+        title: 'Title here',
+        message: 'Message body here...',
+        origin: 'test',
+        successLabel: 'Ok',
+        return: {},
+      });
+
+    return (
+      <div>
+        <Button onClick={open}>Open</Button>
+        <DialogBox
+          cancelLabel={args.cancelLabel}
+          dialog={dialog}
+          close={close}
+        />
+      </div>
+    );
+  },
 };

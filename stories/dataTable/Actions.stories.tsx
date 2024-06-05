@@ -1,8 +1,9 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs, useState } from '@storybook/client-api';
-import { DataTableActions, DataTableGrid, DatePicker } from '../../src';
+import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
+
+import { Meta, StoryObj } from '@storybook/react';
+
+import { DataTableActions, DataTableGrid, DatePicker } from '../../src';
 
 interface IFilters {
   from: Dayjs | null;
@@ -14,137 +15,141 @@ const initialFilters: IFilters = {
   to: null,
 };
 
-export default {
+const meta = {
   title: 'DataTable/Actions',
   component: DataTableActions,
   tags: ['autodocs'],
   args: {
+    addLabel: '+ Add',
     searchValue: '',
+    setSearchValue: (e) => console.log(e),
+    searchLabel: 'Search',
+    filtersLabel: 'Filters',
+    applyFiltersLabel: 'Filter',
+    clearFiltersLabel: 'Clear',
+    activeLabel: 'Show Inactives',
     activeValue: true,
+    showActive: true,
   },
 } satisfies Meta<typeof DataTableActions>;
 
-export const Basic = ({ ...args }) => {
-  const [{ searchValue, activeValue }, updateArgs] = useArgs();
+export default meta;
 
-  const setSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateArgs({
-      searchValue: e.target.value,
-      activeValue: activeValue,
-    });
-  };
+type Story = StoryObj<typeof meta>;
 
-  const setActiveValue = () => {
-    updateArgs({
-      searchValue: searchValue,
-      activeValue: !activeValue,
-    });
-  };
+export const Basic: Story = {
+  render: ({ ...args }) => {
+    const [searchValue, setSearchValue] = useState('');
+    const [activeValue, setActiveValue] = useState(true);
 
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableActions
-          addLabel={'+ Add'}
-          searchLabel={'Search'}
-          showActive={true}
-          activeLabel={'Show only actives'}
-          searchValue={args.searchValue}
-          activeValue={args.activeValue}
-          onAdd={() => console.log('add')}
-          setSearchValue={setSearchValue}
-          setActiveValue={setActiveValue}
-          onExport={() => console.log('export')}
-        />
-      </DataTableGrid>
-    </div>
-  );
+    useEffect(() => {
+      if (args.activeValue !== undefined) setActiveValue(args.activeValue);
+
+      // eslint-disable-next-line
+    }, [args.activeValue]);
+
+    useEffect(() => {
+      setSearchValue(args.searchValue);
+
+      // eslint-disable-next-line
+    }, [args.searchValue]);
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableActions
+            {...args}
+            searchValue={searchValue}
+            activeValue={activeValue}
+            onAdd={() => console.log('add')}
+            setSearchValue={(e) => setSearchValue(e.target.value)}
+            setActiveValue={(v) => setActiveValue(v)}
+            onExport={() => console.log('export')}
+          />
+        </DataTableGrid>
+      </div>
+    );
+  },
 };
 
-export const WithFilters = ({ ...args }) => {
-  const [{ searchValue, activeValue }, updateArgs] = useArgs();
-  const [filtersValues, updateFilters] = useState<IFilters>(initialFilters);
+export const WithFilters: Story = {
+  render: ({ ...args }) => {
+    const [searchValue, setSearchValue] = useState('');
+    const [activeValue, setActiveValue] = useState(true);
+    const [filtersValues, updateFilters] = useState<IFilters>(initialFilters);
 
-  const setSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateArgs({
-      searchValue: e.target.value,
-      activeValue: activeValue,
-    });
-  };
+    useEffect(() => {
+      if (args.activeValue !== undefined) setActiveValue(args.activeValue);
 
-  const setActiveValue = () => {
-    updateArgs({
-      searchValue: searchValue,
-      activeValue: !activeValue,
-    });
-  };
+      // eslint-disable-next-line
+    }, [args.activeValue]);
 
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableActions
-          {...args}
-          addLabel={'+ Add'}
-          searchLabel={'Search'}
-          filtersLabel={'Filters'}
-          filterOpened={true}
-          applyFiltersLabel={'Filter'}
-          clearFiltersLabel={'Clear'}
-          showActive={true}
-          activeLabel={'Show only actives'}
-          searchValue={args.searchValue}
-          activeValue={args.activeValue}
-          onAdd={() => console.log('add')}
-          setSearchValue={setSearchValue}
-          setActiveValue={setActiveValue}
-          onExport={() => console.log('export')}
-          onApplyFilters={() => console.log(filtersValues)}
-          onClearFilters={() =>
-            updateFilters({
-              from: null,
-              to: null,
-            })
-          }
-          filters={() => (
-            <>
-              <DatePicker
-                label='From'
-                name='from'
-                disableFuture
-                localControl
-                value={filtersValues.from}
-                onChange={(e: any) =>
-                  updateFilters({
-                    from: e,
-                    to: filtersValues.to,
-                  })
-                }
-                grid={{
-                  lg: 3,
-                  md: 3,
-                }}
-              />
-              <DatePicker
-                label='To'
-                name='to'
-                disableFuture
-                localControl
-                value={filtersValues.to}
-                onChange={(e: any) =>
-                  updateFilters({
-                    from: filtersValues.from,
-                    to: e,
-                  })
-                }
-                grid={{
-                  lg: 3,
-                  md: 3,
-                }}
-              />
-            </>
-          )}
-        />
-      </DataTableGrid>
-    </div>
-  );
+    useEffect(() => {
+      setSearchValue(args.searchValue);
+
+      // eslint-disable-next-line
+    }, [args.searchValue]);
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableActions
+            {...args}
+            filterOpened={true}
+            searchValue={searchValue}
+            activeValue={activeValue}
+            onAdd={() => console.log('add')}
+            setSearchValue={(e) => setSearchValue(e.target.value)}
+            setActiveValue={(v) => setActiveValue(v)}
+            onExport={() => console.log('export')}
+            onApplyFilters={() => console.log(filtersValues)}
+            onClearFilters={() =>
+              updateFilters({
+                from: null,
+                to: null,
+              })
+            }
+            filters={() => (
+              <>
+                <DatePicker
+                  label='From'
+                  name='from'
+                  disableFuture
+                  localControl
+                  value={filtersValues.from}
+                  onChange={(e: any) =>
+                    updateFilters({
+                      from: e,
+                      to: filtersValues.to,
+                    })
+                  }
+                  grid={{
+                    lg: 3,
+                    md: 3,
+                  }}
+                />
+                <DatePicker
+                  label='To'
+                  name='to'
+                  disableFuture
+                  localControl
+                  value={filtersValues.to}
+                  onChange={(e: any) =>
+                    updateFilters({
+                      from: filtersValues.from,
+                      to: e,
+                    })
+                  }
+                  grid={{
+                    lg: 3,
+                    md: 3,
+                  }}
+                />
+              </>
+            )}
+          />
+        </DataTableGrid>
+      </div>
+    );
+  },
 };

@@ -1,14 +1,16 @@
 import React from 'react';
-import type { Meta } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import { TreeListItem } from '../../src';
 import { List } from '@mui/material';
 
-export default {
+const meta = {
   title: 'Components/TreeListItem',
   component: TreeListItem,
   tags: ['autodocs'],
 } satisfies Meta<typeof TreeListItem>;
+
+export default meta;
 
 export const Basic = () => {
   return (

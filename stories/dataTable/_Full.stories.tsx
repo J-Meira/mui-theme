@@ -1,5 +1,7 @@
-import React from 'react';
-import { useState } from '@storybook/client-api';
+import React, { useState } from 'react';
+
+import { StoryObj, Meta } from '@storybook/react';
+
 import {
   DataTableBody,
   DataTableColumnsProps,
@@ -71,95 +73,102 @@ const columns: DataTableColumnsProps<IRows>[] = [
   },
 ];
 
+interface BasicProps {
+  isSelectable: boolean;
+  isSelectableAnywhere: boolean;
+  title: string;
+}
+
 export default {
   title: 'DataTable/FullExample',
   tags: ['autodocs'],
+} satisfies Meta<BasicProps>;
+
+type Story = StoryObj<BasicProps>;
+
+export const Basic: Story = {
   args: {
     isSelectable: true,
     isSelectableAnywhere: true,
-    rows: rows,
-    columns: columns,
     title: 'full-example',
   },
-};
+  render: (args) => {
+    const [selected, setSelected] = useState<IRows['id'][]>([]);
+    const [orderBy, setOrderBy] = useState<keyof IRows>('id');
+    const [order, setOrder] = useState<Order>('asc');
 
-export const Basic = ({ ...args }) => {
-  const [selected, setSelected] = useState<IRows['id'][]>([]);
-  const [orderBy, setOrderBy] = useState<keyof IRows>('id');
-  const [order, setOrder] = useState<Order>('asc');
+    const onRequestSort = (key: keyof IRows) => {
+      const isAsc = orderBy === key && order === 'asc';
+      const newOrder = isAsc ? 'desc' : 'asc';
+      setOrder(newOrder);
+      setOrderBy(key);
+    };
 
-  const onRequestSort = (key: keyof IRows) => {
-    const isAsc = orderBy === key && order === 'asc';
-    const newOrder = isAsc ? 'desc' : 'asc';
-    setOrder(newOrder);
-    setOrderBy(key);
-  };
+    const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        const newSelected = rows.map((n) => n.id);
+        setSelected(newSelected);
+        return;
+      }
+      setSelected([]);
+    };
 
-  const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newSelected: any[];
-    if (event.target.checked) {
-      newSelected = rows.map((n) => n.id);
+    const onSelectRow = (row: IRows) => {
+      const selectedIndex = selected.indexOf(row.id);
+      let newSelected: IRows['id'][] = [];
+
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, row.id);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1),
+        );
+      }
       setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
+    };
 
-  const onSelectRow = (row: any) => {
-    const selectedIndex = selected.indexOf(row.id);
-    let newSelected: any[] = [];
+    const isSelected = (row: IRows) => selected.indexOf(row.id) !== -1;
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, row.id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
-  };
-
-  const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
-
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableContainer title={args.title}>
-          <DataTableHeader<IRows>
-            columns={args.columns}
-            order={order}
-            orderBy={orderBy}
-            isSelectable={args.isSelectable}
-            numSelected={selected.length}
-            rowCount={args.rows.length}
-            onRequestSort={onRequestSort}
-            onSelectAllClick={onSelectAllClick}
-          />
-          <DataTableBody<IRows>
-            title={args.title}
-            columns={args.columns}
-            rows={args.rows}
-            isSelectable={args.isSelectable}
-            isSelectableAnywhere={args.isSelectableAnywhere}
-            isSelected={isSelected}
-            onSelectRow={onSelectRow}
-          />
-        </DataTableContainer>
-        {selected.length > 0 && (
-          <DataTableSelected<IRows>
-            totalOfRows={selected.length}
-            totalOfRowsLabel='Records Selected'
-            deleteLabel='Delete'
-            onDelete={() => console.log('delete')}
-            selected={selected}
-          />
-        )}
-      </DataTableGrid>
-    </div>
-  );
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableContainer title={args.title}>
+            <DataTableHeader<IRows>
+              columns={columns}
+              order={order}
+              orderBy={orderBy}
+              isSelectable={args.isSelectable}
+              numSelected={selected.length}
+              rowCount={rows.length}
+              onRequestSort={onRequestSort}
+              onSelectAllClick={onSelectAllClick}
+            />
+            <DataTableBody<IRows>
+              title={args.title}
+              columns={columns}
+              rows={rows}
+              isSelectable={args.isSelectable}
+              isSelectableAnywhere={args.isSelectableAnywhere}
+              isSelected={isSelected}
+              onSelectRow={onSelectRow}
+            />
+          </DataTableContainer>
+          {selected.length > 0 && (
+            <DataTableSelected<IRows>
+              totalOfRows={selected.length}
+              totalOfRowsLabel='Records Selected'
+              deleteLabel='Delete'
+              onDelete={() => console.log('delete')}
+              selected={selected}
+            />
+          )}
+        </DataTableGrid>
+      </div>
+    );
+  },
 };
