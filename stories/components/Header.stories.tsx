@@ -1,6 +1,5 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs } from '@storybook/client-api';
+import React, { useEffect, useState } from 'react';
+import { Meta } from '@storybook/react';
 
 import { Header, Button } from '../../src';
 
@@ -13,9 +12,15 @@ export default {
   },
 } satisfies Meta<typeof Header>;
 
-export const Basic = () => {
-  const [{ sideBarExpanded }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
+export const Basic = ({ ...args }) => {
+  const [sideBarExpanded, setSideBarExpanded] = useState(false);
+  const handleClose = () => setSideBarExpanded(!sideBarExpanded);
+
+  useEffect(() => {
+    setSideBarExpanded(args.sideBarExpanded);
+
+    // eslint-disable-next-line
+  }, [args.sideBarExpanded]);
 
   return (
     <div className='story-book'>

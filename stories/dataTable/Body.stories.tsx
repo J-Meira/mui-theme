@@ -1,8 +1,10 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useState } from '@storybook/client-api';
+import React, { useState } from 'react';
+
+import { Meta, StoryObj } from '@storybook/react';
+
 import {
   DataTableBody,
+  DataTableColumnsProps,
   DataTableContainer,
   DataTableGrid,
   EnumObjectProps,
@@ -40,124 +42,138 @@ const rows: IRows[] = [
   { id: 15, name: 'Daniel Cooper', level: 2 },
 ];
 
-export default {
+const columns: DataTableColumnsProps<IRows>[] = [
+  {
+    key: 'actions',
+    label: '#',
+  },
+  {
+    key: 'id',
+    label: '#',
+  },
+  {
+    key: 'name',
+    label: 'Name',
+    limit: 10,
+    disablePadding: true,
+  },
+  {
+    key: 'phone',
+    label: 'Phone',
+    disablePadding: true,
+    render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
+  },
+  {
+    key: 'level',
+    label: 'Level',
+    enumObject: levelEnum,
+  },
+];
+
+const meta: Meta<typeof DataTableBody<IRows>> = {
   title: 'DataTable/Body',
   component: DataTableBody,
   tags: ['autodocs'],
   args: {
-    columns: [
-      {
-        key: 'id',
-        label: '#',
-      },
-      {
-        key: 'name',
-        label: 'Name',
-        limit: 10,
-        disablePadding: true,
-      },
-      {
-        key: 'phone',
-        label: 'Phone',
-        disablePadding: true,
-        render: (row) => (row.phone ? toMask.phone(row.phone) : ''),
-      },
-      {
-        key: 'level',
-        label: 'Level',
-        enumObject: levelEnum,
-      },
-    ],
+    columns: columns,
     isSelectable: false,
     isSelectableAnywhere: false,
     isSelectableAnywhereElse: false,
     rows: rows,
     title: 'Basic body',
+    isSelected: (r) => !r,
+    onSelectRow: (r) => console.log(r),
   },
-} satisfies Meta<typeof DataTableBody>;
-
-export const Basic = ({ ...args }) => {
-  const [selected, setSelected] = useState<number[]>([]);
-
-  const onSelectRow = (row: any) => {
-    const selectedIndex = selected.indexOf(row.id);
-    let newSelected: any[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, row.id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
-  };
-
-  const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
-
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableContainer title={args.title}>
-          <DataTableBody
-            {...args}
-            title={args.title}
-            columns={args.columns}
-            rows={args.rows}
-            isSelected={isSelected}
-            onSelectRow={onSelectRow}
-          />
-        </DataTableContainer>
-      </DataTableGrid>
-    </div>
-  );
 };
 
-export const Selectable = ({ ...args }) => {
-  const [selected, setSelected] = useState<number[]>([]);
+export default meta;
 
-  const onSelectRow = (row: any) => {
-    const selectedIndex = selected.indexOf(row.id);
-    let newSelected: any[] = [];
+type Story = StoryObj<typeof meta>;
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, row.id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
-  };
+export const Basic: Story = {
+  render: ({ ...args }) => {
+    const [selected, setSelected] = useState<number[]>([]);
 
-  const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
+    const onSelectRow = (row: IRows) => {
+      const selectedIndex = selected.indexOf(row.id);
+      let newSelected: IRows['id'][] = [];
 
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableContainer title={args.title}>
-          <DataTableBody
-            {...args}
-            title={args.title}
-            columns={args.columns}
-            rows={args.rows}
-            isSelectable
-            isSelectableAnywhere
-            isSelected={isSelected}
-            onSelectRow={onSelectRow}
-          />
-        </DataTableContainer>
-      </DataTableGrid>
-    </div>
-  );
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, row.id);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1),
+        );
+      }
+      setSelected(newSelected);
+    };
+
+    const isSelected = (row: IRows) => selected.indexOf(row.id) !== -1;
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableContainer title={args.title}>
+            <DataTableBody
+              {...args}
+              title={args.title}
+              isSelected={isSelected}
+              onSelectRow={onSelectRow}
+            />
+          </DataTableContainer>
+        </DataTableGrid>
+      </div>
+    );
+  },
+};
+
+export const Selectable: Story = {
+  render: ({ ...args }) => {
+    const [selected, setSelected] = useState<number[]>([]);
+
+    const onSelectRow = (row: any) => {
+      const selectedIndex = selected.indexOf(row.id);
+      let newSelected: any[] = [];
+
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, row.id);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1),
+        );
+      }
+      setSelected(newSelected);
+    };
+
+    const isSelected = (row: any) => selected.indexOf(row.id) !== -1;
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableContainer title={args.title}>
+            <DataTableBody
+              {...args}
+              title={args.title}
+              columns={args.columns}
+              rows={args.rows}
+              isSelectable
+              isSelectableAnywhere
+              isSelected={isSelected}
+              onSelectRow={onSelectRow}
+            />
+          </DataTableContainer>
+        </DataTableGrid>
+      </div>
+    );
+  },
 };

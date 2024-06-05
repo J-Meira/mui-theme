@@ -1,13 +1,20 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs } from '@storybook/client-api';
+import React, { useEffect, useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import { Button, PopUp } from '../../src';
+import { Grid } from '@mui/material';
 
-export default {
+const meta = {
   title: 'Components/PopUp',
   component: PopUp,
   tags: ['autodocs'],
+} satisfies Meta<typeof PopUp>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
   args: {
     open: false,
     cancel: true,
@@ -20,23 +27,28 @@ export default {
     toggle: () => null,
     maxWidth: 'md',
   },
-} satisfies Meta<typeof PopUp>;
+  render: (args) => {
+    const [open, setOpen] = useState(false);
 
-export const Basic = ({ ...args }) => {
-  const [{ isOpen }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ isOpen: !isOpen });
+    const toggle = () => {
+      setOpen(!open);
+    };
 
-  return (
-    <div className='story-book'>
-      <Button onClick={() => updateArgs({ isOpen: !isOpen })}>Open</Button>
-      <PopUp
-        {...args}
-        action={() => handleClose()}
-        open={isOpen}
-        toggle={handleClose}
-      >
-        <div style={{ width: '100%' }}>PopUp body message here...</div>
-      </PopUp>
-    </div>
-  );
+    useEffect(() => {
+      setOpen(args.open);
+
+      // eslint-disable-next-line
+    }, [args.open]);
+
+    return (
+      <div className='story-book'>
+        <Button onClick={toggle}>Open</Button>
+        <PopUp {...args} action={toggle} open={open} toggle={toggle}>
+          <Grid item xs={12}>
+            PopUp body message here...
+          </Grid>
+        </PopUp>
+      </div>
+    );
+  },
 };

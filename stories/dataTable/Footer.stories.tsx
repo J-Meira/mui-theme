@@ -1,31 +1,40 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useState } from '@storybook/client-api';
+import React, { useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react';
+
 import { DataTableFooter, DataTableGrid } from '../../src';
 
-export default {
+const meta = {
   title: 'DataTable/Footer',
   component: DataTableFooter,
   tags: ['autodocs'],
 } satisfies Meta<typeof DataTableFooter>;
 
-export const Basic = () => {
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableFooter
-          currentSize={10}
-          rowsPerPage={rowsPerPage}
-          setRowsPerPage={(rows: number) => setRowsPerPage(rows)}
-          rowsPerPageLabel='Rows per Page:'
-          rowsPerPageDetails={(rows, totalOfRows) =>
-            `${rows} ${rows > 1 ? 'records' : 'record'} of ${totalOfRows}`
-          }
-          totalOfRows={200}
-        />
-      </DataTableGrid>
-    </div>
-  );
+export const Basic: Story = {
+  args: {
+    currentSize: 10,
+    rowsPerPage: 5,
+    setRowsPerPage: (v) => console.log(v),
+    rowsPerPageLabel: 'Rows per Page:',
+    rowsPerPageDetails: (rows, totalOfRows) =>
+      `${rows} ${rows > 1 ? 'records' : 'record'} of ${totalOfRows}`,
+    totalOfRows: 200,
+  },
+  render: (args) => {
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableFooter
+            {...args}
+            rowsPerPage={rowsPerPage}
+            setRowsPerPage={(rows: number) => setRowsPerPage(rows)}
+          />
+        </DataTableGrid>
+      </div>
+    );
+  },
 };

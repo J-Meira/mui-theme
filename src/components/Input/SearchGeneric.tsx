@@ -1,94 +1,122 @@
-import { useEffect, useState } from 'react';
-import { useField } from 'formik';
+import { ReactNode, useEffect, useState } from 'react';
+import { useField, useFormikContext } from 'formik';
 import {
   Autocomplete,
   CircularProgress,
   IconButton,
   TextField,
   createFilterOptions,
+  TextFieldProps,
+  GridProps,
+  Grid,
 } from '@mui/material';
-import { InputProps, SearchRequestProps, SelectOptionsProps } from '..';
-import { useDebounce } from '../../../hooks';
+import { defaultGrid, useDebounce } from '../..';
 
-const filter = createFilterOptions<SelectOptionsProps>();
+export interface SearchGenericProps<T extends object, K extends keyof T> {
+  icon?: ReactNode;
+  iconAction?: () => void;
+  iconActionTitle?: string;
+  getList: (param?: string, id?: T[K]) => Promise<T[]>;
+  readOnly?: boolean;
+  onSelected?: (newValue: T | null) => void;
+  setCreatableValue?: (value: T | null) => void;
+  creatable?: boolean;
+  initialCreatable?: (value: string) => T;
+  defaultSelected: T[K];
+  initialSelected?: T[K];
+  idKey: K;
+  searchKey: keyof T;
+  name: string;
+  autoFocus?: TextFieldProps['autoFocus'];
+  disabled?: TextFieldProps['disabled'];
+  label?: TextFieldProps['label'];
+  required?: TextFieldProps['required'];
+  variant?: TextFieldProps['variant'];
+  grid?: GridProps;
+  className?: string;
+  noGrid?: boolean;
+}
 
-const isString = (item: any): item is string => {
-  return typeof item === 'string';
-};
-
-export type SearchRequestExProps = Omit<
-  InputProps,
-  'className' | 'localControl' | 'noGrid' | 'model' | 'rowDirection'
-> &
-  SearchRequestProps;
-
-export const SearchRequest = ({
+export const SearchGeneric = <T extends object, K extends keyof T>({
   autoFocus,
-  creatable,
-  creatableLabel,
+  creatable = false,
+  initialCreatable,
   disabled,
   getList,
   icon,
+  idKey,
+  searchKey,
   iconAction,
   iconActionTitle,
+  defaultSelected,
   initialSelected,
   label,
   name,
   readOnly,
   required,
-  searchChange,
+  onSelected,
   setCreatableValue,
-  variant,
-}: Omit<SearchRequestExProps, 'grid'>): React.ReactElement => {
+  variant = 'outlined',
+  grid = defaultGrid,
+  className,
+  noGrid,
+}: SearchGenericProps<T, K>) => {
+  const { setFieldValue } = useFormikContext();
   const [field, meta, helper] = useField(name);
   const { touched, error } = meta;
   const { debounce } = useDebounce();
 
   const [inputValue, setInputValue] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState<number>(-1);
-  const [options, setOptions] = useState<SelectOptionsProps[]>([]);
-  const [selectedItem, setSelectedItem] = useState<SelectOptionsProps | null>(
-    null,
-  );
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<T[K]>(defaultSelected);
+  const [options, setOptions] = useState<T[]>([]);
+  const [selectedItem, setSelectedItem] = useState<T | null>(null);
 
-  const handle = (e: any, newValue: any, reason: string) => {
+  const filter = createFilterOptions<T>();
+
+  const isString = (item: any): item is string => {
+    return typeof item === 'string';
+  };
+
+  const handle = (e: any, newValue: T, reason: string) => {
     e.target.name = name;
-    e.target.value = -1;
+    let value = defaultSelected;
     if (newValue) {
-      const { value } = newValue;
-      e.target.value = value;
+      value = newValue[idKey];
       setSelected(value);
-      searchChange?.(value);
+      onSelected?.(newValue);
       setSelectedItem(newValue);
-      if (value === 0 && setCreatableValue && creatable) {
-        setCreatableValue(inputValue);
+      if (value === 0 && setCreatableValue && creatable && initialCreatable) {
+        setCreatableValue(newValue);
       } else if (setCreatableValue) {
-        setCreatableValue('');
+        setCreatableValue(null);
       }
     } else if (!newValue || reason === 'clear') {
-      setSelected(-1);
-      searchChange?.(-1);
+      setSelected(defaultSelected);
+      onSelected?.(null);
       setSelectedItem(null);
-      setCreatableValue?.('');
+      setCreatableValue?.(null);
+      helper.setTouched(true);
     }
-    field.onChange(e);
+    setFieldValue(name, value, true);
   };
 
   useEffect(() => {
     debounce(() => {
       if (
-        (inputValue === '' && options.length === 0) ||
+        (inputValue === '' &&
+          options.length === 0 &&
+          (!initialSelected || initialSelected === defaultSelected)) ||
         (inputValue !== '' && selectedItem === null) ||
-        (inputValue !== '' && selectedItem && inputValue !== selectedItem.label)
+        (inputValue !== '' &&
+          selectedItem &&
+          inputValue !== selectedItem[searchKey])
       ) {
-        if (getList) {
-          setLoading(true);
-          getList(inputValue).then((result) => {
-            setLoading(false);
-            setOptions(result);
-          });
-        }
+        setLoading(true);
+        getList(inputValue).then((result) => {
+          setLoading(false);
+          setOptions(result);
+        });
       }
     });
 
@@ -96,21 +124,26 @@ export const SearchRequest = ({
   }, [inputValue]);
 
   useEffect(() => {
-    if (initialSelected && initialSelected > 0 && getList) {
+    if (initialSelected && initialSelected !== defaultSelected) {
       setLoading(true);
       getList(undefined, initialSelected).then((result) => {
         setLoading(false);
         setOptions(result);
         const selectedOption = result?.find(
-          (op) => op.value === initialSelected,
+          (op) => op[idKey] === initialSelected,
         );
         if (selectedOption) {
           field.onChange({ target: { name, value: initialSelected } });
-          setSelected(initialSelected);
-          searchChange?.(initialSelected);
+          setSelected(defaultSelected);
+          onSelected?.(selectedOption);
           setSelectedItem(selectedOption);
         }
       });
+    } else {
+      setSelected(defaultSelected);
+      onSelected?.(null);
+      setSelectedItem(null);
+      setCreatableValue?.(null);
     }
     // eslint-disable-next-line
   }, [initialSelected]);
@@ -118,16 +151,14 @@ export const SearchRequest = ({
   useEffect(() => {
     if (field.value !== selected) {
       const fV = field.value;
-      const selectedOption: SelectOptionsProps | undefined = options?.find(
-        (op) => op.value === fV,
-      );
+      const selectedOption = options?.find((op) => op[idKey] === fV);
       if (selectedOption) {
         setSelected(fV);
-        searchChange?.(fV);
+        onSelected?.(selectedOption);
         setSelectedItem(selectedOption);
       } else {
-        setSelected(-1);
-        searchChange?.(-1);
+        setSelected(defaultSelected);
+        onSelected?.(null);
         setSelectedItem(null);
       }
     }
@@ -135,7 +166,14 @@ export const SearchRequest = ({
     // eslint-disable-next-line
   }, [field.value]);
 
-  return (
+  const getGrid = () => {
+    return {
+      ...defaultGrid,
+      ...grid,
+    };
+  };
+
+  const render = (() => (
     <Autocomplete
       id={name}
       autoHighlight
@@ -148,13 +186,10 @@ export const SearchRequest = ({
 
         const { inputValue } = params;
         const isExisting = options.some(
-          (option) => inputValue === option.label,
+          (option) => inputValue === option[searchKey],
         );
-        if (inputValue !== '' && !isExisting && creatable) {
-          filtered.push({
-            value: 0,
-            label: `${creatableLabel || 'New'}: ${inputValue}`,
-          });
+        if (inputValue !== '' && !isExisting && creatable && initialCreatable) {
+          filtered.push(initialCreatable(inputValue));
         }
 
         return filtered;
@@ -162,11 +197,11 @@ export const SearchRequest = ({
       freeSolo={creatable}
       fullWidth
       getOptionLabel={(option: any) =>
-        isString(option.label) ? option.label : ''
+        isString(option[searchKey]) ? option[searchKey] : ''
       }
       handleHomeEndKeys={creatable}
       loading={loading}
-      onChange={(e, newValue, r) => handle(e, newValue, r)}
+      onChange={(e, newValue, r) => handle(e, newValue as T, r)}
       onInputChange={(_, newInputValue) => {
         setInputValue?.(newInputValue);
       }}
@@ -207,11 +242,6 @@ export const SearchRequest = ({
           }}
           label={label}
           margin='normal'
-          onBlur={(e) => {
-            e.target.name = name;
-            field.onBlur(e);
-            helper.setTouched(true);
-          }}
           required={required}
           variant={variant}
         />
@@ -220,5 +250,13 @@ export const SearchRequest = ({
       size='small'
       value={selectedItem}
     />
+  ))();
+
+  return noGrid ? (
+    render
+  ) : (
+    <Grid item className={className} {...getGrid()}>
+      {render}
+    </Grid>
   );
 };

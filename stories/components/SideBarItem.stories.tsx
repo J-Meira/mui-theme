@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { MdHome as HomeIcon, MdList as ListIcon } from 'react-icons/md';
 import { SideBarItem } from '../../src';
 
@@ -35,19 +35,21 @@ export const WithChildren: Story = {
   args: {
     expanded: true,
     icon: <ListIcon />,
+    iconColor: (theme) => theme.palette.success.main,
+    textColor: (theme) => theme.palette.success.main,
     children: (
       <>
-        <SideBarItem
-          label='Clients'
-          selected={false}
-          expanded={true}
-          action={() => console.log('go home')}
-        />
         <SideBarItem
           label='Users'
           selected={false}
           expanded={true}
-          action={() => console.log('go home')}
+          onClick={() => console.log('go home')}
+        />
+        <SideBarItem
+          label='To JMCreative.com.br'
+          selected={false}
+          expanded={true}
+          textColor={(theme) => theme.palette.success.main}
         />
       </>
     ),
@@ -67,13 +69,13 @@ export const OpenOnStart: Story = {
           label='Clients'
           selected={false}
           expanded={true}
-          action={() => console.log('go home')}
+          onClick={() => console.log('go home')}
         />
         <SideBarItem
           label='Users'
           selected={false}
           expanded={true}
-          action={() => console.log('go home')}
+          onClick={() => console.log('go home')}
         />
       </>
     ),

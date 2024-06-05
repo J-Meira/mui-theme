@@ -20,7 +20,7 @@ const PageButton = ({
       className={className}
       color='primary'
       disabled={disabled}
-      fullWidth={false}
+      contained
       onClick={onClick}
       size='small'
       variant={active ? undefined : 'outlined'}

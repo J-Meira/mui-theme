@@ -9,15 +9,15 @@ import {
   DialogProps,
 } from '@mui/material';
 import { MdClose as CloseIcon } from 'react-icons/md';
-import { defaultProps } from './defaultProps';
 
 export interface PopUpProps extends DialogProps {
   action?: () => void;
+  actionDisabled?: boolean;
   cancel?: boolean;
   cancelLabel?: string;
   className?: string;
   disableBackdropClick?: boolean;
-  grided: boolean;
+  grided?: boolean;
   name: string;
   successLabel?: string;
   title?: string;
@@ -26,15 +26,16 @@ export interface PopUpProps extends DialogProps {
 
 export const PopUp = ({
   action,
-  cancel,
-  cancelLabel,
+  actionDisabled,
+  cancel = false,
+  cancelLabel = 'Cancel',
   children,
   className,
-  disableBackdropClick,
-  grided,
+  disableBackdropClick = false,
+  grided = false,
   name,
   open,
-  successLabel,
+  successLabel = 'Ok',
   title,
   toggle,
   ...rest
@@ -71,7 +72,7 @@ export const PopUp = ({
       )}
       <DialogContent>
         {grided ? (
-          <Grid container className='body-main' spacing={3}>
+          <Grid container spacing={3}>
             {children}
           </Grid>
         ) : (
@@ -86,7 +87,7 @@ export const PopUp = ({
             </Button>
           )}
           {action && (
-            <Button onClick={action} color='success'>
+            <Button onClick={action} disabled={actionDisabled} color='success'>
               {successLabel}
             </Button>
           )}
@@ -95,5 +96,3 @@ export const PopUp = ({
     </Dialog>
   );
 };
-
-PopUp.defaultProps = defaultProps;

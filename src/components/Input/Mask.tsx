@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps, MaskProps } from '..';
+import { InputProps, MaskProps } from '.';
 import { toMask } from './toMask';
 
 type MaskPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
@@ -17,7 +17,7 @@ export const Mask = ({
   onBlur,
   onChange,
   readOnly,
-  variant,
+  variant = 'outlined',
   ...rest
 }: MaskPropsEx) => {
   const [value, setValue] = useState<any>('');
@@ -43,6 +43,8 @@ export const Mask = ({
             return toMask.plate(value);
           case 'postalCode':
             return toMask.postalCode(value);
+          case 'upper':
+            return toMask.upper(value);
           default:
             return value;
         }

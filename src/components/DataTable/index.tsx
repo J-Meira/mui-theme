@@ -1,25 +1,26 @@
 import { GridProps } from '@mui/material';
+import { ChangeEvent, ReactNode } from 'react';
 
 export type Order = 'asc' | 'desc';
 
 export interface DataTableActionsProps {
-  onAdd?: (params: any) => void;
+  onAdd?: () => void;
   addLabel: string;
-  search: string;
-  setSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  searchValue: string;
+  setSearchValue: (event: ChangeEvent<HTMLInputElement>) => void;
   searchLabel: string;
-  filters?: (onApplyFilters?: () => void) => React.ReactNode;
+  filters?: (onApplyFilters?: () => void) => ReactNode;
   filtersLabel?: string;
   filterOpened?: boolean;
   onApplyFilters?: () => void;
   applyFiltersLabel?: string;
   onClearFilters?: () => void;
   clearFiltersLabel?: string;
-  showActive: boolean;
+  showActive?: boolean;
   hideSearch?: boolean;
-  activeValue: boolean;
-  activeLabel: string;
-  setActiveValue: (value: boolean) => void;
+  activeValue?: boolean;
+  activeLabel?: string;
+  setActiveValue?: (value: boolean) => void;
   onExport?: () => void;
 }
 
@@ -31,20 +32,20 @@ export interface ObjectEnumProps {
   [key: string]: number;
 }
 
-export interface DataTableColumnsProps {
+export interface DataTableColumnsProps<T extends object> {
   align?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
   className?: string;
   disablePadding?: boolean;
   enumObject?: EnumObjectProps;
   isSelectable?: boolean;
   isSortable?: boolean;
-  key: string;
+  key: keyof T | 'actions';
   label?: string;
   limit?: number;
   maxWidth?: number;
   minWidth?: number;
   objectKey?: string;
-  render?: (row: any, index?: number) => React.ReactNode;
+  render?: (row: T, index?: number) => ReactNode;
   width?: number;
 }
 
@@ -52,48 +53,49 @@ export interface DataTableGridProps extends GridProps {
   noChildrenGrid?: boolean;
 }
 
-export interface DataTableHeaderProps {
-  columns: DataTableColumnsProps[];
+export interface DataTableHeaderProps<T extends object> {
+  columns: DataTableColumnsProps<T>[];
   isSelectable?: boolean;
   numSelected: number;
-  onRequestSort: (key: string) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onRequestSort: (key: keyof T) => void;
+  onSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
   order: Order;
-  orderBy: string;
+  orderBy: keyof T;
   rowCount: number;
 }
 
 export interface DataTableContainerProps {
-  children: React.ReactNode;
+  children: ReactNode;
   tabHeight?: number;
   title: string;
 }
 
-export interface DataTableBodyProps {
-  columns: DataTableColumnsProps[];
-  customClickAction?: (row: any) => void;
+export interface DataTableBodyProps<T extends object> {
+  columns: DataTableColumnsProps<T>[];
+  customClickAction?: (row: T) => void;
   isSelectable?: boolean;
   isSelectableAnywhere?: boolean;
   isSelectableAnywhereElse?: boolean;
-  isSelected: (row: any) => boolean;
-  onSelectRow: (row: any) => void;
-  rows: any[];
+  isSelected: (row: T) => boolean;
+  onSelectRow: (row: T) => void;
+  rows: T[];
   title: string;
-  uniqueCol?: () => React.ReactNode;
+  statusProp?: keyof T;
+  uniqueCol?: ReactNode;
 }
 
-export interface DataTableSelectedProps {
+export interface DataTableSelectedProps<T extends object> {
   totalOfRows: number;
   totalOfRowsLabel: string;
   onDelete?: () => void;
   deleteLabel?: string;
-  selected: number[] | string[];
-  selectedCustomAction?: (selected: number[] | string[]) => React.ReactNode;
+  selected: T[keyof T][];
+  selectedCustomAction?: (selected: T[keyof T][]) => ReactNode;
 }
 
 export interface PageButtonProps {
   onClick: (page: any) => void;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   active?: boolean;
   disabled?: boolean;

@@ -42,13 +42,17 @@ jobs:
         run: |
           pnpm install --ignore-scripts
 
-      - name: Build and publish theme
+      - name: Build Theme
+        run: |
+          pnpm build
+
+      - name: Publish Theme
         run: |
           pnpm publish --no-git-check
 
       - name: Build StoryBook
         run: |
-          pnpm build-storybook
+          pnpm build-sb
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@master

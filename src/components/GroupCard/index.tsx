@@ -4,12 +4,12 @@ import {
   MdExpandMore as ExpandMoreIcon,
   MdExpandLess as ExpandLessIcon,
 } from 'react-icons/md';
-import { defaultProps } from './defaultProps';
 
 export type GroupCardProps = {
   className?: string;
-  collapsed: boolean;
-  noGridSizes: boolean;
+  collapsed?: boolean;
+  error?: string;
+  noGridSizes?: boolean;
   openStart?: boolean;
   title?: React.ReactNode;
 } & GridProps;
@@ -17,13 +17,14 @@ export type GroupCardProps = {
 export const GroupCard = ({
   children,
   className,
-  collapsed,
-  noGridSizes,
-  openStart,
+  collapsed = false,
+  error,
+  noGridSizes = false,
+  openStart = false,
   title,
-  xs,
-  sm,
-  md,
+  md = 12,
+  sm = 12,
+  xs = 12,
 }: GroupCardProps) => {
   const [open, setOpen] = useState(openStart);
   return (
@@ -32,7 +33,7 @@ export const GroupCard = ({
       xs={noGridSizes ? undefined : xs}
       sm={noGridSizes ? undefined : sm}
       md={noGridSizes ? undefined : md}
-      className={`group-card ${className ? className : ''}`}
+      className={`group-card ${error ? 'group-card-error' : ''} ${className ? className : ''}`}
     >
       <Card variant='outlined'>
         <CardContent
@@ -60,11 +61,14 @@ export const GroupCard = ({
               </Grid>
             )}
             {collapsed ? (open ? children : null) : children}
+            {error && (
+              <Typography variant='caption' color='error'>
+                {error}
+              </Typography>
+            )}
           </Grid>
         </CardContent>
       </Card>
     </Grid>
   );
 };
-
-GroupCard.defaultProps = defaultProps;

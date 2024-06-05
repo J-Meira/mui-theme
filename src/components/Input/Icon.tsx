@@ -1,45 +1,35 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps, NumberProps } from '..';
+import { InputAd } from './InputAd';
+import { IconProps, InputProps } from '.';
 
-type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
-  NumberProps;
+type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
+  IconProps;
 
-export const Number = ({
-  decimal,
+//ToDo fix label start position on start icon type
+
+export const Icon = ({
+  action,
+  actionTitle,
   helperText,
+  icon,
   localControl,
   name,
   onBlur,
   onChange,
   readOnly,
-  variant,
+  start,
+  variant = 'outlined',
   ...rest
-}: NumberEx) => {
-  const mask = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    let valueReturn = e.target.value;
-
-    if (decimal) {
-      valueReturn = String(valueReturn).replace(/[^-0-9.]/g, '');
-      const decimalCount = valueReturn.split('.').length - 1;
-
-      if (decimalCount > 1) {
-        valueReturn = valueReturn.replace(/\.+$/, '');
-      }
-    } else {
-      valueReturn = String(valueReturn).replace(/[^-0-9]/g, '');
-    }
-
-    if (valueReturn.indexOf('-') > 0) {
-      valueReturn = valueReturn.replace('-', '');
-    }
-
-    e.target.value = valueReturn;
-
-    return e;
-  };
+}: IconPropsEx) => {
+  const adornment = (
+    <InputAd
+      action={action}
+      actionTitle={actionTitle}
+      icon={icon}
+      start={start}
+    />
+  );
 
   return localControl ? (
     <TextField
@@ -51,16 +41,14 @@ export const Number = ({
       fullWidth
       InputProps={{
         readOnly,
+        endAdornment: !start && adornment,
+        startAdornment: start && adornment,
       }}
       margin='normal'
       onBlur={onBlur}
-      onChange={(e) => {
-        onChange?.(mask(e));
-      }}
+      onChange={onChange}
       size='small'
-      type='number'
       variant={variant}
-      value={rest.value !== null ? rest.value : ''}
     />
   ) : (
     <Field name={name}>
@@ -77,6 +65,8 @@ export const Number = ({
             fullWidth
             InputProps={{
               readOnly,
+              endAdornment: !start && adornment,
+              startAdornment: start && adornment,
             }}
             margin='normal'
             onBlur={(e) => {
@@ -84,13 +74,11 @@ export const Number = ({
               onBlur?.(e);
             }}
             onChange={(e) => {
-              field.onChange(mask(e));
-              onChange?.(mask(e));
+              field.onChange(e);
+              onChange?.(e);
             }}
             size='small'
-            type='number'
             variant={variant}
-            value={field.value !== null ? field.value : ''}
           />
         );
       }}

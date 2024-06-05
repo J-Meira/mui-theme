@@ -1,13 +1,14 @@
 import { ReactNode, useEffect, useState } from 'react';
 
 import {
+  Box,
+  Collapse,
   List,
   ListItem,
-  ListItemText,
-  ListItemIcon,
   ListItemButton,
-  Collapse,
-  ListItemButtonProps,
+  ListItemIcon,
+  ListItemText,
+  Theme,
 } from '@mui/material';
 
 import {
@@ -15,14 +16,19 @@ import {
   MdExpandMore as ExpandMoreIcon,
 } from 'react-icons/md';
 
-export interface SideBarItemProps extends ListItemButtonProps {
-  destiny?: string;
+export interface SideBarItemProps {
+  children?: ReactNode;
   expanded?: boolean;
   icon?: ReactNode;
   initialState?: boolean;
   label: string;
   secondary?: boolean;
   sideBarControl?: () => void;
+  iconColor?: (theme: Theme) => string;
+  textColor?: (theme: Theme) => string;
+  onClick?: () => void;
+
+  selected?: boolean;
 }
 
 export const SideBarItem = ({
@@ -34,6 +40,9 @@ export const SideBarItem = ({
   secondary,
   selected,
   sideBarControl,
+  onClick,
+  iconColor = () => '#fff',
+  textColor = () => '#fff',
   ...rest
 }: SideBarItemProps) => {
   const [open, setOpen] = useState(initialState);
@@ -50,6 +59,18 @@ export const SideBarItem = ({
     return s.length > 1 ? `${s[0][0]}${s[1][0]}` : `${s[0][0]}${s[0][1]}`;
   };
 
+  const render = (() => (
+    <>
+      {icon && <ListItemIcon sx={{ color: iconColor }}>{icon}</ListItemIcon>}
+      {expanded !== false && (
+        <ListItemText sx={{ color: textColor }} primary={label} />
+      )}
+      {!icon && expanded === false && (
+        <ListItemText sx={{ color: textColor }} primary={labelToIcon()} />
+      )}
+    </>
+  ))();
+
   useEffect(() => {
     if (!expanded && open) setOpen(false);
 
@@ -65,12 +86,10 @@ export const SideBarItem = ({
           selected={selected}
           {...rest}
         >
-          {icon && <ListItemIcon>{icon}</ListItemIcon>}
-          {expanded !== false && <ListItemText primary={label} />}
-          {!icon && expanded === false && (
-            <ListItemText primary={labelToIcon()} />
-          )}
-          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          {render}
+          <Box sx={{ color: '#fff !important' }}>
+            {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </Box>
         </ListItemButton>
       </ListItem>
       <Collapse in={open} timeout='auto' unmountOnExit>
@@ -86,12 +105,13 @@ export const SideBarItem = ({
         secondary ? (selected ? 'secondary-selected' : 'secondary') : ''
       }
     >
-      <ListItemButton title={label} selected={selected} {...rest}>
-        {icon && <ListItemIcon>{icon}</ListItemIcon>}
-        {expanded !== false && <ListItemText primary={label} />}
-        {!icon && expanded === false && (
-          <ListItemText primary={labelToIcon()} />
-        )}
+      <ListItemButton
+        onClick={onClick}
+        title={label}
+        selected={selected}
+        {...rest}
+      >
+        {render}
       </ListItemButton>
     </ListItem>
   );

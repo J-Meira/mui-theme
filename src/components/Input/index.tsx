@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import {
   CheckboxProps,
   Grid,
@@ -6,6 +7,8 @@ import {
   TextFieldProps,
 } from '@mui/material';
 
+import { defaultGrid } from './defaultGrid';
+
 import { Basic } from './Basic';
 import { CheckBox } from './CheckBox';
 import { Currency } from './Currency';
@@ -13,12 +16,10 @@ import { Icon } from './Icon';
 import { Mask } from './Mask';
 import { Number } from './Number';
 import { Password } from './Password';
+import { RadioGroup } from './RadioGroup';
 import { Search } from './Search';
 import { SearchRequest } from './SearchRequest';
 import { Select } from './Select';
-import { RadioGroup } from './RadioGroup';
-import { ReactNode } from 'react';
-import { defaultProps } from './defaultProps';
 
 export interface SelectOptionsProps {
   label: string;
@@ -28,8 +29,8 @@ export interface SelectOptionsProps {
 
 export type InputProps = TextFieldProps & {
   className?: string;
-  grid: GridProps;
-  localControl: boolean;
+  grid?: GridProps;
+  localControl?: boolean;
   name: string;
   noGrid?: boolean;
   model?:
@@ -74,6 +75,7 @@ export interface MaskProps {
     | 'number'
     | 'phone'
     | 'plate'
+    | 'upper'
     | 'postalCode';
 }
 
@@ -138,9 +140,10 @@ export const Input = ({
   decimal,
   defaultOption,
   icon,
-  grid,
+  grid = defaultGrid,
   hideSymbol,
   hideTitle,
+  localControl = false,
   maskModel,
   model,
   NoNativeOptions,
@@ -155,7 +158,7 @@ export const Input = ({
 }: InputPropsExt) => {
   const getGrid = (g: GridProps) => {
     return {
-      ...defaultProps.grid,
+      ...defaultGrid,
       ...g,
     };
   };
@@ -163,12 +166,20 @@ export const Input = ({
   const render = (() => {
     switch (model) {
       case 'checkBox':
-        return <CheckBox {...rest} />;
+        return <CheckBox localControl={localControl} {...rest} />;
       case 'currency':
-        return <Currency hideSymbol={hideSymbol} symbol={symbol} {...rest} />;
+        return (
+          <Currency
+            localControl={localControl}
+            hideSymbol={hideSymbol}
+            symbol={symbol}
+            {...rest}
+          />
+        );
       case 'icon':
         return (
           <Icon
+            localControl={localControl}
             action={action}
             actionTitle={actionTitle}
             icon={icon}
@@ -177,16 +188,35 @@ export const Input = ({
           />
         );
       case 'mask':
-        return <Mask custom={custom} maskModel={maskModel} {...rest} />;
+        return (
+          <Mask
+            localControl={localControl}
+            custom={custom}
+            maskModel={maskModel}
+            {...rest}
+          />
+        );
       case 'number':
-        return <Number decimal={decimal} {...rest} />;
+        return (
+          <Number localControl={localControl} decimal={decimal} {...rest} />
+        );
       case 'password':
         return (
-          <Password hideTitle={hideTitle} showTitle={showTitle} {...rest} />
+          <Password
+            localControl={localControl}
+            hideTitle={hideTitle}
+            showTitle={showTitle}
+            {...rest}
+          />
         );
       case 'radioGroup':
         return (
-          <RadioGroup rowDirection={rowDirection} options={options} {...rest} />
+          <RadioGroup
+            localControl={localControl}
+            rowDirection={rowDirection}
+            options={options}
+            {...rest}
+          />
         );
       case 'search':
         return (
@@ -211,6 +241,7 @@ export const Input = ({
       case 'select':
         return (
           <Select
+            localControl={localControl}
             defaultOption={defaultOption}
             NoNativeOptions={NoNativeOptions}
             options={options}
@@ -218,7 +249,7 @@ export const Input = ({
           />
         );
       default:
-        return <Basic {...rest} />;
+        return <Basic localControl={localControl} {...rest} />;
     }
   })();
 
@@ -230,5 +261,3 @@ export const Input = ({
     </Grid>
   );
 };
-
-Input.defaultProps = defaultProps;

@@ -1,85 +1,96 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs, useState } from '@storybook/client-api';
-import { MdHome as HomeIcon, MdList as ListIcon } from 'react-icons/md';
+import React, { useEffect, useState } from 'react';
 
-import { Button, MainContainer, SideBar, SideBarItem } from '../../src';
+import { Meta, StoryObj } from '@storybook/react';
+
 import { env } from '../env';
 
-export default {
+import { MdHome as HomeIcon } from 'react-icons/md';
+
+import { Button, MainContainer, SideBar, SideBarItem } from '../../src';
+
+const meta = {
   title: 'Components/SideBar',
   component: SideBar,
   tags: ['autodocs'],
-  args: {
-    expanded: true,
-  },
 } satisfies Meta<typeof SideBar>;
 
-export const Basic = () => {
-  const [{ expanded }, updateArgs] = useArgs();
-  const [open, setOpen] = useState(true);
+export default meta;
 
-  const sideBarControl = () => {
-    updateArgs({
-      expanded: !expanded,
-    });
-    setOpen(!open);
-  };
+type Story = StoryObj<typeof meta>;
 
-  const sideBarMouseHover = (status: boolean) => {
-    if (!open) {
-      updateArgs({
-        expanded: status,
-      });
-    }
-  };
+export const Basic: Story = {
+  args: {
+    expanded: true,
+    logo: 'https://assets.jm.app.br/logo.svg',
+    icon: 'https://assets.jm.app.br/icon.svg',
+    version: env('STORYBOOK_VERSION') || 'v1.0.0',
+    versionDate: env('STORYBOOK_V_DATE') || '2023-06-01T00:00:00',
+    sideBarControl: () => null,
+    homeNavigate: () => console.log('/'),
+  },
+  render: ({ ...args }) => {
+    const [expanded, setExpanded] = useState(true);
+    const [open, setOpen] = useState(true);
 
-  return (
-    <div className='story-book-body'>
-      <SideBar
-        expanded={expanded}
-        logo='https://assets.jm.app.br/logo.svg'
-        icon='https://assets.jm.app.br/icon.svg'
-        version={env('STORYBOOK_VERSION') || 'v1.0.0'}
-        versionDate={env('STORYBOOK_V_DATE') || '2023-06-01T00:00:00'}
-        sideBarControl={sideBarControl}
-        homeNavigate={() => console.log('/')}
-        onMouseHover={sideBarMouseHover}
-      >
-        <SideBarItem
-          label='Home'
-          icon={<HomeIcon />}
-          selected={true}
-          expanded={expanded}
+    const sideBarControl = () => {
+      setOpen(!open);
+      setExpanded(!expanded);
+    };
+
+    const sideBarMouseHover = (status: boolean) => {
+      if (!open) {
+        setExpanded(status);
+      }
+    };
+
+    useEffect(() => {
+      setExpanded(args.expanded);
+
+      // eslint-disable-next-line
+    }, [args.expanded]);
+
+    return (
+      <div className='story-book-body'>
+        <SideBar
+          {...args}
           sideBarControl={sideBarControl}
-          initialState={true}
+          homeNavigate={() => console.log('/')}
+          onMouseHover={sideBarMouseHover}
         >
           <SideBarItem
-            label='Main'
+            label='Home'
+            icon={<HomeIcon />}
             selected={true}
             expanded={expanded}
-            action={() => console.log('go home')}
             sideBarControl={sideBarControl}
-          />
+            initialState={true}
+          >
+            <SideBarItem
+              label='Main'
+              selected={true}
+              expanded={expanded}
+              sideBarControl={sideBarControl}
+            />
+            <SideBarItem
+              label='Main Context'
+              selected={true}
+              expanded={expanded}
+              sideBarControl={sideBarControl}
+            />
+          </SideBarItem>
           <SideBarItem
-            label='Main Context'
-            selected={true}
+            label='Lists'
+            selected={false}
             expanded={expanded}
-            action={() => console.log('go home')}
             sideBarControl={sideBarControl}
           />
-        </SideBarItem>
-        <SideBarItem
-          label='Lists'
-          selected={false}
-          expanded={expanded}
-          action={() => console.log('go home')}
-          sideBarControl={sideBarControl}
-        />
-      </SideBar>
-      <MainContainer sideBarExpanded={open}>
-        <Button onClick={sideBarControl}>{open ? 'Compact' : 'expand'}</Button>
-      </MainContainer>
-    </div>
-  );
+        </SideBar>
+        <MainContainer sideBarExpanded={open}>
+          <Button onClick={sideBarControl}>
+            {open ? 'Compact' : 'expand'}
+          </Button>
+        </MainContainer>
+      </div>
+    );
+  },
 };

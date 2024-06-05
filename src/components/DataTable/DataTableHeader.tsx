@@ -8,7 +8,7 @@ import {
 
 import { DataTableHeaderProps } from '.';
 
-export const DataTableHeader = ({
+export const DataTableHeader = <T extends object>({
   columns,
   isSelectable,
   numSelected,
@@ -17,7 +17,7 @@ export const DataTableHeader = ({
   onSelectAllClick,
   order,
   orderBy,
-}: DataTableHeaderProps) => (
+}: DataTableHeaderProps<T>) => (
   <TableHead>
     <TableRow>
       {isSelectable && (
@@ -30,35 +30,37 @@ export const DataTableHeader = ({
           />
         </TableCell>
       )}
-      {columns.map((col) => (
-        <TableCell
-          key={col.key}
-          align={col.align}
-          padding={col.disablePadding ? 'none' : 'normal'}
-          sortDirection={orderBy === col.key ? order : false}
-          style={
-            col.minWidth || col.maxWidth || col.width
-              ? {
-                  maxWidth: col.maxWidth,
-                  minWidth: col.minWidth,
-                  width: col.width,
-                }
-              : undefined
-          }
-        >
-          {col.isSortable ? (
-            <TableSortLabel
-              active={orderBy === col.key}
-              direction={orderBy === col.key ? order : 'asc'}
-              onClick={() => onRequestSort(col.key)}
-            >
-              {col.label}
-            </TableSortLabel>
-          ) : (
-            col.label
-          )}
-        </TableCell>
-      ))}
+      {columns.map((col, index) =>
+        col.key === 'actions' && !col.render ? null : (
+          <TableCell
+            key={`t-header-${col.key.toString()}${index}`}
+            align={col.align}
+            padding={col.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === col.key ? order : false}
+            style={
+              col.minWidth || col.maxWidth || col.width
+                ? {
+                    maxWidth: col.maxWidth,
+                    minWidth: col.minWidth,
+                    width: col.width,
+                  }
+                : undefined
+            }
+          >
+            {col.isSortable && col.key !== 'actions' ? (
+              <TableSortLabel
+                active={orderBy === col.key}
+                direction={orderBy === col.key ? order : 'asc'}
+                onClick={() => onRequestSort(col.key as keyof T)}
+              >
+                {col.label}
+              </TableSortLabel>
+            ) : (
+              col.label
+            )}
+          </TableCell>
+        ),
+      )}
     </TableRow>
   </TableHead>
 );

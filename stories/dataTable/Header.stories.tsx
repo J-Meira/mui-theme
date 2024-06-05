@@ -1,13 +1,17 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs } from '@storybook/client-api';
+import React, { useEffect, useState } from 'react';
+
+import { Meta, StoryObj } from '@storybook/react';
+
 import {
   DataTableContainer,
   DataTableGrid,
   DataTableHeader,
   EnumObjectProps,
+  Order,
   toMask,
 } from '../../src';
+
+const tableTitle = 'title-here';
 
 const levelEnum: EnumObjectProps = {
   0: 'Roockie',
@@ -15,7 +19,14 @@ const levelEnum: EnumObjectProps = {
   2: 'Regular',
 };
 
-export default {
+interface IRows {
+  id: number;
+  name: string;
+  phone?: string;
+  level: number;
+}
+
+const meta: Meta<typeof DataTableHeader<IRows>> = {
   title: 'DataTable/Header',
   component: DataTableHeader,
   tags: ['autodocs'],
@@ -53,103 +64,113 @@ export default {
     order: 'asc',
     orderBy: 'id',
   },
-} satisfies Meta<typeof DataTableHeader>;
-
-export const Basic = ({ ...args }) => {
-  const [{ orderBy, order, numSelected }, updateArgs] = useArgs();
-
-  const onRequestSort = (key: string) => {
-    const isAsc = orderBy === key && order === 'asc';
-    const newOrder = isAsc ? 'desc' : 'asc';
-    updateArgs({
-      order: newOrder,
-      orderBy: key,
-      numSelected: numSelected,
-    });
-  };
-
-  const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      updateArgs({
-        order: order,
-        orderBy: orderBy,
-        numSelected: args.rowCount,
-      });
-    } else {
-      updateArgs({
-        order: order,
-        orderBy: orderBy,
-        numSelected: 0,
-      });
-    }
-  };
-
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableContainer title={args.title}>
-          <DataTableHeader
-            {...args}
-            columns={args.columns}
-            order={args.order}
-            orderBy={args.orderBy}
-            numSelected={args.numSelected}
-            rowCount={args.rowCount}
-            onRequestSort={onRequestSort}
-            onSelectAllClick={onSelectAllClick}
-          />
-        </DataTableContainer>
-      </DataTableGrid>
-    </div>
-  );
 };
 
-export const Selectable = ({ ...args }) => {
-  const [{ orderBy, order, numSelected }, updateArgs] = useArgs();
+export default meta;
 
-  const onRequestSort = (key: string) => {
-    const isAsc = orderBy === key && order === 'asc';
-    const newOrder = isAsc ? 'desc' : 'asc';
-    updateArgs({
-      order: newOrder,
-      orderBy: key,
-      numSelected: numSelected,
-    });
-  };
+type Story = StoryObj<typeof meta>;
 
-  const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      updateArgs({
-        order: order,
-        orderBy: orderBy,
-        numSelected: args.rowCount,
-      });
-    } else {
-      updateArgs({
-        order: order,
-        orderBy: orderBy,
-        numSelected: 0,
-      });
-    }
-  };
+export const Basic: Story = {
+  render: ({ ...args }) => {
+    const [selected, setSelected] = useState(0);
+    const [orderBy, setOrderBy] = useState<keyof IRows>('id');
+    const [order, setOrder] = useState<Order>('asc');
 
-  return (
-    <div className='story-book'>
-      <DataTableGrid>
-        <DataTableContainer title={args.title}>
-          <DataTableHeader
-            {...args}
-            columns={args.columns}
-            order={args.order}
-            orderBy={args.orderBy}
-            numSelected={args.numSelected}
-            rowCount={args.rowCount}
-            onRequestSort={onRequestSort}
-            onSelectAllClick={onSelectAllClick}
-            isSelectable
-          />
-        </DataTableContainer>
-      </DataTableGrid>
-    </div>
-  );
+    const onRequestSort = (key: keyof IRows) => {
+      const isAsc = orderBy === key && order === 'asc';
+      const newOrder = isAsc ? 'desc' : 'asc';
+      setOrder(newOrder);
+      setOrderBy(key);
+    };
+
+    const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        setSelected(args.rowCount);
+      } else {
+        setSelected(0);
+      }
+    };
+
+    useEffect(() => {
+      setOrder(args.order);
+
+      // eslint-disable-next-line
+    }, [args.order]);
+
+    useEffect(() => {
+      setOrderBy(args.orderBy);
+
+      // eslint-disable-next-line
+    }, [args.orderBy]);
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableContainer title={tableTitle}>
+            <DataTableHeader
+              {...args}
+              order={order}
+              orderBy={orderBy}
+              numSelected={selected}
+              onRequestSort={onRequestSort}
+              onSelectAllClick={onSelectAllClick}
+            />
+          </DataTableContainer>
+        </DataTableGrid>
+      </div>
+    );
+  },
+};
+
+export const Selectable: Story = {
+  render: ({ ...args }) => {
+    const [selected, setSelected] = useState(0);
+    const [orderBy, setOrderBy] = useState<keyof IRows>('id');
+    const [order, setOrder] = useState<Order>('asc');
+
+    const onRequestSort = (key: keyof IRows) => {
+      const isAsc = orderBy === key && order === 'asc';
+      const newOrder = isAsc ? 'desc' : 'asc';
+      setOrder(newOrder);
+      setOrderBy(key);
+    };
+
+    const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        setSelected(args.rowCount);
+      } else {
+        setSelected(0);
+      }
+    };
+
+    useEffect(() => {
+      setOrder(args.order);
+
+      // eslint-disable-next-line
+    }, [args.order]);
+
+    useEffect(() => {
+      setOrderBy(args.orderBy);
+
+      // eslint-disable-next-line
+    }, [args.orderBy]);
+
+    return (
+      <div className='story-book'>
+        <DataTableGrid>
+          <DataTableContainer title={tableTitle}>
+            <DataTableHeader
+              {...args}
+              order={order}
+              orderBy={orderBy}
+              numSelected={selected}
+              onRequestSort={onRequestSort}
+              onSelectAllClick={onSelectAllClick}
+              isSelectable
+            />
+          </DataTableContainer>
+        </DataTableGrid>
+      </div>
+    );
+  },
 };

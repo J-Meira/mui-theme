@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useField } from 'formik';
 import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
-import { InputProps, SearchProps, SelectOptionsProps } from '..';
+import { InputProps, SearchProps, SelectOptionsProps } from '.';
 
 const filter = createFilterOptions<SelectOptionsProps>();
 
@@ -26,7 +26,7 @@ export const Search = ({
   readOnly,
   required,
   searchChange,
-  variant,
+  variant = 'outlined',
 }: SearchExProps): React.ReactElement => {
   const [field, meta, helper] = useField(name);
   const { touched, error } = meta;

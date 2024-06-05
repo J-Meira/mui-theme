@@ -1,6 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { TextField } from '@mui/material';
-import { InputProps } from '..';
+import { InputProps } from '.';
 
 export const Basic = ({
   helperText,
@@ -9,7 +9,7 @@ export const Basic = ({
   onBlur,
   onChange,
   readOnly,
-  variant,
+  variant = 'outlined',
   ...rest
 }: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) =>
   localControl ? (

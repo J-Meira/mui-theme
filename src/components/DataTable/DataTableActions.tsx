@@ -10,13 +10,11 @@ import {
 import { Button, Input } from '..';
 import { DataTableActionsProps } from '.';
 
-import { useWindowDimensions } from '../../hooks';
-
 export const DataTableActions = ({
   onAdd,
   addLabel,
-  search,
-  setSearch,
+  searchValue,
+  setSearchValue,
   searchLabel,
   filters,
   filtersLabel,
@@ -32,7 +30,6 @@ export const DataTableActions = ({
   setActiveValue,
   onExport,
 }: DataTableActionsProps) => {
-  const { width } = useWindowDimensions();
   const [filtersOpen, setFiltersOpen] = useState<boolean>(!!filterOpened);
 
   const clearFilters = () => {
@@ -51,18 +48,19 @@ export const DataTableActions = ({
               }`}
             >
               {onAdd && (
-                <Button color='primary' fullWidth={false} onClick={onAdd}>
+                <Button contained color='primary' onClick={onAdd}>
                   {addLabel}
                 </Button>
               )}
               {filters && (
                 <Button
-                  fullWidth={false}
+                  contained
+                  model='responsive'
+                  icon={<FilterListIcon />}
                   variant={!filtersOpen ? 'outlined' : undefined}
                   onClick={() => setFiltersOpen(!filtersOpen)}
                 >
-                  <FilterListIcon />
-                  {width > 400 ? filtersLabel : ''}
+                  {filtersLabel}
                 </Button>
               )}
             </div>
@@ -74,15 +72,15 @@ export const DataTableActions = ({
               model='icon'
               label={searchLabel}
               icon={<SearchIcon />}
-              onChange={setSearch}
-              value={search}
+              onChange={setSearchValue}
+              value={searchValue}
               grid={{
                 md: 4,
                 lg: 3,
               }}
             />
           )}
-          {showActive && (
+          {setActiveValue && showActive && (
             <Input
               localControl
               model='checkBox'
@@ -113,14 +111,10 @@ export const DataTableActions = ({
             <Grid container spacing={2}>
               {filters(onApplyFilters ? onApplyFilters : undefined)}
               <Grid item xs={12} className='filters-actions'>
-                <Button
-                  onClick={clearFilters}
-                  fullWidth={false}
-                  color='warning'
-                >
+                <Button contained onClick={clearFilters} color='warning'>
                   {clearFiltersLabel}
                 </Button>
-                <Button onClick={onApplyFilters} fullWidth={false}>
+                <Button contained onClick={onApplyFilters}>
                   {applyFiltersLabel}
                 </Button>
               </Grid>

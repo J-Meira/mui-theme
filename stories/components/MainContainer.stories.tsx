@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { useArgs } from '@storybook/client-api';
+import React, { useEffect, useState } from 'react';
+
+import { StoryObj, Meta } from '@storybook/react';
 
 import {
   BreadcrumbBar,
@@ -9,7 +9,7 @@ import {
   MainContainer,
 } from '../../src';
 
-const breadcrumbLlist: BreadcrumbsListProps[] = [
+const breadcrumbList: BreadcrumbsListProps[] = [
   {
     label: 'Home',
     link: '/',
@@ -26,99 +26,146 @@ const breadcrumbLlist: BreadcrumbsListProps[] = [
 const date = new Date();
 const footer = `© 2008 - ${date.getFullYear()} JM Creative. All Rights Reserved`;
 
-export default {
+const meta = {
   title: 'Components/MainContainer',
   component: MainContainer,
   tags: ['autodocs'],
   args: {
     sideBarExpanded: false,
+    children: null,
   },
 } satisfies Meta<typeof MainContainer>;
 
-export const Basic = () => {
-  const [{ sideBarExpanded }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
+export default meta;
 
-  return (
-    <div className='story-book'>
-      <MainContainer sideBarExpanded={sideBarExpanded}>
-        <Button onClick={handleClose}>Collapse</Button>
-      </MainContainer>
-    </div>
-  );
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
+  render: (args) => {
+    const [sideBarExpanded, setSideBarExpanded] = useState(true);
+    const toggle = () => setSideBarExpanded(!sideBarExpanded);
+
+    useEffect(() => {
+      if (args.sideBarExpanded && args.sideBarExpanded !== sideBarExpanded)
+        setSideBarExpanded(args.sideBarExpanded);
+
+      // eslint-disable-next-line
+    }, [args.sideBarExpanded]);
+
+    return (
+      <div className='story-book'>
+        <MainContainer sideBarExpanded={sideBarExpanded}>
+          <Button onClick={toggle}>Collapse</Button>
+        </MainContainer>
+      </div>
+    );
+  },
 };
 
-export const Full = () => {
-  return (
-    <div className='story-book'>
-      <MainContainer>
-        <Button>Test</Button>
-      </MainContainer>
-    </div>
-  );
+export const Full: Story = {
+  render: (args) => {
+    return (
+      <div className='story-book'>
+        <MainContainer {...args}>
+          <Button>Test</Button>
+        </MainContainer>
+      </div>
+    );
+  },
 };
 
-export const SubHeader = () => {
-  const [{ sideBarExpanded }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
+export const SubHeader: Story = {
+  render: (args) => {
+    const [sideBarExpanded, setSideBarExpanded] = useState(true);
+    const toggle = () => setSideBarExpanded(!sideBarExpanded);
 
-  return (
-    <div className='story-book'>
-      <MainContainer
-        sideBarExpanded={sideBarExpanded}
-        subHeader={
-          <div style={{ padding: '1rem', width: '100%' }}>
-            <BreadcrumbBar list={breadcrumbLlist} />
-          </div>
-        }
-      >
-        <Button onClick={handleClose}>Collapse</Button>
-      </MainContainer>
-    </div>
-  );
+    useEffect(() => {
+      if (args.sideBarExpanded && args.sideBarExpanded !== sideBarExpanded)
+        setSideBarExpanded(args.sideBarExpanded);
+
+      // eslint-disable-next-line
+    }, [args.sideBarExpanded]);
+
+    return (
+      <div className='story-book'>
+        <MainContainer
+          sideBarExpanded={sideBarExpanded}
+          subHeader={
+            <div style={{ padding: '1rem', width: '100%' }}>
+              <BreadcrumbBar list={breadcrumbList} />
+            </div>
+          }
+        >
+          <Button onClick={toggle}>Collapse</Button>
+        </MainContainer>
+      </div>
+    );
+  },
 };
 
-export const Footer = () => {
-  const [{ sideBarExpanded }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
+export const Footer: Story = {
+  render: (args) => {
+    const [sideBarExpanded, setSideBarExpanded] = useState(true);
+    const toggle = () => setSideBarExpanded(!sideBarExpanded);
 
-  return (
-    <div className='story-book'>
-      <MainContainer
-        sideBarExpanded={sideBarExpanded}
-        footer={
-          <div style={{ padding: '1rem', width: '100%', textAlign: 'center' }}>
-            <span>{footer}</span>
-          </div>
-        }
-      >
-        <Button onClick={handleClose}>Collapse</Button>
-      </MainContainer>
-    </div>
-  );
+    useEffect(() => {
+      if (args.sideBarExpanded && args.sideBarExpanded !== sideBarExpanded)
+        setSideBarExpanded(args.sideBarExpanded);
+
+      // eslint-disable-next-line
+    }, [args.sideBarExpanded]);
+
+    return (
+      <div className='story-book'>
+        <MainContainer
+          sideBarExpanded={sideBarExpanded}
+          footer={
+            <div
+              style={{ padding: '1rem', width: '100%', textAlign: 'center' }}
+            >
+              <span>{footer}</span>
+            </div>
+          }
+        >
+          <Button onClick={toggle}>Collapse</Button>
+        </MainContainer>
+      </div>
+    );
+  },
 };
 
-export const SubHeaderFooter = () => {
-  const [{ sideBarExpanded }, updateArgs] = useArgs();
-  const handleClose = () => updateArgs({ sideBarExpanded: !sideBarExpanded });
+export const SubHeaderFooter: Story = {
+  render: (args) => {
+    const [sideBarExpanded, setSideBarExpanded] = useState(true);
+    const toggle = () => setSideBarExpanded(!sideBarExpanded);
 
-  return (
-    <div className='story-book'>
-      <MainContainer
-        sideBarExpanded={sideBarExpanded}
-        subHeader={
-          <div style={{ padding: '1rem', width: '100%' }}>
-            <BreadcrumbBar list={breadcrumbLlist} />
-          </div>
-        }
-        footer={
-          <div style={{ padding: '1rem', width: '100%', textAlign: 'center' }}>
-            <span>{footer}</span>
-          </div>
-        }
-      >
-        <Button onClick={handleClose}>Collapse</Button>
-      </MainContainer>
-    </div>
-  );
+    useEffect(() => {
+      if (args.sideBarExpanded && args.sideBarExpanded !== sideBarExpanded)
+        setSideBarExpanded(args.sideBarExpanded);
+
+      // eslint-disable-next-line
+    }, [args.sideBarExpanded]);
+
+    return (
+      <div className='story-book'>
+        <MainContainer
+          sideBarExpanded={sideBarExpanded}
+          subHeader={
+            <div style={{ padding: '1rem', width: '100%' }}>
+              <BreadcrumbBar list={breadcrumbList} />
+            </div>
+          }
+          footer={
+            <div
+              style={{ padding: '1rem', width: '100%', textAlign: 'center' }}
+            >
+              <span>{footer}</span>
+            </div>
+          }
+        >
+          <Button onClick={toggle}>Collapse</Button>
+        </MainContainer>
+      </div>
+    );
+  },
 };
