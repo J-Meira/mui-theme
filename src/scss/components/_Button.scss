@@ -1,5 +1,5 @@
-.circle-button{
-  border-radius: 7rem !important;
-  line-height: 2.0 !important;
-  padding: 16px !important;
+@media screen and (max-width: 599px) {
+  .responsive-btn {
+    min-width: 40px !important;
+  }
 }

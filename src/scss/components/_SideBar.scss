@@ -24,30 +24,38 @@
   }
 
   .side-bar-header {
+    border-right: 6px $primary solid;
     background-color: $white;
     padding-right: 5px;
     width: 60vw;
-    max-width: 280px;
+    max-width: 275px;
     position: fixed;
     z-index: 1111;
     text-align: center;
-    transition-delay: 30ms;
+    transition-delay: 80ms;
     height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
 
     .logo {
+      transition-delay: 80ms;
       height: calc(64px - 1.2rem);
       cursor: pointer;
     }
   }
 
   .side-bar-body {
-    transition-delay: 30ms;
+    transition-delay: 80ms;
     padding-top: 80px;
     width: 60vw;
     max-width: 280px;
+
+    .MuiList-root {
+      a {
+        text-decoration: none;
+      }
+    }
 
     .secondary {
       background-color: rgba(255, 255, 255, 0.15);
@@ -81,12 +89,11 @@
     left: 0;
     bottom: 0;
     width: 60vw;
-    max-width: 280px;
+    max-width: 275px;
     background-color: $side-bar-bg;
-    transition-delay: 30ms;
+    transition-delay: 80ms;
 
     padding: 1rem 5px 1rem 0;
-
     small {
       margin-left: 1rem;
     }
@@ -95,8 +102,11 @@
 
 .side-bar-collapsed {
   .side-bar-header,
-  .side-bar-body,
   .side-bar-footer {
+    width: 20vw;
+    max-width: 55px;
+  }
+  .side-bar-body {
     width: 20vw;
     max-width: 60px;
   }
