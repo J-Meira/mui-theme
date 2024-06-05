@@ -1,7 +1,7 @@
 {
   "name": "@j-meira/mui-theme",
-  "version": "0.4.35",
-  "description": "ui theme made with MUI 5",
+  "version": "1.0.0",
+  "description": "UI theme made with MUI 5",
   "author": "J-Meira",
   "license": "ISC",
   "main": "./dist/cjs/index.js",
