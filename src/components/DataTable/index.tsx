@@ -66,6 +66,8 @@ export interface DataTableHeaderProps<T extends object> {
 
 export interface DataTableContainerProps {
   children: ReactNode;
+  maxHeight?: number;
+  minHeight?: number;
   tabHeight?: number;
   title: string;
 }

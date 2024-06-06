@@ -3,11 +3,20 @@ import { DataTableContainerProps } from '.';
 
 export const DataTableContainer = ({
   children,
+  maxHeight,
+  minHeight,
   tabHeight,
   title,
 }: DataTableContainerProps) => (
   <TableContainer
-    sx={tabHeight ? { maxHeight: tabHeight, minHeight: tabHeight } : undefined}
+    sx={
+      tabHeight || maxHeight || minHeight
+        ? {
+            maxHeight: maxHeight || tabHeight,
+            minHeight: minHeight || tabHeight,
+          }
+        : undefined
+    }
   >
     <Table
       stickyHeader={tabHeight ? true : false}
