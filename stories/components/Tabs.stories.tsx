@@ -50,7 +50,7 @@ export const Basic: Story = {
       },
       {
         children: (
-          <Grid2 item xs={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
+          <Grid2 size={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
             <List className='tree-list'>
               <TreeListItem
                 label='Add'
