@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { TabsContainer, TreeListItem } from '../../src';
-import { Grid, List, Typography } from '@mui/material';
+import { Grid2, List, Typography } from '@mui/material';
 
 const meta = {
   title: 'Components/Tabs',
@@ -20,7 +20,7 @@ export const Basic: Story = {
     tabs: [
       {
         children: (
-          <Grid item xs={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
+          <Grid2 size={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
             <Typography component='p' variant='caption' color='lightgray'>
               In the midst of a bustling city, where skyscrapers touched the sky
               and neon lights illuminated the night, a peculiar event unfolded.
@@ -43,14 +43,14 @@ export const Basic: Story = {
               friends engaged in animated conversation. Each person had a story,
               he mused, their experiences shaping their unique paths.
             </Typography>
-          </Grid>
+          </Grid2>
         ),
         label: 'Text Example',
         value: 0,
       },
       {
         children: (
-          <Grid item xs={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
+          <Grid2 item xs={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
             <List className='tree-list'>
               <TreeListItem
                 label='Add'
@@ -71,7 +71,7 @@ export const Basic: Story = {
                 onSelect={() => console.log('action')}
               />
             </List>
-          </Grid>
+          </Grid2>
         ),
         error: 'string',
         label: 'Lists',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 
 import { Button, MultiProvider } from '../../src';
 
@@ -52,11 +52,11 @@ export const Basic: Story = {
       },
     },
     children: (
-      <Grid container>
-        <Grid item xs={12}>
+      <Grid2 container>
+        <Grid2 size={12}>
           <Button>Basic</Button>
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     ),
   },
 };

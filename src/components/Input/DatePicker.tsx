@@ -3,18 +3,18 @@ import { Field, FieldProps } from 'formik';
 
 import { Dayjs } from 'dayjs';
 
-import { TextFieldProps, Grid, GridProps } from '@mui/material';
+import { TextFieldProps, Grid2 } from '@mui/material';
 import {
   DatePicker as MuiDatePicker,
   DateTimePicker as MuiDateTimePicker,
 } from '@mui/x-date-pickers';
-import { defaultGrid } from './defaultGrid';
+import { defaultGrid, GridSizeProps } from './defaultGrid';
 
 export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   className?: string;
   disableFuture?: boolean;
   disablePast?: boolean;
-  grid?: GridProps;
+  grid?: GridSizeProps;
   localControl?: boolean;
   amPm?: boolean;
   maxDate?: Dayjs;
@@ -60,13 +60,6 @@ const RenderDatePicker = ({
 }: RenderProps) => {
   const [open, setOpen] = useState(false);
   const [innerValue, setInnerValue] = useState<Dayjs | null>(null);
-
-  const getGrid = (g: GridProps) => {
-    return {
-      ...defaultGrid,
-      ...g,
-    };
-  };
 
   const inputProps: TextFieldProps = {
     margin: 'normal',
@@ -146,9 +139,12 @@ const RenderDatePicker = ({
   return noGrid ? (
     render
   ) : (
-    <Grid item className={className} {...getGrid(grid)}>
+    <Grid2
+      className={className}
+      size={{ ...(defaultGrid as object), ...(grid as object) }}
+    >
       {render}
-    </Grid>
+    </Grid2>
   );
 };
 export const DatePicker = ({

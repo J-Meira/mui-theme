@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 
 import { DatePicker } from '../../src';
 
@@ -19,13 +19,13 @@ export default {
 } satisfies Meta<typeof DatePicker>;
 
 export const Basic = ({ ...args }) => (
-  <Grid container spacing={2}>
+  <Grid2 container spacing={2}>
     <DatePicker {...args} name='basic' localControl />
-  </Grid>
+  </Grid2>
 );
 
 export const WithTime = ({ name, ...args }) => (
-  <Grid container spacing={2}>
+  <Grid2 container spacing={2}>
     <DatePicker {...args} name='WithTime' localControl time />
-  </Grid>
+  </Grid2>
 );

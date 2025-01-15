@@ -4,7 +4,7 @@ import {
   MdFileUpload as FileUploadIcon,
   MdClear as ClearIcon,
 } from 'react-icons/md';
-import { Grid, GridProps, TextField } from '@mui/material';
+import { Grid2, TextField } from '@mui/material';
 import { InputProps } from '.';
 import { InputAd } from './InputAd';
 import { getFileSize } from './getFileSize';
@@ -50,13 +50,6 @@ export const FileUpload = ({
   const [innerValue, setInnerValue] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
   const [fileSize, setFileSize] = useState('');
-
-  const getGrid = (g: GridProps) => {
-    return {
-      ...defaultGrid,
-      ...g,
-    };
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if ((event.target as Element).id == name) inputRef.current?.click();
@@ -136,8 +129,11 @@ export const FileUpload = ({
   return noGrid ? (
     render
   ) : (
-    <Grid item className={className} {...getGrid(grid)}>
+    <Grid2
+      className={className}
+      size={{ ...(defaultGrid as object), ...(grid as object) }}
+    >
       {render}
-    </Grid>
+    </Grid2>
   );
 };

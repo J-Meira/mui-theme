@@ -7,10 +7,9 @@ import {
   TextField,
   createFilterOptions,
   TextFieldProps,
-  GridProps,
-  Grid,
+  Grid2,
 } from '@mui/material';
-import { defaultGrid, useDebounce } from '../..';
+import { defaultGrid, GridSizeProps, useDebounce } from '../..';
 
 export interface SearchGenericProps<T extends object, K extends keyof T> {
   icon?: ReactNode;
@@ -32,7 +31,7 @@ export interface SearchGenericProps<T extends object, K extends keyof T> {
   label?: TextFieldProps['label'];
   required?: TextFieldProps['required'];
   variant?: TextFieldProps['variant'];
-  grid?: GridProps;
+  grid?: GridSizeProps;
   className?: string;
   noGrid?: boolean;
 }
@@ -166,13 +165,6 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
     // eslint-disable-next-line
   }, [field.value]);
 
-  const getGrid = () => {
-    return {
-      ...defaultGrid,
-      ...grid,
-    };
-  };
-
   const render = (() => (
     <Autocomplete
       id={name}
@@ -255,8 +247,11 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
   return noGrid ? (
     render
   ) : (
-    <Grid item className={className} {...getGrid()}>
+    <Grid2
+      className={className}
+      size={{ ...(defaultGrid as object), ...(grid as object) }}
+    >
       {render}
-    </Grid>
+    </Grid2>
   );
 };

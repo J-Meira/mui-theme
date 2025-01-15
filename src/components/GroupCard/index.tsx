@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { Card, CardContent, Grid, GridProps, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Grid2,
+  Grid2Props,
+  Typography,
+} from '@mui/material';
 import {
   MdExpandMore as ExpandMoreIcon,
   MdExpandLess as ExpandLessIcon,
@@ -12,7 +18,7 @@ export type GroupCardProps = {
   noGridSizes?: boolean;
   openStart?: boolean;
   title?: React.ReactNode;
-} & GridProps;
+} & Grid2Props;
 
 export const GroupCard = ({
   children,
@@ -22,17 +28,16 @@ export const GroupCard = ({
   noGridSizes = false,
   openStart = false,
   title,
-  md = 12,
-  sm = 12,
-  xs = 12,
+  size = {
+    md: 12,
+    sm: 12,
+    xs: 12,
+  },
 }: GroupCardProps) => {
   const [open, setOpen] = useState(openStart);
   return (
-    <Grid
-      item
-      xs={noGridSizes ? undefined : xs}
-      sm={noGridSizes ? undefined : sm}
-      md={noGridSizes ? undefined : md}
+    <Grid2
+      size={noGridSizes ? undefined : size}
       className={`group-card ${error ? 'group-card-error' : ''} ${className ? className : ''}`}
     >
       <Card variant='outlined'>
@@ -40,11 +45,10 @@ export const GroupCard = ({
           onClick={collapsed && !open ? () => setOpen(!open) : undefined}
           sx={collapsed && !open ? { cursor: 'pointer' } : undefined}
         >
-          <Grid container spacing={2}>
+          <Grid2 container spacing={2}>
             {title && (
-              <Grid
-                item
-                xs={12}
+              <Grid2
+                size={12}
                 className={`title${collapsed ? ' title-collapsed' : ''}`}
                 onClick={collapsed ? () => setOpen(!open) : undefined}
               >
@@ -58,7 +62,7 @@ export const GroupCard = ({
                     )
                   ) : null}
                 </Typography>
-              </Grid>
+              </Grid2>
             )}
             {collapsed ? (open ? children : null) : children}
             {error && (
@@ -66,9 +70,9 @@ export const GroupCard = ({
                 {error}
               </Typography>
             )}
-          </Grid>
+          </Grid2>
         </CardContent>
       </Card>
-    </Grid>
+    </Grid2>
   );
 };
