@@ -39,10 +39,12 @@ export const Icon = ({
       id={name}
       name={name}
       fullWidth
-      InputProps={{
-        readOnly,
-        endAdornment: !start && adornment,
-        startAdornment: start && adornment,
+      slotProps={{
+        input: {
+          readOnly,
+          endAdornment: !start && adornment,
+          startAdornment: start && adornment,
+        },
       }}
       margin='normal'
       onBlur={onBlur}
@@ -63,10 +65,12 @@ export const Icon = ({
             id={name}
             name={name}
             fullWidth
-            InputProps={{
-              readOnly,
-              endAdornment: !start && adornment,
-              startAdornment: start && adornment,
+            slotProps={{
+              input: {
+                readOnly,
+                endAdornment: !start && adornment,
+                startAdornment: start && adornment,
+              },
             }}
             margin='normal'
             onBlur={(e) => {

@@ -44,11 +44,15 @@ export const SideBar = ({
   useEffect(() => {
     let type: DrawerProps['variant'] = 'permanent';
     let className = 'side-bar';
+
     if (width < 840) {
       type = 'persistent';
-    } else {
+    }
+
+    if (width >= 840) {
       className = `side-bar ${!expanded ? 'side-bar-collapsed' : ''}`;
     }
+
     setType(type);
     setClassName(className);
   }, [width, expanded]);

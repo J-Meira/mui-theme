@@ -4,7 +4,7 @@ import {
   MdFileUpload as FileUploadIcon,
   MdClear as ClearIcon,
 } from 'react-icons/md';
-import { Grid, GridProps, TextField } from '@mui/material';
+import { Grid2, TextField } from '@mui/material';
 import { InputProps } from '.';
 import { InputAd } from './InputAd';
 import { getFileSize } from './getFileSize';
@@ -51,27 +51,21 @@ export const FileUpload = ({
   const [fileName, setFileName] = useState('');
   const [fileSize, setFileSize] = useState('');
 
-  const getGrid = (g: GridProps) => {
-    return {
-      ...defaultGrid,
-      ...g,
-    };
-  };
-
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if ((event.target as Element).id == name) inputRef.current?.click();
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
+
     if (file === null) {
-      handleDelete();
-    } else {
-      setInnerValue(file);
-      onChange?.(file);
-      setFileName(file.name);
-      setFileSize(getFileSize(file.size));
+      return handleDelete();
     }
+
+    setInnerValue(file);
+    onChange?.(file);
+    setFileName(file.name);
+    setFileSize(getFileSize(file.size));
   };
 
   const handleDelete = () => {
@@ -92,18 +86,20 @@ export const FileUpload = ({
         placeholder={placeholder}
         name={name}
         fullWidth
-        InputProps={{
-          readOnly: true,
-          endAdornment: innerValue && (
-            <InputAd
-              label={!hideSizeText && fileSize}
-              icon={<ClearIcon />}
-              action={!readOnly ? handleDelete : undefined}
-              actionTitle={deleteLabel}
-              start={false}
-            />
-          ),
-          startAdornment: <InputAd icon={<FileUploadIcon />} start={true} />,
+        slotProps={{
+          input: {
+            readOnly: true,
+            endAdornment: innerValue && (
+              <InputAd
+                label={!hideSizeText && fileSize}
+                icon={<ClearIcon />}
+                action={!readOnly ? handleDelete : undefined}
+                actionTitle={deleteLabel}
+                start={false}
+              />
+            ),
+            startAdornment: <InputAd icon={<FileUploadIcon />} start={true} />,
+          },
         }}
         margin='normal'
         onChange={undefined}
@@ -136,8 +132,11 @@ export const FileUpload = ({
   return noGrid ? (
     render
   ) : (
-    <Grid item className={className} {...getGrid(grid)}>
+    <Grid2
+      className={className}
+      size={{ ...(defaultGrid as object), ...(grid as object) }}
+    >
       {render}
-    </Grid>
+    </Grid2>
   );
 };

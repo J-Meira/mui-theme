@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 
 import { FileUpload } from '../../src';
 
@@ -28,8 +28,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <FileUpload {...args} />
-    </Grid>
+    </Grid2>
   ),
 };

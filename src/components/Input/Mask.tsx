@@ -11,7 +11,7 @@ export const Mask = ({
   custom,
   helperText,
   localControl,
-  InputProps,
+  slotProps,
   maskModel,
   name,
   onBlur,
@@ -27,27 +27,26 @@ export const Mask = ({
       value = value && value.length > 0 ? value : '';
       if (custom) {
         return custom(value);
-      } else {
-        switch (maskModel) {
-          case 'cpf':
-            return toMask.cpf(value);
-          case 'cnpj':
-            return toMask.cnpj(value);
-          case 'document':
-            return toMask.document(value);
-          case 'number':
-            return value.replace(/\D/g, '');
-          case 'phone':
-            return toMask.phone(value);
-          case 'plate':
-            return toMask.plate(value);
-          case 'postalCode':
-            return toMask.postalCode(value);
-          case 'upper':
-            return toMask.upper(value);
-          default:
-            return value;
-        }
+      }
+      switch (maskModel) {
+        case 'cpf':
+          return toMask.cpf(value);
+        case 'cnpj':
+          return toMask.cnpj(value);
+        case 'document':
+          return toMask.document(value);
+        case 'number':
+          return value.replace(/\D/g, '');
+        case 'phone':
+          return toMask.phone(value);
+        case 'plate':
+          return toMask.plate(value);
+        case 'postalCode':
+          return toMask.postalCode(value);
+        case 'upper':
+          return toMask.upper(value);
+        default:
+          return value;
       }
     },
     [custom, maskModel],
@@ -67,7 +66,13 @@ export const Mask = ({
       id={name}
       name={name}
       fullWidth
-      InputProps={InputProps ? InputProps : { readOnly }}
+      slotProps={
+        slotProps
+          ? slotProps
+          : {
+              input: { readOnly },
+            }
+      }
       margin='normal'
       onBlur={onBlur}
       onChange={(e) => {
@@ -91,7 +96,13 @@ export const Mask = ({
             id={name}
             name={name}
             fullWidth
-            InputProps={InputProps ? InputProps : { readOnly }}
+            slotProps={
+              slotProps
+                ? slotProps
+                : {
+                    input: { readOnly },
+                  }
+            }
             margin='normal'
             onBlur={(e) => {
               field.onBlur(e);

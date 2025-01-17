@@ -51,8 +51,10 @@ export const Select = ({
       id={name}
       name={name}
       fullWidth
-      InputProps={{
-        readOnly,
+      slotProps={{
+        input: {
+          readOnly,
+        },
       }}
       margin='normal'
       onBlur={onBlur}
@@ -77,8 +79,10 @@ export const Select = ({
             id={name}
             name={name}
             fullWidth
-            InputProps={{
-              readOnly,
+            slotProps={{
+              input: {
+                readOnly,
+              },
             }}
             margin='normal'
             onBlur={(e) => {

@@ -1,13 +1,12 @@
 import { ReactNode } from 'react';
 import {
   CheckboxProps,
-  Grid,
-  GridProps,
+  Grid2,
   OutlinedInputProps,
   TextFieldProps,
 } from '@mui/material';
 
-import { defaultGrid } from './defaultGrid';
+import { defaultGrid, GridSizeProps } from './defaultGrid';
 
 import { Basic } from './Basic';
 import { CheckBox } from './CheckBox';
@@ -29,7 +28,7 @@ export interface SelectOptionsProps {
 
 export type InputProps = TextFieldProps & {
   className?: string;
-  grid?: GridProps;
+  grid?: GridSizeProps;
   localControl?: boolean;
   name: string;
   noGrid?: boolean;
@@ -156,13 +155,6 @@ export const Input = ({
   symbol,
   ...rest
 }: InputPropsExt) => {
-  const getGrid = (g: GridProps) => {
-    return {
-      ...defaultGrid,
-      ...g,
-    };
-  };
-
   const render = (() => {
     switch (model) {
       case 'checkBox':
@@ -256,8 +248,11 @@ export const Input = ({
   return noGrid ? (
     render
   ) : (
-    <Grid item className={className} {...getGrid(grid)}>
+    <Grid2
+      className={className}
+      size={{ ...(defaultGrid as object), ...(grid as object) }}
+    >
       {render}
-    </Grid>
+    </Grid2>
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Button, PopUp } from '../../src';
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 
 const meta = {
   title: 'Components/PopUp',
@@ -44,9 +44,7 @@ export const Basic: Story = {
       <div className='story-book'>
         <Button onClick={toggle}>Open</Button>
         <PopUp {...args} action={toggle} open={open} toggle={toggle}>
-          <Grid item xs={12}>
-            PopUp body message here...
-          </Grid>
+          <Grid2 size={12}>PopUp body message here...</Grid2>
         </PopUp>
       </div>
     );

@@ -47,7 +47,9 @@ export const Search = ({
       setSelected(value);
       searchChange?.(Number(value));
       setSelectedItem(newValue);
-    } else if (!newValue || reason === 'clear') {
+    }
+
+    if (!newValue || reason === 'clear') {
       setSelected(-1);
       searchChange?.(-1);
       setSelectedItem(null);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meta } from '@storybook/react';
-import { ButtonProps, Grid, Slider, Typography } from '@mui/material';
+import { ButtonProps, Grid2, Slider, Typography } from '@mui/material';
 import { Button, MultiProvider, useToast } from '../../src';
 
 export default {
@@ -80,8 +80,8 @@ export const Basic = ({ ...args }) => {
         },
       }}
     >
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
+      <Grid2 container spacing={3}>
+        <Grid2 size={6}>
           <Typography color='primary' gutterBottom>
             Snack Max: {snackMax}
           </Typography>
@@ -94,8 +94,8 @@ export const Basic = ({ ...args }) => {
             valueLabelDisplay='auto'
             onChange={(e, newValue) => handleSnackMax(newValue)}
           />
-        </Grid>
-        <Grid item xs={6}>
+        </Grid2>
+        <Grid2 size={6}>
           <Typography color='primary' gutterBottom>
             Auto Hide Duration: {snackAutoHideDuration}
           </Typography>
@@ -108,9 +108,9 @@ export const Basic = ({ ...args }) => {
             valueLabelDisplay='auto'
             onChange={(e, newValue) => handleDuration(newValue)}
           />
-        </Grid>
+        </Grid2>
         {msgTypes.map((m) => (
-          <Grid key={m} item xs={12}>
+          <Grid2 key={m} size={12}>
             <Button
               color={m}
               onClick={() =>
@@ -119,9 +119,9 @@ export const Basic = ({ ...args }) => {
             >
               {`Open ${m === 'inherit' ? 'Default' : m}`}
             </Button>
-          </Grid>
+          </Grid2>
         ))}
-        <Grid item xs={12}>
+        <Grid2 size={12}>
           <Button
             color='inherit'
             onClick={() =>
@@ -130,8 +130,8 @@ export const Basic = ({ ...args }) => {
           >
             {`Open Default with Close function`}
           </Button>
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     </MultiProvider>
   );
 };

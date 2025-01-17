@@ -21,13 +21,12 @@ export const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (
           ) : (
             <Typography key={index}>{item.label}</Typography>
           );
-        } else {
-          return (
-            <Typography key={index} color='textPrimary'>
-              {item.label}
-            </Typography>
-          );
         }
+        return (
+          <Typography key={index} color='textPrimary'>
+            {item.label}
+          </Typography>
+        );
       })}
   </Breadcrumbs>
 );

@@ -43,8 +43,10 @@ export const Password = ({
       id={name}
       name={name}
       fullWidth
-      InputProps={{
-        endAdornment: adornment,
+      slotProps={{
+        input: {
+          endAdornment: adornment,
+        },
       }}
       margin='normal'
       onBlur={onBlur}
@@ -66,8 +68,10 @@ export const Password = ({
             id={name}
             name={name}
             fullWidth
-            InputProps={{
-              endAdornment: adornment,
+            slotProps={{
+              input: {
+                endAdornment: adornment,
+              },
             }}
             margin='normal'
             onBlur={(e) => {

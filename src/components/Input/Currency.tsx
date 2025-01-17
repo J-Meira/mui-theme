@@ -53,11 +53,13 @@ export const Currency = ({
       id={name}
       name={name}
       fullWidth
-      InputProps={{
-        readOnly,
-        startAdornment: !hideSymbol ? (
-          <InputAdornment position='start'>{symbol}</InputAdornment>
-        ) : undefined,
+      slotProps={{
+        input: {
+          readOnly,
+          startAdornment: !hideSymbol ? (
+            <InputAdornment position='start'>{symbol}</InputAdornment>
+          ) : undefined,
+        },
       }}
       margin='normal'
       onBlur={onBlur}
@@ -79,11 +81,13 @@ export const Currency = ({
             id={name}
             name={name}
             fullWidth
-            InputProps={{
-              readOnly,
-              startAdornment: !hideSymbol ? (
-                <InputAdornment position='start'>{symbol}</InputAdornment>
-              ) : undefined,
+            slotProps={{
+              input: {
+                readOnly,
+                startAdornment: !hideSymbol ? (
+                  <InputAdornment position='start'>{symbol}</InputAdornment>
+                ) : undefined,
+              },
             }}
             margin='normal'
             onBlur={(e) => {

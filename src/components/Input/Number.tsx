@@ -28,7 +28,9 @@ export const Number = ({
       if (decimalCount > 1) {
         valueReturn = valueReturn.replace(/\.+$/, '');
       }
-    } else {
+    }
+
+    if (!decimal) {
       valueReturn = String(valueReturn).replace(/[^-0-9]/g, '');
     }
 
@@ -49,8 +51,10 @@ export const Number = ({
       id={name}
       name={name}
       fullWidth
-      InputProps={{
-        readOnly,
+      slotProps={{
+        input: {
+          readOnly,
+        },
       }}
       margin='normal'
       onBlur={onBlur}
@@ -75,8 +79,10 @@ export const Number = ({
             id={name}
             name={name}
             fullWidth
-            InputProps={{
-              readOnly,
+            slotProps={{
+              input: {
+                readOnly,
+              },
             }}
             margin='normal'
             onBlur={(e) => {

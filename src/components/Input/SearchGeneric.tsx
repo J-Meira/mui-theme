@@ -7,10 +7,9 @@ import {
   TextField,
   createFilterOptions,
   TextFieldProps,
-  GridProps,
-  Grid,
+  Grid2,
 } from '@mui/material';
-import { defaultGrid, useDebounce } from '../..';
+import { defaultGrid, GridSizeProps, useDebounce } from '../..';
 
 export interface SearchGenericProps<T extends object, K extends keyof T> {
   icon?: ReactNode;
@@ -32,7 +31,7 @@ export interface SearchGenericProps<T extends object, K extends keyof T> {
   label?: TextFieldProps['label'];
   required?: TextFieldProps['required'];
   variant?: TextFieldProps['variant'];
-  grid?: GridProps;
+  grid?: GridSizeProps;
   className?: string;
   noGrid?: boolean;
 }
@@ -64,12 +63,12 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
   const { setFieldValue } = useFormikContext();
   const [field, meta, helper] = useField(name);
   const { touched, error } = meta;
-  const { debounce } = useDebounce();
+  const { debounce } = useDebounce(300, false);
 
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<T[K]>(defaultSelected);
   const [options, setOptions] = useState<T[]>([]);
+  const [selected, setSelected] = useState<T[K]>(defaultSelected);
   const [selectedItem, setSelectedItem] = useState<T | null>(null);
 
   const filter = createFilterOptions<T>();
@@ -91,14 +90,33 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
       } else if (setCreatableValue) {
         setCreatableValue(null);
       }
-    } else if (!newValue || reason === 'clear') {
+    }
+
+    if (!newValue || reason === 'clear') {
       setSelected(defaultSelected);
       onSelected?.(null);
       setSelectedItem(null);
       setCreatableValue?.(null);
       helper.setTouched(true);
     }
+
     setFieldValue(name, value, true);
+  };
+
+  const initialGetList = (id: T[K]) => {
+    getList(undefined, id).then((result) => {
+      setLoading(false);
+      setOptions(result);
+      const selectedOption = result?.find(
+        (op) => op[idKey] === initialSelected,
+      );
+      if (selectedOption) {
+        field.onChange({ target: { name, value: initialSelected } });
+        setSelected(defaultSelected);
+        onSelected?.(selectedOption);
+        setSelectedItem(selectedOption);
+      }
+    });
   };
 
   useEffect(() => {
@@ -126,25 +144,13 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
   useEffect(() => {
     if (initialSelected && initialSelected !== defaultSelected) {
       setLoading(true);
-      getList(undefined, initialSelected).then((result) => {
-        setLoading(false);
-        setOptions(result);
-        const selectedOption = result?.find(
-          (op) => op[idKey] === initialSelected,
-        );
-        if (selectedOption) {
-          field.onChange({ target: { name, value: initialSelected } });
-          setSelected(defaultSelected);
-          onSelected?.(selectedOption);
-          setSelectedItem(selectedOption);
-        }
-      });
-    } else {
-      setSelected(defaultSelected);
-      onSelected?.(null);
-      setSelectedItem(null);
-      setCreatableValue?.(null);
+      return initialGetList(initialSelected);
     }
+    setSelected(defaultSelected);
+    onSelected?.(null);
+    setSelectedItem(null);
+    setCreatableValue?.(null);
+
     // eslint-disable-next-line
   }, [initialSelected]);
 
@@ -152,26 +158,20 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
     if (field.value !== selected) {
       const fV = field.value;
       const selectedOption = options?.find((op) => op[idKey] === fV);
+
       if (selectedOption) {
         setSelected(fV);
         onSelected?.(selectedOption);
-        setSelectedItem(selectedOption);
-      } else {
-        setSelected(defaultSelected);
-        onSelected?.(null);
-        setSelectedItem(null);
+        return setSelectedItem(selectedOption);
       }
+
+      setSelected(defaultSelected);
+      onSelected?.(null);
+      setSelectedItem(null);
     }
 
     // eslint-disable-next-line
   }, [field.value]);
-
-  const getGrid = () => {
-    return {
-      ...defaultGrid,
-      ...grid,
-    };
-  };
 
   const render = (() => (
     <Autocomplete
@@ -215,30 +215,32 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
           autoFocus={autoFocus}
           error={touched && !!error}
           helperText={touched && error}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: iconAction ? (
-              <>
-                <div
-                  className={`search-input-endAdornment${
-                    selectedItem ? '' : ' unSelect'
-                  }`}
-                >
-                  <IconButton
-                    aria-label={`input action ${iconActionTitle || ''}`}
-                    onClick={iconAction}
-                    edge={false}
-                    tabIndex={-1}
-                    title={iconActionTitle}
+          slotProps={{
+            input: {
+              ...params.InputProps,
+              endAdornment: iconAction ? (
+                <>
+                  <div
+                    className={`search-input-endAdornment${
+                      selectedItem ? '' : ' unSelect'
+                    }`}
                   >
-                    {icon}
-                  </IconButton>
-                </div>
-                {params.InputProps.endAdornment}
-              </>
-            ) : (
-              params.InputProps.endAdornment
-            ),
+                    <IconButton
+                      aria-label={`input action ${iconActionTitle || ''}`}
+                      onClick={iconAction}
+                      edge={false}
+                      tabIndex={-1}
+                      title={iconActionTitle}
+                    >
+                      {icon}
+                    </IconButton>
+                  </div>
+                  {params.InputProps.endAdornment}
+                </>
+              ) : (
+                params.InputProps.endAdornment
+              ),
+            },
           }}
           label={label}
           margin='normal'
@@ -255,8 +257,11 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
   return noGrid ? (
     render
   ) : (
-    <Grid item className={className} {...getGrid()}>
+    <Grid2
+      className={className}
+      size={{ ...(defaultGrid as object), ...(grid as object) }}
+    >
       {render}
-    </Grid>
+    </Grid2>
   );
 };

@@ -118,7 +118,8 @@ export const DataTableBody = <T extends object>({
                         {col.render(row, index)}
                       </TableCell>
                     );
-                  } else if (col.limit) {
+                  }
+                  if (col.limit) {
                     return (
                       <TableCell
                         key={index + key.toString() + cIndex}
@@ -136,25 +137,8 @@ export const DataTableBody = <T extends object>({
                         {compressedString(row[key] as string, col.limit)}
                       </TableCell>
                     );
-                    //                   } else if (col.objectKey) {
-                    // return (
-                    //   <TableCell
-                    //     key={index + key.toString()+cIndex}
-                    //     align={col.align}
-                    //     padding={col.disablePadding ? 'none' : 'normal'}
-                    //     className={getClassName(col.className)}
-                    //     onClick={
-                    //       customClickAction
-                    //         ? () => customClickAction(row)
-                    //         : isSelectable && isSelectableAnywhereElse
-                    //           ? () => onSelectRow(row)
-                    //           : undefined
-                    //     }
-                    //   >
-                    //     {row[key][col.objectKey]}
-                    //   </TableCell>
-                    // );
-                  } else if (col.enumObject) {
+                  }
+                  if (col.enumObject) {
                     return (
                       <TableCell
                         key={index + key.toString() + cIndex}
@@ -172,25 +156,24 @@ export const DataTableBody = <T extends object>({
                         {col.enumObject[row[key] as number]}
                       </TableCell>
                     );
-                  } else {
-                    return (
-                      <TableCell
-                        key={index + key.toString() + cIndex}
-                        align={col.align}
-                        padding={col.disablePadding ? 'none' : 'normal'}
-                        className={getClassName(col.className)}
-                        onClick={
-                          customClickAction
-                            ? () => customClickAction(row)
-                            : isSelectable && isSelectableAnywhereElse
-                              ? () => onSelectRow(row)
-                              : undefined
-                        }
-                      >
-                        {row[key] as string}
-                      </TableCell>
-                    );
                   }
+                  return (
+                    <TableCell
+                      key={index + key.toString() + cIndex}
+                      align={col.align}
+                      padding={col.disablePadding ? 'none' : 'normal'}
+                      className={getClassName(col.className)}
+                      onClick={
+                        customClickAction
+                          ? () => customClickAction(row)
+                          : isSelectable && isSelectableAnywhereElse
+                            ? () => onSelectRow(row)
+                            : undefined
+                      }
+                    >
+                      {row[key] as string}
+                    </TableCell>
+                  );
                 })}
             </TableRow>
           );

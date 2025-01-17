@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { MdEdit as EditIcon } from 'react-icons/md';
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import { Formik } from 'formik';
 
 import { Input, SelectOptionsProps } from '../../src';
@@ -45,78 +45,78 @@ type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const CheckBox: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='checkBox' label='Check box label' />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const Currency: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='currency' />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const Icon: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input
         {...args}
         model='icon'
         icon={<EditIcon />}
         action={() => console.log('action')}
       />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const Mask: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='mask' maskModel='document' />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const Number: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='number' />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const Password: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='password' />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const RadioGroup: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='radioGroup' />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const RadioGroupInRow: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='radioGroup' rowDirection />
-    </Grid>
+    </Grid2>
   ),
 };
 
@@ -129,9 +129,9 @@ export const Search: Story = {
       >
         {({ handleSubmit }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
+            <Grid2 container spacing={2}>
               <Input {...args} localControl model='search' />
-            </Grid>
+            </Grid2>
           </form>
         )}
       </Formik>
@@ -174,7 +174,7 @@ export const SearchRequest: Story = {
       >
         {({ handleSubmit }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
+            <Grid2 container spacing={2}>
               <Input
                 {...args}
                 model='searchRequest'
@@ -182,7 +182,7 @@ export const SearchRequest: Story = {
                 creatable
                 getList={search}
               />
-            </Grid>
+            </Grid2>
           </form>
         )}
       </Formik>
@@ -192,16 +192,16 @@ export const SearchRequest: Story = {
 
 export const Select: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} NoNativeOptions model='select' defaultOption='Select' />
-    </Grid>
+    </Grid2>
   ),
 };
 
 export const SelectNative: Story = {
   render: ({ ...args }) => (
-    <Grid container spacing={2}>
+    <Grid2 container spacing={2}>
       <Input {...args} model='select' defaultOption='Select' />
-    </Grid>
+    </Grid2>
   ),
 };
