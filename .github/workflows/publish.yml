@@ -29,8 +29,12 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: 22.12.0
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@j-meira'
+
+      - name: Install NPM Login
+        run: npm install -g npm-cli-login
+
+      - name: NPM Login
+        run: NPM_USER=${{ vars.NPM_USER }} NPM_PASS=${{ secrets.NPM_PASS }} NPM_EMAIL=${{ vars.NPM_EMAIL }} NPM_REGISTRY=${{ vars.NPM_URL }} NPM_SCOPE=@j-meira npm-cli-login
 
       - name: Install PNPM
         run: npm install -g pnpm
@@ -43,8 +47,6 @@ jobs:
 
       - name: Publish Theme
         run: pnpm publish --no-git-check
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.AUTH_GITHUB_TOKEN}}
 
       - name: Build StoryBook
         run: pnpm build-sb
