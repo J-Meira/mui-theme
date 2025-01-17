@@ -42,7 +42,7 @@ jobs:
       - name: Publish Theme
         run: pnpm publish --no-git-check
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.AUTH_TOKEN}}
 
       - name: Build StoryBook
         run: pnpm build-sb
