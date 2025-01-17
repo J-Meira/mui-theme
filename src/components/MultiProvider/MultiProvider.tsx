@@ -111,13 +111,14 @@ export const MultiProvider: FC<MultiProviderProps> = ({
         '(prefers-color-scheme: dark)',
       ).matches;
       localStorage.setItem('MUI_THEME_DARk', JSON.stringify(userTheme));
-      setDark(userTheme);
-    } else {
-      const localDark = JSON.parse(
-        localStorage.getItem('MUI_THEME_DARk') || 'false',
-      );
-      if (localDark) setDark(true);
+      return setDark(userTheme);
     }
+
+    const localDark = JSON.parse(
+      localStorage.getItem('MUI_THEME_DARk') || 'false',
+    );
+
+    if (localDark) setDark(true);
   }, []);
 
   return (

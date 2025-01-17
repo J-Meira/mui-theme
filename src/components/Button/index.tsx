@@ -16,9 +16,9 @@ type ButtonPropsExt = ButtonProps & ResponsiveButtonProps;
 
 export const Button = ({
   children,
+  contained = false,
   icon,
   model,
-  contained = false,
   variant = 'contained',
   ...rest
 }: ButtonPropsExt) => {

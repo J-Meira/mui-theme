@@ -57,14 +57,15 @@ export const FileUpload = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
+
     if (file === null) {
-      handleDelete();
-    } else {
-      setInnerValue(file);
-      onChange?.(file);
-      setFileName(file.name);
-      setFileSize(getFileSize(file.size));
+      return handleDelete();
     }
+
+    setInnerValue(file);
+    onChange?.(file);
+    setFileName(file.name);
+    setFileSize(getFileSize(file.size));
   };
 
   const handleDelete = () => {
@@ -85,18 +86,20 @@ export const FileUpload = ({
         placeholder={placeholder}
         name={name}
         fullWidth
-        InputProps={{
-          readOnly: true,
-          endAdornment: innerValue && (
-            <InputAd
-              label={!hideSizeText && fileSize}
-              icon={<ClearIcon />}
-              action={!readOnly ? handleDelete : undefined}
-              actionTitle={deleteLabel}
-              start={false}
-            />
-          ),
-          startAdornment: <InputAd icon={<FileUploadIcon />} start={true} />,
+        slotProps={{
+          input: {
+            readOnly: true,
+            endAdornment: innerValue && (
+              <InputAd
+                label={!hideSizeText && fileSize}
+                icon={<ClearIcon />}
+                action={!readOnly ? handleDelete : undefined}
+                actionTitle={deleteLabel}
+                start={false}
+              />
+            ),
+            startAdornment: <InputAd icon={<FileUploadIcon />} start={true} />,
+          },
         }}
         margin='normal'
         onChange={undefined}

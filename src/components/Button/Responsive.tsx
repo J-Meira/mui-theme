@@ -1,6 +1,7 @@
-import { Button, Typography } from '@mui/material';
-import { ButtonProps, ResponsiveButtonProps } from '.';
 import { MdEdit as DefaultIcon } from 'react-icons/md';
+import { Button, Typography } from '@mui/material';
+
+import { ButtonProps, ResponsiveButtonProps } from '.';
 
 export const Responsive = ({
   children,

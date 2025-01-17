@@ -66,7 +66,9 @@ export const SearchRequest = ({
       } else if (setCreatableValue) {
         setCreatableValue('');
       }
-    } else if (!newValue || reason === 'clear') {
+    }
+
+    if (!newValue || reason === 'clear') {
       setSelected(-1);
       searchChange?.(-1);
       setSelectedItem(null);
@@ -124,12 +126,12 @@ export const SearchRequest = ({
       if (selectedOption) {
         setSelected(fV);
         searchChange?.(fV);
-        setSelectedItem(selectedOption);
-      } else {
-        setSelected(-1);
-        searchChange?.(-1);
-        setSelectedItem(null);
+        return setSelectedItem(selectedOption);
       }
+
+      setSelected(-1);
+      searchChange?.(-1);
+      setSelectedItem(null);
     }
 
     // eslint-disable-next-line
@@ -180,30 +182,32 @@ export const SearchRequest = ({
           autoFocus={autoFocus}
           error={touched && !!error}
           helperText={touched && error}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: iconAction ? (
-              <>
-                <div
-                  className={`search-input-endAdornment${
-                    selectedItem ? '' : ' unSelect'
-                  }`}
-                >
-                  <IconButton
-                    aria-label={`input action ${iconActionTitle || ''}`}
-                    onClick={iconAction}
-                    edge={false}
-                    tabIndex={-1}
-                    title={iconActionTitle}
+          slotProps={{
+            input: {
+              ...params.InputProps,
+              endAdornment: iconAction ? (
+                <>
+                  <div
+                    className={`search-input-endAdornment${
+                      selectedItem ? '' : ' unSelect'
+                    }`}
                   >
-                    {icon}
-                  </IconButton>
-                </div>
-                {params.InputProps.endAdornment}
-              </>
-            ) : (
-              params.InputProps.endAdornment
-            ),
+                    <IconButton
+                      aria-label={`input action ${iconActionTitle || ''}`}
+                      onClick={iconAction}
+                      edge={false}
+                      tabIndex={-1}
+                      title={iconActionTitle}
+                    >
+                      {icon}
+                    </IconButton>
+                  </div>
+                  {params.InputProps.endAdornment}
+                </>
+              ) : (
+                params.InputProps.endAdornment
+              ),
+            },
           }}
           label={label}
           margin='normal'

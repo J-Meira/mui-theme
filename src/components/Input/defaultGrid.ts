@@ -1,13 +1,11 @@
 import { Breakpoint, GridSize } from '@mui/material';
 
-export type ResponsiveStyleValue<T> =
-  | T
-  | Array<T | null>
+export type GridSizeProps =
+  | GridSize
+  | Array<GridSize | null>
   | {
-      [key in Breakpoint]?: T | null;
+      [key in Breakpoint]?: GridSize | null;
     };
-
-export type GridSizeProps = ResponsiveStyleValue<GridSize>;
 
 export const defaultGrid: GridSizeProps = {
   xs: 12,

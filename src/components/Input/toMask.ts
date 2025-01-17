@@ -1,62 +1,76 @@
-const document = (value: string) => {
-  const valueTest = value.replace(/\D/g, '');
-  if (!valueTest || valueTest.length <= 11) {
-    return cpf(value);
-  } else {
-    return cnpj(value);
-  }
-};
-
 const cpf = (value: string) => {
-  value = value
+  return value
     .replace(/\D/g, '')
     .replace(/(\d{3})(\d)/, '$1.$2')
     .replace(/(\d{3})(\d)/, '$1.$2')
     .replace(/(\d{3})(\d{1,2})/, '$1-$2')
     .replace(/(-\d{2})\d+?$/, '$1');
-  return value;
 };
 
 const cnpj = (value: string) => {
-  value = value
+  return value
     .replace(/\D/g, '')
     .replace(/(\d{2})(\d)/, '$1.$2')
     .replace(/(\d{3})(\d)/, '$1.$2')
     .replace(/(\d{3})(\d)/, '$1/$2')
     .replace(/(\d{4})(\d{1,2})/, '$1-$2')
     .replace(/(-\d{2})\d+?$/, '$1');
-  return value;
 };
 
-const postalCode = (value: string) => {
-  value = value
+const creditCard = (value: string) => {
+  return value
     .replace(/\D/g, '')
-    .replace(/(\d{5})(\d)/, '$1-$2')
-    .replace(/(\d{5})(\d)/, '$1-$2')
-    .slice(0, 9);
-  return value;
+    .replace(/(\d{4})(\d)/, '$1 $2')
+    .replace(/(\d{4})(\d)/, '$1 $2')
+    .replace(/(\d{4})(\d)/, '$1 $2')
+    .replace(/(\d{4})(\d+?$)/, '$1');
+};
+
+const currency = (value: string, maxSize?: number) => {
+  if (value.length === 0) return '';
+
+  const onlyNumbers = value
+    .replace(/\D/g, '')
+    .replace(/^(0+)(\d)/g, '$2')
+    .slice(0, maxSize);
+
+  if (onlyNumbers.length === 1) return `0,0${onlyNumbers}`;
+  if (onlyNumbers.length === 2) return `0,${onlyNumbers}`;
+
+  return `${onlyNumbers
+    .slice(0, -2)
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')},${onlyNumbers.slice(-2)}`;
+};
+
+const document = (value: string) => {
+  const onlyNumbers = value.replace(/\D/g, '');
+  if (!onlyNumbers || onlyNumbers.length <= 11) return cpf(value);
+
+  return cnpj(value);
 };
 
 const phone = (value: string) => {
-  value = value.replace(/\D/g, '');
-  if (value.length < 11) {
-    value = value
+  const onlyNumbers = value.replace(/\D/g, '');
+  if (onlyNumbers.length < 11)
+    return onlyNumbers
       .replace(/(\d{0})(\d)/, '$1($2')
       .replace(/(\d{2})(\d)/, '$1) $2')
       .replace(/(\d{4})(\d)/, '$1-$2')
       .replace(/(\d{4})(\d+?$)/, '$1');
-  } else {
-    value = value
-      .replace(/(\d{0})(\d)/, '$1($2')
-      .replace(/(\d{2})(\d)/, '$1) $2')
-      .replace(/(\d{5})(\d)/, '$1-$2')
-      .replace(/(\d{4})(\d+?$)/, '$1');
-  }
-  return value;
+
+  return onlyNumbers
+    .replace(/(\d{0})(\d)/, '$1($2')
+    .replace(/(\d{2})(\d)/, '$1) $2')
+    .replace(/(\d{5})(\d)/, '$1-$2')
+    .replace(/(\d{4})(\d+?$)/, '$1');
 };
 
-const upper = (value: string) => {
-  return value.toUpperCase();
+const postalCode = (value: string) => {
+  return value
+    .replace(/\D/g, '')
+    .replace(/(\d{5})(\d)/, '$1-$2')
+    .replace(/(\d{5})(\d)/, '$1-$2')
+    .slice(0, 9);
 };
 
 const plate = (value: string) => {
@@ -69,36 +83,18 @@ const plate = (value: string) => {
   return value.toUpperCase();
 };
 
-const currency = (value: string) => {
-  let valueReturn = '';
-  if (value && value.length > 0) {
-    value = value.replace(/\D/g, '').replace(/^(0+)(\d)/g, '$2');
-    let int = '';
-    switch (value.length) {
-      case 1:
-        valueReturn = `0,0${value}`;
-        break;
-      case 2:
-        valueReturn = `0,${value}`;
-        break;
-      default:
-        int = value.slice(0, -2);
-        int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-        valueReturn = `${int},${value.slice(-2)}`;
-        break;
-    }
-  }
-
-  return valueReturn;
+const upper = (value: string) => {
+  return value.toUpperCase();
 };
 
 export const toMask = {
-  document,
-  cpf,
   cnpj,
-  postalCode,
-  phone,
-  plate,
+  cpf,
+  creditCard,
   currency,
+  document,
+  phone,
+  postalCode,
+  plate,
   upper,
 };
