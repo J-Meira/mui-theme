@@ -193,7 +193,7 @@ export const SearchRequest: Story = {
 export const Select: Story = {
   render: ({ ...args }) => (
     <Grid2 container spacing={2}>
-      <Input {...args} NoNativeOptions model='select' defaultOption='Select' />
+      <Input {...args} noNativeOptions model='select' defaultOption='Select' />
     </Grid2>
   ),
 };

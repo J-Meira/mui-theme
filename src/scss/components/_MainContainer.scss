@@ -1,5 +1,8 @@
+@use '../variables' as *;
+
 $main-padding: 64px 0 0 min(280px, 60vw);
 $main-padding-expanded: min(60px, 20vw);
+
 .main {
   flex: 1 1 auto;
   overflow-y: scroll;

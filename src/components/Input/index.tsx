@@ -113,7 +113,7 @@ export interface SearchRequestProps {
 }
 export interface SelectProps {
   defaultOption?: string;
-  NoNativeOptions?: boolean;
+  noNativeOptions?: boolean;
 }
 
 type InputPropsExt = InputProps &
@@ -145,7 +145,7 @@ export const Input = ({
   localControl = false,
   maskModel,
   model,
-  NoNativeOptions,
+  noNativeOptions,
   noGrid,
   options,
   rowDirection,
@@ -235,7 +235,7 @@ export const Input = ({
           <Select
             localControl={localControl}
             defaultOption={defaultOption}
-            NoNativeOptions={NoNativeOptions}
+            noNativeOptions={noNativeOptions}
             options={options}
             {...rest}
           />

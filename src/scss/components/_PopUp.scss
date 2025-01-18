@@ -1,3 +1,5 @@
+@use '../variables' as *;
+
 .pop-up {
   .MuiDialogTitle-root {
     background-color: $primary;

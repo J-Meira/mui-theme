@@ -13,7 +13,7 @@ export const Select = ({
   helperText,
   localControl,
   name,
-  NoNativeOptions,
+  noNativeOptions,
   options,
   onBlur,
   onChange,
@@ -24,14 +24,14 @@ export const Select = ({
   const renderOptions = () => (
     <>
       {defaultOption &&
-        (NoNativeOptions ? (
+        (noNativeOptions ? (
           <MenuItem value={-1}>{defaultOption}</MenuItem>
         ) : (
           <option value={-1}>{defaultOption}</option>
         ))}
       {options &&
         options.map((op) =>
-          NoNativeOptions ? (
+          noNativeOptions ? (
             <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
               {op.label}
             </MenuItem>
@@ -60,7 +60,7 @@ export const Select = ({
       onBlur={onBlur}
       onChange={onChange}
       select
-      SelectProps={!NoNativeOptions ? { native: true } : undefined}
+      SelectProps={!noNativeOptions ? { native: true } : undefined}
       size='small'
       variant={variant}
     >
@@ -94,7 +94,7 @@ export const Select = ({
               onChange?.(e);
             }}
             select
-            SelectProps={!NoNativeOptions ? { native: true } : undefined}
+            SelectProps={!noNativeOptions ? { native: true } : undefined}
             size='small'
             variant={variant}
           >
