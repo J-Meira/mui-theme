@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
   DataTableContainer,
@@ -86,9 +86,10 @@ export const Basic: Story = {
     const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.checked) {
         setSelected(args.rowCount);
-      } else {
-        setSelected(0);
+        return;
       }
+
+      setSelected(0);
     };
 
     useEffect(() => {
@@ -108,7 +109,8 @@ export const Basic: Story = {
         <DataTableGrid>
           <DataTableContainer title={tableTitle}>
             <DataTableHeader
-              {...args}
+              columns={args.columns}
+              rowCount={args.rowCount}
               order={order}
               orderBy={orderBy}
               numSelected={selected}
@@ -138,9 +140,10 @@ export const Selectable: Story = {
     const onSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.checked) {
         setSelected(args.rowCount);
-      } else {
-        setSelected(0);
+        return;
       }
+
+      setSelected(0);
     };
 
     useEffect(() => {
@@ -160,7 +163,8 @@ export const Selectable: Story = {
         <DataTableGrid>
           <DataTableContainer title={tableTitle}>
             <DataTableHeader
-              {...args}
+              columns={args.columns}
+              rowCount={args.rowCount}
               order={order}
               orderBy={orderBy}
               numSelected={selected}

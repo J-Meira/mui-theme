@@ -7,6 +7,9 @@
 
 # testing
 /coverage
+*-test.txt
+test-results.txt
+test-output.txt
 
 # production
 /build
@@ -28,3 +31,4 @@ yarn.lock
 #dev tools
 .env
 /.ssl
+debug-storybook.log

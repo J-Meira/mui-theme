@@ -1,5 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { MenuItem, TextField } from '@mui/material';
+import { memo, useCallback, useMemo } from 'react';
 import { InputProps, SelectProps } from '.';
 
 type SelectPropsEx = Omit<
@@ -8,7 +9,7 @@ type SelectPropsEx = Omit<
 > &
   SelectProps;
 
-export const Select = ({
+const SelectComponent = ({
   defaultOption,
   helperText,
   localControl,
@@ -21,55 +22,70 @@ export const Select = ({
   variant = 'outlined',
   ...rest
 }: SelectPropsEx) => {
-  const renderOptions = () => (
-    <>
-      {defaultOption &&
-        (noNativeOptions ? (
-          <MenuItem value={-1}>{defaultOption}</MenuItem>
-        ) : (
-          <option value={-1}>{defaultOption}</option>
-        ))}
-      {options &&
-        options.map((op) =>
-          noNativeOptions ? (
-            <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
-              {op.label}
-            </MenuItem>
-          ) : (
-            <option key={`${op.value}-${op.label}`} value={op.value}>
-              {op.label}
-            </option>
-          ),
-        )}
-    </>
+  const renderOptions = useCallback(() => {
+    const defaultOptionElement =
+      defaultOption &&
+      (noNativeOptions ? (
+        <MenuItem value={-1}>{defaultOption}</MenuItem>
+      ) : (
+        <option value={-1}>{defaultOption}</option>
+      ));
+
+    const optionElements = options?.map((op) =>
+      noNativeOptions ? (
+        <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
+          {op.label}
+        </MenuItem>
+      ) : (
+        <option key={`${op.value}-${op.label}`} value={op.value}>
+          {op.label}
+        </option>
+      ),
+    );
+
+    return (
+      <>
+        {defaultOptionElement}
+        {optionElements}
+      </>
+    );
+  }, [defaultOption, noNativeOptions, options]);
+
+  const slotPropsConfig = useMemo(
+    () => ({
+      input: { readOnly },
+      select: !noNativeOptions ? { native: true } : undefined,
+    }),
+    [noNativeOptions, readOnly],
   );
-  return localControl ? (
-    <TextField
-      {...rest}
-      error={!!helperText}
-      helperText={helperText}
-      id={name}
-      name={name}
-      fullWidth
-      slotProps={{
-        input: {
-          readOnly,
-        },
-      }}
-      margin='normal'
-      onBlur={onBlur}
-      onChange={onChange}
-      select
-      SelectProps={!noNativeOptions ? { native: true } : undefined}
-      size='small'
-      variant={variant}
-    >
-      {renderOptions()}
-    </TextField>
-  ) : (
+
+  if (localControl) {
+    return (
+      <TextField
+        {...rest}
+        error={!!helperText}
+        helperText={helperText}
+        id={name}
+        name={name}
+        fullWidth
+        slotProps={slotPropsConfig}
+        margin='normal'
+        onBlur={onBlur}
+        onChange={onChange}
+        select
+        size='small'
+        variant={variant}
+      >
+        {renderOptions()}
+      </TextField>
+    );
+  }
+
+  return (
     <Field name={name}>
       {({ field, meta }: FieldProps) => {
         const { touched, error } = meta;
+
         return (
           <TextField
             {...rest}
@@ -79,11 +95,7 @@ export const Select = ({
             id={name}
             name={name}
             fullWidth
-            slotProps={{
-              input: {
-                readOnly,
-              },
-            }}
+            slotProps={slotPropsConfig}
             margin='normal'
             onBlur={(e) => {
               field.onBlur(e);
@@ -94,7 +106,6 @@ export const Select = ({
               onChange?.(e);
             }}
             select
-            SelectProps={!noNativeOptions ? { native: true } : undefined}
             size='small'
             variant={variant}
           >
@@ -105,3 +116,5 @@ export const Select = ({
     </Field>
   );
 };
+
+export const Select = memo(SelectComponent);

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Meta } from '@storybook/react';
-import { Grid2 } from '@mui/material';
+import { Meta, StoryObj } from '@storybook/react-vite';
+import { Grid } from '@mui/material';
 
 import { DatePicker } from '../../src';
 
-export default {
+const meta = {
   title: 'Components/InputDatePicker',
   component: DatePicker,
   tags: ['autodocs'],
@@ -18,14 +18,22 @@ export default {
   },
 } satisfies Meta<typeof DatePicker>;
 
-export const Basic = ({ ...args }) => (
-  <Grid2 container spacing={2}>
-    <DatePicker {...args} name='basic' localControl />
-  </Grid2>
-);
+export default meta;
 
-export const WithTime = ({ name, ...args }) => (
-  <Grid2 container spacing={2}>
-    <DatePicker {...args} name='WithTime' localControl time />
-  </Grid2>
-);
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
+  render: (args) => (
+    <Grid container spacing={2}>
+      <DatePicker {...args} name='basic' localControl />
+    </Grid>
+  ),
+};
+
+export const WithTime: Story = {
+  render: (args) => (
+    <Grid container spacing={2}>
+      <DatePicker {...args} name='WithTime' localControl time />
+    </Grid>
+  ),
+};

@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  Grid2,
-  Grid2Props,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, Grid, GridProps, Typography } from '@mui/material';
 import {
   MdExpandMore as ExpandMoreIcon,
   MdExpandLess as ExpandLessIcon,
@@ -18,7 +12,7 @@ export type GroupCardProps = {
   noGridSizes?: boolean;
   openStart?: boolean;
   title?: React.ReactNode;
-} & Grid2Props;
+} & GridProps;
 
 export const GroupCard = ({
   children,
@@ -28,27 +22,29 @@ export const GroupCard = ({
   noGridSizes = false,
   openStart = false,
   title,
-  size = {
-    md: 12,
-    sm: 12,
-    xs: 12,
-  },
+  ...rest
 }: GroupCardProps) => {
   const [open, setOpen] = useState(openStart);
+
+  const gridSize = noGridSizes
+    ? undefined
+    : rest.size || { xs: 12, sm: 12, md: 12 };
+
   return (
-    <Grid2
-      size={noGridSizes ? undefined : size}
+    <Grid
+      size={gridSize}
       className={`group-card ${error ? 'group-card-error' : ''} ${className ? className : ''}`}
+      {...rest}
     >
       <Card variant='outlined'>
         <CardContent
           onClick={collapsed && !open ? () => setOpen(!open) : undefined}
           sx={collapsed && !open ? { cursor: 'pointer' } : undefined}
         >
-          <Grid2 container spacing={2}>
+          <Grid container spacing={2}>
             {title && (
-              <Grid2
-                size={12}
+              <Grid
+                size={{ xs: 12 }}
                 className={`title${collapsed ? ' title-collapsed' : ''}`}
                 onClick={collapsed ? () => setOpen(!open) : undefined}
               >
@@ -62,7 +58,7 @@ export const GroupCard = ({
                     )
                   ) : null}
                 </Typography>
-              </Grid2>
+              </Grid>
             )}
             {collapsed ? (open ? children : null) : children}
             {error && (
@@ -70,9 +66,9 @@ export const GroupCard = ({
                 {error}
               </Typography>
             )}
-          </Grid2>
+          </Grid>
         </CardContent>
       </Card>
-    </Grid2>
+    </Grid>
   );
 };

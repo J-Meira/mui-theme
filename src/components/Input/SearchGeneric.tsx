@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState, useCallback } from 'react';
 import { useField, useFormikContext } from 'formik';
 import {
   Autocomplete,
@@ -7,7 +7,7 @@ import {
   TextField,
   createFilterOptions,
   TextFieldProps,
-  Grid2,
+  Grid,
 } from '@mui/material';
 import { defaultGrid, GridSizeProps, useDebounce } from '../..';
 
@@ -79,15 +79,16 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
 
   const handle = (e: any, newValue: T, reason: string) => {
     e.target.name = name;
-    let value = defaultSelected;
+    const value = newValue ? newValue[idKey] : defaultSelected;
+
     if (newValue) {
-      value = newValue[idKey];
       setSelected(value);
       onSelected?.(newValue);
       setSelectedItem(newValue);
       if (value === 0 && setCreatableValue && creatable && initialCreatable) {
         setCreatableValue(newValue);
-      } else if (setCreatableValue) {
+      }
+      if (value !== 0 && setCreatableValue) {
         setCreatableValue(null);
       }
     }
@@ -103,21 +104,25 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
     setFieldValue(name, value, true);
   };
 
-  const initialGetList = (id: T[K]) => {
-    getList(undefined, id).then((result) => {
-      setLoading(false);
-      setOptions(result);
-      const selectedOption = result?.find(
-        (op) => op[idKey] === initialSelected,
-      );
-      if (selectedOption) {
-        field.onChange({ target: { name, value: initialSelected } });
-        setSelected(defaultSelected);
-        onSelected?.(selectedOption);
-        setSelectedItem(selectedOption);
-      }
-    });
-  };
+  const initialGetList = useCallback(
+    (id: T[K]) => {
+      setLoading(true);
+      getList(undefined, id).then((result) => {
+        setLoading(false);
+        setOptions(result);
+        const selectedOption = result?.find(
+          (op) => op[idKey] === initialSelected,
+        );
+        if (selectedOption) {
+          field.onChange({ target: { name, value: initialSelected } });
+          setSelected(defaultSelected);
+          onSelected?.(selectedOption);
+          setSelectedItem(selectedOption);
+        }
+      });
+    },
+    [getList, idKey, initialSelected, field, name, defaultSelected, onSelected],
+  );
 
   useEffect(() => {
     debounce(() => {
@@ -143,26 +148,28 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
 
   useEffect(() => {
     if (initialSelected && initialSelected !== defaultSelected) {
-      setLoading(true);
-      return initialGetList(initialSelected);
+      initialGetList(initialSelected);
+      return;
     }
+
     setSelected(defaultSelected);
     onSelected?.(null);
     setSelectedItem(null);
     setCreatableValue?.(null);
 
     // eslint-disable-next-line
-  }, [initialSelected]);
+  }, [initialSelected, initialGetList]);
 
   useEffect(() => {
-    if (field.value !== selected) {
-      const fV = field.value;
+    const fV = field.value;
+    if (fV !== selected) {
       const selectedOption = options?.find((op) => op[idKey] === fV);
 
       if (selectedOption) {
         setSelected(fV);
         onSelected?.(selectedOption);
-        return setSelectedItem(selectedOption);
+        setSelectedItem(selectedOption);
+        return;
       }
 
       setSelected(defaultSelected);
@@ -257,11 +264,11 @@ export const SearchGeneric = <T extends object, K extends keyof T>({
   return noGrid ? (
     render
   ) : (
-    <Grid2
+    <Grid
       className={className}
       size={{ ...(defaultGrid as object), ...(grid as object) }}
     >
       {render}
-    </Grid2>
+    </Grid>
   );
 };

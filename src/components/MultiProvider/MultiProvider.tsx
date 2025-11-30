@@ -106,18 +106,18 @@ export const MultiProvider: FC<MultiProviderProps> = ({
   );
 
   useEffect(() => {
-    if (!localStorage.getItem('MUI_THEME_DARk')) {
+    const storedTheme = localStorage.getItem('MUI_THEME_DARk');
+
+    if (!storedTheme) {
       const userTheme = window.matchMedia(
         '(prefers-color-scheme: dark)',
       ).matches;
       localStorage.setItem('MUI_THEME_DARk', JSON.stringify(userTheme));
-      return setDark(userTheme);
+      setDark(userTheme);
+      return;
     }
 
-    const localDark = JSON.parse(
-      localStorage.getItem('MUI_THEME_DARk') || 'false',
-    );
-
+    const localDark = JSON.parse(storedTheme);
     if (localDark) setDark(true);
   }, []);
 

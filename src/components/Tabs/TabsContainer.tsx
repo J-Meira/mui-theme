@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Grid2,
+  Grid,
   Tab,
   Tabs as MuiTabs,
   Box,
@@ -36,7 +36,7 @@ export const TabsContainer = ({ title, tabs }: TabsProps) => {
   };
 
   return (
-    <Grid2 size={12}>
+    <Grid size={{ xs: 12 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <MuiTabs
           value={active}
@@ -91,6 +91,6 @@ export const TabsContainer = ({ title, tabs }: TabsProps) => {
           title={title}
         />
       ))}
-    </Grid2>
+    </Grid>
   );
 };

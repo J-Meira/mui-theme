@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import {
   DataTableBody,
   DataTableColumnsProps,
@@ -84,7 +84,7 @@ export const Basic: Story = {
     deleteLabel: 'Delete',
     selected: [],
   },
-  render: ({ ...args }) => {
+  render: () => {
     const [selected, setSelected] = useState<IRows['id'][]>([]);
 
     const onSelectRow = (row: IRows) => {
@@ -124,8 +124,8 @@ export const Basic: Story = {
           </DataTableContainer>
           {selected.length > 0 && (
             <DataTableSelected<IRows>
-              {...args}
               totalOfRows={selected.length}
+              totalOfRowsLabel='Selected'
               onDelete={() => console.log('delete')}
               selected={selected}
             />

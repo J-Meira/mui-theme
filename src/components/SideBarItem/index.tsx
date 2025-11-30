@@ -35,7 +35,7 @@ export const SideBarItem = ({
   children,
   expanded,
   icon,
-  initialState,
+  initialState = false,
   label,
   secondary,
   selected,

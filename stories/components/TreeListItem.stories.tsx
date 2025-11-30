@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta } from '@storybook/react';
+import { Meta } from '@storybook/react-vite';
 
 import { TreeListItem } from '../../src';
 import { List } from '@mui/material';

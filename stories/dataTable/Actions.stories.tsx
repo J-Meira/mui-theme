@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
 
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { DataTableActions, DataTableGrid, DatePicker } from '../../src';
 

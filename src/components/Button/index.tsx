@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 
 import { Basic } from './Basic';
@@ -14,7 +14,7 @@ export interface ResponsiveButtonProps {
 }
 type ButtonPropsExt = ButtonProps & ResponsiveButtonProps;
 
-export const Button = ({
+const ButtonComponent = ({
   children,
   contained = false,
   icon,
@@ -25,6 +25,7 @@ export const Button = ({
   switch (model) {
     case 'icon':
       return <Icon {...rest}>{children}</Icon>;
+
     case 'responsive':
       return (
         <Responsive
@@ -36,6 +37,7 @@ export const Button = ({
           {children}
         </Responsive>
       );
+
     default:
       return (
         <Basic fullWidth={!contained} variant={variant} {...rest}>
@@ -44,3 +46,5 @@ export const Button = ({
       );
   }
 };
+
+export const Button = memo(ButtonComponent);

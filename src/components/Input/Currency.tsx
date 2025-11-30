@@ -24,22 +24,19 @@ export const Currency = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const value = e.target.value.replace(/\D/g, '').replace(/^(0+)(\d)/g, '$2');
-    let valueReturn = null;
-    let int = '';
-
-    switch (value.length) {
-      case 1:
-        valueReturn = `0.0${value}`;
-        break;
-      case 2:
-        valueReturn = `0.${value}`;
-        break;
-      default:
-        int = value.slice(0, -2);
-        int = int.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1');
-        valueReturn = `${int}.${value.slice(-2)}`;
-        break;
-    }
+    const valueReturn = (() => {
+      switch (value.length) {
+        case 1:
+          return `0.0${value}`;
+        case 2:
+          return `0.${value}`;
+        default: {
+          const intPart = value.slice(0, -2);
+          const formattedInt = intPart.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1');
+          return `${formattedInt}.${value.slice(-2)}`;
+        }
+      }
+    })();
     e.target.value = valueReturn;
 
     return e;

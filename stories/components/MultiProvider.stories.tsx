@@ -1,6 +1,6 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
-import { Grid2 } from '@mui/material';
+import { Meta, StoryObj } from '@storybook/react-vite';
+import { Grid } from '@mui/material';
 
 import { Button, MultiProvider } from '../../src';
 
@@ -52,11 +52,11 @@ export const Basic: Story = {
       },
     },
     children: (
-      <Grid2 container>
-        <Grid2 size={12}>
+      <Grid container>
+        <Grid size={12}>
           <Button>Basic</Button>
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     ),
   },
 };

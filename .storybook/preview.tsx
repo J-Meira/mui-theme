@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { themes } from '@storybook/theming';
-import type { Preview } from '@storybook/react';
+import { themes } from 'storybook/theming';
+import type { Preview } from '@storybook/react-vite';
 
 import { MultiProvider } from '../src';
 

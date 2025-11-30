@@ -1,4 +1,4 @@
-import { Grid2 } from '@mui/material';
+import { Grid } from '@mui/material';
 
 export interface TabPanelProps {
   activeValue: number;
@@ -15,7 +15,7 @@ export const TabPanel = ({
   value,
   title,
 }: TabPanelProps) => (
-  <Grid2
+  <Grid
     container
     role='tabpanel'
     display={activeValue !== value ? 'none' : 'flex'}
@@ -23,5 +23,5 @@ export const TabPanel = ({
     aria-labelledby={`tab-${title}-${value}`}
   >
     {children}
-  </Grid2>
+  </Grid>
 );

@@ -19,26 +19,19 @@ export const Number = ({
   const mask = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    let valueReturn = e.target.value;
+    const rawValue = e.target.value;
+    const valueReturn = decimal
+      ? (() => {
+          const cleaned = String(rawValue).replace(/[^-0-9.]/g, '');
+          const decimalCount = cleaned.split('.').length - 1;
+          return decimalCount > 1 ? cleaned.replace(/\.+$/, '') : cleaned;
+        })()
+      : String(rawValue).replace(/[^-0-9]/g, '');
 
-    if (decimal) {
-      valueReturn = String(valueReturn).replace(/[^-0-9.]/g, '');
-      const decimalCount = valueReturn.split('.').length - 1;
+    const finalValue =
+      valueReturn.indexOf('-') > 0 ? valueReturn.replace('-', '') : valueReturn;
 
-      if (decimalCount > 1) {
-        valueReturn = valueReturn.replace(/\.+$/, '');
-      }
-    }
-
-    if (!decimal) {
-      valueReturn = String(valueReturn).replace(/[^-0-9]/g, '');
-    }
-
-    if (valueReturn.indexOf('-') > 0) {
-      valueReturn = valueReturn.replace('-', '');
-    }
-
-    e.target.value = valueReturn;
+    e.target.value = finalValue;
 
     return e;
   };

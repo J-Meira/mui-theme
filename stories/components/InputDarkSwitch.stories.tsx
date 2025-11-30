@@ -1,6 +1,6 @@
 import React from 'react';
-import { Meta } from '@storybook/react';
-import { Card, Grid2, Typography } from '@mui/material';
+import { Meta } from '@storybook/react-vite';
+import { Card, Grid, Typography } from '@mui/material';
 
 import { DarkSwitch } from '../../src';
 
@@ -11,11 +11,11 @@ export default {
 } satisfies Meta<typeof DarkSwitch>;
 
 export const Basic = () => (
-  <Grid2 container spacing={2}>
-    <Grid2 size={12}>
+  <Grid container spacing={2}>
+    <Grid size={12}>
       <DarkSwitch />
-    </Grid2>
-    <Grid2 size={12}>
+    </Grid>
+    <Grid size={12}>
       <Card>
         <Typography component='p' variant='caption' sx={{ padding: '2rem' }}>
           In the midst of a bustling city, where skyscrapers touched the sky and
@@ -25,6 +25,6 @@ export const Basic = () => (
           named Maxwell navigated the urban maze.
         </Typography>
       </Card>
-    </Grid2>
-  </Grid2>
+    </Grid>
+  </Grid>
 );
