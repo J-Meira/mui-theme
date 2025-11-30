@@ -1,6 +1,6 @@
 import { Field, FieldProps } from 'formik';
 import { MenuItem, TextField } from '@mui/material';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { InputProps, SelectProps } from '.';
 
 type SelectPropsEx = Omit<
@@ -22,33 +22,40 @@ const SelectComponent = ({
   variant = 'outlined',
   ...rest
 }: SelectPropsEx) => {
-  const renderOptions = useCallback(() => {
-    const defaultOptionElement =
-      defaultOption &&
-      (noNativeOptions ? (
-        <MenuItem value={-1}>{defaultOption}</MenuItem>
-      ) : (
-        <option value={-1}>{defaultOption}</option>
-      ));
+  const renderOptions = useMemo(() => {
+    const items = [];
 
-    const optionElements = options?.map((op) =>
-      noNativeOptions ? (
-        <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
-          {op.label}
-        </MenuItem>
-      ) : (
-        <option key={`${op.value}-${op.label}`} value={op.value}>
-          {op.label}
-        </option>
-      ),
-    );
+    if (defaultOption) {
+      items.push(
+        noNativeOptions ? (
+          <MenuItem key='default-option' value={-1}>
+            {defaultOption}
+          </MenuItem>
+        ) : (
+          <option key='default-option' value={-1}>
+            {defaultOption}
+          </option>
+        ),
+      );
+    }
 
-    return (
-      <>
-        {defaultOptionElement}
-        {optionElements}
-      </>
-    );
+    if (options) {
+      options.forEach((op) => {
+        items.push(
+          noNativeOptions ? (
+            <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
+              {op.label}
+            </MenuItem>
+          ) : (
+            <option key={`${op.value}-${op.label}`} value={op.value}>
+              {op.label}
+            </option>
+          ),
+        );
+      });
+    }
+
+    return items;
   }, [defaultOption, noNativeOptions, options]);
 
   const slotPropsConfig = useMemo(
@@ -76,7 +83,7 @@ const SelectComponent = ({
         size='small'
         variant={variant}
       >
-        {renderOptions()}
+        {renderOptions}
       </TextField>
     );
   }
@@ -109,7 +116,7 @@ const SelectComponent = ({
             size='small'
             variant={variant}
           >
-            {renderOptions()}
+            {renderOptions}
           </TextField>
         );
       }}
