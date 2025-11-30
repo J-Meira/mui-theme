@@ -5,7 +5,7 @@ import {
   DialogContent,
   IconButton,
   DialogTitle,
-  Grid2,
+  Grid,
   DialogProps,
 } from '@mui/material';
 import { MdClose as CloseIcon } from 'react-icons/md';
@@ -54,8 +54,12 @@ export const PopUp = ({
     <Dialog
       open={open}
       onClose={handleClose}
-      aria-labelledby={title ?? `pop-up-${name}-title`}
-      className={`pop-up ${className ? className : ''}`}
+      aria-labelledby={`pop-up-${name}-title`}
+      slotProps={{
+        paper: {
+          className: `pop-up ${className ? className : ''}`,
+        },
+      }}
       {...rest}
     >
       {title && (
@@ -72,9 +76,9 @@ export const PopUp = ({
       )}
       <DialogContent>
         {grided ? (
-          <Grid2 container spacing={3}>
+          <Grid container spacing={3}>
             {children}
-          </Grid2>
+          </Grid>
         ) : (
           children
         )}

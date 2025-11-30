@@ -4,24 +4,23 @@ import {
   MdFileUpload as FileUploadIcon,
   MdClear as ClearIcon,
 } from 'react-icons/md';
-import { Grid2, TextField } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import { InputProps } from '.';
 import { InputAd } from './InputAd';
 import { getFileSize } from './getFileSize';
 import { defaultGrid } from './defaultGrid';
 
-export interface FileUploadProps
-  extends Omit<
-    InputProps,
-    | 'value'
-    | 'onChange'
-    | 'select'
-    | 'type'
-    | 'multiline'
-    | 'defaultValue'
-    | 'localControl'
-    | 'model'
-  > {
+export interface FileUploadProps extends Omit<
+  InputProps,
+  | 'value'
+  | 'onChange'
+  | 'select'
+  | 'type'
+  | 'multiline'
+  | 'defaultValue'
+  | 'localControl'
+  | 'model'
+> {
   value?: File | null;
   hideSizeText?: boolean;
   onChange?: (value: File | null) => void;
@@ -132,11 +131,11 @@ export const FileUpload = ({
   return noGrid ? (
     render
   ) : (
-    <Grid2
+    <Grid
       className={className}
       size={{ ...(defaultGrid as object), ...(grid as object) }}
     >
       {render}
-    </Grid2>
+    </Grid>
   );
 };

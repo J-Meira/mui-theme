@@ -42,19 +42,15 @@ export const SideBar = ({
   const openPopover = Boolean(anchorEl);
 
   useEffect(() => {
-    let type: DrawerProps['variant'] = 'permanent';
-    let className = 'side-bar';
+    const newType: DrawerProps['variant'] =
+      width < 840 ? 'persistent' : 'permanent';
+    const newClassName =
+      width >= 840
+        ? `side-bar ${!expanded ? 'side-bar-collapsed' : ''}`
+        : 'side-bar';
 
-    if (width < 840) {
-      type = 'persistent';
-    }
-
-    if (width >= 840) {
-      className = `side-bar ${!expanded ? 'side-bar-collapsed' : ''}`;
-    }
-
-    setType(type);
-    setClassName(className);
+    setType(newType);
+    setClassName(newClassName);
   }, [width, expanded]);
 
   return (

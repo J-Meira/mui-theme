@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
   DataTableBody,
@@ -19,7 +19,7 @@ interface IRows {
 }
 
 const levelEnum: EnumObjectProps = {
-  0: 'Roockie',
+  0: 'Rookie',
   1: 'Casual',
   2: 'Regular',
 };
@@ -120,7 +120,8 @@ export const Basic: Story = {
         <DataTableGrid>
           <DataTableContainer title={args.title}>
             <DataTableBody
-              {...args}
+              columns={args.columns}
+              rows={args.rows}
               title={args.title}
               isSelected={isSelected}
               onSelectRow={onSelectRow}

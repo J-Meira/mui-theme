@@ -1,4 +1,4 @@
-import { Grid2, MenuItem, TextField, Typography } from '@mui/material';
+import { Grid, MenuItem, TextField, Typography } from '@mui/material';
 
 import { DataTableFooterProps } from '.';
 
@@ -25,7 +25,7 @@ export const DataTableFooter = ({
   totalOfRows,
 }: DataTableFooterProps) => {
   return (
-    <Grid2 container className='data-table-footer'>
+    <Grid container className='data-table-footer'>
       <Typography variant='caption' component='span'>
         {rowsPerPageLabel}
       </Typography>
@@ -50,6 +50,6 @@ export const DataTableFooter = ({
       <Typography variant='caption' component='span'>
         {rowsPerPageDetails(currentSize, totalOfRows)}
       </Typography>
-    </Grid2>
+    </Grid>
   );
 };

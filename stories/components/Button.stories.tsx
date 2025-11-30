@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import { MdEdit as EditIcon } from 'react-icons/md';
 
 import { Button } from '../../src';
@@ -30,7 +30,7 @@ export const Responsive: Story = {
   },
 };
 
-export const Icom: Story = {
+export const Icon: Story = {
   args: {
     children: <EditIcon />,
     model: 'icon',

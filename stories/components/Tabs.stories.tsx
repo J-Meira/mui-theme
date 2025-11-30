@@ -1,8 +1,8 @@
 import React from 'react';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { TabsContainer, TreeListItem } from '../../src';
-import { Grid2, List, Typography } from '@mui/material';
+import { Grid, List, Typography } from '@mui/material';
 
 const meta = {
   title: 'Components/Tabs',
@@ -20,7 +20,7 @@ export const Basic: Story = {
     tabs: [
       {
         children: (
-          <Grid2 size={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
+          <Grid size={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
             <Typography component='p' variant='caption' color='lightgray'>
               In the midst of a bustling city, where skyscrapers touched the sky
               and neon lights illuminated the night, a peculiar event unfolded.
@@ -43,14 +43,14 @@ export const Basic: Story = {
               friends engaged in animated conversation. Each person had a story,
               he mused, their experiences shaping their unique paths.
             </Typography>
-          </Grid2>
+          </Grid>
         ),
         label: 'Text Example',
         value: 0,
       },
       {
         children: (
-          <Grid2 size={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
+          <Grid size={12} sx={{ padding: '3rem', textAlign: 'justify' }}>
             <List className='tree-list'>
               <TreeListItem
                 label='Add'
@@ -71,7 +71,7 @@ export const Basic: Story = {
                 onSelect={() => console.log('action')}
               />
             </List>
-          </Grid2>
+          </Grid>
         ),
         error: 'string',
         label: 'Lists',

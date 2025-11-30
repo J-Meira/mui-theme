@@ -63,7 +63,8 @@ export const SearchRequest = ({
       setSelectedItem(newValue);
       if (value === 0 && setCreatableValue && creatable) {
         setCreatableValue(inputValue);
-      } else if (setCreatableValue) {
+      }
+      if (value !== 0 && setCreatableValue) {
         setCreatableValue('');
       }
     }
@@ -118,15 +119,16 @@ export const SearchRequest = ({
   }, [initialSelected]);
 
   useEffect(() => {
-    if (field.value !== selected) {
-      const fV = field.value;
+    const fV = field.value;
+    if (fV !== selected) {
       const selectedOption: SelectOptionsProps | undefined = options?.find(
         (op) => op.value === fV,
       );
       if (selectedOption) {
         setSelected(fV);
         searchChange?.(fV);
-        return setSelectedItem(selectedOption);
+        setSelectedItem(selectedOption);
+        return;
       }
 
       setSelected(-1);

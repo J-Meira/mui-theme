@@ -6,6 +6,17 @@ import { IconProps, InputProps } from '.';
 type IconPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
   IconProps;
 
+type TextFieldPropsEx = Omit<
+  IconPropsEx,
+  | 'action'
+  | 'actionTitle'
+  | 'helperText'
+  | 'icon'
+  | 'localControl'
+  | 'name'
+  | 'start'
+>;
+
 //ToDo fix label start position on start icon type
 
 export const Icon = ({
@@ -31,9 +42,11 @@ export const Icon = ({
     />
   );
 
+  const textFieldProps: TextFieldPropsEx = rest;
+
   return localControl ? (
     <TextField
-      {...rest}
+      {...textFieldProps}
       error={!!helperText}
       helperText={helperText}
       id={name}
@@ -58,7 +71,7 @@ export const Icon = ({
         const { touched, error } = meta;
         return (
           <TextField
-            {...rest}
+            {...textFieldProps}
             {...field}
             error={touched && !!error}
             helperText={touched && error}

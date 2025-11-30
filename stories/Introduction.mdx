@@ -1,4 +1,4 @@
-import { Meta, Source, Canvas } from '@storybook/blocks';
+import { Meta, Source, Canvas } from '@storybook/addon-docs/blocks';
 
 import Code from './assets/code-brackets.svg';
 import Node from './assets/node.svg';
@@ -384,5 +384,210 @@ COPY --from=build-stage /app/dist/ /usr/share/nginx/html
 COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
 `}
 />
+
+<div className='subheading'>Migrate to v2 guide</div>
+
+Use the follow instructions files to help migrate to v2 from v1
+
+<Source
+  dark
+  language='markdown'
+  code={`# MUI-Theme v2 Migration Guide
+
+## Breaking Changes
+
+### 1. MUI Core v7 Upgrade
+
+- MUI Grid v2 is now the default (old Grid props removed)
+- \`md\`, \`lg\`, \`xl\` props replaced with \`size\` prop
+- Breaking changes in Date Pickers (v8.19.0)
+
+### 2. React 19 Compatibility
+
+- Updated prop validation (remove invalid DOM props)
+- Enhanced type safety requirements
+
+### 3. Vite 7
+
+- New build configuration
+- Updated dependencies
+
+## Migration Steps
+
+### Step 1: Update Dependencies
+
+\`\`\`bash
+
+# Update mui-theme
+
+pnpm update @j-meira/mui-theme@latest
+
+# Update peer dependencies
+
+pnpm add react@^19.0.0 react-dom@^19.0.0
+
+# Update MUI packages (if using directly)
+
+pnpm add @mui/material@^7.3.5 @mui/x-date-pickers@^8.19.0
+\`\`\`
+
+### Step 2: Fix MUI Grid Props
+
+Replace old Grid props with new \`size\` prop:
+
+\`\`\`typescript
+// ❌ Before (v1)
+
+<Grid xs={12} md={6} lg={4}>
+  <Component />
+</Grid>
+
+// ✅ After (v2)
+
+<Grid size={{ xs: 12, md: 6, lg: 4 }}>
+  <Component />
+</Grid>
+
+// Or use single size for all breakpoints
+
+<Grid size={12}>
+  <Component />
+</Grid>
+\`\`\`
+
+### Step 3: Update DatePicker Usage
+
+\`\`\`typescript
+// The DatePicker component API remains the same
+// but internal MUI changes may affect custom implementations
+import { DatePicker } from '@j-meira/mui-theme';
+
+// ✅ Still works
+
+<DatePicker label='Select Date' value={date} onChange={handleChange} />
+\`\`\`
+
+### Step 4: Remove Invalid Props
+
+\`\`\`typescript
+// ❌ Before (causes React 19 warnings)
+
+<input action='/submit' searchChange={handler} />
+
+// ✅ After
+
+<form action='/submit'>
+  <input onChange={handler} />
+</form>
+\`\`\`
+
+### Step 5: Run Tests
+
+\`\`\`bash
+
+# Verify everything works
+
+pnpm test
+
+# Check for type errors
+
+pnpm tsc --noEmit
+
+# Build to ensure no runtime errors
+
+pnpm build
+\`\`\`
+
+## Component-Specific Changes
+
+### No Breaking Changes:
+
+- ✅ Button (all variants)
+- ✅ DataTable (all components)
+- ✅ Input components (Basic, CheckBox, Currency, etc.)
+- ✅ Hooks (useCookies, useToast, useDebounce, etc.)
+- ✅ MultiProvider
+- ✅ Dialog, PopUp, Header, SideBar, etc.
+
+### Internal Updates Only:
+
+- DatePicker: Updated to MUI v8 pickers (API unchanged)
+- SearchGeneric/SearchRequest: Code optimizations (no API changes)
+
+## Migration Checklist
+
+- [ ] Update @j-meira/mui-theme to v2.0.x
+- [ ] Update React to v19
+- [ ] Update MUI packages to v7
+- [ ] Replace all Grid \`xs\`/\`md\`/\`lg\` props with \`size\`
+- [ ] Remove invalid DOM props (action, searchChange, etc.)
+- [ ] Run tests and fix any failures
+- [ ] Build project successfully
+- [ ] Test in development environment
+- [ ] Deploy to staging for QA
+- [ ] Update documentation
+
+## GitHub Copilot Instructions
+
+Add these instructions to \`.github/copilot-instructions.md\`:
+
+\`\`\`markdown
+
+# MUI-Theme v2 Migration Instructions
+
+## Context
+
+- Using @j-meira/mui-theme v2.0.x
+- MUI Core v7 with Grid v2
+- React 19
+- Vite 7
+
+## Rules
+
+1. Always use \`size\` prop for Grid instead of xs/md/lg
+2. Never add \`action\` prop to input elements
+3. Use \`const\` over \`let\` when possible
+4. No \`else\` statements - use early returns or ternary
+5. Do NOT add comments during refactoring
+
+## Grid Pattern
+
+\\\`\\\`\\\`tsx
+// ✅ Correct
+
+<Grid size={{ xs: 12, md: 6 }}>Content</Grid>
+<Grid size={12}>Full width</Grid>
+
+// ❌ Wrong
+
+<Grid xs={12} md={6}>
+  Content
+</Grid>
+\\\`\\\`\\\`
+
+## Available Components
+
+All components from @j-meira/mui-theme:
+
+- Button, DataTable, Input variants
+- DatePicker, FileUpload, Search components
+- MultiProvider, Header, SideBar
+- Hooks: useCookies, useToast, useDebounce
+
+## MUI Components
+
+Can also use MUI components directly:
+
+- All @mui/material components
+- All @mui/x-date-pickers components
+- Follow MUI v7 API documentation
+  \`\`\`
+
+## Support Resources
+
+- [MUI v7 Migration Guide](https://mui.com/material-ui/migration/migration-v6/)
+- [React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
+  `}
+  />
 
 > Contact: <a href='https://github.com/J-Meira' target='_blank'> J.Meira</a>

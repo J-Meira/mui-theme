@@ -23,7 +23,7 @@ export const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (
           );
         }
         return (
-          <Typography key={index} color='textPrimary'>
+          <Typography key={index} sx={{ color: 'text.primary' }}>
             {item.label}
           </Typography>
         );

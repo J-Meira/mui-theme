@@ -1,38 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { Meta } from '@storybook/react';
+import React from 'react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Header, Button } from '../../src';
 
-export default {
+const meta = {
   title: 'Components/Header',
   component: Header,
   tags: ['autodocs'],
+} satisfies Meta<typeof Header>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {
   args: {
     sideBarExpanded: false,
   },
-} satisfies Meta<typeof Header>;
+  render: (args) => {
+    const [sideBarExpanded, setSideBarExpanded] = React.useState(
+      args.sideBarExpanded,
+    );
+    const handleClose = () => setSideBarExpanded(!sideBarExpanded);
 
-export const Basic = ({ ...args }) => {
-  const [sideBarExpanded, setSideBarExpanded] = useState(false);
-  const handleClose = () => setSideBarExpanded(!sideBarExpanded);
+    React.useEffect(() => {
+      setSideBarExpanded(args.sideBarExpanded);
+    }, [args.sideBarExpanded]);
 
-  useEffect(() => {
-    setSideBarExpanded(args.sideBarExpanded);
-
-    // eslint-disable-next-line
-  }, [args.sideBarExpanded]);
-
-  return (
-    <div className='story-book'>
-      <Header sideBarControl={handleClose} sideBarExpanded={sideBarExpanded} />
-    </div>
-  );
+    return (
+      <div className='story-book'>
+        <Header
+          sideBarControl={handleClose}
+          sideBarExpanded={sideBarExpanded}
+        />
+      </div>
+    );
+  },
 };
 
-export const Full = () => {
-  return (
+export const Full: Story = {
+  render: () => (
     <div className='story-book'>
       <Header navigation={<Button color='secondary'>Action</Button>} />
     </div>
-  );
+  ),
 };

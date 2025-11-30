@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo, useMemo } from 'react';
 import {
   CheckboxProps,
-  Grid2,
+  Grid,
   OutlinedInputProps,
   TextFieldProps,
 } from '@mui/material';
@@ -129,7 +129,20 @@ type InputPropsExt = InputProps &
   SearchRequestProps &
   SelectProps;
 
-export const Input = ({
+const INPUT_COMPONENTS = {
+  checkBox: CheckBox,
+  currency: Currency,
+  icon: Icon,
+  mask: Mask,
+  number: Number,
+  password: Password,
+  radioGroup: RadioGroup,
+  search: Search,
+  searchRequest: SearchRequest,
+  select: Select,
+} as const;
+
+const InputComponent = ({
   action,
   actionTitle,
   className,
@@ -155,104 +168,83 @@ export const Input = ({
   symbol,
   ...rest
 }: InputPropsExt) => {
-  const render = (() => {
-    switch (model) {
-      case 'checkBox':
-        return <CheckBox localControl={localControl} {...rest} />;
-      case 'currency':
-        return (
-          <Currency
-            localControl={localControl}
-            hideSymbol={hideSymbol}
-            symbol={symbol}
-            {...rest}
-          />
-        );
-      case 'icon':
-        return (
-          <Icon
-            localControl={localControl}
-            action={action}
-            actionTitle={actionTitle}
-            icon={icon}
-            start={start}
-            {...rest}
-          />
-        );
-      case 'mask':
-        return (
-          <Mask
-            localControl={localControl}
-            custom={custom}
-            maskModel={maskModel}
-            {...rest}
-          />
-        );
-      case 'number':
-        return (
-          <Number localControl={localControl} decimal={decimal} {...rest} />
-        );
-      case 'password':
-        return (
-          <Password
-            localControl={localControl}
-            hideTitle={hideTitle}
-            showTitle={showTitle}
-            {...rest}
-          />
-        );
-      case 'radioGroup':
-        return (
-          <RadioGroup
-            localControl={localControl}
-            rowDirection={rowDirection}
-            options={options}
-            {...rest}
-          />
-        );
-      case 'search':
-        return (
-          <Search
-            creatable={creatable}
-            creatableLabel={creatableLabel}
-            searchChange={searchChange}
-            options={options}
-            {...rest}
-          />
-        );
-      case 'searchRequest':
-        return (
-          <SearchRequest
-            creatable={creatable}
-            creatableLabel={creatableLabel}
-            searchChange={searchChange}
-            icon={icon}
-            {...rest}
-          />
-        );
-      case 'select':
-        return (
-          <Select
-            localControl={localControl}
-            defaultOption={defaultOption}
-            noNativeOptions={noNativeOptions}
-            options={options}
-            {...rest}
-          />
-        );
-      default:
-        return <Basic localControl={localControl} {...rest} />;
-    }
-  })();
+  const gridSize = useMemo(
+    () => ({
+      ...defaultGrid,
+      ...grid,
+    }),
+    [grid],
+  );
 
-  return noGrid ? (
-    render
-  ) : (
-    <Grid2
-      className={className}
-      size={{ ...(defaultGrid as object), ...(grid as object) }}
-    >
-      {render}
-    </Grid2>
+  const renderInput = useMemo(() => {
+    if (!model) {
+      return <Basic localControl={localControl} {...rest} />;
+    }
+
+    const Component = INPUT_COMPONENTS[model];
+    if (!Component) {
+      return <Basic localControl={localControl} {...rest} />;
+    }
+
+    const componentProps = {
+      localControl,
+      ...rest,
+      ...(model === 'checkBox' && {}),
+      ...(model === 'currency' && { hideSymbol, symbol }),
+      ...(model === 'icon' && { action, actionTitle, icon, start }),
+      ...(model === 'mask' && { custom, maskModel }),
+      ...(model === 'number' && { decimal }),
+      ...(model === 'password' && { hideTitle, showTitle }),
+      ...(model === 'radioGroup' && { rowDirection, options }),
+      ...(model === 'search' && {
+        creatable,
+        creatableLabel,
+        searchChange,
+        options,
+      }),
+      ...(model === 'searchRequest' && {
+        creatable,
+        creatableLabel,
+        searchChange,
+        icon,
+      }),
+      ...(model === 'select' && { defaultOption, noNativeOptions, options }),
+    };
+
+    return <Component {...componentProps} />;
+  }, [
+    model,
+    localControl,
+    rest,
+    hideSymbol,
+    symbol,
+    action,
+    actionTitle,
+    icon,
+    start,
+    custom,
+    maskModel,
+    decimal,
+    hideTitle,
+    showTitle,
+    rowDirection,
+    options,
+    creatable,
+    creatableLabel,
+    searchChange,
+    defaultOption,
+    noNativeOptions,
+  ]);
+
+  if (noGrid) {
+    return renderInput;
+  }
+
+  return (
+    <Grid className={className} {...gridSize}>
+      {renderInput}
+    </Grid>
   );
 };
+
+export const Input = memo(InputComponent);

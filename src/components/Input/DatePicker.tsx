@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Field, FieldProps } from 'formik';
 
 import { Dayjs } from 'dayjs';
 
-import { TextFieldProps, Grid2 } from '@mui/material';
+import { TextFieldProps, Grid } from '@mui/material';
 import {
   DatePicker as MuiDatePicker,
   DateTimePicker as MuiDateTimePicker,
@@ -87,11 +87,11 @@ const RenderDatePicker = ({
     disabled: disabled,
   };
 
-  useEffect(() => {
-    if (innerValue != value) setInnerValue(value);
+  const currentValue = useMemo(() => value, [value]);
 
-    // eslint-disable-next-line
-  }, [value]);
+  useEffect(() => {
+    setInnerValue(currentValue);
+  }, [currentValue]);
 
   const render = (() => {
     return time ? (
@@ -139,12 +139,12 @@ const RenderDatePicker = ({
   return noGrid ? (
     render
   ) : (
-    <Grid2
+    <Grid
       className={className}
       size={{ ...(defaultGrid as object), ...(grid as object) }}
     >
       {render}
-    </Grid2>
+    </Grid>
   );
 };
 export const DatePicker = ({

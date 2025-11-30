@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Collapse, Fab, Grid2 } from '@mui/material';
+import { Collapse, Fab, Grid } from '@mui/material';
 import {
   MdFilterList as FilterListIcon,
   MdPictureAsPdf as PictureAsPdfIcon,
@@ -38,9 +38,9 @@ export const DataTableActions = ({
   };
 
   return (
-    <Grid2 container className='data-table-actions'>
-      <Grid2 size={12}>
-        <Grid2 container spacing={3}>
+    <Grid container className='data-table-actions'>
+      <Grid size={{ xs: 12 }}>
+        <Grid container spacing={3}>
           {(onAdd || filters) && (
             <div
               className={`buttons${
@@ -103,25 +103,25 @@ export const DataTableActions = ({
               </Fab>
             </div>
           )}
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
       {filters && (
-        <Grid2 size={12} className='filters'>
+        <Grid size={{ xs: 12 }} className='filters'>
           <Collapse in={filtersOpen} timeout='auto' unmountOnExit>
-            <Grid2 container spacing={2}>
+            <Grid container spacing={2}>
               {filters(onApplyFilters ? onApplyFilters : undefined)}
-              <Grid2 size={12} className='filters-actions'>
+              <Grid size={{ xs: 12 }} className='filters-actions'>
                 <Button contained onClick={clearFilters} color='warning'>
                   {clearFiltersLabel}
                 </Button>
                 <Button contained onClick={onApplyFilters}>
                   {applyFiltersLabel}
                 </Button>
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
           </Collapse>
-        </Grid2>
+        </Grid>
       )}
-    </Grid2>
+    </Grid>
   );
 };
