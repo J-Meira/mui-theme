@@ -183,6 +183,83 @@ export const Variant: Story = {
 
 ---
 
+## 🔄 MUI Grid v2 Migration Guidelines
+
+**Migration Documentation**: [MUI Grid v2 Upgrade Guide](https://mui.com/material-ui/migration/upgrade-to-grid-v2/)
+
+### Key Changes:
+
+#### A. **Removed Props**
+
+- `item` prop is removed - all Grid components are automatically items
+- `zeroMinWidth` prop is removed
+
+**Before:**
+
+```typescript
+<Grid item zeroMinWidth xs={12}>
+```
+
+**After:**
+
+```typescript
+<Grid size={12}>
+```
+
+#### B. **Size Prop Structure**
+
+Breakpoint props (`xs`, `sm`, `md`, `lg`, `xl`) are consolidated into `size` prop:
+
+**Single size across all breakpoints:**
+
+```typescript
+<Grid size={6}>
+```
+
+**Responsive sizes:**
+
+```typescript
+<Grid size={{ xs: 12, sm: 6, md: 4 }}>
+```
+
+**Grow behavior (previously `xs`):**
+
+```typescript
+<Grid size="grow">
+```
+
+#### C. **Container Behavior**
+
+- Grid containers don't grow to full width by default
+- Add explicit width when needed:
+
+```typescript
+<Grid container sx={{ width: '100%' }}>
+```
+
+Or use flex-based approach:
+
+```typescript
+<Grid container sx={{ flexGrow: 1 }}>
+```
+
+#### D. **Implementation Standards**
+
+- Use CSS variables for styling (better specificity control)
+- `sx` prop works seamlessly without CSS specificity issues
+- Nested grids have no depth limitation
+- No negative margins (no overflow issues)
+- Use offset feature for positioning flexibility
+
+### Project-Specific Implementation:
+
+- `GridSizeProps` type in `src/components/Input/defaultGrid.ts` handles size prop structure
+- Default grid: `{ xs: 12, sm: 12, md: 6, lg: 8 }` used across Input components
+- `noGrid` prop available in Input components to bypass Grid wrapper
+- Grid spreading pattern: `size={{ ...defaultGrid, ...grid }}`
+
+---
+
 ## 📁 Project Structure
 
 ```
