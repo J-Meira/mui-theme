@@ -241,7 +241,7 @@ const InputComponent = ({
   }
 
   return (
-    <Grid className={className} {...gridSize}>
+    <Grid className={className} size={gridSize}>
       {renderInput}
     </Grid>
   );
