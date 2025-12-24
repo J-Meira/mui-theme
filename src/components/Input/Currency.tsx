@@ -11,11 +11,13 @@ type CurrencyPropsEx = Omit<
 export const Currency = ({
   helperText,
   hideSymbol,
+  inputRef,
   localControl,
   name,
   onBlur,
   onChange,
   readOnly,
+  slotProps,
   symbol = '$',
   variant = 'outlined',
   ...rest
@@ -51,11 +53,14 @@ export const Currency = ({
       name={name}
       fullWidth
       slotProps={{
+        ...slotProps,
         input: {
           readOnly,
+          ref: inputRef,
           startAdornment: !hideSymbol ? (
             <InputAdornment position='start'>{symbol}</InputAdornment>
           ) : undefined,
+          ...slotProps?.input,
         },
       }}
       margin='normal'
@@ -79,11 +84,14 @@ export const Currency = ({
             name={name}
             fullWidth
             slotProps={{
+              ...slotProps,
               input: {
                 readOnly,
+                ref: inputRef,
                 startAdornment: !hideSymbol ? (
                   <InputAdornment position='start'>{symbol}</InputAdornment>
                 ) : undefined,
+                ...slotProps?.input,
               },
             }}
             margin='normal'

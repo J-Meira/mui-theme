@@ -17,10 +17,12 @@ type PasswordPropsEx = Omit<
 export const Password = ({
   helperText,
   hideTitle,
+  inputRef,
   localControl,
   name,
   onBlur,
   onChange,
+  slotProps,
   variant = 'outlined',
   showTitle,
   ...rest
@@ -44,8 +46,11 @@ export const Password = ({
       name={name}
       fullWidth
       slotProps={{
+        ...slotProps,
         input: {
+          ref: inputRef,
           endAdornment: adornment,
+          ...slotProps?.input,
         },
       }}
       margin='normal'
@@ -69,8 +74,11 @@ export const Password = ({
             name={name}
             fullWidth
             slotProps={{
+              ...slotProps,
               input: {
+                ref: inputRef,
                 endAdornment: adornment,
+                ...slotProps?.input,
               },
             }}
             margin='normal'
