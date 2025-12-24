@@ -8,11 +8,13 @@ type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
 export const Number = ({
   decimal,
   helperText,
+  inputRef,
   localControl,
   name,
   onBlur,
   onChange,
   readOnly,
+  slotProps,
   variant = 'outlined',
   ...rest
 }: NumberEx) => {
@@ -45,8 +47,11 @@ export const Number = ({
       name={name}
       fullWidth
       slotProps={{
+        ...slotProps,
         input: {
           readOnly,
+          ref: inputRef,
+          ...slotProps?.input,
         },
       }}
       margin='normal'
@@ -73,8 +78,11 @@ export const Number = ({
             name={name}
             fullWidth
             slotProps={{
+              ...slotProps,
               input: {
                 readOnly,
+                ref: inputRef,
+                ...slotProps?.input,
               },
             }}
             margin='normal'

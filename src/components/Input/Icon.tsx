@@ -24,11 +24,13 @@ export const Icon = ({
   actionTitle,
   helperText,
   icon,
+  inputRef,
   localControl,
   name,
   onBlur,
   onChange,
   readOnly,
+  slotProps,
   start,
   variant = 'outlined',
   ...rest
@@ -53,10 +55,13 @@ export const Icon = ({
       name={name}
       fullWidth
       slotProps={{
+        ...slotProps,
         input: {
           readOnly,
+          ref: inputRef,
           endAdornment: !start && adornment,
           startAdornment: start && adornment,
+          ...slotProps?.input,
         },
       }}
       margin='normal'
@@ -79,10 +84,13 @@ export const Icon = ({
             name={name}
             fullWidth
             slotProps={{
+              ...slotProps,
               input: {
                 readOnly,
+                ref: inputRef,
                 endAdornment: !start && adornment,
                 startAdornment: start && adornment,
+                ...slotProps?.input,
               },
             }}
             margin='normal'

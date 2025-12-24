@@ -12,6 +12,7 @@ type SelectPropsEx = Omit<
 const SelectComponent = ({
   defaultOption,
   helperText,
+  inputRef,
   localControl,
   name,
   noNativeOptions,
@@ -19,6 +20,7 @@ const SelectComponent = ({
   onBlur,
   onChange,
   readOnly,
+  slotProps,
   variant = 'outlined',
   ...rest
 }: SelectPropsEx) => {
@@ -60,10 +62,11 @@ const SelectComponent = ({
 
   const slotPropsConfig = useMemo(
     () => ({
-      input: { readOnly },
+      ...slotProps,
+      input: { readOnly, ref: inputRef, ...slotProps?.input },
       select: !noNativeOptions ? { native: true } : undefined,
     }),
-    [noNativeOptions, readOnly],
+    [noNativeOptions, readOnly, inputRef, slotProps],
   );
 
   if (localControl) {

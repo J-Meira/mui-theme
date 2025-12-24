@@ -4,11 +4,13 @@ import { InputProps } from '.';
 
 export const Basic = ({
   helperText,
+  inputRef,
   localControl,
   name,
   onBlur,
   onChange,
   readOnly,
+  slotProps,
   variant = 'outlined',
   ...rest
 }: Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'>) =>
@@ -21,8 +23,11 @@ export const Basic = ({
       name={name}
       fullWidth
       slotProps={{
+        ...slotProps,
         input: {
           readOnly,
+          ref: inputRef,
+          ...slotProps?.input,
         },
       }}
       margin='normal'
@@ -45,8 +50,11 @@ export const Basic = ({
             name={name}
             fullWidth
             slotProps={{
+              ...slotProps,
               input: {
                 readOnly,
+                ref: inputRef,
+                ...slotProps?.input,
               },
             }}
             margin='normal'

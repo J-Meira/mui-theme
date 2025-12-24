@@ -10,6 +10,7 @@ type MaskPropsEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
 export const Mask = ({
   custom,
   helperText,
+  inputRef,
   localControl,
   slotProps,
   maskModel,
@@ -68,9 +69,15 @@ export const Mask = ({
       fullWidth
       slotProps={
         slotProps
-          ? slotProps
+          ? {
+              ...slotProps,
+              input: {
+                ref: inputRef,
+                ...slotProps.input,
+              },
+            }
           : {
-              input: { readOnly },
+              input: { readOnly, ref: inputRef },
             }
       }
       margin='normal'
@@ -98,9 +105,15 @@ export const Mask = ({
             fullWidth
             slotProps={
               slotProps
-                ? slotProps
+                ? {
+                    ...slotProps,
+                    input: {
+                      ref: inputRef,
+                      ...slotProps.input,
+                    },
+                  }
                 : {
-                    input: { readOnly },
+                    input: { readOnly, ref: inputRef },
                   }
             }
             margin='normal'

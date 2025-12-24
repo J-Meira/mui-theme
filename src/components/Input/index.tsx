@@ -26,9 +26,10 @@ export interface SelectOptionsProps {
   value: number;
 }
 
-export type InputProps = TextFieldProps & {
+export type InputProps = Omit<TextFieldProps, 'inputRef'> & {
   className?: string;
   grid?: GridSizeProps;
+  inputRef?: React.Ref<any>;
   localControl?: boolean;
   name: string;
   noGrid?: boolean;
@@ -58,7 +59,7 @@ export interface CurrencyProps {
 }
 
 export interface IconProps {
-  action?: (params?: any) => void;
+  action?: () => void;
   actionTitle?: string;
   icon?: ReactNode;
   label?: ReactNode;
@@ -155,6 +156,7 @@ const InputComponent = ({
   grid = defaultGrid,
   hideSymbol,
   hideTitle,
+  inputRef,
   localControl = false,
   maskModel,
   model,
@@ -178,7 +180,9 @@ const InputComponent = ({
 
   const renderInput = useMemo(() => {
     if (!model) {
-      return <Basic localControl={localControl} {...rest} />;
+      return (
+        <Basic localControl={localControl} inputRef={inputRef} {...rest} />
+      );
     }
 
     const Component = INPUT_COMPONENTS[model];
@@ -188,6 +192,7 @@ const InputComponent = ({
 
     const componentProps = {
       localControl,
+      inputRef,
       ...rest,
       ...(model === 'checkBox' && {}),
       ...(model === 'currency' && { hideSymbol, symbol }),
@@ -215,6 +220,7 @@ const InputComponent = ({
   }, [
     model,
     localControl,
+    inputRef,
     rest,
     hideSymbol,
     symbol,
