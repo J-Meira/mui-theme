@@ -161,3 +161,16 @@ describe('BreadcrumbBar', () => {
     });
   });
 });
+
+describe('BreadcrumbBar link color (MUI 9 color prop)', () => {
+  it('should render non-final links with inherited color', () => {
+    render(
+      <BreadcrumbBar
+        list={[{ label: 'Home', link: '/' }, { label: 'Current' }]}
+      />,
+    );
+    const link = screen.getByRole('link', { name: 'Home' });
+    expect(link).toHaveClass('MuiLink-root');
+    expect(link).toHaveStyle({ color: 'inherit' });
+  });
+});
