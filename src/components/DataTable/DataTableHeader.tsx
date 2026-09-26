@@ -26,7 +26,9 @@ export const DataTableHeader = <T extends object>({
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all rows' }}
+            slotProps={{
+              input: { 'aria-label': 'select all rows' },
+            }}
           />
         </TableCell>
       )}

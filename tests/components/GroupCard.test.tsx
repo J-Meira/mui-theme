@@ -267,3 +267,16 @@ describe('GroupCard', () => {
     });
   });
 });
+
+describe('GroupCard error styling (MUI 9 color prop)', () => {
+  it('should render the error caption in the theme error color', () => {
+    render(
+      <GroupCard title='Group' error='Something is wrong'>
+        <div>content</div>
+      </GroupCard>,
+    );
+    const caption = screen.getByText('Something is wrong');
+    expect(caption).toHaveClass('MuiTypography-caption');
+    expect(caption).toHaveStyle({ color: 'rgb(211, 47, 47)' });
+  });
+});

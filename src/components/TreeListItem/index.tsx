@@ -47,9 +47,11 @@ export const TreeListItem = ({
               checked={selected}
               disableRipple
               edge='start'
-              inputProps={{ 'aria-labelledby': label }}
               onChange={mainSelect}
               tabIndex={-1}
+              slotProps={{
+                input: { 'aria-labelledby': label },
+              }}
             />
           </ListItemIcon>
           <ListItemText primary={label} />
@@ -74,8 +76,10 @@ export const TreeListItem = ({
             checked={selected}
             disableRipple
             edge='start'
-            inputProps={{ 'aria-labelledby': label }}
             tabIndex={-1}
+            slotProps={{
+              input: { 'aria-labelledby': label },
+            }}
           />
         </ListItemIcon>
         <ListItemText primary={label} />

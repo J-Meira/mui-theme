@@ -6,8 +6,8 @@
 - **Tech Stack**: TypeScript (89.2%), SCSS (5.7%), MDX (3.9%)
 - **Package Manager**: pnpm
 - **Testing Framework**: Jest with React Testing Library
-- **Current Version**: 2.0.0
-- **Main Dependencies**: MUI v7, React 19, Formik, Notistack, Day.js, Vite 7, Storybook 10
+- **Current Version**: 3.0.0 (in progress on `release/3.0`)
+- **Main Dependencies**: MUI v9, MUI X Date Pickers v9, React 19, Formik, Notistack, Day.js, Vite 7, Storybook 10 (MUI, Emotion, Formik, Notistack, Day.js, react-icons and Date Pickers are peer dependencies)
 
 ---
 
@@ -17,7 +17,7 @@
 
 **Testing Standards:**
 
-- Use Jest with React Testing Library (@testing-library/react v16.1.0)
+- Use Jest with React Testing Library (@testing-library/react v16)
 - Follow the existing test configuration in `jestconfig.json`
 - Test file naming convention: `[component-name].test.tsx` or `[hook-name].test.tsx`
 - Place tests in the `/tests` directory mirroring the `/src` structure
@@ -143,7 +143,7 @@ const newItems = [...items, newItem];
 
 ### 3. Storybook Standards
 
-**Current Storybook Version**: 10.1.2
+**Current Storybook Version**: 10.6
 
 **Guidelines:**
 
@@ -182,6 +182,12 @@ export const Variant: Story = {
 ```
 
 ---
+
+## 🔄 MUI v9 Notes
+
+- Legacy props are gone: use `slotProps.input` instead of `inputProps` / `InputProps`, `slots` instead of `components`, `slotProps` instead of `componentsProps`.
+- System props (`display`, `mt`, `color="primary.main"`, ...) are removed from Grid, Box, Typography, Stack and Link. Use `sx`.
+- Migration guide: https://mui.com/material-ui/migration/upgrade-to-v9/
 
 ## 🔄 MUI Grid v2 Migration Guidelines
 
