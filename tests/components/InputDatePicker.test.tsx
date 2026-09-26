@@ -256,3 +256,17 @@ describe('DatePicker', () => {
     expect(input).toBeInTheDocument();
   });
 });
+
+describe('DatePicker opening behaviour', () => {
+  it('should open only from the calendar button, not from clicking the field', () => {
+    render(<DatePicker name='testDate' localControl label='Select Date' />, {
+      wrapper,
+    });
+
+    fireEvent.click(screen.getByRole('group', { name: 'Select Date' }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByLabelText('Choose date'));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+});

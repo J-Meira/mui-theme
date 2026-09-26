@@ -1,5 +1,5 @@
 import 'dayjs/locale/pt-br';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 
 import {
   closeSnackbar,
@@ -56,6 +56,23 @@ export interface CreateThemeProps {
   coreLocale: any;
 }
 
+const STORAGE_KEY = 'MUI_THEME_DARk';
+
+const readStoredDark = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) return JSON.parse(stored) === true;
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefersDark));
+    return prefersDark;
+  } catch {
+    return false;
+  }
+};
+
 export const MultiProvider: FC<MultiProviderProps> = ({
   adapterLocalePtBR,
   children,
@@ -66,22 +83,20 @@ export const MultiProvider: FC<MultiProviderProps> = ({
   snackAutoHideDuration,
   snackMax,
 }) => {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(readStoredDark);
 
-  const backgroundColor = useMemo(() => (dark ? '#191919' : '#f0f0f7'), [dark]);
-
-  const isAdapterLocalePtBR = useMemo(
-    () => (adapterLocalePtBR ? true : false),
-    [adapterLocalePtBR],
-  );
+  const backgroundColor = dark ? '#191919' : '#f0f0f7';
+  const isAdapterLocalePtBR = !!adapterLocalePtBR;
 
   const handleChangeMode = useCallback(() => {
-    localStorage.setItem('MUI_THEME_DARk', JSON.stringify(!dark));
-    setDark(!dark);
-  }, [dark]);
+    setDark((prev) => {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(!prev));
+      return !prev;
+    });
+  }, []);
 
-  const createTheme = useCallback(
-    ({ dateLocale, coreLocale }: CreateThemeProps) =>
+  const theme = useMemo(
+    () =>
       muiCreateTheme(
         {
           palette: {
@@ -99,43 +114,25 @@ export const MultiProvider: FC<MultiProviderProps> = ({
             },
           },
         },
-        dateLocale,
-        coreLocale,
+        isAdapterLocalePtBR ? datePtBR : dateEnUS,
+        isAdapterLocalePtBR ? corePtBR : coreEnUS,
       ),
-    [dark, palette, paletteDark],
+    [dark, palette, paletteDark, isAdapterLocalePtBR],
   );
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('MUI_THEME_DARk');
-
-    if (!storedTheme) {
-      const userTheme = window.matchMedia(
-        '(prefers-color-scheme: dark)',
-      ).matches;
-      localStorage.setItem('MUI_THEME_DARk', JSON.stringify(userTheme));
-      setDark(userTheme);
-      return;
-    }
-
-    const localDark = JSON.parse(storedTheme);
-    if (localDark) setDark(true);
-  }, []);
+  const contextValue = useMemo(
+    () => ({
+      backgroundColor,
+      dark,
+      isAdapterLocalePtBR,
+      onChangeMode: handleChangeMode,
+    }),
+    [backgroundColor, dark, isAdapterLocalePtBR, handleChangeMode],
+  );
 
   return (
-    <MultiContext.Provider
-      value={{
-        backgroundColor,
-        dark,
-        isAdapterLocalePtBR,
-        onChangeMode: handleChangeMode,
-      }}
-    >
-      <ThemeProvider
-        theme={createTheme({
-          dateLocale: adapterLocalePtBR ? datePtBR : dateEnUS,
-          coreLocale: adapterLocalePtBR ? corePtBR : coreEnUS,
-        })}
-      >
+    <MultiContext.Provider value={contextValue}>
+      <ThemeProvider theme={theme}>
         <SnackbarProvider
           anchorOrigin={{
             horizontal: snackAnchorHorizontal,

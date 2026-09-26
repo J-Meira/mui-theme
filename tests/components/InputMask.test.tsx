@@ -239,3 +239,41 @@ describe('Input Mask', () => {
     expect(handleBlur).toHaveBeenCalled();
   });
 });
+
+describe('Input Mask slotProps', () => {
+  it('should keep readOnly when slotProps is provided in local control mode', () => {
+    render(
+      <Mask
+        name='phone'
+        localControl
+        label='Phone'
+        maskModel='phone'
+        value=''
+        readOnly
+        slotProps={{ input: { className: 'custom-input' } }}
+      />,
+    );
+    const input = screen.getByLabelText('Phone');
+    expect(input).toHaveAttribute('readonly');
+    expect(input.closest('.custom-input')).toBeInTheDocument();
+  });
+
+  it('should keep readOnly when slotProps is provided in Formik mode', () => {
+    render(
+      <Formik initialValues={{ phone: '' }} onSubmit={jest.fn()}>
+        <Form>
+          <Mask
+            name='phone'
+            label='Phone'
+            maskModel='phone'
+            readOnly
+            slotProps={{ input: { className: 'custom-input' } }}
+          />
+        </Form>
+      </Formik>,
+    );
+    const input = screen.getByLabelText('Phone');
+    expect(input).toHaveAttribute('readonly');
+    expect(input.closest('.custom-input')).toBeInTheDocument();
+  });
+});
