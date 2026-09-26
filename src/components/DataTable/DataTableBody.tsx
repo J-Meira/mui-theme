@@ -28,8 +28,10 @@ export const DataTableBody = <T extends object>({
     );
   };
 
-  const compressedString = (value: string, limit: number) =>
-    value.length > limit ? value.slice(0, limit) + '...' : value;
+  const compressedString = (value: unknown, limit: number) => {
+    const text = value === null || value === undefined ? '' : String(value);
+    return text.length > limit ? text.slice(0, limit) + '...' : text;
+  };
 
   return (
     <TableBody>
@@ -86,8 +88,8 @@ export const DataTableBody = <T extends object>({
                 columns.map((col, cIndex) => {
                   const key = col.key;
                   if (key === 'actions' || col.render) {
-                    if (!col.render) return;
-                    col.className =
+                    if (!col.render) return null;
+                    const renderClassName =
                       key === 'actions' && !col.className
                         ? 'data-table-col-actions'
                         : col.className;
@@ -101,9 +103,9 @@ export const DataTableBody = <T extends object>({
                           isSelectable &&
                           isSelectableAnywhereElse
                             ? `data-table-selectable${
-                                col.className ? ' ' + col.className : ''
+                                renderClassName ? ' ' + renderClassName : ''
                               }`
-                            : col.className
+                            : renderClassName
                         }
                         onClick={
                           col.isSelectable && customClickAction
@@ -134,7 +136,7 @@ export const DataTableBody = <T extends object>({
                               : undefined
                         }
                       >
-                        {compressedString(row[key] as string, col.limit)}
+                        {compressedString(row[key], col.limit)}
                       </TableCell>
                     );
                   }

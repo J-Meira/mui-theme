@@ -210,3 +210,22 @@ describe('useDebounce', () => {
     });
   });
 });
+
+describe('useDebounce cleanup', () => {
+  it('should cancel a pending call when the component unmounts', () => {
+    const mockFunc = jest.fn();
+    const { result, unmount } = renderHook(() => useDebounce(500, false));
+
+    act(() => {
+      result.current.debounce(mockFunc);
+    });
+
+    unmount();
+
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(mockFunc).not.toHaveBeenCalled();
+  });
+});

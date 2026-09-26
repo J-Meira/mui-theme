@@ -108,3 +108,35 @@ describe('useCookies', () => {
     });
   });
 });
+
+describe('useCookies cookie string format', () => {
+  beforeEach(() => {
+    document.cookie = '';
+  });
+
+  it('should write the expiry in UTC string format', () => {
+    useCookies.set('k', 'v', new Date(Date.UTC(2030, 0, 1)));
+    expect(document.cookie).toBe(
+      'k=v;expires=Tue, 01 Jan 2030 00:00:00 GMT;path=/',
+    );
+  });
+
+  it('should default the expiry to two years ahead in UTC string format', () => {
+    const year = new Date().getFullYear() + 2;
+    useCookies.set('k', 'v');
+    expect(document.cookie).toMatch(
+      new RegExp(
+        '^k=v;expires=[A-Z][a-z]{2}, [0-9]{2} [A-Z][a-z]{2} ' +
+          year +
+          ' [0-9]{2}:[0-9]{2}:[0-9]{2} GMT;path=/$',
+      ),
+    );
+  });
+
+  it('should remove by writing an empty value with an epoch expiry', () => {
+    useCookies.remove('k');
+    expect(document.cookie).toBe(
+      'k=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/',
+    );
+  });
+});

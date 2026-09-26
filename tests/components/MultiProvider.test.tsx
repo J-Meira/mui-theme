@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import {
   MultiProvider,
@@ -389,5 +390,63 @@ describe('useMultiContext', () => {
     expect(screen.getByTestId('dark')).toHaveTextContent('false');
     expect(screen.getByTestId('locale')).toHaveTextContent('true');
     expect(screen.getByTestId('fn')).toHaveTextContent('function');
+  });
+});
+
+describe('MultiProvider context stability', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it('should not re-render memoized consumers when the provider re-renders with the same state', () => {
+    const onRender = jest.fn();
+    const Consumer = memo(function Consumer() {
+      onRender();
+      useMultiContext();
+      return null;
+    });
+
+    const { rerender } = render(
+      <MultiProvider
+        palette={mockPalette}
+        snackAnchorHorizontal='right'
+        snackAnchorVertical='top'
+      >
+        <Consumer />
+      </MultiProvider>,
+    );
+    expect(onRender).toHaveBeenCalledTimes(1);
+
+    rerender(
+      <MultiProvider
+        palette={mockPalette}
+        snackAnchorHorizontal='right'
+        snackAnchorVertical='top'
+      >
+        <Consumer />
+      </MultiProvider>,
+    );
+    expect(onRender).toHaveBeenCalledTimes(1);
+  });
+
+  it('should apply the stored dark preference on the very first render', () => {
+    localStorage.setItem('MUI_THEME_DARk', 'true');
+    const seen: string[] = [];
+    const Probe = () => {
+      seen.push(useMultiContext().dark ? 'dark' : 'light');
+      return null;
+    };
+
+    render(
+      <MultiProvider
+        palette={mockPalette}
+        snackAnchorHorizontal='right'
+        snackAnchorVertical='top'
+      >
+        <Probe />
+      </MultiProvider>,
+    );
+
+    expect(seen[0]).toBe('dark');
   });
 });

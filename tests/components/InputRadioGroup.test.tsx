@@ -221,3 +221,52 @@ describe('RadioGroup', () => {
     expect(screen.getByText('Select Option')).toBeInTheDocument();
   });
 });
+
+describe('RadioGroup Formik value handling', () => {
+  it('should store the selected option value in Formik and reflect it as checked', () => {
+    render(
+      <Formik initialValues={{ testRadio: '' }} onSubmit={jest.fn()}>
+        {({ values }) => (
+          <Form>
+            <RadioGroup
+              name='testRadio'
+              label='Select Option'
+              options={mockOptions}
+            />
+            <div data-testid='formik-value'>{String(values.testRadio)}</div>
+          </Form>
+        )}
+      </Formik>,
+    );
+
+    const radio1 = screen.getByLabelText('Option 1') as HTMLInputElement;
+    const radio2 = screen.getByLabelText('Option 2') as HTMLInputElement;
+
+    fireEvent.click(radio2);
+    expect(screen.getByTestId('formik-value')).toHaveTextContent('2');
+    expect(radio2.checked).toBe(true);
+    expect(radio1.checked).toBe(false);
+
+    fireEvent.click(radio1);
+    expect(screen.getByTestId('formik-value')).toHaveTextContent('1');
+    expect(radio1.checked).toBe(true);
+    expect(radio2.checked).toBe(false);
+  });
+
+  it('should check the option matching a Formik initial value', () => {
+    render(
+      <Formik initialValues={{ testRadio: 3 }} onSubmit={jest.fn()}>
+        <Form>
+          <RadioGroup
+            name='testRadio'
+            label='Select Option'
+            options={mockOptions}
+          />
+        </Form>
+      </Formik>,
+    );
+
+    const radio3 = screen.getByLabelText('Option 3') as HTMLInputElement;
+    expect(radio3.checked).toBe(true);
+  });
+});

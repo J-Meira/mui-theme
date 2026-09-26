@@ -1,23 +1,21 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(utc);
-
 const get = (key: string) => {
   const b = document.cookie.match('(^|;)\\s*' + key + '\\s*=\\s*([^;]+)');
   return b ? b.pop() : '';
 };
 
+const defaultExpires = () => {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() + 2);
+  return date;
+};
+
 const set = (key: string, value: string, expires?: Date) => {
-  if (!expires) {
-    expires = dayjs().add(2, 'year').utc().toDate();
-  }
-  document.cookie = `${key}=${value};expires=${expires};path=/`;
+  const expiresAt = expires ?? defaultExpires();
+  document.cookie = `${key}=${value};expires=${expiresAt.toUTCString()};path=/`;
 };
 
 const remove = (key: string) => {
-  const expires = dayjs().subtract(1, 'hour');
-  document.cookie = `${key}="";expires=${expires.utc().toDate()};path=/`;
+  document.cookie = `${key}=;expires=${new Date(0).toUTCString()};path=/`;
 };
 
 export const useCookies = {

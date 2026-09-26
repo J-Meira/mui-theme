@@ -85,7 +85,7 @@ export const SideBar = ({
               aria-haspopup='true'
               onMouseEnter={handlePopoverOpen}
               onMouseLeave={handlePopoverClose}
-              sx={{ color: '#fff !important;' }}
+              sx={{ color: '#fff !important' }}
             >
               {version}
             </Typography>

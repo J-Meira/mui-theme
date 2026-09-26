@@ -18,7 +18,7 @@ export const TabPanel = ({
   <Grid
     container
     role='tabpanel'
-    display={activeValue !== value ? 'none' : 'flex'}
+    sx={{ display: activeValue !== value ? 'none' : 'flex' }}
     id={`tabpanel-${title}-${value}`}
     aria-labelledby={`tab-${title}-${value}`}
   >

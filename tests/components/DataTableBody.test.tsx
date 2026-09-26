@@ -275,3 +275,55 @@ describe('DataTableBody', () => {
     expect(mockOnSelectRow).toHaveBeenCalledWith(rows[0]);
   });
 });
+
+describe('DataTableBody column handling', () => {
+  const noop = jest.fn();
+  const notSelected = () => false;
+
+  it('should not mutate the column definition when rendering an actions column', () => {
+    const actionsColumn: DataTableColumnsProps<TestRow> = {
+      key: 'actions',
+      render: (row: TestRow) => <button>Act {row.id}</button>,
+    };
+    const rows: TestRow[] = [
+      { id: 1, name: 'Row', status: false, description: 'D' },
+    ];
+
+    render(
+      <Table>
+        <DataTableBody
+          columns={[actionsColumn]}
+          rows={rows}
+          isSelected={notSelected}
+          onSelectRow={noop}
+          title='t'
+        />
+      </Table>,
+    );
+
+    expect(actionsColumn.className).toBeUndefined();
+    expect(screen.getByText('Act 1').closest('td')).toHaveClass(
+      'data-table-col-actions',
+    );
+  });
+
+  it('should truncate non-string values when a limit is set', () => {
+    const rows: TestRow[] = [
+      { id: 123456, name: 'Row', status: false, description: 'D' },
+    ];
+
+    render(
+      <Table>
+        <DataTableBody
+          columns={[{ key: 'id', label: 'ID', limit: 3 }]}
+          rows={rows}
+          isSelected={notSelected}
+          onSelectRow={noop}
+          title='t'
+        />
+      </Table>,
+    );
+
+    expect(screen.getByText('123...')).toBeInTheDocument();
+  });
+});

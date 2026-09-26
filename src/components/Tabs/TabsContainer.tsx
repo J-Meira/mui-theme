@@ -80,7 +80,7 @@ export const TabsContainer = ({ title, tabs }: TabsProps) => {
           disableRestoreFocus
           color='error'
         >
-          <Typography sx={{ padding: '0.5rem 0.75rem;' }}>{error}</Typography>
+          <Typography sx={{ padding: '0.5rem 0.75rem' }}>{error}</Typography>
         </Popover>
       </Box>
       {tabs.map((i) => (
