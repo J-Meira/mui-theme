@@ -8,6 +8,7 @@ import {
   DatePicker as MuiDatePicker,
   DateTimePicker as MuiDateTimePicker,
 } from '@mui/x-date-pickers';
+import type { PickersTextFieldProps } from '@mui/x-date-pickers/PickersTextField';
 import { defaultGrid, GridSizeProps } from './defaultGrid';
 
 export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
@@ -105,7 +106,7 @@ const RenderDatePicker = ({
         open={open}
         value={innerValue}
         slotProps={{
-          textField: inputProps,
+          textField: inputProps as PickersTextFieldProps,
           actionBar: () => ({
             actions: showTodayButton ? ['today'] : [],
           }),
@@ -124,7 +125,7 @@ const RenderDatePicker = ({
         open={open}
         value={innerValue}
         slotProps={{
-          textField: inputProps,
+          textField: inputProps as PickersTextFieldProps,
           actionBar: () => ({
             actions: showTodayButton ? ['today'] : [],
           }),

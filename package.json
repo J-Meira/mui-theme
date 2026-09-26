@@ -41,7 +41,7 @@
     "@emotion/styled": "^11.14.1",
     "@eslint/js": "^9.39.5",
     "@mui/material": "^7.3.11",
-    "@mui/x-date-pickers": "^8.29.3",
+    "@mui/x-date-pickers": "^9.14.0",
     "@storybook/addon-docs": "^10.6.0",
     "@storybook/react": "^10.6.0",
     "@storybook/react-vite": "^10.6.0",
