@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Field, FieldProps } from 'formik';
 
 import { Dayjs } from 'dayjs';
@@ -72,7 +72,6 @@ const RenderDatePicker = ({
     name: name,
     error: !!helperText,
     helperText: helperText,
-    onClick: () => setOpen(true),
     onBlur: onBlur,
     ...rest,
   };
@@ -87,11 +86,9 @@ const RenderDatePicker = ({
     disabled: disabled,
   };
 
-  const currentValue = useMemo(() => value, [value]);
-
   useEffect(() => {
-    setInnerValue(currentValue);
-  }, [currentValue]);
+    setInnerValue(value);
+  }, [value]);
 
   const render = (() => {
     return time ? (
@@ -184,7 +181,6 @@ export const DatePicker = ({
               form.setFieldTouched(name, true);
               onBlur?.(e);
             }}
-            {...rest}
           />
         );
       }}

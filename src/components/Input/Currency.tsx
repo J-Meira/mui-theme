@@ -1,6 +1,7 @@
 import { Field, FieldProps } from 'formik';
 import { InputAdornment, TextField } from '@mui/material';
 import { CurrencyProps, InputProps } from '.';
+import { formatCurrency } from './formatCurrency';
 
 type CurrencyPropsEx = Omit<
   InputProps,
@@ -25,22 +26,7 @@ export const Currency = ({
   const mask = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const value = e.target.value.replace(/\D/g, '').replace(/^(0+)(\d)/g, '$2');
-    const valueReturn = (() => {
-      switch (value.length) {
-        case 1:
-          return `0.0${value}`;
-        case 2:
-          return `0.${value}`;
-        default: {
-          const intPart = value.slice(0, -2);
-          const formattedInt = intPart.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1');
-          return `${formattedInt}.${value.slice(-2)}`;
-        }
-      }
-    })();
-    e.target.value = valueReturn;
-
+    e.target.value = formatCurrency(e.target.value);
     return e;
   };
 
@@ -65,7 +51,10 @@ export const Currency = ({
       }}
       margin='normal'
       onBlur={onBlur}
-      onChange={onChange}
+      onChange={(e) => {
+        const masked = mask(e);
+        onChange?.(masked);
+      }}
       variant={variant}
       size='small'
       type='number'
@@ -100,8 +89,9 @@ export const Currency = ({
               onBlur?.(e);
             }}
             onChange={(e) => {
-              field.onChange(mask(e));
-              onChange?.(mask(e));
+              const masked = mask(e);
+              field.onChange(masked);
+              onChange?.(masked);
             }}
             variant={variant}
             size='small'

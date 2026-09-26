@@ -67,19 +67,14 @@ export const Mask = ({
       id={name}
       name={name}
       fullWidth
-      slotProps={
-        slotProps
-          ? {
-              ...slotProps,
-              input: {
-                ref: inputRef,
-                ...slotProps.input,
-              },
-            }
-          : {
-              input: { readOnly, ref: inputRef },
-            }
-      }
+      slotProps={{
+        ...slotProps,
+        input: {
+          readOnly,
+          ref: inputRef,
+          ...slotProps?.input,
+        },
+      }}
       margin='normal'
       onBlur={onBlur}
       onChange={(e) => {
@@ -103,19 +98,14 @@ export const Mask = ({
             id={name}
             name={name}
             fullWidth
-            slotProps={
-              slotProps
-                ? {
-                    ...slotProps,
-                    input: {
-                      ref: inputRef,
-                      ...slotProps.input,
-                    },
-                  }
-                : {
-                    input: { readOnly, ref: inputRef },
-                  }
-            }
+            slotProps={{
+              ...slotProps,
+              input: {
+                readOnly,
+                ref: inputRef,
+                ...slotProps?.input,
+              },
+            }}
             margin='normal'
             onBlur={(e) => {
               field.onBlur(e);

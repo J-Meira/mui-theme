@@ -35,7 +35,6 @@ const RadioGroupRender = ({
     {label && <FormLabel>{label}</FormLabel>}
     <MuiRadioGroup
       onChange={onChange}
-      defaultValue={value}
       value={value}
       name={name}
       row={rowDirection}
@@ -70,7 +69,7 @@ export const RadioGroup = ({
       onChange={onChange}
     />
   ) : (
-    <Field name={name} type='checkbox'>
+    <Field name={name}>
       {({ field, meta }: FieldProps) => {
         const { touched, error } = meta;
         return (
