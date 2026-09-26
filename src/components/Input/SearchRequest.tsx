@@ -185,8 +185,10 @@ export const SearchRequest = ({
           error={touched && !!error}
           helperText={touched && error}
           slotProps={{
+            ...params.slotProps,
+
             input: {
-              ...params.InputProps,
+              ...params.slotProps.input,
               endAdornment: iconAction ? (
                 <>
                   <div
@@ -204,10 +206,10 @@ export const SearchRequest = ({
                       {icon}
                     </IconButton>
                   </div>
-                  {params.InputProps.endAdornment}
+                  {params.slotProps.input.endAdornment}
                 </>
               ) : (
-                params.InputProps.endAdornment
+                params.slotProps.input.endAdornment
               ),
             },
           }}

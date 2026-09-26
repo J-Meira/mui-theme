@@ -80,7 +80,9 @@ export const DataTableBody = <T extends object>({
                   <Checkbox
                     checked={isItemSelected}
                     onChange={() => onSelectRow(row)}
-                    inputProps={{ 'aria-labelledby': labelId }}
+                    slotProps={{
+                      input: { 'aria-labelledby': labelId },
+                    }}
                   />
                 </TableCell>
               )}
