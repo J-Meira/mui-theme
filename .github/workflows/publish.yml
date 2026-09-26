@@ -1,65 +1,62 @@
+name: Publish
+
 on:
   release:
     types: [published]
 
-name: Publish
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
-    permissions: write-all
 
     steps:
-      - name: Checkout GitHub Action
-        uses: actions/checkout@master
-
-      - name: Set git env
-        run: |
-          echo "TAG_NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v7
 
       - name: Make envfile
         run: |
-          cat > .env
-          echo "STORYBOOK_VERSION=${{ env.TAG_NAME }}" >> .env
+          echo "STORYBOOK_VERSION=${GITHUB_REF_NAME}" >> .env
           echo "STORYBOOK_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
-          echo "$(<.env)"
+          cat .env
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v7
         with:
-          node-version: 22.12.0
+          node-version: 24
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: '@j-meira'
 
-      - name: Install NPM Login
-        run: npm install -g npm-cli-login
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: NPM Login
-        run: NPM_USER=${{ vars.NPM_USER }} NPM_PASS=${{ secrets.NPM_PASS }} NPM_EMAIL=${{ vars.NPM_EMAIL }} NPM_REGISTRY=${{ vars.NPM_URL }} NPM_SCOPE=@j-meira npm-cli-login
-
-      - name: Install PNPM
-        run: npm install -g pnpm
-
-      - name: Install depends
-        run: pnpm install --ignore-scripts
-
-      - name: Run Tests
+      - name: Run tests
         run: pnpm test
 
-      - name: Build Theme
+      - name: Build package
         run: pnpm build
 
-      - name: Publish Theme
-        run: pnpm publish --no-git-check
+      - name: Publish package
+        run: pnpm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PASS }}
 
-      - name: Build StoryBook
+      - name: Build Storybook
         run: pnpm build-sb
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@master
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: sa-east-1
 
-      - name: Deploy to S3
+      - name: Deploy Storybook to S3
         run: aws s3 sync ./storybook-static/ s3://${{ vars.S3_BUCKET }} --delete
