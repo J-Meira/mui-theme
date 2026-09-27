@@ -9,7 +9,7 @@ import storybook from 'eslint-plugin-storybook';
 
 export default tseslint.config(
   {
-    ignores: ['dist', 'storybook-static', 'stories'],
+    ignores: ['dist', 'storybook-static', 'coverage', 'stories'],
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
