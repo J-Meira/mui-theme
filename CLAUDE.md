@@ -97,7 +97,7 @@ const newItems = [...items, newItem];
 ## Release workflow (3.0.0)
 
 - Tracking issue: #46. One issue per phase, one branch per issue, named as in the issue body (`chore/…`, `feat/…`, `fix/…`, `docs/…`).
-- Branch from `release/3.0`; PRs target `release/3.0`. One release PR to `master` at the end, then tag `v3.0.0` and publish via the release workflow.
+- Branch from `release/3.0`; PRs target `release/3.0`. One release PR to `master` at the end, then tag `v3.0.0` and publish via the release workflow (package to GitHub Packages, Storybook to GitHub Pages at mui-theme.jm.app.br).
 - PRs merge into a non-default branch, so GitHub does **not** auto-close issues from "Closes #N". After a merge, close the issue manually (`gh issue close N --reason completed`) and tick it in #46.
 - Keep the `MUI_THEME_DARk` localStorage key (typo included); consumers' stored preferences depend on it.
 - Consumers upgrade with the `/mui-theme-upgrade` Claude Code skill (#55). It lives on the maintainer machine under `~/.claude/skills`, not in this repo, and handles both 1.x and 2.x starting points.

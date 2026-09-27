@@ -34,6 +34,6 @@ pnpm build-sb    # static storybook
 
 ## Storybook
 
-[Click here](https://mui-theme.jm.app.br) to access.
+[Click here](https://mui-theme.jm.app.br) to access. It is published to GitHub Pages by the release workflow (or manually with **Actions → Publish → Run workflow**).
 
 > Contact: [J.Meira](https://github.com/J-Meira)

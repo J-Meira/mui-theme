@@ -3,25 +3,23 @@ name: Publish
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  package:
+    name: Publish package
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-
-      - name: Make envfile
-        run: |
-          echo "STORYBOOK_VERSION=${GITHUB_REF_NAME}" >> .env
-          echo "STORYBOOK_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
-          cat .env
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -48,15 +46,60 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PASS }}
 
+  storybook:
+    name: Deploy Storybook to GitHub Pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Make envfile
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            VERSION="${GITHUB_REF_NAME}"
+          else
+            VERSION="$(git describe --tags --abbrev=0 2>/dev/null || echo dev)"
+          fi
+          echo "STORYBOOK_VERSION=${VERSION}" >> .env
+          echo "STORYBOOK_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
+          cat .env
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Build Storybook
         run: pnpm build-sb
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: sa-east-1
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
 
-      - name: Deploy Storybook to S3
-        run: aws s3 sync ./storybook-static/ s3://${{ vars.S3_BUCKET }} --delete
+      - name: Upload Storybook artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: storybook-static
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
