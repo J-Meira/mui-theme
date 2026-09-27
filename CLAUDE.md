@@ -37,12 +37,50 @@ scripts/                      clean.mjs, copy.mjs (build helpers)
 
 ## Code rules
 
-- Early returns and ternaries instead of `else`.
-- `const` by default; `let` only when reassignment is unavoidable.
+### Three hard rules
+
+These apply to every file you touch, including refactors and tests.
+
+**1. No `else`.** Use early returns, ternaries, or a switch / object lookup.
+
+```ts
+// wrong
+if (condition) {
+  return resultA;
+} else {
+  return resultB;
+}
+
+// right
+if (condition) return resultA;
+return resultB;
+
+// right
+return condition ? resultA : resultB;
+```
+
+**2. `const` by default, never `var`.** Use `let` only when a value must be reassigned and no cleaner shape exists. Prefer building a new value over reassigning.
+
+```ts
+// wrong
+let items = [];
+items = [...items, newItem];
+
+// right
+const items = [];
+items.push(newItem);
+
+// right
+const newItems = [...items, newItem];
+```
+
+**3. Do not add comments.** No explanatory comments in new or refactored code, no "// fix", no commented-out code. Names and structure carry the meaning. Keep an existing comment only if it still applies; delete it when the code it explains changes.
+
+### Everything else
+
 - Memoize only where it pays: `useMemo` for objects passed to context or providers, `useCallback` for handlers passed to memoized children. Do not wrap props spreads in `useMemo`; it never hits.
 - Derive values from props directly instead of mirroring them into state with `useEffect`.
 - Never mutate props or the caller's objects during render (see `DataTableBody`).
-- No explanatory comments. Names and structure carry the meaning. Keep existing comments only when they still apply.
 - Every bug fix gets a regression test. Tests live in `tests/`, mirror the `src/` path, and use Testing Library queries (`getByRole`, `getByLabelText`) over selectors.
 - Every component has a story. New props need a story variant.
 - Public exports are API. Renaming or removing one is a breaking change and belongs in a major release.
