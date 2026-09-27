@@ -5,7 +5,7 @@ import { NumberInput as Number } from '../../src/components/Input/Number';
 describe('Input Number', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -22,7 +22,7 @@ describe('Input Number', () => {
   });
 
   it('should only allow integer values by default', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Number
         name='age'
@@ -38,7 +38,7 @@ describe('Input Number', () => {
   });
 
   it('should allow decimal values when decimal prop is true', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Number
         name='price'
@@ -54,7 +54,7 @@ describe('Input Number', () => {
   });
 
   it('should allow negative values', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Number
         name='temp'
@@ -69,7 +69,7 @@ describe('Input Number', () => {
   });
 
   it('should remove minus sign if not at the beginning', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Number
         name='num'
@@ -85,7 +85,7 @@ describe('Input Number', () => {
   });
 
   it('should prevent multiple decimal points', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Number
         name='price'
@@ -102,7 +102,7 @@ describe('Input Number', () => {
   });
 
   it('should handle onChange with local control', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Number name='age' localControl label='Age' onChange={handleChange} />,
     );
@@ -112,7 +112,7 @@ describe('Input Number', () => {
   });
 
   it('should handle onBlur with local control', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     render(<Number name='age' localControl label='Age' onBlur={handleBlur} />);
     const input = screen.getByLabelText('Age');
     fireEvent.focus(input);
@@ -153,7 +153,7 @@ describe('Input Number', () => {
   });
 
   it('should call both Formik and custom onChange', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Number name='age' label='Age' onChange={handleChange} />,
       { age: '' },
@@ -164,7 +164,7 @@ describe('Input Number', () => {
   });
 
   it('should call both Formik and custom onBlur', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     renderWithFormik(<Number name='age' label='Age' onBlur={handleBlur} />, {
       age: '',
     });

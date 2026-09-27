@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Header, HeaderProps } from '../../src/components/Header';
 
 describe('Header', () => {
-  const mockSideBarControl = jest.fn();
+  const mockSideBarControl = vi.fn();
 
   beforeEach(() => {
     mockSideBarControl.mockClear();

@@ -37,7 +37,7 @@ describe('Button Icon', () => {
   });
 
   it('should handle click events', () => {
-    const mockClick = jest.fn();
+    const mockClick = vi.fn();
 
     render(
       <Icon onClick={mockClick}>

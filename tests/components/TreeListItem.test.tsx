@@ -7,7 +7,7 @@ import {
 import { TreeListItem } from '../../src/components/TreeListItem';
 
 // Mock react-icons/md
-jest.mock('react-icons/md', () => ({
+vi.mock('react-icons/md', () => ({
   MdAdd: () => <svg data-testid='AddIcon' />,
   MdRemove: () => <svg data-testid='RemoveIcon' />,
 }));
@@ -16,12 +16,12 @@ describe('TreeListItem', () => {
   const defaultProps = {
     hierarchy: 'primary' as const,
     label: 'Test Item',
-    onSelect: jest.fn(),
+    onSelect: vi.fn(),
     selected: false,
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('leaf node (without children)', () => {
@@ -42,7 +42,7 @@ describe('TreeListItem', () => {
     });
 
     it('should call onSelect when button is clicked', () => {
-      const mockOnSelect = jest.fn();
+      const mockOnSelect = vi.fn();
       render(<TreeListItem {...defaultProps} onSelect={mockOnSelect} />);
 
       const button = screen.getByRole('button');
@@ -52,7 +52,7 @@ describe('TreeListItem', () => {
     });
 
     it('should call onSelect when checkbox is changed', () => {
-      const mockOnSelect = jest.fn();
+      const mockOnSelect = vi.fn();
       render(<TreeListItem {...defaultProps} onSelect={mockOnSelect} />);
 
       const checkbox = screen.getByRole('checkbox');
@@ -141,7 +141,7 @@ describe('TreeListItem', () => {
     });
 
     it('should call onSelect when parent checkbox is changed', () => {
-      const mockOnSelect = jest.fn();
+      const mockOnSelect = vi.fn();
       render(
         <TreeListItem {...defaultProps} onSelect={mockOnSelect}>
           {childItems}
@@ -303,8 +303,8 @@ describe('TreeListItem', () => {
     });
 
     it('should handle different selection states in tree', () => {
-      const mockOnSelect1 = jest.fn();
-      const mockOnSelect2 = jest.fn();
+      const mockOnSelect1 = vi.fn();
+      const mockOnSelect2 = vi.fn();
 
       render(
         <TreeListItem {...defaultProps} label='Root' onSelect={mockOnSelect1}>
@@ -376,7 +376,7 @@ describe('TreeListItem', () => {
         <TreeListItem
           hierarchy='primary'
           label='Minimal'
-          onSelect={jest.fn()}
+          onSelect={vi.fn()}
           selected={false}
         />,
       );

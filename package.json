@@ -41,10 +41,10 @@
     "@storybook/react-vite": "^10.6.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@types/jest": "^30.0.0",
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@vitest/coverage-v8": "^5.0.2",
     "dayjs": "^1.11.23",
     "eslint": "10.11.0",
     "eslint-config-prettier": "10.1.8",
@@ -53,8 +53,7 @@
     "eslint-plugin-storybook": "10.6.0",
     "formik": "^2.4.9",
     "globals": "^17.12.0",
-    "jest": "^30.5.2",
-    "jest-environment-jsdom": "^30.5.2",
+    "jsdom": "^30.1.1",
     "notistack": "^3.0.2",
     "prettier": "^3.9.9",
     "react": "^19.3.0",
@@ -62,10 +61,10 @@
     "react-icons": "^5.7.0",
     "sass": "^1.105.0",
     "storybook": "^10.6.0",
-    "ts-jest": "^29.4.14",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
-    "vite": "^8.3.1"
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
   },
   "repository": {
     "type": "git",
@@ -94,11 +93,13 @@
     "pre-build": "pnpm prettier && pnpm lint  && pnpm clean",
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "lint": "eslint .",
-    "test": "jest --config jestconfig.json",
+    "test": "vitest run",
     "sb": "storybook dev -p 6006",
     "sb-ssl": "storybook dev -p 6006 -h dev.jm.app.br --https --ssl-ca ./.ssl/ca.crt --ssl-cert ./.ssl/cert.crt --ssl-key ./.ssl/cert.key",
     "build-sb": "storybook build",
     "up-version": "pnpm version --no-git-tag-version",
-    "pre-release": "pnpm pre-build && pnpm up-version"
+    "pre-release": "pnpm pre-build && pnpm up-version",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   }
 }

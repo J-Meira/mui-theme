@@ -13,7 +13,7 @@ describe('useCookies', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('set', () => {

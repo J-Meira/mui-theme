@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { DialogBox, DialogProps } from '../../src/components/DialogBox';
 
 describe('DialogBox', () => {
-  const mockClose = jest.fn();
+  const mockClose = vi.fn();
 
   const mockDialog: DialogProps = {
     open: true,

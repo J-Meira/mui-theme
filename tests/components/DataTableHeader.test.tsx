@@ -10,8 +10,8 @@ interface TestRow {
 }
 
 describe('DataTableHeader', () => {
-  const mockOnRequestSort = jest.fn();
-  const mockOnSelectAllClick = jest.fn();
+  const mockOnRequestSort = vi.fn();
+  const mockOnSelectAllClick = vi.fn();
 
   const columns: DataTableColumnsProps<TestRow>[] = [
     {
@@ -35,7 +35,7 @@ describe('DataTableHeader', () => {
   ];
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render column headers', () => {

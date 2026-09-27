@@ -5,7 +5,7 @@ import { CheckBox } from '../../src/components/Input/CheckBox';
 describe('Input CheckBox', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -43,7 +43,7 @@ describe('Input CheckBox', () => {
   });
 
   it('should handle onChange events with local control', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <CheckBox
         name='testCheckbox'
@@ -94,7 +94,7 @@ describe('Input CheckBox', () => {
   });
 
   it('should handle Formik onChange', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <CheckBox name='testCheckbox' label='Test' onChange={handleChange} />,
       { testCheckbox: false },

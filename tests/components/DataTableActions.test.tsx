@@ -2,15 +2,15 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { DataTableActions } from '../../src/components/DataTable/DataTableActions';
 
 describe('DataTableActions', () => {
-  const mockSetSearchValue = jest.fn();
-  const mockSetActiveValue = jest.fn();
-  const mockOnAdd = jest.fn();
-  const mockOnApplyFilters = jest.fn();
-  const mockOnClearFilters = jest.fn();
-  const mockOnExport = jest.fn();
+  const mockSetSearchValue = vi.fn();
+  const mockSetActiveValue = vi.fn();
+  const mockOnAdd = vi.fn();
+  const mockOnApplyFilters = vi.fn();
+  const mockOnClearFilters = vi.fn();
+  const mockOnExport = vi.fn();
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render without crashing', () => {
@@ -128,7 +128,7 @@ describe('DataTableActions', () => {
   });
 
   it('should toggle filters collapse when filter button is clicked', () => {
-    const mockFilters = jest.fn(() => <div>Filter Content</div>);
+    const mockFilters = vi.fn(() => <div>Filter Content</div>);
 
     render(
       <DataTableActions
@@ -155,7 +155,7 @@ describe('DataTableActions', () => {
   });
 
   it('should render apply and clear filter buttons when filters are provided', () => {
-    const mockFilters = jest.fn(() => <div>Filter Content</div>);
+    const mockFilters = vi.fn(() => <div>Filter Content</div>);
 
     render(
       <DataTableActions
@@ -189,7 +189,7 @@ describe('DataTableActions', () => {
   });
 
   it('should open filters by default when filterOpened is true', () => {
-    const mockFilters = jest.fn(() => <div>Filter Content</div>);
+    const mockFilters = vi.fn(() => <div>Filter Content</div>);
 
     render(
       <DataTableActions
@@ -209,7 +209,7 @@ describe('DataTableActions', () => {
   });
 
   it('should close filters when clear filters is clicked', () => {
-    const mockFilters = jest.fn(() => <div>Filter Content</div>);
+    const mockFilters = vi.fn(() => <div>Filter Content</div>);
 
     render(
       <DataTableActions

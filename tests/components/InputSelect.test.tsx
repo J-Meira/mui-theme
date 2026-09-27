@@ -11,7 +11,7 @@ describe('Input Select', () => {
 
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -55,7 +55,7 @@ describe('Input Select', () => {
   });
 
   it('should handle onChange with local control', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Select
         name='status'
@@ -72,7 +72,7 @@ describe('Input Select', () => {
   });
 
   it('should handle onBlur with local control', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     render(
       <Select
         name='status'
@@ -149,7 +149,7 @@ describe('Input Select', () => {
   });
 
   it('should call both Formik and custom onChange', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Select
         name='status'
@@ -165,7 +165,7 @@ describe('Input Select', () => {
   });
 
   it('should call both Formik and custom onBlur', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     renderWithFormik(
       <Select
         name='status'

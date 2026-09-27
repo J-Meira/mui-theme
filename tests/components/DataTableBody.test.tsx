@@ -11,9 +11,9 @@ interface TestRow {
 }
 
 describe('DataTableBody', () => {
-  const mockOnSelectRow = jest.fn();
-  const mockCustomClickAction = jest.fn();
-  const mockIsSelected = jest.fn((row: TestRow) => row.id === 1);
+  const mockOnSelectRow = vi.fn();
+  const mockCustomClickAction = vi.fn();
+  const mockIsSelected = vi.fn((row: TestRow) => row.id === 1);
 
   const columns: DataTableColumnsProps<TestRow>[] = [
     {
@@ -41,7 +41,7 @@ describe('DataTableBody', () => {
   ];
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render rows correctly', () => {
@@ -277,7 +277,7 @@ describe('DataTableBody', () => {
 });
 
 describe('DataTableBody column handling', () => {
-  const noop = jest.fn();
+  const noop = vi.fn();
   const notSelected = () => false;
 
   it('should not mutate the column definition when rendering an actions column', () => {

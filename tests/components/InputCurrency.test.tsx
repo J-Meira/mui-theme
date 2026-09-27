@@ -6,7 +6,7 @@ import { formatCurrency } from '../../src/components/Input/formatCurrency';
 describe('Input Currency', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -38,7 +38,7 @@ describe('Input Currency', () => {
   });
 
   it('should format single digit currency', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Currency name='price' label='Price' onChange={handleChange} />,
       { price: '' },
@@ -49,7 +49,7 @@ describe('Input Currency', () => {
   });
 
   it('should format two digit currency', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Currency name='price' label='Price' onChange={handleChange} />,
       { price: '' },
@@ -60,7 +60,7 @@ describe('Input Currency', () => {
   });
 
   it('should format three or more digit currency', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Currency name='price' label='Price' onChange={handleChange} />,
       { price: '' },
@@ -71,7 +71,7 @@ describe('Input Currency', () => {
   });
 
   it('should handle onChange with local control', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Currency
         name='price'
@@ -86,7 +86,7 @@ describe('Input Currency', () => {
   });
 
   it('should handle onBlur with local control', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     render(
       <Currency name='price' localControl label='Price' onBlur={handleBlur} />,
     );
@@ -134,7 +134,7 @@ describe('Input Currency', () => {
   });
 
   it('should call both Formik and custom onChange', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Currency name='price' label='Price' onChange={handleChange} />,
       { price: '' },
@@ -159,7 +159,7 @@ describe('Input Currency formatting', () => {
 
   it('should format typed digits as a decimal amount in Formik mode', () => {
     render(
-      <Formik initialValues={{ price: '' }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ price: '' }} onSubmit={vi.fn()}>
         <Form>
           <Currency name='price' label='Price' />
         </Form>
@@ -187,7 +187,7 @@ describe('Input Currency formatting', () => {
   });
 
   it('should pass the formatted event to the custom onChange in local control mode', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Currency
         name='price'

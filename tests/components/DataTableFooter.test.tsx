@@ -2,13 +2,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { DataTableFooter } from '../../src/components/DataTable/DataTableFooter';
 
 describe('DataTableFooter', () => {
-  const mockSetRowsPerPage = jest.fn();
-  const mockRowsPerPageDetails = jest.fn(
+  const mockSetRowsPerPage = vi.fn();
+  const mockRowsPerPageDetails = vi.fn(
     (rows: number, total: number) => `${rows} of ${total}`,
   );
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render with default props', () => {
@@ -93,7 +93,7 @@ describe('DataTableFooter', () => {
   });
 
   it('should display correct details using rowsPerPageDetails function', () => {
-    const customDetails = jest.fn(
+    const customDetails = vi.fn(
       (rows: number, total: number) =>
         `Showing ${rows} out of ${total} records`,
     );

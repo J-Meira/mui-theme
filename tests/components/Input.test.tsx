@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Input, SelectOptionsProps } from '../../src/components/Input';
 
 // Mock all the sub-components to test the main Input logic
-jest.mock('../../src/components/Input/Basic', () => ({
+vi.mock('../../src/components/Input/Basic', () => ({
   Basic: ({ localControl, ...props }: any) => (
     <input
       data-testid='basic-input'
@@ -12,7 +12,7 @@ jest.mock('../../src/components/Input/Basic', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/CheckBox', () => ({
+vi.mock('../../src/components/Input/CheckBox', () => ({
   CheckBox: ({ localControl, ...props }: any) => (
     <input
       data-testid='checkbox-input'
@@ -23,7 +23,7 @@ jest.mock('../../src/components/Input/CheckBox', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/Currency', () => ({
+vi.mock('../../src/components/Input/Currency', () => ({
   Currency: ({ localControl, hideSymbol, symbol, ...props }: any) => (
     <input
       data-testid='currency-input'
@@ -35,7 +35,7 @@ jest.mock('../../src/components/Input/Currency', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/Icon', () => ({
+vi.mock('../../src/components/Input/Icon', () => ({
   Icon: ({ localControl, actionTitle, start, ...props }: any) => (
     <input
       data-testid='icon-input'
@@ -47,7 +47,7 @@ jest.mock('../../src/components/Input/Icon', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/Mask', () => ({
+vi.mock('../../src/components/Input/Mask', () => ({
   Mask: ({ localControl, maskModel, ...props }: any) => (
     <input
       data-testid='mask-input'
@@ -58,7 +58,7 @@ jest.mock('../../src/components/Input/Mask', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/Number', () => ({
+vi.mock('../../src/components/Input/Number', () => ({
   NumberInput: ({ localControl, decimal, ...props }: any) => (
     <input
       data-testid='number-input'
@@ -70,7 +70,7 @@ jest.mock('../../src/components/Input/Number', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/Password', () => ({
+vi.mock('../../src/components/Input/Password', () => ({
   Password: ({ localControl, hideTitle, showTitle, ...props }: any) => (
     <input
       data-testid='password-input'
@@ -83,7 +83,7 @@ jest.mock('../../src/components/Input/Password', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/RadioGroup', () => ({
+vi.mock('../../src/components/Input/RadioGroup', () => ({
   RadioGroup: ({ localControl, rowDirection, options, ...props }: any) => (
     <div
       data-testid='radiogroup-input'
@@ -95,7 +95,7 @@ jest.mock('../../src/components/Input/RadioGroup', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/Search', () => ({
+vi.mock('../../src/components/Input/Search', () => ({
   Search: ({
     localControl,
     creatable,
@@ -114,7 +114,7 @@ jest.mock('../../src/components/Input/Search', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/SearchRequest', () => ({
+vi.mock('../../src/components/Input/SearchRequest', () => ({
   SearchRequest: ({
     localControl,
     creatable,
@@ -131,7 +131,7 @@ jest.mock('../../src/components/Input/SearchRequest', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Input/Select', () => ({
+vi.mock('../../src/components/Input/Select', () => ({
   Select: ({
     localControl,
     defaultOption,
@@ -204,7 +204,7 @@ describe('Input', () => {
     });
 
     it('should render Icon input when model is "icon"', () => {
-      const mockAction = jest.fn();
+      const mockAction = vi.fn();
       render(
         <Input
           name='test'
@@ -272,7 +272,7 @@ describe('Input', () => {
     });
 
     it('should render Search input when model is "search"', () => {
-      const mockSearchChange = jest.fn();
+      const mockSearchChange = vi.fn();
       render(
         <Input
           name='test'
@@ -292,7 +292,7 @@ describe('Input', () => {
     });
 
     it('should render SearchRequest input when model is "searchRequest"', () => {
-      const mockSearchChange = jest.fn();
+      const mockSearchChange = vi.fn();
       render(
         <Input
           name='test'

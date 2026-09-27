@@ -8,14 +8,14 @@ Project instructions for Claude Code. Keep this file short and current; it repla
 
 - **Peer dependencies** (consumers install them, this repo has them in `devDependencies` only): `@mui/material` 7.3+ or 9, `@mui/x-date-pickers` 8 or 9, `@emotion/react`, `@emotion/styled`, `formik`, `notistack`, `dayjs`, `react-icons`, `react`, `react-dom`.
 - Build output: `dist/esm` (ESM only, `"type": "module"` marker) and `dist/scss`. No CommonJS build since 3.0; consumers are bundler-based (Vite). Compile target ES2020, `moduleResolution: bundler`. `exports` map blocks deep imports into `dist/`.
-- Tooling: pnpm 12, Node 22.13+, TypeScript, Jest + React Testing Library, Storybook 10 (react-vite), ESLint flat config, Prettier.
+- Tooling: pnpm 12, Node 22.13+, TypeScript, Vitest + React Testing Library, Storybook 10 (react-vite), ESLint flat config, Prettier.
 
 ## Commands
 
 ```bash
 pnpm install          # frozen lockfile in CI
 pnpm lint             # eslint .
-pnpm test             # jest, config in jestconfig.json
+pnpm test             # vitest run, config in vitest.config.ts
 pnpm build            # prettier + lint + clean + esm/cjs build + scss copy
 pnpm build-sb         # static Storybook
 pnpm sb               # Storybook dev server on :6006
@@ -81,7 +81,7 @@ const newItems = [...items, newItem];
 - Memoize only where it pays: `useMemo` for objects passed to context or providers, `useCallback` for handlers passed to memoized children. Do not wrap props spreads in `useMemo`; it never hits.
 - Derive values from props directly instead of mirroring them into state with `useEffect`.
 - Never mutate props or the caller's objects during render (see `DataTableBody`).
-- Every bug fix gets a regression test. Tests live in `tests/`, mirror the `src/` path, and use Testing Library queries (`getByRole`, `getByLabelText`) over selectors.
+- Every bug fix gets a regression test. Tests live in `tests/`, mirror the `src/` path, and use Testing Library queries (`getByRole`, `getByLabelText`) over selectors. Vitest globals are on (`describe`, `it`, `expect`, `vi`); mock with `vi.fn` / `vi.mock`.
 - Every component has a story. New props need a story variant.
 - Public exports are API. Renaming or removing one is a breaking change and belongs in a major release.
 

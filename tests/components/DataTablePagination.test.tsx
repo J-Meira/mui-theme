@@ -3,7 +3,7 @@ import { DataTablePagination } from '../../src/components/DataTable/DataTablePag
 import { PagesProps } from '../../src/components/DataTable';
 
 describe('DataTablePagination', () => {
-  const mockSetPage = jest.fn();
+  const mockSetPage = vi.fn();
 
   const createPages = (total: number): PagesProps[] => {
     const pages: PagesProps[] = [];
@@ -14,7 +14,7 @@ describe('DataTablePagination', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render pagination buttons', () => {

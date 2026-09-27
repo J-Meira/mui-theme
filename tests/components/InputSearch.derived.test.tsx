@@ -10,9 +10,9 @@ const mockOptions = [
 
 describe('Search derived selection', () => {
   it('should show the option matching the Formik value and update it on selection', async () => {
-    const handleSearchChange = jest.fn();
+    const handleSearchChange = vi.fn();
     render(
-      <Formik initialValues={{ testSearch: 2 }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testSearch: 2 }} onSubmit={vi.fn()}>
         {({ values }) => (
           <Form>
             <Search
@@ -40,9 +40,9 @@ describe('Search derived selection', () => {
   });
 
   it('should not notify searchChange on mount when nothing is selected', async () => {
-    const handleSearchChange = jest.fn();
+    const handleSearchChange = vi.fn();
     render(
-      <Formik initialValues={{ testSearch: -1 }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testSearch: -1 }} onSubmit={vi.fn()}>
         <Form>
           <Search
             name='testSearch'
