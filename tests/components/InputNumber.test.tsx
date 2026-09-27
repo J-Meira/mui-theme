@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Formik, Form } from 'formik';
-import { Number } from '../../src/components/Input/Number';
+import { NumberInput as Number } from '../../src/components/Input/Number';
 
 describe('Input Number', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {

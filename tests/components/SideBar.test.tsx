@@ -1,13 +1,24 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { SideBar } from '../../src/components/SideBar';
-import { useWindowDimensions } from '../../src/hooks';
-
-// Mock useWindowDimensions hook
-jest.mock('../../src/hooks', () => ({
-  useWindowDimensions: jest.fn(),
-}));
-
-const mockUseWindowDimensions = useWindowDimensions as jest.Mock;
+const setViewportWidth = (width: number) => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    configurable: true,
+    value: (query: string) => {
+      const minWidth = /min-width:\s*(\d+)px/.exec(query);
+      return {
+        matches: minWidth ? width >= Number(minWidth[1]) : false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      };
+    },
+  });
+};
 
 describe('SideBar', () => {
   const defaultProps = {
@@ -20,7 +31,7 @@ describe('SideBar', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseWindowDimensions.mockReturnValue({ width: 1200, height: 800 });
+    setViewportWidth(1200);
   });
 
   describe('rendering', () => {
@@ -64,7 +75,7 @@ describe('SideBar', () => {
 
   describe('responsive behavior', () => {
     it('should use permanent variant for wide screens', () => {
-      mockUseWindowDimensions.mockReturnValue({ width: 1200, height: 800 });
+      setViewportWidth(1200);
       const { container } = render(<SideBar {...defaultProps} />);
 
       const drawer = container.querySelector('.MuiDrawer-docked');
@@ -72,7 +83,7 @@ describe('SideBar', () => {
     });
 
     it('should use persistent variant for narrow screens', () => {
-      mockUseWindowDimensions.mockReturnValue({ width: 600, height: 800 });
+      setViewportWidth(600);
       const { container } = render(<SideBar {...defaultProps} />);
 
       // Check for click listener overlay on mobile
@@ -81,7 +92,7 @@ describe('SideBar', () => {
     });
 
     it('should add collapsed class when not expanded on wide screens', () => {
-      mockUseWindowDimensions.mockReturnValue({ width: 1200, height: 800 });
+      setViewportWidth(1200);
       const { container } = render(
         <SideBar {...defaultProps} expanded={false} />,
       );
@@ -91,7 +102,7 @@ describe('SideBar', () => {
     });
 
     it('should render click listener overlay on mobile when expanded', () => {
-      mockUseWindowDimensions.mockReturnValue({ width: 600, height: 800 });
+      setViewportWidth(600);
       const mockSideBarControl = jest.fn();
       const { container } = render(
         <SideBar
@@ -109,7 +120,7 @@ describe('SideBar', () => {
     });
 
     it('should not render click listener overlay on mobile when collapsed', () => {
-      mockUseWindowDimensions.mockReturnValue({ width: 600, height: 800 });
+      setViewportWidth(600);
       const { container } = render(
         <SideBar {...defaultProps} expanded={false} />,
       );
@@ -240,7 +251,7 @@ describe('SideBar', () => {
 
   describe('CSS classes', () => {
     it('should apply correct classes based on screen size and expansion state', () => {
-      mockUseWindowDimensions.mockReturnValue({ width: 1200, height: 800 });
+      setViewportWidth(1200);
       const { rerender, container } = render(
         <SideBar {...defaultProps} expanded />,
       );
@@ -253,7 +264,7 @@ describe('SideBar', () => {
       drawer = container.querySelector('.side-bar');
       expect(drawer).toHaveClass('side-bar', 'side-bar-collapsed');
 
-      mockUseWindowDimensions.mockReturnValue({ width: 600, height: 800 });
+      setViewportWidth(600);
       rerender(<SideBar {...defaultProps} expanded />);
       drawer = container.querySelector('.side-bar');
       expect(drawer).toHaveClass('side-bar');
@@ -269,7 +280,7 @@ describe('SideBar', () => {
     });
 
     it('should handle window resize effects', () => {
-      mockUseWindowDimensions.mockReturnValue({ width: 1200, height: 800 });
+      setViewportWidth(1200);
       const { rerender, container } = render(
         <SideBar {...defaultProps} expanded={false} />,
       );
@@ -278,7 +289,7 @@ describe('SideBar', () => {
       expect(drawer).toHaveClass('side-bar-collapsed');
 
       // Simulate window resize to mobile
-      mockUseWindowDimensions.mockReturnValue({ width: 600, height: 800 });
+      setViewportWidth(600);
       rerender(<SideBar {...defaultProps} expanded={false} />);
 
       drawer = container.querySelector('.side-bar');

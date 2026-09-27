@@ -1,7 +1,13 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 
-import { Drawer, DrawerProps, List, Popover, Typography } from '@mui/material';
-import { useWindowDimensions } from '../../hooks';
+import {
+  Drawer,
+  DrawerProps,
+  List,
+  Popover,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 
 export interface SideBarProps {
   logo: string;
@@ -15,6 +21,8 @@ export interface SideBarProps {
   children?: React.ReactNode;
 }
 
+const WIDE_SCREEN = '(min-width:840px)';
+
 export const SideBar = ({
   logo,
   icon,
@@ -26,10 +34,8 @@ export const SideBar = ({
   homeNavigate,
   children,
 }: SideBarProps) => {
-  const { width } = useWindowDimensions();
+  const isWide = useMediaQuery(WIDE_SCREEN);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
-  const [type, setType] = useState<DrawerProps['variant']>('permanent');
-  const [className, setClassName] = useState('side-bar');
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,18 +46,10 @@ export const SideBar = ({
   };
 
   const openPopover = Boolean(anchorEl);
-
-  useEffect(() => {
-    const newType: DrawerProps['variant'] =
-      width < 840 ? 'persistent' : 'permanent';
-    const newClassName =
-      width >= 840
-        ? `side-bar ${!expanded ? 'side-bar-collapsed' : ''}`
-        : 'side-bar';
-
-    setType(newType);
-    setClassName(newClassName);
-  }, [width, expanded]);
+  const type: DrawerProps['variant'] = isWide ? 'permanent' : 'persistent';
+  const className = ['side-bar', isWide && !expanded && 'side-bar-collapsed']
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <Fragment>

@@ -1,6 +1,5 @@
 import { Field, FieldProps } from 'formik';
 import { MenuItem, TextField } from '@mui/material';
-import { memo, useMemo } from 'react';
 import { InputProps, SelectProps } from '.';
 
 type SelectPropsEx = Omit<
@@ -9,7 +8,7 @@ type SelectPropsEx = Omit<
 > &
   SelectProps;
 
-const SelectComponent = ({
+export const Select = ({
   defaultOption,
   helperText,
   inputRef,
@@ -24,50 +23,26 @@ const SelectComponent = ({
   variant = 'outlined',
   ...rest
 }: SelectPropsEx) => {
-  const renderOptions = useMemo(() => {
-    const items = [];
+  const Option = noNativeOptions ? MenuItem : 'option';
 
-    if (defaultOption) {
-      items.push(
-        noNativeOptions ? (
-          <MenuItem key='default-option' value={-1}>
-            {defaultOption}
-          </MenuItem>
-        ) : (
-          <option key='default-option' value={-1}>
-            {defaultOption}
-          </option>
-        ),
-      );
-    }
+  const renderOptions = [
+    defaultOption && (
+      <Option key='default-option' value={-1}>
+        {defaultOption}
+      </Option>
+    ),
+    ...(options ?? []).map((op) => (
+      <Option key={`${op.value}-${op.label}`} value={op.value}>
+        {op.label}
+      </Option>
+    )),
+  ];
 
-    if (options) {
-      options.forEach((op) => {
-        items.push(
-          noNativeOptions ? (
-            <MenuItem key={`${op.value}-${op.label}`} value={op.value}>
-              {op.label}
-            </MenuItem>
-          ) : (
-            <option key={`${op.value}-${op.label}`} value={op.value}>
-              {op.label}
-            </option>
-          ),
-        );
-      });
-    }
-
-    return items;
-  }, [defaultOption, noNativeOptions, options]);
-
-  const slotPropsConfig = useMemo(
-    () => ({
-      ...slotProps,
-      input: { readOnly, ref: inputRef, ...slotProps?.input },
-      select: !noNativeOptions ? { native: true } : undefined,
-    }),
-    [noNativeOptions, readOnly, inputRef, slotProps],
-  );
+  const slotPropsConfig = {
+    ...slotProps,
+    input: { readOnly, ref: inputRef, ...slotProps?.input },
+    select: !noNativeOptions ? { native: true } : undefined,
+  };
 
   if (localControl) {
     return (
@@ -126,5 +101,3 @@ const SelectComponent = ({
     </Field>
   );
 };
-
-export const Select = memo(SelectComponent);

@@ -10,6 +10,7 @@ export const DataTableBody = <T extends object>({
   isSelectableAnywhereElse,
   isSelected,
   onSelectRow,
+  rowKey,
   rows,
   title,
   statusProp,
@@ -50,6 +51,7 @@ export const DataTableBody = <T extends object>({
         rows.map((row, index) => {
           const isItemSelected = isSelected(row);
           const labelId = `data-table-${title}-row-${index}`;
+          const rowId = rowKey ? String(row[rowKey]) : labelId;
           return (
             <TableRow
               hover
@@ -68,7 +70,7 @@ export const DataTableBody = <T extends object>({
                   : undefined
               }
               tabIndex={-1}
-              key={labelId}
+              key={rowId}
               selected={
                 isSelectable && isSelectableAnywhere
                   ? isItemSelected
@@ -87,7 +89,7 @@ export const DataTableBody = <T extends object>({
                 </TableCell>
               )}
               {columns &&
-                columns.map((col, cIndex) => {
+                columns.map((col) => {
                   const key = col.key;
                   if (key === 'actions' || col.render) {
                     if (!col.render) return null;
@@ -97,7 +99,7 @@ export const DataTableBody = <T extends object>({
                         : col.className;
                     return (
                       <TableCell
-                        key={index + key.toString() + cIndex}
+                        key={String(key)}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={
@@ -126,7 +128,7 @@ export const DataTableBody = <T extends object>({
                   if (col.limit) {
                     return (
                       <TableCell
-                        key={index + key.toString() + cIndex}
+                        key={String(key)}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -145,7 +147,7 @@ export const DataTableBody = <T extends object>({
                   if (col.enumObject) {
                     return (
                       <TableCell
-                        key={index + key.toString() + cIndex}
+                        key={String(key)}
                         align={col.align}
                         padding={col.disablePadding ? 'none' : 'normal'}
                         className={getClassName(col.className)}
@@ -163,7 +165,7 @@ export const DataTableBody = <T extends object>({
                   }
                   return (
                     <TableCell
-                      key={index + key.toString() + cIndex}
+                      key={String(key)}
                       align={col.align}
                       padding={col.disablePadding ? 'none' : 'normal'}
                       className={getClassName(col.className)}

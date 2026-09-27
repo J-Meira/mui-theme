@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import {
   Box,
@@ -46,6 +46,12 @@ export const SideBarItem = ({
   ...rest
 }: SideBarItemProps) => {
   const [open, setOpen] = useState(initialState);
+  const [prevExpanded, setPrevExpanded] = useState(expanded);
+
+  if (expanded !== prevExpanded) {
+    setPrevExpanded(expanded);
+    if (!expanded && open) setOpen(false);
+  }
 
   const openMain = () => {
     if (!open && !expanded && sideBarControl) {
@@ -70,12 +76,6 @@ export const SideBarItem = ({
       )}
     </>
   ))();
-
-  useEffect(() => {
-    if (!expanded && open) setOpen(false);
-
-    // eslint-disable-next-line
-  }, [expanded]);
 
   return children ? (
     <>

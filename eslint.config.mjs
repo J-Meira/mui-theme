@@ -48,8 +48,12 @@ export default tseslint.config(
     ...eslintReact.configs['recommended-typescript'],
     rules: {
       ...eslintReact.configs['recommended-typescript'].rules,
-      '@eslint-react/set-state-in-effect': 'off',
-      '@eslint-react/no-array-index-key': 'off',
+    },
+  },
+  {
+    files: ['src/index.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
   {

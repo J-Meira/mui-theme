@@ -80,6 +80,7 @@ export interface DataTableBodyProps<T extends object> {
   isSelectableAnywhereElse?: boolean;
   isSelected: (row: T) => boolean;
   onSelectRow: (row: T) => void;
+  rowKey?: keyof T;
   rows: T[];
   title: string;
   statusProp?: keyof T;

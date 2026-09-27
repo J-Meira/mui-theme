@@ -13,19 +13,23 @@ export const BreadcrumbBar = ({ list }: BreadcrumbBarProps) => (
   <Breadcrumbs aria-label='breadcrumb'>
     {list &&
       list.map((item, index) => {
-        if (index !== list.length - 1) {
-          return item.link ? (
-            <Link key={index} color='inherit' href={item.link}>
+        const key = `${item.label}-${item.link ?? ''}`;
+        const isLast = index === list.length - 1;
+
+        if (isLast) {
+          return (
+            <Typography key={key} sx={{ color: 'text.primary' }}>
               {item.label}
-            </Link>
-          ) : (
-            <Typography key={index}>{item.label}</Typography>
+            </Typography>
           );
         }
-        return (
-          <Typography key={index} sx={{ color: 'text.primary' }}>
+
+        return item.link ? (
+          <Link key={key} color='inherit' href={item.link}>
             {item.label}
-          </Typography>
+          </Link>
+        ) : (
+          <Typography key={key}>{item.label}</Typography>
         );
       })}
   </Breadcrumbs>

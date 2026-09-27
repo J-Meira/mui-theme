@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Field, FieldProps } from 'formik';
 
 import { Dayjs } from 'dayjs';
 
-import { TextFieldProps, Grid } from '@mui/material';
+import { TextFieldProps } from '@mui/material';
 import {
   DatePicker as MuiDatePicker,
   DateTimePicker as MuiDateTimePicker,
 } from '@mui/x-date-pickers';
 import type { PickersTextFieldProps } from '@mui/x-date-pickers/PickersTextField';
-import { defaultGrid, GridSizeProps } from './defaultGrid';
+import { GridSizeProps } from './defaultGrid';
+import { InputGrid } from './InputGrid';
+import { useSyncedState } from '../../hooks/useSyncedState';
 
 export type DatePickerProps = Omit<TextFieldProps, 'value' | 'onChange'> & {
   className?: string;
@@ -36,12 +38,13 @@ type RenderProps = Omit<
   value: Dayjs | null;
   onChange: (newValue: Dayjs | null) => void;
 };
+
 const RenderDatePicker = ({
   className,
   disabled,
   disableFuture,
   disablePast,
-  grid = defaultGrid,
+  grid,
   helperText,
   label,
   amPm = false,
@@ -60,91 +63,62 @@ const RenderDatePicker = ({
   ...rest
 }: RenderProps) => {
   const [open, setOpen] = useState(false);
-  const [innerValue, setInnerValue] = useState<Dayjs | null>(null);
+  const [innerValue, setInnerValue] = useSyncedState(value);
 
   const inputProps: TextFieldProps = {
     margin: 'normal',
     fullWidth: true,
     size: 'small',
-    required: required,
-    label: label,
-    disabled: disabled,
-    variant: variant,
-    name: name,
+    required,
+    label,
+    disabled,
+    variant,
+    name,
     error: !!helperText,
-    helperText: helperText,
-    onBlur: onBlur,
+    helperText,
+    onBlur,
     ...rest,
   };
 
-  const dateProps = {
-    maxDate: maxDate,
-    minDate: minDate,
-    disableFuture: disableFuture,
-    disablePast: disablePast,
-    readOnly: readOnly,
+  const pickerProps = {
+    maxDate,
+    minDate,
+    disableFuture,
+    disablePast,
+    readOnly,
     showDaysOutsideCurrentMonth: true,
-    disabled: disabled,
+    disabled,
+    onOpen: () => setOpen(true),
+    onClose: () => setOpen(false),
+    onChange: (newValue: Dayjs | null) => {
+      onChange(newValue);
+      setInnerValue(newValue);
+    },
+    open,
+    value: innerValue,
+    slotProps: {
+      textField: inputProps as PickersTextFieldProps,
+      actionBar: () => ({
+        actions: showTodayButton ? (['today'] as const) : [],
+      }),
+    },
   };
 
-  useEffect(() => {
-    setInnerValue(value);
-  }, [value]);
-
-  const render = (() => {
-    return time ? (
-      <MuiDateTimePicker
-        {...dateProps}
-        ampm={amPm}
-        format='DD/MM/YYYY HH:mm'
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        onChange={(newValue) => {
-          onChange?.(newValue);
-          setInnerValue(newValue);
-        }}
-        open={open}
-        value={innerValue}
-        slotProps={{
-          textField: inputProps as PickersTextFieldProps,
-          actionBar: () => ({
-            actions: showTodayButton ? ['today'] : [],
-          }),
-        }}
-      />
-    ) : (
-      <MuiDatePicker
-        {...dateProps}
-        format='DD/MM/YYYY'
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        onChange={(newValue) => {
-          onChange?.(newValue);
-          setInnerValue(newValue);
-        }}
-        open={open}
-        value={innerValue}
-        slotProps={{
-          textField: inputProps as PickersTextFieldProps,
-          actionBar: () => ({
-            actions: showTodayButton ? ['today'] : [],
-          }),
-        }}
-      />
-    );
-  })();
-
-  return noGrid ? (
-    render
-  ) : (
-    <Grid
-      className={className}
-      size={{ ...(defaultGrid as object), ...(grid as object) }}
-    >
-      {render}
-    </Grid>
+  return (
+    <InputGrid className={className} grid={grid} noGrid={noGrid}>
+      {time ? (
+        <MuiDateTimePicker
+          {...pickerProps}
+          ampm={amPm}
+          format='DD/MM/YYYY HH:mm'
+        />
+      ) : (
+        <MuiDatePicker {...pickerProps} format='DD/MM/YYYY' />
+      )}
+    </InputGrid>
   );
 };
+
 export const DatePicker = ({
   helperText,
   localControl = false,
@@ -154,16 +128,20 @@ export const DatePicker = ({
   value = null,
   ...rest
 }: DatePickerProps) => {
-  return localControl ? (
-    <RenderDatePicker
-      {...rest}
-      onBlur={onBlur}
-      name={name}
-      helperText={helperText}
-      onChange={(newValue) => onChange?.(newValue)}
-      value={value}
-    />
-  ) : (
+  if (localControl) {
+    return (
+      <RenderDatePicker
+        {...rest}
+        onBlur={onBlur}
+        name={name}
+        helperText={helperText}
+        onChange={(newValue) => onChange?.(newValue)}
+        value={value}
+      />
+    );
+  }
+
+  return (
     <Field name={name}>
       {({ field, meta, form }: FieldProps) => {
         const { touched, error } = meta;

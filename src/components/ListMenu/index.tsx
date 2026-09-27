@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Menu, MenuItem } from '@mui/material';
 
 export interface ListMenuItemProps {
@@ -10,6 +11,7 @@ export interface ListMenuProps {
   open: boolean;
   anchorEl?: HTMLElement | null;
   list?: ListMenuItemProps[];
+  id?: string;
 }
 
 export interface ListMenuPropExt {
@@ -19,6 +21,9 @@ export interface ListMenuPropExt {
 }
 
 export const ListMenu = ({ menu, toggle, navigate }: ListMenuPropExt) => {
+  const generatedId = useId();
+  const menuId = menu.id ?? generatedId;
+
   const menuClick = (item: ListMenuItemProps) => {
     toggle();
     if (item.destiny) navigate(item.destiny);
@@ -27,16 +32,16 @@ export const ListMenu = ({ menu, toggle, navigate }: ListMenuPropExt) => {
 
   return (
     <Menu
-      id='simple-menu'
+      id={menuId}
       anchorEl={menu.anchorEl}
       keepMounted
       open={menu.open}
       onClose={toggle}
     >
       {menu.list &&
-        menu.list.map((item, index) => (
+        menu.list.map((item) => (
           <MenuItem
-            key={`${index} - ${item.label}`}
+            key={`${item.label}-${item.destiny ?? ''}`}
             onClick={() => menuClick(item)}
           >
             {item.label}
