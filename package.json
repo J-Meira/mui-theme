@@ -4,19 +4,12 @@
   "description": "UI theme and form components built on MUI (Material UI) with Formik",
   "author": "J-Meira",
   "license": "ISC",
-  "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/cjs/index.d.ts",
-        "default": "./dist/cjs/index.js"
-      }
+      "types": "./dist/esm/index.d.ts",
+      "default": "./dist/esm/index.js"
     },
     "./scss/*": "./dist/scss/*",
     "./package.json": "./package.json"
@@ -70,7 +63,7 @@
     "sass": "^1.105.0",
     "storybook": "^10.6.0",
     "ts-jest": "^29.4.14",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
     "vite": "^8.3.1"
   },
@@ -94,10 +87,8 @@
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "pnpm pre-build && pnpm build:pkg && pnpm copy-scss",
-    "build:pkg": "pnpm build:esm && pnpm build:cjs",
-    "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
-    "build:esm": "tsc --declarationDir dist/esm",
+    "build": "pnpm pre-build && pnpm build:esm && pnpm copy-scss",
+    "build:esm": "tsc",
     "clean": "node scripts/clean.mjs",
     "copy-scss": "node scripts/copy.mjs",
     "pre-build": "pnpm prettier && pnpm lint  && pnpm clean",
