@@ -1,19 +1,19 @@
-import { ReactNode, memo, useMemo } from 'react';
+import { ReactNode } from 'react';
 import {
   CheckboxProps,
-  Grid,
   OutlinedInputProps,
   TextFieldProps,
 } from '@mui/material';
 
-import { defaultGrid, GridSizeProps } from './defaultGrid';
+import { GridSizeProps } from './defaultGrid';
+import { InputGrid } from './InputGrid';
 
 import { Basic } from './Basic';
 import { CheckBox } from './CheckBox';
 import { Currency } from './Currency';
 import { Icon } from './Icon';
 import { Mask } from './Mask';
-import { Number } from './Number';
+import { NumberInput } from './Number';
 import { Password } from './Password';
 import { RadioGroup } from './RadioGroup';
 import { Search } from './Search';
@@ -135,7 +135,7 @@ const INPUT_COMPONENTS = {
   currency: Currency,
   icon: Icon,
   mask: Mask,
-  number: Number,
+  number: NumberInput,
   password: Password,
   radioGroup: RadioGroup,
   search: Search,
@@ -143,7 +143,7 @@ const INPUT_COMPONENTS = {
   select: Select,
 } as const;
 
-const InputComponent = ({
+export const Input = ({
   action,
   actionTitle,
   className,
@@ -153,7 +153,7 @@ const InputComponent = ({
   decimal,
   defaultOption,
   icon,
-  grid = defaultGrid,
+  grid,
   hideSymbol,
   hideTitle,
   inputRef,
@@ -170,15 +170,7 @@ const InputComponent = ({
   symbol,
   ...rest
 }: InputPropsExt) => {
-  const gridSize = useMemo(
-    () => ({
-      ...defaultGrid,
-      ...grid,
-    }),
-    [grid],
-  );
-
-  const renderInput = useMemo(() => {
+  const renderInput = () => {
     if (!model) {
       return (
         <Basic localControl={localControl} inputRef={inputRef} {...rest} />
@@ -187,14 +179,15 @@ const InputComponent = ({
 
     const Component = INPUT_COMPONENTS[model];
     if (!Component) {
-      return <Basic localControl={localControl} {...rest} />;
+      return (
+        <Basic localControl={localControl} inputRef={inputRef} {...rest} />
+      );
     }
 
     const componentProps = {
       localControl,
       inputRef,
       ...rest,
-      ...(model === 'checkBox' && {}),
       ...(model === 'currency' && { hideSymbol, symbol }),
       ...(model === 'icon' && { action, actionTitle, icon, start }),
       ...(model === 'mask' && { custom, maskModel }),
@@ -217,40 +210,11 @@ const InputComponent = ({
     };
 
     return <Component {...componentProps} />;
-  }, [
-    model,
-    localControl,
-    inputRef,
-    rest,
-    hideSymbol,
-    symbol,
-    action,
-    actionTitle,
-    icon,
-    start,
-    custom,
-    maskModel,
-    decimal,
-    hideTitle,
-    showTitle,
-    rowDirection,
-    options,
-    creatable,
-    creatableLabel,
-    searchChange,
-    defaultOption,
-    noNativeOptions,
-  ]);
-
-  if (noGrid) {
-    return renderInput;
-  }
+  };
 
   return (
-    <Grid className={className} size={gridSize}>
-      {renderInput}
-    </Grid>
+    <InputGrid className={className} grid={grid} noGrid={noGrid}>
+      {renderInput()}
+    </InputGrid>
   );
 };
-
-export const Input = memo(InputComponent);

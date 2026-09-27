@@ -55,9 +55,9 @@ export const DataTablePagination = ({
         <ArrowLeftIcon />
       </PageButton>
       {options &&
-        options.map((item, index) => (
+        options.map((item) => (
           <PageButton
-            key={`${title}_page_item_${index}`}
+            key={`${title}_page_item_${item.pageNumber}`}
             onClick={() => setPage(item.pageNumber)}
             active={item.pageNumber === currentPage}
             className={item.pageNumber !== currentPage ? 'btn-hide-mobile' : ''}

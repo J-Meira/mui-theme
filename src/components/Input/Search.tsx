@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useField } from 'formik';
-import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
 import { InputProps, SearchProps, SelectOptionsProps } from '.';
+import { SearchAutocomplete } from './SearchAutocomplete';
 
-const filter = createFilterOptions<SelectOptionsProps>();
-
-const isString = (item: any): item is string => {
-  return typeof item === 'string';
-};
+const NO_SELECTION = -1;
 
 type SearchExProps = Omit<
   InputProps,
@@ -28,105 +24,61 @@ export const Search = ({
   searchChange,
   variant = 'outlined',
 }: SearchExProps): React.ReactElement => {
-  const [field, meta, helper] = useField(name);
+  const [field, meta, helper] = useField<number>(name);
   const { touched, error } = meta;
 
   const [inputValue, setInputValue] = useState('');
-  const [selected, setSelected] = useState<number>(-1);
-  const [selectedItem, setSelectedItem] = useState<SelectOptionsProps | null>(
+  const [createdOption, setCreatedOption] = useState<SelectOptionsProps | null>(
     null,
   );
 
-  const handle = (e: any, newValue: any, reason: string) => {
-    e.target.name = name;
-    e.target.value = -1;
+  const list = options ?? [];
+  const selectedItem =
+    list.find((op) => op.value === field.value) ??
+    (createdOption?.value === field.value ? createdOption : null);
 
-    if (newValue) {
-      const { value } = newValue;
-      e.target.value = value;
-      setSelected(value);
-      searchChange?.(Number(value));
-      setSelectedItem(newValue);
-    }
-
-    if (!newValue || reason === 'clear') {
-      setSelected(-1);
-      searchChange?.(-1);
-      setSelectedItem(null);
-    }
-    field.onChange(e);
-  };
+  const notifiedRef = useRef<{ value: number; found: boolean }>({
+    value: NO_SELECTION,
+    found: false,
+  });
 
   useEffect(() => {
-    if (field.value !== selected) {
-      const fV = field.value;
-      const selectedOption = options?.find((op) => op.value === fV);
-      if (selectedOption) {
-        setSelected(fV);
-        searchChange?.(fV);
-        setSelectedItem(selectedOption);
-      }
-    }
+    const found = selectedItem !== null;
+    const previous = notifiedRef.current;
+    if (previous.value === field.value && previous.found === found) return;
+    if (!found && !previous.found) return;
+    notifiedRef.current = { value: field.value, found };
+    searchChange?.(found ? Number(field.value) : NO_SELECTION);
+  }, [field.value, selectedItem, searchChange]);
 
-    // eslint-disable-next-line
-  }, [field.value]);
+  const handleChange = (newValue: SelectOptionsProps | null) => {
+    setCreatedOption(newValue);
+    helper.setValue(newValue ? newValue.value : NO_SELECTION);
+  };
 
   return (
-    <Autocomplete
-      id={name}
-      autoHighlight
-      blurOnSelect
+    <SearchAutocomplete<SelectOptionsProps>
+      autoFocus={autoFocus}
+      creatable={creatable}
+      createOption={(typed) => ({
+        value: 0,
+        label: `${creatableLabel || 'New'}: ${typed}`,
+      })}
       disabled={disabled}
-      disablePortal
-      filterOptions={(options, params) => {
-        const filtered = filter(options, params);
-
-        const { inputValue } = params;
-        const isExisting = options.some(
-          (option) => inputValue === option.label,
-        );
-        if (inputValue !== '' && !isExisting && creatable) {
-          filtered.push({
-            value: 0,
-            label: `${creatableLabel || 'New'}: ${inputValue}`,
-          });
-        }
-
-        return filtered;
-      }}
-      freeSolo={creatable}
-      fullWidth
-      getOptionLabel={(option: any) =>
-        isString(option.label) ? option.label : ''
-      }
-      handleHomeEndKeys={creatable}
+      error={touched && !!error}
+      helperText={touched && error}
       inputValue={inputValue}
-      options={options || []}
-      onChange={(e, newValue, r) => handle(e, newValue, r)}
-      onInputChange={(_, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
+      label={label}
+      name={name}
+      onBlur={() => helper.setTouched(true)}
+      onChange={handleChange}
+      onInputChange={(typed) => setInputValue(typed)}
+      optionLabel={(option) => option.label}
+      options={list}
       readOnly={readOnly}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          name={name}
-          autoFocus={autoFocus}
-          error={touched && !!error}
-          helperText={touched && error}
-          required={required}
-          label={label}
-          margin='normal'
-          onBlur={(e) => {
-            e.target.name = name;
-            field.onBlur(e);
-            helper.setTouched(true);
-          }}
-          variant={variant}
-        />
-      )}
-      size='small'
-      value={selectedItem}
+      required={required}
+      selectedItem={selectedItem}
+      variant={variant}
     />
   );
 };

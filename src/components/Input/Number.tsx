@@ -5,7 +5,7 @@ import { InputProps, NumberProps } from '.';
 type NumberEx = Omit<InputProps, 'className' | 'grid' | 'noGrid' | 'model'> &
   NumberProps;
 
-export const Number = ({
+export const NumberInput = ({
   decimal,
   helperText,
   inputRef,
