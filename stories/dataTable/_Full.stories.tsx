@@ -22,7 +22,7 @@ interface IRows {
 }
 
 const levelEnum: EnumObjectProps = {
-  0: 'Roockie',
+  0: 'Rookie',
   1: 'Casual',
   2: 'Regular',
 };

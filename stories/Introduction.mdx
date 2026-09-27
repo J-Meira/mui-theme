@@ -1,6 +1,5 @@
-import { Meta, Source, Canvas } from '@storybook/addon-docs/blocks';
+import { Meta, Source } from '@storybook/addon-docs/blocks';
 
-import Code from './assets/code-brackets.svg';
 import Node from './assets/node.svg';
 import Pnpm from './assets/pnpm.svg';
 import Sass from './assets/sass.svg';
@@ -32,15 +31,7 @@ import Sass from './assets/sass.svg';
       .link-list {
         row-gap: 20px;
         column-gap: 20px;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-      }
-    }
-
-    @media all and (-ms-high-contrast:none) {
-    .link-list {
-        display: -ms-grid;
-        -ms-grid-columns: 1fr 1fr 1fr 1fr;
-        -ms-grid-rows: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
       }
     }
 
@@ -115,7 +106,7 @@ import Sass from './assets/sass.svg';
 
 # Mui theme
 
-Developer with [Mui Core](https://mui.com/core/#/)
+Theme, layout, form inputs and data table for React apps, built on [Material UI](https://mui.com/material-ui/) 9 and [Formik](https://formik.org/). Version 3.x is ESM only and expects the consumer to install the UI libraries it builds on (see Get Started).
 
 <div className='subheading'>Requirements</div>
 
@@ -127,27 +118,13 @@ Developer with [Mui Core](https://mui.com/core/#/)
   >
     <img src={Node} alt='node' />
     <span>
-      <strong>Node.js</strong> v20 +
+      <strong>Node.js</strong> v22.13 +
     </span>
   </a>
-  <a
-    className='link-item'
-    href='https://pnpm.io/installation'
-    target='_blank'
-  >
-    <img src={Pnpm} alt='node' />
+  <a className='link-item' href='https://pnpm.io/installation' target='_blank'>
+    <img src={Pnpm} alt='pnpm' />
     <span>
-      <strong>pnpm</strong> v9 +
-    </span>
-  </a>
-  <a
-    className='link-item'
-    href='https://www.npmjs.com/package/npm-cli-login'
-    target='_blank'
-  >
-    <img src={Code} alt='node' />
-    <span>
-      <strong>npm-cli-login</strong> v1.0 +
+      <strong>pnpm</strong> v12 +
     </span>
   </a>
   <a
@@ -157,27 +134,33 @@ Developer with [Mui Core](https://mui.com/core/#/)
   >
     <img src={Sass} alt='Sass' />
     <span>
-      <strong>Sass</strong> v1.62 +
+      <strong>Sass</strong> v1.70 +
     </span>
   </a>
-
 </div>
+
+The package targets ES2020 and the browsers Material UI 9 supports: Chrome 117, Edge 121, Firefox 121, Safari 17.
 
 <div className='subheading'>Get Started</div>
 
-- Login on git:
+- Point the `@j-meira` scope at GitHub Packages. Create a `.npmrc` in the project (the token is a GitHub personal access token with the `read:packages` scope, kept in an environment variable):
+
+<Source
+  dark
+  language='ini'
+  code={`@j-meira:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=\${NPM_TOKEN}`}
+/>
+
+- Install the theme together with its peer dependencies:
 
 <Source
   dark
   language='bash'
-  code='npm login --registry=https://npm.pkg.github.com --scope=@j-meira'
+  code='pnpm add @j-meira/mui-theme @mui/material @mui/x-date-pickers @emotion/react @emotion/styled formik notistack dayjs react-icons sass'
 />
 
-- Install theme:
-
-<Source dark language='bash' code='pnpm add @j-meira/mui-theme' />
-
-- Wrap App with MultiProvider:
+- Wrap the app with `MultiProvider`:
 
 <Source
   dark
@@ -218,25 +201,21 @@ export const App = () => (
 `}
 />
 
-- Install Sass:
-
-<Source dark language='bash' code='pnpm add sass' />
-
-- Import styles:
+- Import the styles once (the package exposes `@j-meira/mui-theme/scss/*`):
 
 <Source
   dark
-  language='CSS'
-  code={`@import 'node_modules/@j-meira/mui-theme/dist/scss/index.scss';`}
+  language='scss'
+  code={`@use '@j-meira/mui-theme/scss/index.scss';`}
 />
 
-- Use components:
+- Use the components:
 
 <Source
   dark
   language='typescript'
   code={`
-  import { Button } from '@j-meira/mui-theme';
+import { Button } from '@j-meira/mui-theme';
 
 export const AppRoutes = () => (
   <Button>Basic</Button>
@@ -244,15 +223,17 @@ export const AppRoutes = () => (
   `}
 />
 
+- ESM only: Vite needs nothing extra. A project that runs Jest against components from this package must transform it (`transformIgnorePatterns: ['node_modules/(?!@j-meira/mui-theme)']`) or use Vitest. Next.js adds the package to `transpilePackages`.
+
 <div className='subheading'>Github Actions examples</div>
 
-- Build and Deploy with Git Action:
+- Build and deploy with GitHub Actions. `setup-node` writes the registry config; the publish/install token comes from a repository secret:
 
 <Source
   dark
   language='yml'
   code={`
-  on:
+on:
   release:
     types: [published]
 
@@ -264,112 +245,99 @@ name: Build and Deploy
 runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout GitHub Action
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v7
 
       - name: Make envfile
         run: |
-          cat > .env
-          echo "VITE_VERSION=v1.0.0 >> .env
+          echo "VITE_VERSION=\${GITHUB_REF_NAME}" >> .env
           echo "VITE_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
-          echo "$(<.env)"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v7
         with:
-          node-version: 20.1
+          node-version: 24
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: '@j-meira'
 
-      - name: Install PNPM
-        run: npm install -g pnpm
-
-      - name: Install NPM Login
-        run: npm install -g npm-cli-login
-
-      - name: NPM Login
-        run: NPM_USER=\${{ vars.NPM_USER }} NPM_PASS=\${{ secrets.NPM_PASS }} NPM_EMAIL=\${{ vars.NPM_EMAIL }} NPM_REGISTRY=\${{ vars.NPM_URL }} NPM_SCOPE=@j-meira npm-cli-login
-
-      - name: Install depends
-        run: |
-          pnpm install --ignore-scripts
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}
 
       - name: Build
-        run: |
-          pnpm build
+        run: pnpm build
 
       - name: Deploy step
-        run: //any action to deploy
+        run: echo "any action to deploy the dist folder"
 
 `}
 />
 
-- Build with Docker in Git Action:
+- Build with Docker in GitHub Actions. The token is passed as a build argument and never stored in the image:
 
 <Source
   dark
   language='yml'
   code={`
-  on:
+on:
   release:
     types: [published]
 
 name: Build with Docker
 
 jobs:
-build-and-deploy:
-name: Build and Deploy
+build-and-push:
+name: Build and Push
 runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout GitHub Action
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v7
 
       - name: Login Docker
-        uses: docker/login-action@master
+        uses: docker/login-action@v3
         with:
           username: \${{ secrets.DOCKERHUB_USER }}
           password: \${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Make envfile
         run: |
-          cat > .env
-          echo "VITE_VERSION=v1.0.0 >> .env
+          echo "VITE_VERSION=\${GITHUB_REF_NAME}" >> .env
           echo "VITE_V_DATE=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
-          echo "$(<.env)"
 
       - name: Build and Push Docker Image
         run: |
-          docker build . -t \${{ vars.REPOSITORY_NAME }}:\${{ env.TAG_NAME }} --build-arg NPM_USER=\${{ vars.NPM_USER }} --build-arg NPM_EMAIL=\${{ vars.NPM_EMAIL }} --build-arg NPM_PASS=\${{ secrets.NPM_PASS }} --build-arg NPM_URL=\${{ vars.NPM_URL }}
-          docker push \${{ vars.REPOSITORY_NAME }}:\${{ env.TAG_NAME }}
+          docker build . -t \${{ vars.REPOSITORY_NAME }}:\${{ github.ref_name }} --build-arg NPM_TOKEN=\${{ secrets.NPM_TOKEN }}
+          docker push \${{ vars.REPOSITORY_NAME }}:\${{ github.ref_name }}
 
 `}
 />
 
-- DockerFile:
+- Dockerfile:
 
 <Source
   dark
   language='bash'
   code={`
-  # Stage 0, "build-stage"
-FROM node:20.1 as build-stage
-ARG NPM_EMAIL
-ARG NPM_USER
-ARG NPM_PASS
-ARG NPM_URL
+# Stage 0, "build-stage"
+FROM node:24-alpine AS build-stage
+ARG NPM_TOKEN
 
 WORKDIR /app
 
 COPY ./nginx.conf /nginx.conf
-
-COPY package\*.json /app/
+COPY package.json pnpm-lock.yaml /app/
 
 RUN npm install -g pnpm
 
-RUN npm install -g npm-cli-login
-
-RUN npm-cli-login -u \${NPM_USER} -p \${NPM_PASS} -e \${NPM_EMAIL} -r \${NPM_URL} -s "@j-meira"
-
-RUN pnpm install --ignore-scripts
+RUN printf '@j-meira:registry=https://npm.pkg.github.com\\n//npm.pkg.github.com/:_authToken=%s\\n' "\${NPM_TOKEN}" > .npmrc \\
+&& pnpm install --frozen-lockfile \\
+&& rm -f .npmrc
 
 COPY ./ /app/
 
@@ -377,229 +345,154 @@ RUN pnpm build
 
 # Stage 1, "deploy"
 
-FROM nginx:1.22.1 as deploy-stage
+FROM nginx:1.27-alpine AS deploy-stage
 
 COPY --from=build-stage /app/dist/ /usr/share/nginx/html
-
 COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
 `}
 />
 
-<div className='subheading'>Migrate to v2 guide</div>
+<div className='subheading'>Migrate to v3</div>
 
-Use the follow instructions files to help migrate to v2 from v1
+3.0 keeps every public export from 2.x. What changes is how the package is packaged and delivered, plus a few component behaviours. Projects still on 1.x go through the v2 guide below first.
+
+### 1. Peer dependencies
+
+Material UI, the date pickers, Emotion, Formik, notistack, dayjs and react-icons are no longer bundled. Install them next to the theme (one copy each, so the theme and the app share the same context):
+
+```bash
+pnpm add @j-meira/mui-theme@^3.0.0 \
+  @mui/material@^9.0.0 @mui/x-date-pickers@^9.0.0 \
+  @emotion/react@^11.14.0 @emotion/styled@^11.14.0 \
+  formik@^2.4.0 notistack@^3.0.0 dayjs@^1.11.0 react-icons@^5.0.0
+```
+
+Check that exactly one `@mui/material` resolves: `pnpm why @mui/material`.
+
+### 2. Material UI 9 and pickers 9 in your own code
+
+```bash
+npx @mui/codemod@latest deprecations/all src
+npx @mui/x-codemod@latest v9.0.0/pickers/preset-safe src
+```
+
+Then fix what the codemods leave: system props on `Box`, `Grid`, `Stack`, `Typography` and `Link` become `sx`; `InputProps` / `inputProps` become `slotProps.input` / `slotProps.htmlInput`; Autocomplete `renderTags` becomes `renderValue`; `Grid direction='column'` becomes `Stack`.
+
+### 3. ESM only
+
+The CommonJS build and the `require` export condition are gone. Vite projects need nothing. Jest projects add `transformIgnorePatterns` for `@j-meira/mui-theme` or move to Vitest. Next.js adds the package to `transpilePackages`.
+
+### 4. No deep imports
+
+`@j-meira/mui-theme/dist/...` and `.../src/...` are blocked by the `exports` map. Import from the package root, or `@j-meira/mui-theme/scss/*` for styles.
+
+### 5. Behaviour changes
+
+- `Input model='currency'` with `localControl` now applies the mask (it only did in Formik mode before); clearing gives an empty string instead of a lone dot.
+- `Input model='radioGroup'` in Formik mode stores the selected option value and shows it checked. The previous behaviour stored an array and nothing looked checked.
+- `Input model='mask'` honours `readOnly` even when `slotProps` is passed.
+- `DatePicker` opens from the calendar button only; clicking the field edits the date sections.
+- `Search`, `SearchRequest` and `SearchGeneric` notify `searchChange` / `onSelected` once per real change, including when async options arrive after the value was set.
+- `ListMenu` uses a generated id unless `menu.id` is given (it was always `simple-menu`).
+- `SideBarItem` with `initialState` starts open even without an `expanded` prop.
+- `MultiProvider` applies the stored dark mode on the first render. The `MUI_THEME_DARk` storage key is unchanged.
+- `useCookies` writes the expiry as a UTC string; `useDebounce` cancels pending calls on unmount.
+
+### 6. Minimums
+
+Node 22.13+ for the build, `moduleResolution: bundler` (or `node16` / `nodenext`) in tsconfig so the `exports` map is honoured, and the Material UI 9 browsers listed under Requirements.
+
+### Checklist
+
+- [ ] Peer dependencies installed, single `@mui/material` in the tree
+- [ ] Codemods run, system props and slot props fixed
+- [ ] Jest transform or Vitest in place (if tests render the theme)
+- [ ] No deep imports
+- [ ] Type-check, tests and production build green
+- [ ] Forms with currency, mask, radio group and date pickers checked by hand, in light and dark mode
+
+<div className='subheading'>Migrate to v2 (legacy)</div>
+
+For projects still on 1.x. Version 1.9.x is already on Material UI 7 and is API-identical to 2.0; only projects below 1.9 need this.
+
+### 1. Dependencies
+
+```bash
+pnpm add @j-meira/mui-theme@^2.0.2 react@^19.2.0 react-dom@^19.2.0
+```
+
+If Material UI packages are listed directly: `@mui/material@^7.3.0`, `@mui/x-date-pickers@^8.0.0`, `@mui/icons-material@^7.3.0`.
+
+### 2. Grid v2
+
+```bash
+npx @mui/codemod@latest v7.0.0/grid-props src
+```
+
+`Grid2` is now `Grid`; `xs` / `md` / `lg` props become `size`:
+
+```tsx
+// before
+<Grid item xs={12} md={6}>...</Grid>
+// after
+<Grid size={{ xs: 12, md: 6 }}>...</Grid>
+```
+
+### 3. Pickers v8
+
+```bash
+npx @mui/x-codemod@latest v8.0.0/pickers/preset-safe src
+```
+
+Remove `enableAccessibleFieldDOMStructure={false}` and generic type parameters on picker components. The theme's own `DatePicker` props are unchanged.
+
+### 4. React 19
+
+Remove non-DOM props that leak onto native elements through `{...rest}` (`action`, `searchChange`, `model`, `grid`). React 19 warns on them.
+
+### Checklist
+
+- [ ] Theme on 2.0.x, React 19, Material UI 7
+- [ ] Grid props migrated to `size`
+- [ ] Tests and build green
+
+<div className='subheading'>Claude Code Instructions</div>
+
+Add these instructions to your project's CLAUDE.md. A Claude Code skill that applies the whole migration is available from the maintainer.
 
 <Source
   dark
   language='markdown'
-  code={`# MUI-Theme v2 Migration Guide
-
-## Breaking Changes
-
-### 1. MUI Core v7 Upgrade
-
-- MUI Grid v2 is now the default (old Grid props removed)
-- \`md\`, \`lg\`, \`xl\` props replaced with \`size\` prop
-- Breaking changes in Date Pickers (v8.19.0)
-
-### 2. React 19 Compatibility
-
-- Updated prop validation (remove invalid DOM props)
-- Enhanced type safety requirements
-
-### 3. Vite 7
-
-- New build configuration
-- Updated dependencies
-
-## Migration Steps
-
-### Step 1: Update Dependencies
-
-\`\`\`bash
-
-# Update mui-theme
-
-pnpm update @j-meira/mui-theme@latest
-
-# Update peer dependencies
-
-pnpm add react@^19.0.0 react-dom@^19.0.0
-
-# Update MUI packages (if using directly)
-
-pnpm add @mui/material@^7.3.5 @mui/x-date-pickers@^8.19.0
-\`\`\`
-
-### Step 2: Fix MUI Grid Props
-
-Replace old Grid props with new \`size\` prop:
-
-\`\`\`typescript
-// ❌ Before (v1)
-
-<Grid xs={12} md={6} lg={4}>
-  <Component />
-</Grid>
-
-// ✅ After (v2)
-
-<Grid size={{ xs: 12, md: 6, lg: 4 }}>
-  <Component />
-</Grid>
-
-// Or use single size for all breakpoints
-
-<Grid size={12}>
-  <Component />
-</Grid>
-\`\`\`
-
-### Step 3: Update DatePicker Usage
-
-\`\`\`typescript
-// The DatePicker component API remains the same
-// but internal MUI changes may affect custom implementations
-import { DatePicker } from '@j-meira/mui-theme';
-
-// ✅ Still works
-
-<DatePicker label='Select Date' value={date} onChange={handleChange} />
-\`\`\`
-
-### Step 4: Remove Invalid Props
-
-\`\`\`typescript
-// ❌ Before (causes React 19 warnings)
-
-<input action='/submit' searchChange={handler} />
-
-// ✅ After
-
-<form action='/submit'>
-  <input onChange={handler} />
-</form>
-\`\`\`
-
-### Step 5: Run Tests
-
-\`\`\`bash
-
-# Verify everything works
-
-pnpm test
-
-# Check for type errors
-
-pnpm tsc --noEmit
-
-# Build to ensure no runtime errors
-
-pnpm build
-\`\`\`
-
-## Component-Specific Changes
-
-### No Breaking Changes:
-
-- ✅ Button (all variants)
-- ✅ DataTable (all components)
-- ✅ Input components (Basic, CheckBox, Currency, etc.)
-- ✅ Hooks (useCookies, useToast, useDebounce, etc.)
-- ✅ MultiProvider
-- ✅ Dialog, PopUp, Header, SideBar, etc.
-
-### Internal Updates Only:
-
-- DatePicker: Updated to MUI v8 pickers (API unchanged)
-- SearchGeneric/SearchRequest: Code optimizations (no API changes)
-
-## Migration Checklist
-
-- [ ] Update @j-meira/mui-theme to v2.0.x
-- [ ] Update React to v19
-- [ ] Update MUI packages to v7
-- [ ] Replace all Grid \`xs\`/\`md\`/\`lg\` props with \`size\`
-- [ ] Remove invalid DOM props (action, searchChange, etc.)
-- [ ] Run tests and fix any failures
-- [ ] Build project successfully
-- [ ] Test in development environment
-- [ ] Deploy to staging for QA
-- [ ] Update documentation
-
-## Claude Code Instructions
-
-Add these instructions to your project's \`CLAUDE.md\` (the 3.0 upgrade will ship a Claude Code skill that applies them for you):
-
-\`\`\`markdown
-
-# MUI-Theme v2 Migration Instructions
+  code={`# MUI-Theme v3 project rules
 
 ## Context
 
-- Using @j-meira/mui-theme v2.0.x
-- MUI Core v7 with Grid v2
-- React 19
-- Vite 7
+- Using @j-meira/mui-theme v3.0.x (ESM only, peer dependencies installed by this project)
+- Material UI v9 with Grid v2, MUI X Date Pickers v9
+- React 19, Vite
 
 ## Rules
 
-1. Always use \`size\` prop for Grid instead of xs/md/lg
-2. Never add \`action\` prop to input elements
-3. Use \`const\` over \`let\` when possible
-4. No \`else\` statements - use early returns or ternary
-5. Do NOT add comments during refactoring
+1. Grid: always the size prop (size={{ xs: 12, md: 6 }}); never item, xs, md, lg props
+2. Material UI: slotProps.input instead of InputProps, slotProps.htmlInput instead of inputProps; sx instead of system props (display, mt, color)
+3. Never pass action, searchChange, model or grid down to native elements
+4. Import only from the package root or @j-meira/mui-theme/scss/\*
+5. const over let; no var
+6. No else statements: early returns or ternaries
+7. Do NOT add comments when writing or refactoring code
 
-## Grid Pattern
+## Available from @j-meira/mui-theme
 
-\\\`\\\`\\\`tsx
-// ✅ Correct
-
-<Grid size={{ xs: 12, md: 6 }}>Content</Grid>
-<Grid size={12}>Full width</Grid>
-
-// ❌ Wrong
-
-<Grid xs={12} md={6}>
-  Content
-</Grid>
-\\\`\\\`\\\`
-
-## Available Components
-
-All components from @j-meira/mui-theme:
-
-- Button, DataTable, Input variants
-- DatePicker, FileUpload, Search components
-- MultiProvider, Header, SideBar
-- Hooks: useCookies, useToast, useDebounce
-
-## MUI Components
-
-Can also use MUI components directly:
-
-- All @mui/material components
-- All @mui/x-date-pickers components
-- Follow MUI v7 API documentation
-  \`\`\`
-
-**Important:** Ensure your dependency versions match ours to avoid compatibility issues:
-
-"dependencies": {
-"@emotion/react": "^11.14.0",
-"@emotion/styled": "^11.14.1",
-"@mui/material": "^7.3.5",
-"@mui/x-date-pickers": "^8.19.0",
-"dayjs": "^1.11.19",
-"formik": "^2.4.9",
-"notistack": "^3.0.2",
-"react-icons": "^5.5.0"
-}
+- Button, DataTable (all parts), Input models: checkBox, currency, icon, mask, number, password, radioGroup, search, searchRequest, select
+- DatePicker, FileUpload, SearchGeneric, DarkSwitch
+- MultiProvider, Header, SideBar, SideBarItem, MainContainer, PopUp, DialogBox, Tabs, TreeListItem, BreadcrumbBar, ListMenu, GroupCard
+- Hooks: useCookies, useToast, useDebounce, useWindowDimensions, useMultiContext
 
 ## Support Resources
 
-- [MUI v7 Migration Guide](https://mui.com/material-ui/migration/migration-v6/)
-- [React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
+- https://mui.com/material-ui/migration/upgrade-to-v9/
+- https://mui.com/x/migration/migration-pickers-v8/
+- https://react.dev/blog/2024/04/25/react-19-upgrade-guide
   `}
   />
 
