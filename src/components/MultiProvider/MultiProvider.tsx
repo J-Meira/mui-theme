@@ -131,7 +131,7 @@ export const MultiProvider: FC<MultiProviderProps> = ({
   );
 
   return (
-    <MultiContext.Provider value={contextValue}>
+    <MultiContext value={contextValue}>
       <ThemeProvider theme={theme}>
         <SnackbarProvider
           anchorOrigin={{
@@ -161,6 +161,6 @@ export const MultiProvider: FC<MultiProviderProps> = ({
           </LocalizationProvider>
         </SnackbarProvider>
       </ThemeProvider>
-    </MultiContext.Provider>
+    </MultiContext>
   );
 };

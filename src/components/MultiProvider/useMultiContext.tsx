@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { use } from 'react';
 import { MultiContext } from './MultiContext';
 
-export const useMultiContext = () => useContext(MultiContext);
+export const useMultiContext = () => use(MultiContext);
