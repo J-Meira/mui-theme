@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { PopUp } from '../../src/components/PopUp';
 
 // Mock react-icons/md
-jest.mock('react-icons/md', () => ({
+vi.mock('react-icons/md', () => ({
   MdClose: () => <svg data-testid='CloseIcon' />,
 }));
 
@@ -10,11 +10,11 @@ describe('PopUp', () => {
   const defaultProps = {
     name: 'test',
     open: true,
-    toggle: jest.fn(),
+    toggle: vi.fn(),
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('rendering', () => {
@@ -120,7 +120,7 @@ describe('PopUp', () => {
     });
 
     it('should render action button when action is provided', () => {
-      const mockAction = jest.fn();
+      const mockAction = vi.fn();
       render(
         <PopUp {...defaultProps} action={mockAction}>
           Test Content
@@ -131,7 +131,7 @@ describe('PopUp', () => {
     });
 
     it('should render custom success label for action button', () => {
-      const mockAction = jest.fn();
+      const mockAction = vi.fn();
       render(
         <PopUp
           {...defaultProps}
@@ -148,7 +148,7 @@ describe('PopUp', () => {
     });
 
     it('should disable action button when actionDisabled is true', () => {
-      const mockAction = jest.fn();
+      const mockAction = vi.fn();
       render(
         <PopUp {...defaultProps} action={mockAction} actionDisabled>
           Test Content
@@ -171,7 +171,7 @@ describe('PopUp', () => {
 
   describe('user interactions', () => {
     it('should call toggle when close button is clicked', () => {
-      const mockToggle = jest.fn();
+      const mockToggle = vi.fn();
       render(
         <PopUp {...defaultProps} toggle={mockToggle} title='Test Title'>
           Test Content
@@ -183,7 +183,7 @@ describe('PopUp', () => {
     });
 
     it('should call toggle when cancel button is clicked', () => {
-      const mockToggle = jest.fn();
+      const mockToggle = vi.fn();
       render(
         <PopUp {...defaultProps} toggle={mockToggle} cancel>
           Test Content
@@ -195,7 +195,7 @@ describe('PopUp', () => {
     });
 
     it('should call action when action button is clicked', () => {
-      const mockAction = jest.fn();
+      const mockAction = vi.fn();
       render(
         <PopUp {...defaultProps} action={mockAction}>
           Test Content
@@ -207,7 +207,7 @@ describe('PopUp', () => {
     });
 
     it('should call toggle on backdrop click when disableBackdropClick is false', () => {
-      const mockToggle = jest.fn();
+      const mockToggle = vi.fn();
       render(
         <PopUp
           {...defaultProps}
@@ -225,7 +225,7 @@ describe('PopUp', () => {
     });
 
     it('should not call toggle on backdrop click when disableBackdropClick is true', () => {
-      const mockToggle = jest.fn();
+      const mockToggle = vi.fn();
       render(
         <PopUp {...defaultProps} toggle={mockToggle} disableBackdropClick>
           Test Content
@@ -312,8 +312,8 @@ describe('PopUp', () => {
     });
 
     it('should work with both cancel and action buttons', () => {
-      const mockAction = jest.fn();
-      const mockToggle = jest.fn();
+      const mockAction = vi.fn();
+      const mockToggle = vi.fn();
       render(
         <PopUp
           {...defaultProps}
@@ -339,7 +339,7 @@ describe('PopUp', () => {
 
     it('should handle missing optional props gracefully', () => {
       render(
-        <PopUp name='test' open toggle={jest.fn()}>
+        <PopUp name='test' open toggle={vi.fn()}>
           Minimal Content
         </PopUp>,
       );

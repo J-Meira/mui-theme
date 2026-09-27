@@ -5,7 +5,7 @@ import { Mask } from '../../src/components/Input/Mask';
 describe('Input Mask', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -118,7 +118,7 @@ describe('Input Mask', () => {
   });
 
   it('should handle onChange with local control', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Mask
         name='phone'
@@ -135,7 +135,7 @@ describe('Input Mask', () => {
   });
 
   it('should handle onBlur with local control', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     render(
       <Mask
         name='phone'
@@ -212,7 +212,7 @@ describe('Input Mask', () => {
   });
 
   it('should handle Formik onChange', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Mask
         name='phone'
@@ -228,7 +228,7 @@ describe('Input Mask', () => {
   });
 
   it('should handle Formik onBlur', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     renderWithFormik(
       <Mask name='phone' label='Phone' maskModel='phone' onBlur={handleBlur} />,
       { phone: '' },
@@ -260,7 +260,7 @@ describe('Input Mask slotProps', () => {
 
   it('should keep readOnly when slotProps is provided in Formik mode', () => {
     render(
-      <Formik initialValues={{ phone: '' }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ phone: '' }} onSubmit={vi.fn()}>
         <Form>
           <Mask
             name='phone'

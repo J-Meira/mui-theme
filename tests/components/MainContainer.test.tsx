@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MainContainer } from '../../src/components/MainContainer';
 
 // Mock the MultiProvider context to avoid complex theme setup
-jest.mock('../../src/components/MultiProvider/useMultiContext', () => ({
+vi.mock('../../src/components/MultiProvider/useMultiContext', () => ({
   useMultiContext: () => ({
     backgroundColor: '#ffffff',
   }),

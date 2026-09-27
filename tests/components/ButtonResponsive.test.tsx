@@ -27,7 +27,7 @@ describe('Button Responsive', () => {
   });
 
   it('should handle click events', () => {
-    const mockClick = jest.fn();
+    const mockClick = vi.fn();
 
     render(<Responsive onClick={mockClick}>Submit</Responsive>);
 

@@ -11,7 +11,7 @@ const mockOptions = [
 describe('RadioGroup', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -56,7 +56,7 @@ describe('RadioGroup', () => {
   });
 
   it('should handle onChange callback in local control mode', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <RadioGroup
         name='testRadio'
@@ -73,7 +73,7 @@ describe('RadioGroup', () => {
   });
 
   it('should handle onChange callback in Formik mode', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <RadioGroup
         name='testRadio'
@@ -225,7 +225,7 @@ describe('RadioGroup', () => {
 describe('RadioGroup Formik value handling', () => {
   it('should store the selected option value in Formik and reflect it as checked', () => {
     render(
-      <Formik initialValues={{ testRadio: '' }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testRadio: '' }} onSubmit={vi.fn()}>
         {({ values }) => (
           <Form>
             <RadioGroup
@@ -255,7 +255,7 @@ describe('RadioGroup Formik value handling', () => {
 
   it('should check the option matching a Formik initial value', () => {
     render(
-      <Formik initialValues={{ testRadio: 3 }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testRadio: 3 }} onSubmit={vi.fn()}>
         <Form>
           <RadioGroup
             name='testRadio'

@@ -9,7 +9,7 @@ const mockOptions: SelectOptionsProps[] = [
   { value: 3, label: 'Option 3' },
 ];
 
-const mockGetList = jest.fn(async (param?: string, id?: number) => {
+const mockGetList = vi.fn(async (param?: string, id?: number) => {
   if (id) {
     return mockOptions.filter((option) => option.value === id);
   }
@@ -23,12 +23,12 @@ const mockGetList = jest.fn(async (param?: string, id?: number) => {
 
 describe('SearchRequest', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -62,7 +62,7 @@ describe('SearchRequest', () => {
   });
 
   it('should handle searchChange callback', () => {
-    const handleSearchChange = jest.fn();
+    const handleSearchChange = vi.fn();
     renderWithFormik(
       <SearchRequest
         name='testSearch'
@@ -148,7 +148,7 @@ describe('SearchRequest', () => {
   });
 
   it('should handle clear action', () => {
-    const handleSearchChange = jest.fn();
+    const handleSearchChange = vi.fn();
     renderWithFormik(
       <SearchRequest
         name='testSearch'
@@ -164,7 +164,7 @@ describe('SearchRequest', () => {
   });
 
   it('should handle creatable mode', () => {
-    const handleSetCreatable = jest.fn();
+    const handleSetCreatable = vi.fn();
     renderWithFormik(
       <SearchRequest
         name='testSearch'
@@ -211,7 +211,7 @@ describe('SearchRequest', () => {
   });
 
   it('should handle icon with action', () => {
-    const handleIconAction = jest.fn();
+    const handleIconAction = vi.fn();
     renderWithFormik(
       <SearchRequest
         name='testSearch'
@@ -260,7 +260,7 @@ describe('SearchRequest', () => {
   });
 
   it('should handle empty getList', () => {
-    const emptyGetList = jest.fn(async () => []);
+    const emptyGetList = vi.fn(async () => []);
     renderWithFormik(
       <SearchRequest
         name='testSearch'
@@ -298,7 +298,7 @@ describe('SearchRequest', () => {
     );
 
     rerender(
-      <Formik initialValues={{ testSearch: 1 }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testSearch: 1 }} onSubmit={vi.fn()}>
         <Form>
           <SearchRequest
             name='testSearch'
@@ -314,7 +314,7 @@ describe('SearchRequest', () => {
   });
 
   it('should call setCreatableValue with empty string on clear', () => {
-    const handleSetCreatable = jest.fn();
+    const handleSetCreatable = vi.fn();
     renderWithFormik(
       <SearchRequest
         name='testSearch'

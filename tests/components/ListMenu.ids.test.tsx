@@ -8,8 +8,8 @@ describe('ListMenu ids', () => {
     render(
       <ListMenu
         menu={{ open: true, anchorEl: document.body, list, id: 'my-menu' }}
-        toggle={jest.fn()}
-        navigate={jest.fn()}
+        toggle={vi.fn()}
+        navigate={vi.fn()}
       />,
     );
     expect(document.getElementById('my-menu')).toBeInTheDocument();
@@ -20,13 +20,13 @@ describe('ListMenu ids', () => {
       <>
         <ListMenu
           menu={{ open: true, anchorEl: document.body, list }}
-          toggle={jest.fn()}
-          navigate={jest.fn()}
+          toggle={vi.fn()}
+          navigate={vi.fn()}
         />
         <ListMenu
           menu={{ open: true, anchorEl: document.body, list }}
-          toggle={jest.fn()}
-          navigate={jest.fn()}
+          toggle={vi.fn()}
+          navigate={vi.fn()}
         />
       </>,
     );

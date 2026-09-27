@@ -171,6 +171,8 @@ describe('BreadcrumbBar link color (MUI 9 color prop)', () => {
     );
     const link = screen.getByRole('link', { name: 'Home' });
     expect(link).toHaveClass('MuiLink-root');
-    expect(link).toHaveStyle({ color: 'inherit' });
+    expect(getComputedStyle(link).color).toBe(
+      getComputedStyle(link.parentElement as Element).color,
+    );
   });
 });

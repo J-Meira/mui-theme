@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Button } from '../../src/components/Button';
 
 // Mock the subcomponents to test main Button logic
-jest.mock('../../src/components/Button/Basic', () => ({
+vi.mock('../../src/components/Button/Basic', () => ({
   Basic: ({ children, onClick, ...props }: any) => (
     <button
       data-testid='basic-button'
@@ -14,7 +14,7 @@ jest.mock('../../src/components/Button/Basic', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Button/Icon', () => ({
+vi.mock('../../src/components/Button/Icon', () => ({
   Icon: ({ children, onClick, ...props }: any) => (
     <button
       data-testid='icon-button'
@@ -26,7 +26,7 @@ jest.mock('../../src/components/Button/Icon', () => ({
   ),
 }));
 
-jest.mock('../../src/components/Button/Responsive', () => ({
+vi.mock('../../src/components/Button/Responsive', () => ({
   Responsive: ({ children, icon, onClick, ...props }: any) => (
     <button
       data-testid='responsive-button'
@@ -169,7 +169,7 @@ describe('Button', () => {
 
   describe('user interactions', () => {
     it('should handle click events', () => {
-      const handleClick = jest.fn();
+      const handleClick = vi.fn();
       render(<Button onClick={handleClick}>Test Button</Button>);
 
       const button = screen.getByTestId('basic-button');
@@ -179,7 +179,7 @@ describe('Button', () => {
     });
 
     it('should handle click events for icon model', () => {
-      const handleClick = jest.fn();
+      const handleClick = vi.fn();
       render(
         <Button model='icon' onClick={handleClick}>
           Test Button
@@ -193,7 +193,7 @@ describe('Button', () => {
     });
 
     it('should handle click events for responsive model', () => {
-      const handleClick = jest.fn();
+      const handleClick = vi.fn();
       render(
         <Button model='responsive' onClick={handleClick}>
           Test Button

@@ -5,7 +5,7 @@ import { Password } from '../../src/components/Input/Password';
 describe('Input Password', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -57,7 +57,7 @@ describe('Input Password', () => {
   });
 
   it('should handle onChange events with local control', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Password
         name='password'
@@ -72,7 +72,7 @@ describe('Input Password', () => {
   });
 
   it('should handle onBlur events with local control', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     render(
       <Password
         name='password'
@@ -140,7 +140,7 @@ describe('Input Password', () => {
   });
 
   it('should call both Formik and custom onChange', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Password name='password' label='Password' onChange={handleChange} />,
       { password: '' },
@@ -151,7 +151,7 @@ describe('Input Password', () => {
   });
 
   it('should call both Formik and custom onBlur', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     renderWithFormik(
       <Password name='password' label='Password' onBlur={handleBlur} />,
       { password: '' },

@@ -1,18 +1,19 @@
+import type { MockedFunction } from 'vitest';
 import { useToast, UseToastOptionsProps } from '../../src/hooks/useToast';
 import { enqueueSnackbar } from 'notistack';
 
 // Mock notistack
-jest.mock('notistack', () => ({
-  enqueueSnackbar: jest.fn(),
+vi.mock('notistack', () => ({
+  enqueueSnackbar: vi.fn(),
 }));
 
-const mockEnqueueSnackbar = enqueueSnackbar as jest.MockedFunction<
+const mockEnqueueSnackbar = enqueueSnackbar as MockedFunction<
   typeof enqueueSnackbar
 >;
 
 describe('useToast', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('basic', () => {
@@ -54,7 +55,7 @@ describe('useToast', () => {
 
     it('should handle onClose callback', () => {
       const message = 'Test message';
-      const onClose = jest.fn();
+      const onClose = vi.fn();
       const options: UseToastOptionsProps = { onClose };
 
       useToast.basic(message, options);

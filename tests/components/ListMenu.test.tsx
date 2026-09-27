@@ -1,14 +1,15 @@
+import type { Mock } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ListMenu, ListMenuItemProps } from '../../src/components/ListMenu';
 
-const mockToggle = jest.fn();
-const mockNavigate = jest.fn();
+const mockToggle = vi.fn();
+const mockNavigate = vi.fn();
 
 const mockMenuItems: ListMenuItemProps[] = [
   { label: 'Home', destiny: '/home' },
   { label: 'Profile', destiny: '/profile' },
-  { label: 'Settings', action: jest.fn() },
-  { label: 'Logout', action: jest.fn(), destiny: '/logout' },
+  { label: 'Settings', action: vi.fn() },
+  { label: 'Logout', action: vi.fn(), destiny: '/logout' },
 ];
 
 describe('ListMenu', () => {
@@ -17,7 +18,7 @@ describe('ListMenu', () => {
     mockNavigate.mockClear();
     mockMenuItems.forEach((item) => {
       if (item.action) {
-        (item.action as jest.Mock).mockClear();
+        (item.action as Mock).mockClear();
       }
     });
   });
@@ -425,7 +426,7 @@ describe('ListMenu', () => {
       const duplicateLabelItems: ListMenuItemProps[] = [
         { label: 'Same Label', destiny: '/first' },
         { label: 'Same Label', destiny: '/second' },
-        { label: 'Same Label', action: jest.fn() },
+        { label: 'Same Label', action: vi.fn() },
       ];
 
       render(

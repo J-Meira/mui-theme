@@ -8,15 +8,13 @@ interface TestRow {
 }
 
 describe('DataTableSelected', () => {
-  const mockOnDelete = jest.fn();
-  const mockSelectedCustomAction = jest.fn(() => (
-    <button>Custom Action</button>
-  ));
+  const mockOnDelete = vi.fn();
+  const mockSelectedCustomAction = vi.fn(() => <button>Custom Action</button>);
 
   const selected: TestRow['id'][] = [1, 2, 3];
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render total count of rows', () => {
