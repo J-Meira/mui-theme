@@ -59,7 +59,7 @@ jest.mock('../../src/components/Input/Mask', () => ({
 }));
 
 jest.mock('../../src/components/Input/Number', () => ({
-  Number: ({ localControl, decimal, ...props }: any) => (
+  NumberInput: ({ localControl, decimal, ...props }: any) => (
     <input
       data-testid='number-input'
       data-local-control={localControl}

@@ -100,7 +100,7 @@ const newItems = [...items, newItem];
 - Branch from `release/3.0`; PRs target `release/3.0`. One release PR to `master` at the end, then tag `v3.0.0` and publish via the release workflow.
 - PRs merge into a non-default branch, so GitHub does **not** auto-close issues from "Closes #N". After a merge, close the issue manually (`gh issue close N --reason completed`) and tick it in #46.
 - Keep the `MUI_THEME_DARk` localStorage key (typo included); consumers' stored preferences depend on it.
-- Consumers upgrade with the skill from #55 (`skills/mui-theme-upgrade`), which handles both 1.x and 2.x starting points.
+- Consumers upgrade with the `/mui-theme-upgrade` Claude Code skill (#55). It lives on the maintainer machine under `~/.claude/skills`, not in this repo, and handles both 1.x and 2.x starting points.
 
 ## Gotchas
 

@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useField } from 'formik';
 import {
-  Autocomplete,
-  CircularProgress,
-  IconButton,
-  TextField,
-  createFilterOptions,
-} from '@mui/material';
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
+import { useField } from 'formik';
+import { AutocompleteInputChangeReason } from '@mui/material';
 import { InputProps, SearchRequestProps, SelectOptionsProps } from '.';
-import { useDebounce } from '../../hooks';
+import { SearchAutocomplete } from './SearchAutocomplete';
+import { useDebounce } from '../../hooks/useDebounce';
 
-const filter = createFilterOptions<SelectOptionsProps>();
-
-const isString = (item: any): item is string => {
-  return typeof item === 'string';
-};
+const NO_SELECTION = -1;
 
 export type SearchRequestExProps = Omit<
   InputProps,
@@ -40,193 +37,122 @@ export const SearchRequest = ({
   setCreatableValue,
   variant = 'outlined',
 }: Omit<SearchRequestExProps, 'grid'>): React.ReactElement => {
-  const [field, meta, helper] = useField(name);
+  const [field, meta, helper] = useField<number>(name);
   const { touched, error } = meta;
   const { debounce } = useDebounce();
+  const [loading, startTransition] = useTransition();
 
   const [inputValue, setInputValue] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState<number>(-1);
   const [options, setOptions] = useState<SelectOptionsProps[]>([]);
-  const [selectedItem, setSelectedItem] = useState<SelectOptionsProps | null>(
+  const [createdOption, setCreatedOption] = useState<SelectOptionsProps | null>(
     null,
   );
 
-  const handle = (e: any, newValue: any, reason: string) => {
-    e.target.name = name;
-    e.target.value = -1;
-    if (newValue) {
-      const { value } = newValue;
-      e.target.value = value;
-      setSelected(value);
-      searchChange?.(value);
-      setSelectedItem(newValue);
-      if (value === 0 && setCreatableValue && creatable) {
-        setCreatableValue(inputValue);
-      }
-      if (value !== 0 && setCreatableValue) {
-        setCreatableValue('');
-      }
-    }
+  const selectedItem =
+    options.find((op) => op.value === field.value) ??
+    (createdOption?.value === field.value ? createdOption : null);
 
-    if (!newValue || reason === 'clear') {
-      setSelected(-1);
-      searchChange?.(-1);
-      setSelectedItem(null);
-      setCreatableValue?.('');
-    }
-    field.onChange(e);
+  const notifiedRef = useRef<{ value: number; found: boolean }>({
+    value: NO_SELECTION,
+    found: false,
+  });
+
+  useEffect(() => {
+    const found = selectedItem !== null;
+    const previous = notifiedRef.current;
+    if (previous.value === field.value && previous.found === found) return;
+    if (!found && !previous.found) return;
+    notifiedRef.current = { value: field.value, found };
+    searchChange?.(found ? field.value : NO_SELECTION);
+  }, [field.value, selectedItem, searchChange]);
+
+  const runRequest = (
+    request: () => Promise<SelectOptionsProps[]>,
+    onLoaded?: (result: SelectOptionsProps[]) => void,
+  ) => {
+    startTransition(async () => {
+      await request().then((result) => {
+        startTransition(() => setOptions(result));
+        onLoaded?.(result);
+      });
+    });
   };
 
-  useEffect(() => {
-    debounce(() => {
-      if (
-        (inputValue === '' && options.length === 0) ||
-        (inputValue !== '' && selectedItem === null) ||
-        (inputValue !== '' && selectedItem && inputValue !== selectedItem.label)
-      ) {
-        if (getList) {
-          setLoading(true);
-          getList(inputValue).then((result) => {
-            setLoading(false);
-            setOptions(result);
-          });
-        }
-      }
-    });
+  const searchIfNeeded = (typed: string) => {
+    if (!getList) return;
+    const untouched = typed === '' && options.length === 0;
+    const searching =
+      typed !== '' && (selectedItem === null || typed !== selectedItem.label);
+    if (untouched || searching) runRequest(() => getList(typed));
+  };
 
-    // eslint-disable-next-line
-  }, [inputValue]);
+  const handleInputChange = (
+    typed: string,
+    reason: AutocompleteInputChangeReason,
+  ) => {
+    setInputValue(typed);
+    if (reason !== 'input' && reason !== 'clear') return;
+    debounce(() => searchIfNeeded(typed));
+  };
+
+  const loadOnMount = useEffectEvent(() => {
+    debounce(() => searchIfNeeded(''));
+  });
 
   useEffect(() => {
-    if (initialSelected && initialSelected > 0 && getList) {
-      setLoading(true);
-      getList(undefined, initialSelected).then((result) => {
-        setLoading(false);
-        setOptions(result);
-        const selectedOption = result?.find(
-          (op) => op.value === initialSelected,
-        );
-        if (selectedOption) {
-          field.onChange({ target: { name, value: initialSelected } });
-          setSelected(initialSelected);
-          searchChange?.(initialSelected);
-          setSelectedItem(selectedOption);
-        }
-      });
-    }
-    // eslint-disable-next-line
+    loadOnMount();
+  }, []);
+
+  const loadInitial = useEffectEvent((id: number) => {
+    if (!getList) return;
+    runRequest(
+      () => getList(undefined, id),
+      (result) => {
+        if (result.some((op) => op.value === id)) helper.setValue(id);
+      },
+    );
+  });
+
+  useEffect(() => {
+    if (initialSelected && initialSelected > 0) loadInitial(initialSelected);
   }, [initialSelected]);
 
-  useEffect(() => {
-    const fV = field.value;
-    if (fV !== selected) {
-      const selectedOption: SelectOptionsProps | undefined = options?.find(
-        (op) => op.value === fV,
-      );
-      if (selectedOption) {
-        setSelected(fV);
-        searchChange?.(fV);
-        setSelectedItem(selectedOption);
-        return;
-      }
-
-      setSelected(-1);
-      searchChange?.(-1);
-      setSelectedItem(null);
-    }
-
-    // eslint-disable-next-line
-  }, [field.value]);
+  const handleChange = (newValue: SelectOptionsProps | null) => {
+    setCreatedOption(newValue);
+    const value = newValue ? newValue.value : NO_SELECTION;
+    if (newValue && value === 0 && creatable) setCreatableValue?.(inputValue);
+    if (!newValue || value !== 0) setCreatableValue?.('');
+    helper.setValue(value);
+  };
 
   return (
-    <Autocomplete
-      id={name}
-      autoHighlight
-      blurOnSelect
+    <SearchAutocomplete<SelectOptionsProps>
+      autoFocus={autoFocus}
       clearOnBlur
+      creatable={creatable}
+      createOption={(typed) => ({
+        value: 0,
+        label: `${creatableLabel || 'New'}: ${typed}`,
+      })}
       disabled={disabled}
-      disablePortal
-      filterOptions={(options, params) => {
-        const filtered = filter(options, params);
-
-        const { inputValue } = params;
-        const isExisting = options.some(
-          (option) => inputValue === option.label,
-        );
-        if (inputValue !== '' && !isExisting && creatable) {
-          filtered.push({
-            value: 0,
-            label: `${creatableLabel || 'New'}: ${inputValue}`,
-          });
-        }
-
-        return filtered;
-      }}
-      freeSolo={creatable}
-      fullWidth
-      getOptionLabel={(option: any) =>
-        isString(option.label) ? option.label : ''
-      }
-      handleHomeEndKeys={creatable}
+      error={touched && !!error}
+      helperText={touched && error}
+      icon={icon}
+      iconAction={iconAction}
+      iconActionTitle={iconActionTitle}
+      label={label}
       loading={loading}
-      onChange={(e, newValue, r) => handle(e, newValue, r)}
-      onInputChange={(_, newInputValue) => {
-        setInputValue?.(newInputValue);
-      }}
+      name={name}
+      onBlur={() => helper.setTouched(true)}
+      onChange={handleChange}
+      onInputChange={handleInputChange}
+      optionLabel={(option) => option.label}
       options={options}
-      popupIcon={loading ? <CircularProgress size={28} /> : undefined}
       readOnly={readOnly}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          name={name}
-          autoFocus={autoFocus}
-          error={touched && !!error}
-          helperText={touched && error}
-          slotProps={{
-            ...params.slotProps,
-
-            input: {
-              ...params.slotProps.input,
-              endAdornment: iconAction ? (
-                <>
-                  <div
-                    className={`search-input-endAdornment${
-                      selectedItem ? '' : ' unSelect'
-                    }`}
-                  >
-                    <IconButton
-                      aria-label={`input action ${iconActionTitle || ''}`}
-                      onClick={iconAction}
-                      edge={false}
-                      tabIndex={-1}
-                      title={iconActionTitle}
-                    >
-                      {icon}
-                    </IconButton>
-                  </div>
-                  {params.slotProps.input.endAdornment}
-                </>
-              ) : (
-                params.slotProps.input.endAdornment
-              ),
-            },
-          }}
-          label={label}
-          margin='normal'
-          onBlur={(e) => {
-            e.target.name = name;
-            field.onBlur(e);
-            helper.setTouched(true);
-          }}
-          required={required}
-          variant={variant}
-        />
-      )}
+      required={required}
       selectOnFocus
-      size='small'
-      value={selectedItem}
+      selectedItem={selectedItem}
+      variant={variant}
     />
   );
 };

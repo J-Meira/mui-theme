@@ -32,10 +32,10 @@ export const DataTableHeader = <T extends object>({
           />
         </TableCell>
       )}
-      {columns.map((col, index) =>
+      {columns.map((col) =>
         col.key === 'actions' && !col.render ? null : (
           <TableCell
-            key={`t-header-${col.key.toString()}${index}`}
+            key={`t-header-${col.key.toString()}`}
             align={col.align}
             padding={col.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === col.key ? order : false}
