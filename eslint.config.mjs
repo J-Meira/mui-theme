@@ -1,7 +1,7 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import pluginReact from 'eslint-plugin-react';
+import eslintReact from '@eslint-react/eslint-plugin';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginReactRefresh from 'eslint-plugin-react-refresh';
 import prettier from 'eslint-config-prettier';
@@ -25,12 +25,10 @@ export default tseslint.config(
       },
     },
     plugins: {
-      react: pluginReact,
       'react-hooks': pluginReactHooks,
       'react-refresh': pluginReactRefresh,
     },
     rules: {
-      ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
@@ -42,12 +40,22 @@ export default tseslint.config(
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react-hooks/set-state-in-effect': 'off',
-      'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off',
       'no-undef': 'off',
     },
-    settings: {
-      react: { version: 'detect' },
+  },
+  {
+    files: ['**/*.{jsx,tsx}'],
+    ...eslintReact.configs['recommended-typescript'],
+    rules: {
+      ...eslintReact.configs['recommended-typescript'].rules,
+      '@eslint-react/set-state-in-effect': 'off',
+      '@eslint-react/no-array-index-key': 'off',
+    },
+  },
+  {
+    files: ['tests/**'],
+    rules: {
+      '@eslint-react/jsx-no-children-prop': 'off',
     },
   },
   {

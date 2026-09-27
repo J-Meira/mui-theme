@@ -244,13 +244,13 @@ describe('TabsContainer', () => {
 });
 
 describe('TabPanel', () => {
-  const defaultProps = {
+  const baseProps = {
     activeValue: 0,
-    children: <div>Panel Content</div>,
     title: 'Test',
     value: 0,
     label: 'Test Tab',
   };
+  const defaultProps = { ...baseProps, children: <div>Panel Content</div> };
 
   describe('rendering', () => {
     it('should render content when active', () => {
@@ -294,14 +294,14 @@ describe('TabPanel', () => {
 
   describe('content rendering', () => {
     it('should render simple text content', () => {
-      render(<TabPanel {...defaultProps}>Simple text content</TabPanel>);
+      render(<TabPanel {...baseProps}>Simple text content</TabPanel>);
 
       expect(screen.getByText('Simple text content')).toBeInTheDocument();
     });
 
     it('should render complex JSX content', () => {
       render(
-        <TabPanel {...defaultProps}>
+        <TabPanel {...baseProps}>
           <div>
             <h2>Heading</h2>
             <p>Description</p>
@@ -322,7 +322,7 @@ describe('TabPanel', () => {
 
     it('should handle multiple children', () => {
       render(
-        <TabPanel {...defaultProps}>
+        <TabPanel {...baseProps}>
           <div>First child</div>
           <div>Second child</div>
         </TabPanel>,
@@ -335,13 +335,13 @@ describe('TabPanel', () => {
 
   describe('edge cases', () => {
     it('should handle undefined children', () => {
-      render(<TabPanel {...defaultProps}>{undefined}</TabPanel>);
+      render(<TabPanel {...baseProps}>{undefined}</TabPanel>);
 
       expect(screen.getByRole('tabpanel')).toBeInTheDocument();
     });
 
     it('should handle empty string children', () => {
-      render(<TabPanel {...defaultProps}>{'Empty string'}</TabPanel>);
+      render(<TabPanel {...baseProps}>{'Empty string'}</TabPanel>);
 
       expect(screen.getByRole('tabpanel')).toBeInTheDocument();
     });
