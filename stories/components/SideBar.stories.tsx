@@ -23,7 +23,7 @@ export const Basic: Story = {
     expanded: true,
     logo: 'https://assets.jm.app.br/logo.svg',
     icon: 'https://assets.jm.app.br/icon.svg',
-    version: env('STORYBOOK_VERSION') || 'v1.0.0',
+    version: env('STORYBOOK_VERSION') || 'v3.0.0',
     versionDate: env('STORYBOOK_V_DATE') || '2023-06-01T00:00:00',
     sideBarControl: () => null,
     homeNavigate: () => console.log('/'),
