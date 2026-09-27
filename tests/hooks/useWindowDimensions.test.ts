@@ -1,3 +1,4 @@
+import type { MockInstance } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useWindowDimensions } from '../../src/hooks/useWindowDimensions';
 
@@ -23,16 +24,16 @@ describe('useWindowDimensions', () => {
   const originalAddEventListener = window.addEventListener;
   const originalRemoveEventListener = window.removeEventListener;
 
-  let addEventListenerSpy: jest.SpyInstance;
-  let removeEventListenerSpy: jest.SpyInstance;
+  let addEventListenerSpy: MockInstance;
+  let removeEventListenerSpy: MockInstance;
 
   beforeEach(() => {
-    addEventListenerSpy = jest.spyOn(window, 'addEventListener');
-    removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+    addEventListenerSpy = vi.spyOn(window, 'addEventListener');
+    removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
     window.addEventListener = originalAddEventListener;
     window.removeEventListener = originalRemoveEventListener;
   });

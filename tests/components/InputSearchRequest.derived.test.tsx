@@ -9,7 +9,7 @@ const mockOptions: SelectOptionsProps[] = [
   { value: 3, label: 'Option 3' },
 ];
 
-const mockGetList = jest.fn(async (param?: string, id?: number) => {
+const mockGetList = vi.fn(async (param?: string, id?: number) => {
   if (id) return mockOptions.filter((option) => option.value === id);
   if (param) {
     return mockOptions.filter((option) =>
@@ -21,13 +21,13 @@ const mockGetList = jest.fn(async (param?: string, id?: number) => {
 
 describe('SearchRequest derived selection', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should load the initialSelected option and store it in Formik', async () => {
-    const handleSearchChange = jest.fn();
+    const handleSearchChange = vi.fn();
     render(
-      <Formik initialValues={{ testSearch: -1 }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testSearch: -1 }} onSubmit={vi.fn()}>
         {({ values }) => (
           <Form>
             <SearchRequest
@@ -55,7 +55,7 @@ describe('SearchRequest derived selection', () => {
 
   it('should fetch when typing and not again when an option is selected', async () => {
     render(
-      <Formik initialValues={{ testSearch: -1 }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testSearch: -1 }} onSubmit={vi.fn()}>
         <Form>
           <SearchRequest
             name='testSearch'

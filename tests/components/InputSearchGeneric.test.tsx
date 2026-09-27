@@ -13,7 +13,7 @@ const mockItems: TestItem[] = [
   { id: 3, name: 'Item 3' },
 ];
 
-const mockGetList = jest.fn(async (param?: string, id?: number) => {
+const mockGetList = vi.fn(async (param?: string, id?: number) => {
   if (id) {
     return mockItems.filter((item) => item.id === id);
   }
@@ -27,12 +27,12 @@ const mockGetList = jest.fn(async (param?: string, id?: number) => {
 
 describe('SearchGeneric', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -72,7 +72,7 @@ describe('SearchGeneric', () => {
   });
 
   it('should handle onSelected callback', async () => {
-    const handleSelected = jest.fn();
+    const handleSelected = vi.fn();
     renderWithFormik(
       <SearchGeneric
         name='testSearch'
@@ -180,7 +180,7 @@ describe('SearchGeneric', () => {
   });
 
   it('should handle clear action', async () => {
-    const handleSelected = jest.fn();
+    const handleSelected = vi.fn();
     renderWithFormik(
       <SearchGeneric
         name='testSearch'
@@ -232,7 +232,7 @@ describe('SearchGeneric', () => {
   });
 
   it('should handle creatable mode', async () => {
-    const handleSetCreatable = jest.fn();
+    const handleSetCreatable = vi.fn();
     const initialCreatable = (value: string): TestItem => ({
       id: 0,
       name: value,
@@ -278,7 +278,7 @@ describe('SearchGeneric', () => {
   });
 
   it('should handle icon with action', () => {
-    const handleIconAction = jest.fn();
+    const handleIconAction = vi.fn();
     renderWithFormik(
       <SearchGeneric
         name='testSearch'

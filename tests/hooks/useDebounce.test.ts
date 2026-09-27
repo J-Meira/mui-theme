@@ -1,26 +1,26 @@
 import { renderHook, act } from '@testing-library/react';
 import { useDebounce } from '../../src/hooks/useDebounce';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 describe('useDebounce', () => {
   beforeEach(() => {
-    jest.clearAllTimers();
+    vi.clearAllTimers();
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
-    jest.useFakeTimers();
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
+    vi.useFakeTimers();
   });
 
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   describe('default behavior', () => {
     it('should execute function immediately on first call when noFirstTimeDelay is true', () => {
-      const mockFunc = jest.fn();
+      const mockFunc = vi.fn();
       const { result } = renderHook(() => useDebounce(500, true));
 
       act(() => {
@@ -31,7 +31,7 @@ describe('useDebounce', () => {
     });
 
     it('should debounce subsequent calls', () => {
-      const mockFunc = jest.fn();
+      const mockFunc = vi.fn();
       const { result } = renderHook(() => useDebounce(500, true));
 
       act(() => {
@@ -45,14 +45,14 @@ describe('useDebounce', () => {
       expect(mockFunc).toHaveBeenCalledTimes(1);
 
       act(() => {
-        jest.advanceTimersByTime(500);
+        vi.advanceTimersByTime(500);
       });
 
       expect(mockFunc).toHaveBeenCalledTimes(2);
     });
 
     it('should cancel previous timeout when called multiple times', () => {
-      const mockFunc = jest.fn();
+      const mockFunc = vi.fn();
       const { result } = renderHook(() => useDebounce(500, true));
 
       act(() => {
@@ -70,13 +70,13 @@ describe('useDebounce', () => {
       expect(mockFunc).toHaveBeenCalledTimes(1);
 
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
 
       expect(mockFunc).toHaveBeenCalledTimes(1);
 
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
 
       expect(mockFunc).toHaveBeenCalledTimes(2);
@@ -85,7 +85,7 @@ describe('useDebounce', () => {
 
   describe('with noFirstTimeDelay false', () => {
     it('should debounce even the first call', () => {
-      const mockFunc = jest.fn();
+      const mockFunc = vi.fn();
       const { result } = renderHook(() => useDebounce(500, false));
 
       act(() => {
@@ -95,14 +95,14 @@ describe('useDebounce', () => {
       expect(mockFunc).not.toHaveBeenCalled();
 
       act(() => {
-        jest.advanceTimersByTime(500);
+        vi.advanceTimersByTime(500);
       });
 
       expect(mockFunc).toHaveBeenCalledTimes(1);
     });
 
     it('should reset timer on subsequent calls', () => {
-      const mockFunc = jest.fn();
+      const mockFunc = vi.fn();
       const { result } = renderHook(() => useDebounce(500, false));
 
       act(() => {
@@ -110,7 +110,7 @@ describe('useDebounce', () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
 
       act(() => {
@@ -118,13 +118,13 @@ describe('useDebounce', () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
 
       expect(mockFunc).not.toHaveBeenCalled();
 
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
 
       expect(mockFunc).toHaveBeenCalledTimes(1);
@@ -133,7 +133,7 @@ describe('useDebounce', () => {
 
   describe('custom delay', () => {
     it('should use custom delay value', () => {
-      const mockFunc = jest.fn();
+      const mockFunc = vi.fn();
       const { result } = renderHook(() => useDebounce(1000, false));
 
       act(() => {
@@ -141,20 +141,20 @@ describe('useDebounce', () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(500);
+        vi.advanceTimersByTime(500);
       });
 
       expect(mockFunc).not.toHaveBeenCalled();
 
       act(() => {
-        jest.advanceTimersByTime(500);
+        vi.advanceTimersByTime(500);
       });
 
       expect(mockFunc).toHaveBeenCalledTimes(1);
     });
 
     it('should handle zero delay', () => {
-      const mockFunc = jest.fn();
+      const mockFunc = vi.fn();
       const { result } = renderHook(() => useDebounce(0, false));
 
       act(() => {
@@ -162,7 +162,7 @@ describe('useDebounce', () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(0);
+        vi.advanceTimersByTime(0);
       });
 
       expect(mockFunc).toHaveBeenCalledTimes(1);
@@ -171,8 +171,8 @@ describe('useDebounce', () => {
 
   describe('edge cases', () => {
     it('should handle multiple different functions', () => {
-      const mockFunc1 = jest.fn();
-      const mockFunc2 = jest.fn();
+      const mockFunc1 = vi.fn();
+      const mockFunc2 = vi.fn();
       const { result } = renderHook(() => useDebounce(500, true));
 
       act(() => {
@@ -187,7 +187,7 @@ describe('useDebounce', () => {
       expect(mockFunc2).not.toHaveBeenCalled();
 
       act(() => {
-        jest.advanceTimersByTime(500);
+        vi.advanceTimersByTime(500);
       });
 
       expect(mockFunc1).toHaveBeenCalledTimes(1);
@@ -195,7 +195,7 @@ describe('useDebounce', () => {
     });
 
     it('should work with functions that throw errors', () => {
-      const mockFunc = jest.fn(() => {
+      const mockFunc = vi.fn(() => {
         throw new Error('Test error');
       });
       const { result } = renderHook(() => useDebounce(500, true));
@@ -212,8 +212,16 @@ describe('useDebounce', () => {
 });
 
 describe('useDebounce cleanup', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('should cancel a pending call when the component unmounts', () => {
-    const mockFunc = jest.fn();
+    const mockFunc = vi.fn();
     const { result, unmount } = renderHook(() => useDebounce(500, false));
 
     act(() => {
@@ -223,7 +231,7 @@ describe('useDebounce cleanup', () => {
     unmount();
 
     act(() => {
-      jest.advanceTimersByTime(500);
+      vi.advanceTimersByTime(500);
     });
 
     expect(mockFunc).not.toHaveBeenCalled();

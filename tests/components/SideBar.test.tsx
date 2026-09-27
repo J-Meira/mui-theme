@@ -10,11 +10,11 @@ const setViewportWidth = (width: number) => {
         matches: minWidth ? width >= Number(minWidth[1]) : false,
         media: query,
         onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
       };
     },
   });
@@ -25,12 +25,12 @@ describe('SideBar', () => {
     logo: '/logo.png',
     icon: '/icon.png',
     expanded: true,
-    sideBarControl: jest.fn(),
-    homeNavigate: jest.fn(),
+    sideBarControl: vi.fn(),
+    homeNavigate: vi.fn(),
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     setViewportWidth(1200);
   });
 
@@ -103,7 +103,7 @@ describe('SideBar', () => {
 
     it('should render click listener overlay on mobile when expanded', () => {
       setViewportWidth(600);
-      const mockSideBarControl = jest.fn();
+      const mockSideBarControl = vi.fn();
       const { container } = render(
         <SideBar
           {...defaultProps}
@@ -184,7 +184,7 @@ describe('SideBar', () => {
 
   describe('user interactions', () => {
     it('should call homeNavigate when logo is clicked', () => {
-      const mockHomeNavigate = jest.fn();
+      const mockHomeNavigate = vi.fn();
       render(<SideBar {...defaultProps} homeNavigate={mockHomeNavigate} />);
 
       const logoImg = screen.getByAltText('Logo');
@@ -194,7 +194,7 @@ describe('SideBar', () => {
     });
 
     it('should call onMouseHover when drawer is hovered', () => {
-      const mockOnMouseHover = jest.fn();
+      const mockOnMouseHover = vi.fn();
       const { container } = render(
         <SideBar {...defaultProps} onMouseHover={mockOnMouseHover} />,
       );
@@ -302,8 +302,8 @@ describe('SideBar', () => {
           logo='/logo.png'
           icon='/icon.png'
           expanded
-          sideBarControl={jest.fn()}
-          homeNavigate={jest.fn()}
+          sideBarControl={vi.fn()}
+          homeNavigate={vi.fn()}
         />,
       );
 

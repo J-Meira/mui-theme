@@ -25,7 +25,7 @@ describe('FileUpload', () => {
   });
 
   it('should handle file selection', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <FileUpload
         name='fileUpload'
@@ -84,7 +84,7 @@ describe('FileUpload', () => {
   });
 
   it('should handle file deletion', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <FileUpload
         name='fileUpload'
@@ -188,7 +188,7 @@ describe('FileUpload', () => {
   });
 
   it('should open file selector when clicking text field', () => {
-    const clickSpy = jest.fn();
+    const clickSpy = vi.fn();
     render(<FileUpload name='fileUpload' label='Upload File' />);
 
     const hiddenInput = document.querySelector(
@@ -219,7 +219,7 @@ describe('FileUpload', () => {
   });
 
   it('should handle null file change', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <FileUpload
         name='fileUpload'

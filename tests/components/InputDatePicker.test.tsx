@@ -17,7 +17,7 @@ describe('DatePicker', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+        <Formik initialValues={initialValues} onSubmit={vi.fn()}>
           <Form>{ui}</Form>
         </Formik>
       </LocalizationProvider>,
@@ -49,7 +49,7 @@ describe('DatePicker', () => {
   });
 
   it('should handle onChange callback in local control mode', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <DatePicker
         name='testDate'
@@ -195,7 +195,7 @@ describe('DatePicker', () => {
   });
 
   it('should handle onBlur callback', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     renderWithFormik(
       <DatePicker name='testDate' label='Select Date' onBlur={handleBlur} />,
       { testDate: null },

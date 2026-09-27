@@ -9,7 +9,7 @@ import {
 import { SideBarItem } from '../../src/components/SideBarItem';
 
 // Mock react-icons/md
-jest.mock('react-icons/md', () => ({
+vi.mock('react-icons/md', () => ({
   MdExpandLess: () => <svg data-testid='ExpandLessIcon' />,
   MdExpandMore: () => <svg data-testid='ExpandMoreIcon' />,
 }));
@@ -120,7 +120,7 @@ describe('SideBarItem', () => {
     });
 
     it('should call sideBarControl when opening collapsed sidebar', () => {
-      const mockSideBarControl = jest.fn();
+      const mockSideBarControl = vi.fn();
       render(
         <SideBarItem
           label='Parent Item'
@@ -138,7 +138,7 @@ describe('SideBarItem', () => {
     });
 
     it('should not call sideBarControl when sidebar is already expanded', () => {
-      const mockSideBarControl = jest.fn();
+      const mockSideBarControl = vi.fn();
       render(
         <SideBarItem
           label='Parent Item'
@@ -176,7 +176,7 @@ describe('SideBarItem', () => {
 
   describe('leaf items without children', () => {
     it('should call onClick when clicked', () => {
-      const mockOnClick = jest.fn();
+      const mockOnClick = vi.fn();
       render(<SideBarItem label='Leaf Item' onClick={mockOnClick} />);
 
       const button = screen.getByRole('button');
@@ -232,7 +232,7 @@ describe('SideBarItem', () => {
   describe('color customization', () => {
     it('should apply custom icon color', () => {
       const TestIcon = () => <svg data-testid='test-icon' />;
-      const mockIconColor = jest.fn(() => '#ff0000');
+      const mockIconColor = vi.fn(() => '#ff0000');
 
       render(
         <SideBarItem
@@ -246,7 +246,7 @@ describe('SideBarItem', () => {
     });
 
     it('should apply custom text color', () => {
-      const mockTextColor = jest.fn(() => '#00ff00');
+      const mockTextColor = vi.fn(() => '#00ff00');
 
       render(<SideBarItem label='Test Item' textColor={mockTextColor} />);
 

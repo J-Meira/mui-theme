@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { TabsContainer, TabPanel } from '../../src/components/Tabs';
 
 // Mock react-icons/md
-jest.mock('react-icons/md', () => ({
+vi.mock('react-icons/md', () => ({
   MdError: ({ color }: { color: string }) => (
     <svg data-testid='ErrorIcon' data-color={color} />
   ),

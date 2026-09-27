@@ -25,7 +25,7 @@ Requirements:
 
 ```bash
 pnpm install
-pnpm test        # jest
+pnpm test        # vitest
 pnpm lint        # eslint
 pnpm build       # prettier + lint + clean + esm/cjs build + scss copy
 pnpm sb          # storybook dev server on :6006

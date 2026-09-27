@@ -11,7 +11,7 @@ const mockOptions = [
 describe('Search', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -36,7 +36,7 @@ describe('Search', () => {
   });
 
   it('should handle onChange with searchChange callback', () => {
-    const handleSearchChange = jest.fn();
+    const handleSearchChange = vi.fn();
     renderWithFormik(
       <Search
         name='testSearch'
@@ -52,7 +52,7 @@ describe('Search', () => {
   });
 
   it('should handle clear action', () => {
-    const handleSearchChange = jest.fn();
+    const handleSearchChange = vi.fn();
     renderWithFormik(
       <Search
         name='testSearch'
@@ -172,7 +172,7 @@ describe('Search', () => {
     );
 
     rerender(
-      <Formik initialValues={{ testSearch: 1 }} onSubmit={jest.fn()}>
+      <Formik initialValues={{ testSearch: 1 }} onSubmit={vi.fn()}>
         <Form>
           <Search
             name='testSearch'

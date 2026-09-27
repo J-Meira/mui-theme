@@ -5,7 +5,7 @@ import { Basic } from '../../src/components/Input/Basic';
 describe('Input Basic', () => {
   const renderWithFormik = (ui: React.ReactElement, initialValues = {}) => {
     return render(
-      <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+      <Formik initialValues={initialValues} onSubmit={vi.fn()}>
         <Form>{ui}</Form>
       </Formik>,
     );
@@ -57,7 +57,7 @@ describe('Input Basic', () => {
   });
 
   it('should handle onChange events with local control', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(
       <Basic
         name='testInput'
@@ -72,7 +72,7 @@ describe('Input Basic', () => {
   });
 
   it('should handle onBlur events with local control', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     render(
       <Basic name='testInput' localControl label='Test' onBlur={handleBlur} />,
     );
@@ -115,7 +115,7 @@ describe('Input Basic', () => {
   });
 
   it('should call both Formik and custom onChange', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     renderWithFormik(
       <Basic name='testInput' label='Test' onChange={handleChange} />,
       { testInput: '' },
@@ -126,7 +126,7 @@ describe('Input Basic', () => {
   });
 
   it('should call both Formik and custom onBlur', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     renderWithFormik(
       <Basic name='testInput' label='Test' onBlur={handleBlur} />,
       { testInput: '' },
