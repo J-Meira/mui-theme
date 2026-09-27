@@ -1,6 +1,6 @@
 {
   "name": "@j-meira/mui-theme",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "UI theme and form components built on MUI (Material UI) with Formik",
   "author": "J-Meira",
   "license": "ISC",
