@@ -7,7 +7,7 @@ Project instructions for Claude Code. Keep this file short and current; it repla
 `@j-meira/mui-theme` is a React component library (theme, layout, form inputs, data table) built on Material UI and Formik. It is published to GitHub Packages and consumed by several internal apps. Storybook is the living demo: https://mui-theme.jm.app.br
 
 - **Peer dependencies** (consumers install them, this repo has them in `devDependencies` only): `@mui/material` 7.3+ or 9, `@mui/x-date-pickers` 8 or 9, `@emotion/react`, `@emotion/styled`, `formik`, `notistack`, `dayjs`, `react-icons`, `react`, `react-dom`.
-- Build output: `dist/esm` (ESM, `"type": "module"`), `dist/cjs`, `dist/scss`. Compile target ES2020. `exports` map blocks deep imports into `dist/`.
+- Build output: `dist/esm` (ESM only, `"type": "module"` marker) and `dist/scss`. No CommonJS build since 3.0; consumers are bundler-based (Vite). Compile target ES2020, `moduleResolution: bundler`. `exports` map blocks deep imports into `dist/`.
 - Tooling: pnpm 12, Node 22.13+, TypeScript, Jest + React Testing Library, Storybook 10 (react-vite), ESLint flat config, Prettier.
 
 ## Commands
@@ -106,5 +106,5 @@ const newItems = [...items, newItem];
 
 - Source files are CRLF (`core.autocrlf=true`). Scripted edits must be line-ending tolerant.
 - `pnpm-workspace.yaml` holds `allowBuilds` so pnpm 12 installs without an interactive prompt.
-- `dist/esm` uses extensionless relative imports; bundlers are fine, plain Node ESM is not (tracked in #43).
+- `dist/esm` uses extensionless relative imports; bundlers are fine, plain Node ESM (no bundler) is not. Accepted: every consumer is a Vite app. A consumer that Jest-tests components from this package needs a `transformIgnorePatterns` exception for `@j-meira/mui-theme` or Vitest.
 - Storybook's preview decorator hard-codes `adapterLocalePtBR`; the English locale is covered by tests, not stories.
