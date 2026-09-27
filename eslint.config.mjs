@@ -59,7 +59,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['scripts/**'],
+    files: ['scripts/**', 'skills/**/scripts/**'],
     languageOptions: { globals: globals.node },
   },
   prettier,

@@ -23,7 +23,8 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "skills"
   ],
   "engines": {
     "node": ">=22.13"

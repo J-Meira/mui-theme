@@ -16,6 +16,18 @@ Styles are shipped as SCSS:
 @use '@j-meira/mui-theme/scss/index.scss';
 ```
 
+## Upgrading to 3.0
+
+A Claude Code skill walks a consumer app through the upgrade from any 1.x or 2.x version. It detects the installed version, applies the stages that still apply (1.x -> 2.0 on MUI 7, then 2.x -> 3.0 on MUI 9 with peer dependencies and ESM-only output), runs the MUI codemods and verifies the build.
+
+In the consumer repo, after installing 3.x:
+
+```bash
+mkdir -p .claude/skills
+cp -r node_modules/@j-meira/mui-theme/skills/mui-theme-upgrade .claude/skills/
+```
+
+Then ask Claude Code to `/mui-theme-upgrade`. The skill source lives in [skills/mui-theme-upgrade](skills/mui-theme-upgrade/SKILL.md); the detector can be run on its own with `node skills/mui-theme-upgrade/scripts/detect.mjs <consumer-dir>`.
 ## Development
 
 Requirements:
