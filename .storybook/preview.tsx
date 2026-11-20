@@ -7,10 +7,10 @@ import { MultiProvider } from '../src';
 
 import './styles.scss';
 
-export const withTheme = (Story) => { 
+export const withTheme = (Story) => {
   return (
     <MultiProvider
-      adapterLocalePtBR
+      locale='pt-BR'
       snackAnchorHorizontal='right'
       snackAnchorVertical='top'
       snackAutoHideDuration={5000}

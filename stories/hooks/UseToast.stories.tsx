@@ -61,7 +61,7 @@ export const Basic: Story = {
 
     return (
       <MultiProvider
-        adapterLocalePtBR
+        locale='pt-BR'
         snackAnchorHorizontal='right'
         snackAnchorVertical='top'
         snackAutoHideDuration={snackAutoHideDuration}

@@ -9,6 +9,7 @@ import {
 } from 'notistack';
 
 import {
+  PaletteOptions,
   ThemeProvider,
   createTheme as muiCreateTheme,
 } from '@mui/material/styles';
@@ -25,31 +26,35 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { Button } from '../Button';
-import { MultiContext } from './MultiContext';
+import { MultiContext, MultiProviderLocale } from './MultiContext';
 
-export interface PaletteProps {
-  primary: {
-    light: string;
-    main: string;
-    dark: string;
-    contrastText: string;
-  };
-  secondary: {
-    light: string;
-    main: string;
-    dark: string;
-    contrastText: string;
-  };
+export interface PaletteColorProps {
+  light: string;
+  main: string;
+  dark: string;
+  contrastText: string;
 }
+
+export interface PaletteProps extends Omit<
+  PaletteOptions,
+  'mode' | 'primary' | 'secondary'
+> {
+  primary: PaletteColorProps;
+  secondary: PaletteColorProps;
+}
+
+export type PaletteDarkProps = Partial<PaletteProps>;
 
 export type MultiProviderMode = 'dark' | 'light' | 'system';
 
 export interface MultiProviderProps {
+  /** @deprecated Use `locale='pt-BR'`. */
   adapterLocalePtBR?: boolean;
   children: React.ReactNode;
+  locale?: MultiProviderLocale;
   mode?: MultiProviderMode;
   palette: PaletteProps;
-  paletteDark?: PaletteProps;
+  paletteDark?: PaletteDarkProps;
   snackAnchorHorizontal: SnackbarOrigin['horizontal'];
   snackAnchorVertical: SnackbarOrigin['vertical'];
   snackAutoHideDuration?: SnackbarProviderProps['autoHideDuration'];
@@ -63,6 +68,12 @@ export interface CreateThemeProps {
 
 const STORAGE_KEY = 'MUI_THEME_DARK';
 const DARK_QUERY = '(prefers-color-scheme: dark)';
+const DEFAULT_BACKGROUND = { dark: '#191919', light: '#f0f0f7' };
+
+const LOCALES = {
+  en: { adapter: 'en', core: coreEnUS, date: dateEnUS },
+  'pt-BR': { adapter: 'pt-BR', core: corePtBR, date: datePtBR },
+} satisfies Record<MultiProviderLocale, object>;
 
 const readStoredDark = (): boolean => {
   if (typeof window === 'undefined') return false;
@@ -96,9 +107,25 @@ const resolveDark = (
   return storedDark ?? systemDark;
 };
 
+const buildPalette = (
+  dark: boolean,
+  palette: PaletteProps,
+  paletteDark?: PaletteDarkProps,
+): PaletteOptions => {
+  if (!dark) return { ...palette, mode: 'light' };
+
+  return {
+    ...paletteDark,
+    mode: 'dark',
+    primary: paletteDark?.primary ?? palette.primary,
+    secondary: paletteDark?.secondary ?? palette.secondary,
+  };
+};
+
 export const MultiProvider: FC<MultiProviderProps> = ({
   adapterLocalePtBR,
   children,
+  locale: localeProp,
   mode,
   palette,
   paletteDark,
@@ -116,8 +143,14 @@ export const MultiProvider: FC<MultiProviderProps> = ({
   if (!modeLocked && storedDark === null) setStoredDark(readStoredDark());
 
   const dark = resolveDark(mode, systemDark, storedDark);
-  const backgroundColor = dark ? '#191919' : '#f0f0f7';
-  const isAdapterLocalePtBR = !!adapterLocalePtBR;
+  const locale: MultiProviderLocale =
+    localeProp ?? (adapterLocalePtBR ? 'pt-BR' : 'en');
+  const isAdapterLocalePtBR = locale === 'pt-BR';
+  const { adapter, core, date } = LOCALES[locale];
+
+  const backgroundColor = dark
+    ? (paletteDark?.background?.default ?? DEFAULT_BACKGROUND.dark)
+    : (palette.background?.default ?? DEFAULT_BACKGROUND.light);
 
   const handleChangeMode = useCallback(() => {
     if (modeLocked) return;
@@ -129,13 +162,7 @@ export const MultiProvider: FC<MultiProviderProps> = ({
     () =>
       muiCreateTheme(
         {
-          palette: {
-            mode: dark ? 'dark' : 'light',
-            primary:
-              dark && paletteDark ? paletteDark.primary : palette.primary,
-            secondary:
-              dark && paletteDark ? paletteDark.secondary : palette.secondary,
-          },
+          palette: buildPalette(dark, palette, paletteDark),
           components: {
             MuiAppBar: {
               defaultProps: {
@@ -144,10 +171,10 @@ export const MultiProvider: FC<MultiProviderProps> = ({
             },
           },
         },
-        isAdapterLocalePtBR ? datePtBR : dateEnUS,
-        isAdapterLocalePtBR ? corePtBR : coreEnUS,
+        date,
+        core,
       ),
-    [dark, palette, paletteDark, isAdapterLocalePtBR],
+    [dark, palette, paletteDark, date, core],
   );
 
   const contextValue = useMemo(
@@ -155,10 +182,18 @@ export const MultiProvider: FC<MultiProviderProps> = ({
       backgroundColor,
       dark,
       isAdapterLocalePtBR,
+      locale,
       modeLocked,
       onChangeMode: handleChangeMode,
     }),
-    [backgroundColor, dark, isAdapterLocalePtBR, modeLocked, handleChangeMode],
+    [
+      backgroundColor,
+      dark,
+      isAdapterLocalePtBR,
+      locale,
+      modeLocked,
+      handleChangeMode,
+    ],
   );
 
   return (
@@ -178,14 +213,10 @@ export const MultiProvider: FC<MultiProviderProps> = ({
           )}
         >
           <LocalizationProvider
-            adapterLocale={adapterLocalePtBR ? 'pt-BR' : 'en'}
+            adapterLocale={adapter}
             dateAdapter={AdapterDayjs}
             localeText={
-              adapterLocalePtBR
-                ? datePtBR.components.MuiLocalizationProvider.defaultProps
-                    .localeText
-                : dateEnUS.components.MuiLocalizationProvider.defaultProps
-                    .localeText
+              date.components.MuiLocalizationProvider.defaultProps.localeText
             }
           >
             {children}

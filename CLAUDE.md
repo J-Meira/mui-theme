@@ -100,6 +100,8 @@ const newItems = [...items, newItem];
 - Branch from `release/3.0`; PRs target `release/3.0`. One release PR to `master` at the end, then tag `v3.0.0` and publish via the release workflow (package to GitHub Packages, Storybook to GitHub Pages at mui-theme.jm.app.br).
 - PRs merge into a non-default branch, so GitHub does **not** auto-close issues from "Closes #N". After a merge, close the issue manually (`gh issue close N --reason completed`) and tick it in #46.
 - Colour mode: `MultiProvider` takes `mode?: 'dark' | 'light' | 'system'`. Omitted means the user toggle, persisted in localStorage under `MUI_THEME_DARK`. Set means locked: no storage access, `onChangeMode` is a no-op, `modeLocked` is true and `DarkSwitch` renders nothing.
+- Theming: `palette` and `paletteDark` (partial) take any MUI palette key. Context `backgroundColor` comes from `background.default` per mode, defaulting to `#f0f0f7` / `#191919`. In dark mode only `primary` / `secondary` fall back to the light palette. `locale: 'en' | 'pt-BR'` drives core strings, pickers and dayjs from the `LOCALES` table in `MultiProvider.tsx`; add a language there and in `MultiProviderLocale`. `adapterLocalePtBR` is a deprecated alias.
+- `DarkSwitch` keeps its original markup on purpose (div + Card track + IconButton knob); the look is a design decision. Accessibility lives on the inner IconButton (`aria-label`, `aria-pressed`, `title`). Do not restructure it.
 - Consumers upgrade with the `/mui-theme-upgrade` Claude Code skill (#55). It lives on the maintainer machine under `~/.claude/skills`, not in this repo, and handles both 1.x and 2.x starting points.
 
 ## Gotchas
@@ -107,4 +109,4 @@ const newItems = [...items, newItem];
 - Source files are CRLF (`core.autocrlf=true`). Scripted edits must be line-ending tolerant.
 - `pnpm-workspace.yaml` holds `allowBuilds` so pnpm 12 installs without an interactive prompt.
 - `dist/esm` uses extensionless relative imports; bundlers are fine, plain Node ESM (no bundler) is not. Accepted: every consumer is a Vite app. A consumer that Jest-tests components from this package needs a `transformIgnorePatterns` exception for `@j-meira/mui-theme` or Vitest.
-- Storybook's preview decorator hard-codes `adapterLocalePtBR`; the English locale is covered by tests, not stories.
+- Storybook's preview decorator hard-codes `locale='pt-BR'`; the English locale is covered by tests and the `Components/MultiProvider` English story.

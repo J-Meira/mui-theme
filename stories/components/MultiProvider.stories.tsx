@@ -1,14 +1,18 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import { Grid, Paper, Typography } from '@mui/material';
+import { Breadcrumbs, Grid, Paper, Typography } from '@mui/material';
 
-import { Button, DarkSwitch, MultiProvider } from '../../src';
+import { Button, DarkSwitch, MainContainer, MultiProvider } from '../../src';
 
 const meta = {
   title: 'Components/MultiProvider',
   component: MultiProvider,
   tags: ['autodocs'],
   argTypes: {
+    locale: {
+      control: 'select',
+      options: ['en', 'pt-BR'],
+    },
     mode: {
       control: 'select',
       options: [undefined, 'dark', 'light', 'system'],
@@ -36,7 +40,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
   args: {
-    adapterLocalePtBR: true,
+    locale: 'pt-BR',
     snackAnchorHorizontal: 'right',
     snackAnchorVertical: 'top',
     snackAutoHideDuration: 5000,
@@ -104,5 +108,61 @@ export const FollowSystem: Story = {
     ...Basic.args,
     mode: 'system',
     children: <ModeDemo />,
+  },
+};
+
+const ThemingDemo = () => (
+  <Paper sx={{ padding: '1rem' }}>
+    <Grid container spacing={2}>
+      <Grid size={12}>
+        <Typography>Primary text on the paper surface.</Typography>
+        <Typography sx={{ color: 'text.secondary' }}>
+          Secondary text.
+        </Typography>
+      </Grid>
+      <Grid size={12}>
+        <MainContainer>Page background comes from the palette.</MainContainer>
+      </Grid>
+      <Grid size={12}>
+        <Breadcrumbs maxItems={2} aria-label='breadcrumb'>
+          <Typography>One</Typography>
+          <Typography>Two</Typography>
+          <Typography>Three</Typography>
+        </Breadcrumbs>
+      </Grid>
+    </Grid>
+  </Paper>
+);
+
+export const CustomBackground: Story = {
+  args: {
+    ...Basic.args,
+    mode: 'light',
+    palette: {
+      ...Basic.args.palette,
+      background: { default: '#fff8e1', paper: '#ffecb3' },
+    },
+    children: <ThemingDemo />,
+  },
+};
+
+export const FullDarkPalette: Story = {
+  args: {
+    ...Basic.args,
+    mode: 'dark',
+    paletteDark: {
+      background: { default: '#0b1020', paper: '#141a33' },
+      text: { primary: '#e6e9ff', secondary: '#9aa3d6' },
+      divider: '#2a3360',
+    },
+    children: <ThemingDemo />,
+  },
+};
+
+export const English: Story = {
+  args: {
+    ...Basic.args,
+    locale: 'en',
+    children: <ThemingDemo />,
   },
 };
