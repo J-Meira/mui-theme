@@ -182,7 +182,7 @@ import { AppRoutes } from './routers';
 
 export const App = () => (
   <MultiProvider
-    adapterLocalePtBR
+    locale='pt-BR'
     snackAnchorHorizontal='right'
     snackAnchorVertical='top'
     snackAutoHideDuration={5000}
@@ -408,6 +408,9 @@ The CommonJS build and the `require` export condition are gone. Vite projects ne
 - `SideBarItem` with `initialState` starts open even without an `expanded` prop.
 - `MultiProvider` applies the stored dark mode on the first render.
 - From 3.1: `MultiProvider` accepts `mode='dark' | 'light' | 'system'` to fix the colour mode. While it is set the stored preference is ignored, the toggle does nothing and `DarkSwitch` is hidden (`modeLocked` in `useMultiContext`). The storage key is now `MUI_THEME_DARK`; a preference saved under the old misspelled key is not carried over, so users fall back to their system setting once.
+- From 3.1: `MultiProvider` takes `locale='en' | 'pt-BR'` for the core strings, the date pickers and the dayjs adapter together. `adapterLocalePtBR` still works and is deprecated.
+- From 3.1: `palette` and `paletteDark` accept any Material UI palette key (`background`, `text`, `error`, ...). `palette.background.default` (or `paletteDark.background.default` in dark mode) replaces the built-in page background. In dark mode only `primary` and `secondary` fall back to the light palette; other keys fall back to the Material UI dark defaults.
+- From 3.1: `DarkSwitch` is labelled for assistive technology (`aria-label`, `aria-pressed`, `title`, in the provider's locale) and takes optional `label` and `title` props. Its markup and appearance are unchanged.
 - `useCookies` writes the expiry as a UTC string; `useDebounce` cancels pending calls on unmount.
 
 ### 6. Minimums
