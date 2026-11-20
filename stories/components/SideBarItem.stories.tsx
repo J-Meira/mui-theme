@@ -46,7 +46,7 @@ export const WithChildren: Story = {
           onClick={() => console.log('go home')}
         />
         <SideBarItem
-          label='To JMCreative.com.br'
+          label='To JM.App.br'
           selected={false}
           expanded={true}
           textColor={(theme) => theme.palette.success.main}

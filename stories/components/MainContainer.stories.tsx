@@ -24,7 +24,7 @@ const breadcrumbList: BreadcrumbsListProps[] = [
 ];
 
 const date = new Date();
-const footer = `© 2008 - ${date.getFullYear()} JM Creative. All Rights Reserved`;
+const footer = `© 2008 - ${date.getFullYear()} JM.App - All Rights Reserved`;
 
 const meta = {
   title: 'Components/MainContainer',

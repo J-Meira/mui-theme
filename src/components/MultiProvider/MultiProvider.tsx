@@ -13,6 +13,8 @@ import {
   createTheme as muiCreateTheme,
 } from '@mui/material/styles';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { MdClose as CloseIcon } from 'react-icons/md';
 import { ptBR as corePtBR, enUS as coreEnUS } from '@mui/material/locale';
 import {
@@ -40,9 +42,12 @@ export interface PaletteProps {
   };
 }
 
+export type MultiProviderMode = 'dark' | 'light' | 'system';
+
 export interface MultiProviderProps {
   adapterLocalePtBR?: boolean;
   children: React.ReactNode;
+  mode?: MultiProviderMode;
   palette: PaletteProps;
   paletteDark?: PaletteProps;
   snackAnchorHorizontal: SnackbarOrigin['horizontal'];
@@ -56,16 +61,15 @@ export interface CreateThemeProps {
   coreLocale: any;
 }
 
-const STORAGE_KEY = 'MUI_THEME_DARk';
+const STORAGE_KEY = 'MUI_THEME_DARK';
+const DARK_QUERY = '(prefers-color-scheme: dark)';
 
 const readStoredDark = (): boolean => {
   if (typeof window === 'undefined') return false;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) return JSON.parse(stored) === true;
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)',
-    ).matches;
+    const prefersDark = window.matchMedia(DARK_QUERY).matches;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(prefersDark));
     return prefersDark;
   } catch {
@@ -73,9 +77,29 @@ const readStoredDark = (): boolean => {
   }
 };
 
+const writeStoredDark = (value: boolean) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+  } catch {
+    return;
+  }
+};
+
+const resolveDark = (
+  mode: MultiProviderMode | undefined,
+  systemDark: boolean,
+  storedDark: boolean | null,
+): boolean => {
+  if (mode === 'dark') return true;
+  if (mode === 'light') return false;
+  if (mode === 'system') return systemDark;
+  return storedDark ?? systemDark;
+};
+
 export const MultiProvider: FC<MultiProviderProps> = ({
   adapterLocalePtBR,
   children,
+  mode,
   palette,
   paletteDark,
   snackAnchorHorizontal,
@@ -83,17 +107,23 @@ export const MultiProvider: FC<MultiProviderProps> = ({
   snackAutoHideDuration,
   snackMax,
 }) => {
-  const [dark, setDark] = useState(readStoredDark);
+  const modeLocked = mode !== undefined;
+  const systemDark = useMediaQuery(DARK_QUERY, { noSsr: true });
+  const [storedDark, setStoredDark] = useState<boolean | null>(() =>
+    modeLocked ? null : readStoredDark(),
+  );
 
+  if (!modeLocked && storedDark === null) setStoredDark(readStoredDark());
+
+  const dark = resolveDark(mode, systemDark, storedDark);
   const backgroundColor = dark ? '#191919' : '#f0f0f7';
   const isAdapterLocalePtBR = !!adapterLocalePtBR;
 
   const handleChangeMode = useCallback(() => {
-    setDark((prev) => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(!prev));
-      return !prev;
-    });
-  }, []);
+    if (modeLocked) return;
+    writeStoredDark(!dark);
+    setStoredDark(!dark);
+  }, [modeLocked, dark]);
 
   const theme = useMemo(
     () =>
@@ -125,9 +155,10 @@ export const MultiProvider: FC<MultiProviderProps> = ({
       backgroundColor,
       dark,
       isAdapterLocalePtBR,
+      modeLocked,
       onChangeMode: handleChangeMode,
     }),
-    [backgroundColor, dark, isAdapterLocalePtBR, handleChangeMode],
+    [backgroundColor, dark, isAdapterLocalePtBR, modeLocked, handleChangeMode],
   );
 
   return (
