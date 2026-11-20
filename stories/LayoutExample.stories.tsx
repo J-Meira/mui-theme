@@ -95,7 +95,7 @@ const columns: DataTableColumnsProps<IRows>[] = [
 ];
 
 const date = new Date();
-const footer = `© 2008 - ${date.getFullYear()} JM Creative. All Rights Reserved`;
+const footer = `© 2008 - ${date.getFullYear()} JM.App - All Rights Reserved`;
 
 interface BasicProps {
   expanded: boolean;

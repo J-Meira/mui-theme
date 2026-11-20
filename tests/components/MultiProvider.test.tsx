@@ -154,11 +154,11 @@ describe('MultiProvider', () => {
     const toggleButton = screen.getByText('Toggle Theme');
     fireEvent.click(toggleButton);
 
-    expect(localStorage.getItem('MUI_THEME_DARk')).toBe('true');
+    expect(localStorage.getItem('MUI_THEME_DARK')).toBe('true');
   });
 
   it('should load dark mode from localStorage on mount', () => {
-    localStorage.setItem('MUI_THEME_DARk', 'true');
+    localStorage.setItem('MUI_THEME_DARK', 'true');
 
     render(
       <MultiProvider
@@ -267,11 +267,11 @@ describe('MultiProvider', () => {
 
     fireEvent.click(toggleButton);
     expect(screen.getByTestId('dark-mode')).toHaveTextContent('light');
-    expect(localStorage.getItem('MUI_THEME_DARk')).toBe('false');
+    expect(localStorage.getItem('MUI_THEME_DARK')).toBe('false');
   });
 
   it('should handle localStorage with false value', () => {
-    localStorage.setItem('MUI_THEME_DARk', 'false');
+    localStorage.setItem('MUI_THEME_DARK', 'false');
 
     render(
       <MultiProvider
@@ -430,7 +430,7 @@ describe('MultiProvider context stability', () => {
   });
 
   it('should apply the stored dark preference on the very first render', () => {
-    localStorage.setItem('MUI_THEME_DARk', 'true');
+    localStorage.setItem('MUI_THEME_DARK', 'true');
     const seen: string[] = [];
     const Probe = () => {
       seen.push(useMultiContext().dark ? 'dark' : 'light');

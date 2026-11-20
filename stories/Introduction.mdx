@@ -395,7 +395,8 @@ The CommonJS build and the `require` export condition are gone. Vite projects ne
 - `Search`, `SearchRequest` and `SearchGeneric` notify `searchChange` / `onSelected` once per real change, including when async options arrive after the value was set.
 - `ListMenu` uses a generated id unless `menu.id` is given (it was always `simple-menu`).
 - `SideBarItem` with `initialState` starts open even without an `expanded` prop.
-- `MultiProvider` applies the stored dark mode on the first render. The `MUI_THEME_DARk` storage key is unchanged.
+- `MultiProvider` applies the stored dark mode on the first render.
+- From 3.1: `MultiProvider` accepts `mode='dark' | 'light' | 'system'` to fix the colour mode. While it is set the stored preference is ignored, the toggle does nothing and `DarkSwitch` is hidden (`modeLocked` in `useMultiContext`). The storage key is now `MUI_THEME_DARK`; a preference saved under the old misspelled key is not carried over, so users fall back to their system setting once.
 - `useCookies` writes the expiry as a UTC string; `useDebounce` cancels pending calls on unmount.
 
 ### 6. Minimums

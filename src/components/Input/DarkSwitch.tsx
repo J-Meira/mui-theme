@@ -6,7 +6,10 @@ import {
 import { useMultiContext } from '../MultiProvider';
 
 export const DarkSwitch = () => {
-  const { dark, onChangeMode } = useMultiContext();
+  const { dark, modeLocked, onChangeMode } = useMultiContext();
+
+  if (modeLocked) return null;
+
   return (
     <div
       onClick={() => onChangeMode()}

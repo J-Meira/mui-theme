@@ -1,14 +1,18 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import { Grid } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 
-import { Button, MultiProvider } from '../../src';
+import { Button, DarkSwitch, MultiProvider } from '../../src';
 
 const meta = {
   title: 'Components/MultiProvider',
   component: MultiProvider,
   tags: ['autodocs'],
   argTypes: {
+    mode: {
+      control: 'select',
+      options: [undefined, 'dark', 'light', 'system'],
+    },
     palette: {
       primary: {
         light: { control: 'color' },
@@ -58,5 +62,47 @@ export const Basic: Story = {
         </Grid>
       </Grid>
     ),
+  },
+};
+
+const ModeDemo = () => (
+  <Paper sx={{ padding: '1rem' }}>
+    <Grid container spacing={2}>
+      <Grid size={12}>
+        <Typography>
+          The switch below is hidden while the mode prop is set.
+        </Typography>
+      </Grid>
+      <Grid size={12}>
+        <DarkSwitch />
+      </Grid>
+      <Grid size={12}>
+        <Button>Basic</Button>
+      </Grid>
+    </Grid>
+  </Paper>
+);
+
+export const ForcedDark: Story = {
+  args: {
+    ...Basic.args,
+    mode: 'dark',
+    children: <ModeDemo />,
+  },
+};
+
+export const ForcedLight: Story = {
+  args: {
+    ...Basic.args,
+    mode: 'light',
+    children: <ModeDemo />,
+  },
+};
+
+export const FollowSystem: Story = {
+  args: {
+    ...Basic.args,
+    mode: 'system',
+    children: <ModeDemo />,
   },
 };

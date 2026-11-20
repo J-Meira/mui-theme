@@ -4,6 +4,7 @@ export interface MultiContextData {
   backgroundColor: string;
   dark: boolean;
   isAdapterLocalePtBR: boolean;
+  modeLocked: boolean;
   onChangeMode: () => void;
 }
 
