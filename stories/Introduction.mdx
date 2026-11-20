@@ -152,6 +152,15 @@ The package targets ES2020 and the browsers Material UI 9 supports: Chrome 117, 
 //npm.pkg.github.com/:_authToken=\${NPM_TOKEN}`}
 />
 
+- pnpm 12 refuses a theme version published less than about a day ago (`ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`). Exempt the `@j-meira` scope in `pnpm-workspace.yaml`, commit the file, and copy it into any Docker build stage that runs `pnpm install`:
+
+<Source
+  dark
+  language='yaml'
+  code={`minimumReleaseAgeExclude:
+  - '@j-meira/*'`}
+/>
+
 - Install the theme together with its peer dependencies:
 
 <Source
@@ -331,7 +340,7 @@ ARG NPM_TOKEN
 WORKDIR /app
 
 COPY ./nginx.conf /nginx.conf
-COPY package.json pnpm-lock.yaml /app/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml /app/
 
 RUN npm install -g pnpm
 
@@ -368,6 +377,8 @@ pnpm add @j-meira/mui-theme@^3.0.0 \
 ```
 
 Check that exactly one `@mui/material` resolves: `pnpm why @mui/material`.
+
+With pnpm 12, add `minimumReleaseAgeExclude: ['@j-meira/*']` to `pnpm-workspace.yaml` (see Get Started). Without it, installs and Docker builds fail for about a day after each theme release. A Dockerfile must copy `pnpm-workspace.yaml` next to `package.json` and `pnpm-lock.yaml` before `pnpm install`.
 
 ### 2. Material UI 9 and pickers 9 in your own code
 
