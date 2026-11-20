@@ -48,7 +48,6 @@ export type PaletteDarkProps = Partial<PaletteProps>;
 export type MultiProviderMode = 'dark' | 'light' | 'system';
 
 export interface MultiProviderProps {
-  /** @deprecated Use `locale='pt-BR'`. */
   adapterLocalePtBR?: boolean;
   children: React.ReactNode;
   locale?: MultiProviderLocale;
